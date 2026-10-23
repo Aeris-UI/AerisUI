@@ -79,6 +79,57 @@ describe('AerisShowcaseGalleryComponent', () => {
     expect(element.querySelector('.crm-preview__contact')?.textContent).toContain('Nora Patel');
   });
 
+  it('resets the preview scroll only when changing views', () => {
+    const fixture = TestBed.createComponent(AerisShowcaseGalleryComponent);
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    const viewport = element.querySelector<HTMLElement>('[role="tabpanel"]')!;
+    const tabs = element.querySelectorAll<HTMLButtonElement>('[role="tab"]');
+    viewport.scrollTop = 200;
+    tabs[0].click();
+    expect(viewport.scrollTop).toBe(200);
+    tabs[1].click();
+    expect(viewport.scrollTop).toBe(0);
+  });
+
+  it('labels each chat composer uniquely and only enables sending a nonempty message', () => {
+    const fixtures = [
+      TestBed.createComponent(AerisShowcaseContentComponent),
+      TestBed.createComponent(AerisShowcaseContentComponent),
+    ];
+    for (const fixture of fixtures) fixture.componentRef.setInput('activeView', 'chat');
+    const ids: string[] = [];
+    for (const fixture of fixtures) {
+      fixture.detectChanges();
+      const element = fixture.nativeElement as HTMLElement;
+      const input = element.querySelector<HTMLInputElement>('.chat-preview__composer input')!;
+      const send = element.querySelector<HTMLButtonElement>('[aria-label="Send message"]')!;
+      const messages = element.querySelector<HTMLElement>('[role="log"]')!;
+      expect(messages.tabIndex).toBe(0);
+      expect(messages.getAttribute('aria-label')).toBe('Messages with Maya Chen');
+      expect(element.querySelector('label')?.htmlFor).toBe(input.id);
+      ids.push(input.id);
+      expect(send.disabled).toBe(true);
+      input.value = '   ';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      fixture.detectChanges();
+      expect(send.disabled).toBe(true);
+      input.value = 'Ready for review';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      fixture.detectChanges();
+      expect(send.disabled).toBe(false);
+      element
+        .querySelector('form')
+        ?.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+      fixture.detectChanges();
+      expect(send.disabled).toBe(true);
+      expect(element.querySelector('.chat-preview__messages')?.textContent).toContain(
+        'Ready for review',
+      );
+    }
+    expect(ids[0]).not.toBe(ids[1]);
+  });
+
   it('moves the selected state between mail messages', () => {
     const fixture = TestBed.createComponent(AerisShowcaseContentComponent);
     fixture.componentRef.setInput('activeView', 'mail');
@@ -115,7 +166,7 @@ describe('AerisShowcaseGalleryComponent', () => {
     fixture.componentRef.setInput('activeView', 'chat');
     fixture.detectChanges();
     const element = fixture.nativeElement as HTMLElement;
-    const input = element.querySelector<HTMLInputElement>('#showcase-chat-message')!;
+    const input = element.querySelector<HTMLInputElement>('.chat-preview__composer input')!;
     input.value = 'Only in Maya’s conversation';
     input.dispatchEvent(new Event('input', { bubbles: true }));
     element

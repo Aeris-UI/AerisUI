@@ -173,6 +173,8 @@ const SHOWCASE_ICONS = {
   ],
 })
 export class AerisShowcaseContentComponent {
+  private static nextId = 0;
+  protected readonly chatInputId = `showcase-chat-message-${AerisShowcaseContentComponent.nextId++}`;
   readonly activeView = input.required<ShowcaseView>();
   readonly viewRequested = output<ShowcaseView>();
   private readonly document = inject(DOCUMENT);
@@ -192,7 +194,7 @@ export class AerisShowcaseContentComponent {
   protected readonly componentSlider = signal(64);
   protected readonly componentOtp = signal('4821');
   protected readonly componentRating = signal(4);
-  protected readonly componentNotice = signal('Choose an action to see feedback.');
+  protected readonly componentNotice = signal('Changes are saved only in this preview.');
   protected readonly showAllActivity = signal(false);
   protected readonly completedTasks = signal<readonly string[]>([
     'Review mobile navigation',
@@ -224,6 +226,7 @@ export class AerisShowcaseContentComponent {
     this.threads.map((thread) => ({ label: thread.name, value: thread.id })),
   );
   protected readonly chatDraft = signal('');
+  protected readonly canSendMessage = computed(() => this.chatDraft().trim().length > 0);
   private readonly initialChatMessages: readonly ChatMessage[] = [
     { id: 1, author: 'Maya', text: 'The release dashboard is ready for review.', time: '10:18' },
     {

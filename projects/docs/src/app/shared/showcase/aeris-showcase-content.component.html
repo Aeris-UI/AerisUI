@@ -27,7 +27,7 @@
               <label class="component-sample__wide">
                 <span>Note</span>
                 <textarea aerisTextarea fluid rows="2">
-Polished, accessible and ready to compose.</textarea>
+Share a short update with your team.</textarea>
               </label>
             </div>
           </section>
@@ -50,9 +50,9 @@ Polished, accessible and ready to compose.</textarea>
               </div>
               <label class="component-sample__range">
                 <span
-                  ><strong>Volume</strong><small>{{ componentSlider() }}%</small></span
+                  ><strong>Progress</strong><small>{{ componentSlider() }}%</small></span
                 >
-                <aeris-slider fluid size="sm" ariaLabel="Volume" [(value)]="componentSlider" />
+                <aeris-slider fluid size="sm" ariaLabel="Progress" [(value)]="componentSlider" />
               </label>
             </div>
           </section>
@@ -84,7 +84,7 @@ Polished, accessible and ready to compose.</textarea>
                 aerisTooltip="More actions"
                 (click)="
                   showComponentNotice(
-                    'Try changing the volume, rating, or team, then switch tabs. Your choices stay in this preview.'
+                    'Your changes stay in this preview. Try the tabs, rating, or team selector.'
                   )
                 "
               >
@@ -125,7 +125,7 @@ Polished, accessible and ready to compose.</textarea>
             <aeris-tabs [(value)]="componentTab" ariaLabel="Component sample tabs">
               <aeris-tab-panel value="forms" label="Overview">
                 <p class="component-sample__copy">
-                  Everything you need, composed from small parts.
+                  Your workspace. Shared with Design, Engineering, and Research.
                 </p>
               </aeris-tab-panel>
               <aeris-tab-panel value="actions" label="Activity">
@@ -142,8 +142,8 @@ Polished, accessible and ready to compose.</textarea>
         </div>
 
         <div class="components-preview__column components-preview__column--tertiary">
-          <aeris-card class="component-sample component-sample--identity" padding="md">
-            <header aerisCardHeader class="preview-card-heading">
+          <section class="component-sample component-sample--identity">
+            <header class="preview-card-heading">
               <div><strong>Identity</strong><small>People, labels and metadata</small></div>
             </header>
             <div class="component-sample__people">
@@ -156,11 +156,11 @@ Polished, accessible and ready to compose.</textarea>
             </div>
             <aeris-divider spacing="sm" />
             <div class="component-sample__row">
-              <aeris-chip label="Design" tone="primary" />
+              <aeris-chip label="Design" tone="neutral" />
               <aeris-chip label="Accessible" tone="success" />
               <aeris-chip label="Review" tone="warning" removable />
             </div>
-          </aeris-card>
+          </section>
 
           <section class="component-sample component-sample--verification">
             <header class="preview-card-heading">
@@ -169,7 +169,7 @@ Polished, accessible and ready to compose.</textarea>
             </header>
             <aeris-input-otp size="sm" ariaLabel="Verification code" [(value)]="componentOtp" />
             <div class="component-sample__verification-meta">
-              <small>Expires in 02:00</small>
+              <small>4-digit verification code</small>
               <button
                 aerisButton
                 type="button"
@@ -330,14 +330,14 @@ Polished, accessible and ready to compose.</textarea>
               </header>
               <div class="dashboard-preview__tasks">
                 @for (task of dashboardTasks; track task.label) {
-                  <label>
+                  <div class="dashboard-preview__task">
                     <aeris-checkbox
                       [checked]="completedTasks().includes(task.label)"
                       (checkedChange)="toggleTask(task.label, $event)"
                       [label]="task.label"
                     />
                     <small>{{ task.owner }}</small>
-                  </label>
+                  </div>
                 }
               </div>
             </aeris-card>
@@ -365,7 +365,7 @@ Polished, accessible and ready to compose.</textarea>
                     ><strong>{{ item.title }}</strong
                     ><small>{{ item.person }} · {{ item.time }}</small></span
                   >
-                  <aeris-badge [value]="item.status" size="sm" variant="soft" />
+                  <aeris-badge [value]="item.status" severity="neutral" size="sm" variant="soft" />
                 </article>
               }
               @if (showAllActivity()) {
@@ -375,7 +375,7 @@ Polished, accessible and ready to compose.</textarea>
                     ><strong>Updated the weekly forecast</strong
                     ><small>Elias Ford · Yesterday</small></span
                   >
-                  <aeris-badge value="Complete" size="sm" variant="soft" />
+                  <aeris-badge value="Complete" severity="neutral" size="sm" variant="soft" />
                 </article>
                 <article>
                   <aeris-avatar label="MC" ariaLabel="Maya Chen" size="sm" />
@@ -383,7 +383,7 @@ Polished, accessible and ready to compose.</textarea>
                     ><strong>Published the team summary</strong
                     ><small>Maya Chen · Yesterday</small></span
                   >
-                  <aeris-badge value="New" size="sm" variant="soft" />
+                  <aeris-badge value="New" severity="neutral" size="sm" variant="soft" />
                 </article>
               }
             </div>
@@ -503,7 +503,12 @@ Polished, accessible and ready to compose.</textarea>
             </button>
           </div>
         </aeris-toolbar>
-        <div class="chat-preview__messages" aria-live="polite">
+        <div
+          class="chat-preview__messages"
+          role="log"
+          tabindex="0"
+          [attr.aria-label]="'Messages with ' + activeThread().name"
+        >
           @if (chatInfoOpen()) {
             <aeris-message
               severity="info"
@@ -524,20 +529,27 @@ Polished, accessible and ready to compose.</textarea>
           }
         </div>
         <form class="chat-preview__composer" (submit)="sendMessage($event)">
-          <label class="visually-hidden" for="showcase-chat-message">
+          <label class="visually-hidden" [for]="chatInputId">
             Message {{ activeThread().name }}
           </label>
           <aeris-input-group fluid size="sm">
             <input
               aerisInputText
-              id="showcase-chat-message"
+              [id]="chatInputId"
               fluid
               type="text"
               placeholder="Write a message…"
               [value]="chatDraft()"
               (input)="chatDraft.set($any($event.target).value)"
             />
-            <button aerisButton type="submit" size="sm" iconOnly aria-label="Send message">
+            <button
+              aerisButton
+              type="submit"
+              size="sm"
+              iconOnly
+              aria-label="Send message"
+              [disabled]="!canSendMessage()"
+            >
               <svg [lucideIcon]="icons.SendHorizontal" aria-hidden="true"></svg>
             </button>
           </aeris-input-group>
@@ -664,7 +676,12 @@ Polished, accessible and ready to compose.</textarea>
                     <small>{{ row['contact'] }}</small>
                   </span>
                 } @else if (column.field === 'stage') {
-                  <aeris-badge [value]="$any(row['stage'])" size="sm" variant="soft" />
+                  <aeris-badge
+                    [value]="$any(row['stage'])"
+                    severity="neutral"
+                    size="sm"
+                    variant="soft"
+                  />
                 } @else if (column.field === 'value') {
                   <strong>{{ row['valueLabel'] }}</strong>
                 } @else if (column.field === 'probability') {
@@ -804,7 +821,7 @@ Polished, accessible and ready to compose.</textarea>
         <aeris-divider spacing="sm" />
         <small>Labels</small>
         <div class="mail-preview__labels">
-          <aeris-chip label="Release" size="sm" tone="primary" /><aeris-chip
+          <aeris-chip label="Release" size="sm" tone="neutral" /><aeris-chip
             label="Research"
             size="sm"
             tone="info"
@@ -857,7 +874,7 @@ Polished, accessible and ready to compose.</textarea>
                 <span class="mail-preview__meta"
                   ><small>{{ mail.time }}</small>
                   @if (mail.label) {
-                    <aeris-badge [value]="mail.label" size="sm" variant="soft" />
+                    <aeris-badge [value]="mail.label" severity="neutral" size="sm" variant="soft" />
                   }
                 </span>
               </span>
@@ -1072,6 +1089,7 @@ Polished, accessible and ready to compose.</textarea>
                 ><strong>Budget alert</strong
                 ><small>Notify me at {{ budgetThreshold() }}%</small></span
               ><aeris-slider
+                fluid
                 size="sm"
                 [(value)]="budgetThreshold"
                 ariaLabel="Budget alert threshold"

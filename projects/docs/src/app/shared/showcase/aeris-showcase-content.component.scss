@@ -49,7 +49,6 @@
   color: var(--text-2);
 }
 
-.product-toolbar,
 .product-toolbar > div,
 .product-toolbar__actions,
 .preview-card-heading,
@@ -80,6 +79,7 @@
 }
 
 .product-toolbar {
+  display: block;
   position: sticky;
   z-index: 4;
   top: 0;
@@ -94,6 +94,7 @@
 
 .product-toolbar [aerisToolbarStart] {
   min-width: 0;
+  flex: 1 1 auto;
   gap: 0.625rem;
 }
 
@@ -111,7 +112,7 @@
 .preview-card-heading strong,
 .mail-preview__brand strong {
   color: var(--text);
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
 }
 
 .product-toolbar small,
@@ -137,6 +138,7 @@
 .product-toolbar__actions {
   flex: 0 0 auto;
   gap: 0.5rem;
+  margin-inline-start: auto;
 }
 
 .preview-card-heading {
@@ -338,8 +340,10 @@
   border-radius: var(--aeris-radius-surface);
   background: var(--surface-2);
   color: var(--text);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   line-height: 1.55;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
 }
 
 .chat-preview__messages article[data-own='true'] > span {
@@ -608,6 +612,7 @@
   min-width: 0;
   flex-direction: column;
   gap: 0.25rem;
+  align-items: flex-start;
 }
 
 .mail-preview__reader-header h3 {
@@ -651,7 +656,7 @@
 .mail-preview__reader > p {
   margin: 0;
   color: var(--text-2);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   line-height: 1.8;
   white-space: pre-line;
 }

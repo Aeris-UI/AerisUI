@@ -1,4 +1,4 @@
-import { Component, computed, input, signal } from '@angular/core';
+import { Component, ElementRef, computed, input, signal, viewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AerisButton } from '@aeris-ui/core/button';
 import { LucideDynamicIcon, type LucideIconInput } from '@lucide/angular';
@@ -28,6 +28,7 @@ export class AerisShowcaseGalleryComponent {
   private static nextId = 0;
   protected readonly instanceId = `showcase-${AerisShowcaseGalleryComponent.nextId++}`;
   readonly compact = input(false);
+  private readonly viewport = viewChild<ElementRef<HTMLElement>>('viewport');
 
   protected readonly activeView = signal<ShowcaseView>('components');
   protected readonly documentationLinks = computed(() => {
@@ -57,7 +58,13 @@ export class AerisShowcaseGalleryComponent {
   ];
 
   protected selectView(view: ShowcaseView): void {
+    if (this.activeView() === view) return;
     this.activeView.set(view);
+    const viewport = this.viewport()?.nativeElement;
+    if (viewport) {
+      viewport.scrollTop = 0;
+      viewport.scrollLeft = 0;
+    }
   }
 
   protected handleTabKeydown(event: KeyboardEvent, currentIndex: number): void {

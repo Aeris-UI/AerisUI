@@ -6,7 +6,7 @@
         type="button"
         size="sm"
         [variant]="activeView() === option.id ? 'solid' : 'ghost'"
-        [severity]="activeView() === option.id ? 'secondary' : 'primary'"
+        [severity]="activeView() === option.id ? 'secondary' : 'neutral'"
         role="tab"
         [id]="instanceId + '-tab-' + option.id"
         [attr.aria-label]="option.label"
@@ -23,6 +23,7 @@
   </div>
 
   <div
+    #viewport
     class="showcase-gallery__viewport"
     role="tabpanel"
     tabindex="0"
