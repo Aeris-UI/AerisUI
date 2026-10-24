@@ -5,9 +5,13 @@ import {
   type AerisCommandPaletteCommand,
   type AerisCommandPaletteExecuteEvent,
 } from '@aeris-ui/core/command-palette';
-import { LucideDynamicIcon } from '@lucide/angular';
+import {
+  LucideDynamicIcon,
+  LucideBookOpen,
+  LucidePackage,
+  LucideChevronRight,
+} from '@lucide/angular';
 
-import { DOC_ICONS } from '../documentation/doc-icons';
 import { DocsRoutePrefetchService } from '../navigation/docs-route-prefetch.service';
 
 export interface DocsSearchEntry {
@@ -28,7 +32,11 @@ export class DocsSearchDialogComponent {
   readonly visible = model(false);
   readonly query = model('');
   readonly results = input.required<readonly DocsSearchEntry[]>();
-  protected readonly icons = DOC_ICONS;
+  protected readonly icons = {
+    BookOpen: LucideBookOpen,
+    Package: LucidePackage,
+    ChevronRight: LucideChevronRight,
+  };
   protected readonly commands = computed<readonly AerisCommandPaletteCommand[]>(() =>
     this.results().map((entry) => ({
       id: entry.path,

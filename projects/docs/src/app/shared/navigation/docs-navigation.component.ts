@@ -12,7 +12,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AerisSidebarModule, type AerisSidebar } from '@aeris-ui/core/sidebar';
 import { AerisButton } from '@aeris-ui/core/button';
-import { LucideDynamicIcon } from '@lucide/angular';
+import { LucideDynamicIcon, LucideExternalLink, LucideHeart } from '@lucide/angular';
 import { filter } from 'rxjs';
 import {
   COMPONENT_CATALOG,
@@ -26,7 +26,6 @@ import {
   GUIDE_SUMMARY_BY_ID,
   type GuideGroupTitle,
 } from '../../pages/guides/guide-navigation';
-import { DOC_ICONS } from '../documentation/doc-icons';
 import { DocsRoutePrefetchService } from './docs-route-prefetch.service';
 
 @Component({
@@ -42,7 +41,7 @@ export class DocsNavigationComponent {
   readonly landing = input(false);
   readonly breakpoint = input(1120);
   readonly sidebar = viewChild<AerisSidebar>('sidebar');
-  protected readonly icons = DOC_ICONS;
+  protected readonly icons = { ExternalLink: LucideExternalLink, Heart: LucideHeart };
   protected readonly currentVersion = AERIS_CURRENT_VERSION;
   protected readonly componentCount = COMPONENT_CATALOG.length;
   protected readonly componentGroups = COMPONENT_GROUPS;

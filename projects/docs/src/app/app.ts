@@ -7,7 +7,15 @@ import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
 import { AerisThemeService } from '@aeris-ui/core/theming';
 import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
-import { LucideDynamicIcon } from '@lucide/angular';
+import {
+  LucideDynamicIcon,
+  LucideCheck,
+  LucideMenu,
+  LucideMoon,
+  LucidePipette,
+  LucideSearch,
+  LucideSun,
+} from '@lucide/angular';
 import { filter } from 'rxjs';
 
 import { COMPONENT_CATALOG } from './data/component-catalog';
@@ -21,7 +29,6 @@ import {
   type DocsRadiusId,
 } from './shared/appearance/docs-appearance.service';
 import { AerisLogoMarkComponent } from './shared/branding/aeris-logo-mark.component';
-import { DOC_ICONS } from './shared/documentation/doc-icons';
 import { DocsRouteOutletComponent } from './shared/navigation/docs-route-outlet.component';
 import { DocsNavigationComponent } from './shared/navigation/docs-navigation.component';
 import { DocsSeoService } from './shared/seo/docs-seo.service';
@@ -61,7 +68,14 @@ export class App {
     read: ElementRef<HTMLButtonElement>,
   });
   protected readonly navigation = viewChild<DocsNavigationComponent>('docsSidebarShell');
-  protected readonly icons = DOC_ICONS;
+  protected readonly icons = {
+    Check: LucideCheck,
+    Menu: LucideMenu,
+    Moon: LucideMoon,
+    Pipette: LucidePipette,
+    Search: LucideSearch,
+    Sun: LucideSun,
+  };
   private readonly document = inject(DOCUMENT);
   private readonly router = inject(Router);
   private readonly seo = inject(DocsSeoService);
