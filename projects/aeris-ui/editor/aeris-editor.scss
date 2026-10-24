@@ -100,12 +100,12 @@
 }
 
 .aeris-editor__toolbar button[aria-pressed='true'] {
-  background: var(--aeris-primary-soft);
-  color: var(--aeris-text);
+  background: var(--aeris-editor-toolbar-active-background, var(--aeris-primary));
+  color: var(--aeris-editor-toolbar-active-color, var(--aeris-on-primary));
 }
 @media (hover: hover) {
-  .aeris-editor__toolbar button:hover:not(:disabled) {
-    background: var(--aeris-primary-soft);
+  .aeris-editor__toolbar button:hover:not(:disabled):not([aria-pressed='true']) {
+    background: var(--aeris-interactive-hover, var(--aeris-surface-3));
     color: var(--aeris-text);
   }
 }

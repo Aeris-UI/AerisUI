@@ -5,7 +5,7 @@ import { gzipSync } from 'node:zlib';
 const bundleDirectory = resolve('dist/aeris-ui/fesm2022');
 const budgets = {
   // Includes dedicated Toolbar controls and inline ColorPicker area/channel presentations.
-  total: { raw: 4_374_100, gzip: 718_000 },
+  total: { raw: 4_374_400, gzip: 718_000 },
   largestEntryPoint: { raw: 195_000, gzip: 30_000 },
   entryPoints: {
     // Shared icons and pure date operations consumed by DatePicker and its internal segmented input.

@@ -587,9 +587,19 @@
             ><code role="cell">Aeris theme</code>
           </div>
           <div role="row">
-            <code role="cell">--aeris-primary / --aeris-primary-soft</code
-            ><span role="cell">Quote accent and active toolbar background.</span
+            <code role="cell">--aeris-primary</code
+            ><span role="cell">Checklist markers and default active toolbar fill.</span
             ><code role="cell">Aeris theme</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-editor-toolbar-active-background</code
+            ><span role="cell">Solid background for active formatting actions.</span
+            ><code role="cell">--aeris-primary</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-editor-toolbar-active-color</code
+            ><span role="cell">Contrasting icon color for active formatting actions.</span
+            ><code role="cell">--aeris-on-primary</code>
           </div>
           <div role="row">
             <code role="cell">--aeris-warning</code><span role="cell">Text highlight color.</span
@@ -627,7 +637,8 @@
           </li>
           <li>
             The toolbar uses native buttons inside a labeled <code>role="toolbar"</code>; active
-            inline formats expose <code>aria-pressed</code>.
+            inline formats expose <code>aria-pressed</code> and a solid, contrasting active fill
+            distinct from the hover state.
           </li>
           <li>
             Checklist items expose Lexical's checkbox semantics and can be operated with a pointer

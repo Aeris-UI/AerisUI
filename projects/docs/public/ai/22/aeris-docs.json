@@ -7715,10 +7715,22 @@
           "description": "Editor and toolbar borders."
         },
         {
-          "name": "--aeris-primary / --aeris-primary-soft",
+          "name": "--aeris-primary",
           "type": "CSS custom property",
           "defaultValue": "",
-          "description": "Quote accent and active toolbar background."
+          "description": "Checklist markers and default active toolbar fill."
+        },
+        {
+          "name": "--aeris-editor-toolbar-active-background",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Solid background for active formatting actions."
+        },
+        {
+          "name": "--aeris-editor-toolbar-active-color",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Contrasting icon color for active formatting actions."
         },
         {
           "name": "--aeris-warning",
@@ -7877,7 +7889,7 @@
         "guidance": [
           "The editable area uses role=\"textbox\" with aria-multiline=\"true\".",
           "Associate a visible label through inputId, or provide ariaLabel only when no visible label exists.",
-          "The toolbar uses native buttons inside a labeled role=\"toolbar\"; active inline formats expose aria-pressed.",
+          "The toolbar uses native buttons inside a labeled role=\"toolbar\"; active inline formats expose aria-pressed and a solid, contrasting active fill distinct from the hover state.",
           "Checklist items expose Lexical's checkbox semantics and can be operated with a pointer or keyboard while editing.",
           "Consumer extensions are responsible for the semantics, keyboard behavior, focus management, and announcements of any custom nodes or controls they register.",
           "Use ariaDescribedBy for help and validation messages. Required and invalid state are reflected with ARIA attributes.",

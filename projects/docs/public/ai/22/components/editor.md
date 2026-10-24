@@ -173,7 +173,9 @@ interface AerisEditorChangeEvent {
 | --- | --- | --- | --- |
 | `--aeris-surface / --aeris-surface-2` | `CSS custom property` | — | Editor surface, toolbar, and filled appearance. |
 | `--aeris-border` | `CSS custom property` | — | Editor and toolbar borders. |
-| `--aeris-primary / --aeris-primary-soft` | `CSS custom property` | — | Quote accent and active toolbar background. |
+| `--aeris-primary` | `CSS custom property` | — | Checklist markers and default active toolbar fill. |
+| `--aeris-editor-toolbar-active-background` | `CSS custom property` | — | Solid background for active formatting actions. |
+| `--aeris-editor-toolbar-active-color` | `CSS custom property` | — | Contrasting icon color for active formatting actions. |
 | `--aeris-warning` | `CSS custom property` | — | Text highlight color. |
 | `--aeris-text / --aeris-text-muted` | `CSS custom property` | — | Editable content, placeholder, and quote text. |
 | `--aeris-focus` | `CSS custom property` | — | Focus border and ring. |
@@ -866,7 +868,7 @@ export class EditorFormsDemo {
 
 - The editable area uses role="textbox" with aria-multiline="true".
 - Associate a visible label through inputId, or provide ariaLabel only when no visible label exists.
-- The toolbar uses native buttons inside a labeled role="toolbar"; active inline formats expose aria-pressed.
+- The toolbar uses native buttons inside a labeled role="toolbar"; active inline formats expose aria-pressed and a solid, contrasting active fill distinct from the hover state.
 - Checklist items expose Lexical's checkbox semantics and can be operated with a pointer or keyboard while editing.
 - Consumer extensions are responsible for the semantics, keyboard behavior, focus management, and announcements of any custom nodes or controls they register.
 - Use ariaDescribedBy for help and validation messages. Required and invalid state are reflected with ARIA attributes.
