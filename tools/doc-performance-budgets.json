@@ -1,6 +1,43 @@
 {
-  "initialJavaScript": { "raw": 840000, "gzip": 184320 },
-  "globalStyles": { "raw": 51200, "gzip": 8832 },
-  "catalogRoute": { "raw": 73728, "gzip": 20480 },
-  "catalogPreviews": { "raw": 2401600, "gzip": 643100 }
+  "_policy": "Reviewed production baselines. Hard ceilings allow 5% growth with minimum headroom of 4 KiB raw / 1 KiB gzip, rounded up to KiB. Warnings use 2% with a 1 KiB raw / 256 B gzip noise floor. Initial totals match angular.json.",
+  "initialTotal": {
+    "baseline": {
+      "raw": 849621,
+      "gzip": 172126
+    },
+    "raw": 892928,
+    "gzip": 181248
+  },
+  "initialJavaScript": {
+    "baseline": {
+      "raw": 798692,
+      "gzip": 163369
+    },
+    "raw": 838656,
+    "gzip": 172032
+  },
+  "globalStyles": {
+    "baseline": {
+      "raw": 50929,
+      "gzip": 8757
+    },
+    "raw": 55296,
+    "gzip": 10240
+  },
+  "catalogRoute": {
+    "baseline": {
+      "raw": 70639,
+      "gzip": 19232
+    },
+    "raw": 74752,
+    "gzip": 20480
+  },
+  "catalogPreviews": {
+    "baseline": {
+      "raw": 2402301,
+      "gzip": 643467
+    },
+    "raw": 2523136,
+    "gzip": 675840
+  }
 }

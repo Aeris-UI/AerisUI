@@ -1,0 +1,773 @@
+{
+  "_policy": "Reviewed production baselines. Hard ceilings allow 5% growth with minimum headroom of 4 KiB raw / 1 KiB gzip, rounded up to KiB. Warnings use 2% with a 1 KiB raw / 256 B gzip noise floor. Baselines are edited only after review.",
+  "total": {
+    "baseline": {
+      "raw": 4374310,
+      "gzip": 659819
+    },
+    "raw": 4593664,
+    "gzip": 693248
+  },
+  "largestEntryPoint": {
+    "baseline": {
+      "raw": 179869,
+      "gzip": 27343
+    },
+    "raw": 189440,
+    "gzip": 29696
+  },
+  "entryPoints": {
+    "aeris-ui-core-accordion.mjs": {
+      "baseline": {
+        "raw": 37090,
+        "gzip": 5533
+      },
+      "raw": 41984,
+      "gzip": 7168
+    },
+    "aeris-ui-core-animate-on-scroll.mjs": {
+      "baseline": {
+        "raw": 7655,
+        "gzip": 1878
+      },
+      "raw": 12288,
+      "gzip": 3072
+    },
+    "aeris-ui-core-auto-complete.mjs": {
+      "baseline": {
+        "raw": 68153,
+        "gzip": 8945
+      },
+      "raw": 72704,
+      "gzip": 10240
+    },
+    "aeris-ui-core-auto-focus.mjs": {
+      "baseline": {
+        "raw": 3294,
+        "gzip": 1136
+      },
+      "raw": 8192,
+      "gzip": 3072
+    },
+    "aeris-ui-core-avatar.mjs": {
+      "baseline": {
+        "raw": 31532,
+        "gzip": 3295
+      },
+      "raw": 35840,
+      "gzip": 5120
+    },
+    "aeris-ui-core-badge.mjs": {
+      "baseline": {
+        "raw": 38244,
+        "gzip": 3404
+      },
+      "raw": 43008,
+      "gzip": 5120
+    },
+    "aeris-ui-core-block-ui.mjs": {
+      "baseline": {
+        "raw": 10156,
+        "gzip": 2425
+      },
+      "raw": 14336,
+      "gzip": 4096
+    },
+    "aeris-ui-core-breadcrumb.mjs": {
+      "baseline": {
+        "raw": 39633,
+        "gzip": 5229
+      },
+      "raw": 44032,
+      "gzip": 7168
+    },
+    "aeris-ui-core-button-forms.mjs": {
+      "baseline": {
+        "raw": 2355,
+        "gzip": 852
+      },
+      "raw": 7168,
+      "gzip": 2048
+    },
+    "aeris-ui-core-button-group.mjs": {
+      "baseline": {
+        "raw": 25415,
+        "gzip": 3990
+      },
+      "raw": 29696,
+      "gzip": 5120
+    },
+    "aeris-ui-core-button.mjs": {
+      "baseline": {
+        "raw": 53487,
+        "gzip": 6443
+      },
+      "raw": 58368,
+      "gzip": 8192
+    },
+    "aeris-ui-core-card.mjs": {
+      "baseline": {
+        "raw": 18009,
+        "gzip": 2713
+      },
+      "raw": 22528,
+      "gzip": 4096
+    },
+    "aeris-ui-core-carousel.mjs": {
+      "baseline": {
+        "raw": 50510,
+        "gzip": 7756
+      },
+      "raw": 55296,
+      "gzip": 9216
+    },
+    "aeris-ui-core-cascade-select.mjs": {
+      "baseline": {
+        "raw": 70034,
+        "gzip": 9744
+      },
+      "raw": 74752,
+      "gzip": 11264
+    },
+    "aeris-ui-core-chart.mjs": {
+      "baseline": {
+        "raw": 21712,
+        "gzip": 5547
+      },
+      "raw": 26624,
+      "gzip": 7168
+    },
+    "aeris-ui-core-checkbox.mjs": {
+      "baseline": {
+        "raw": 33372,
+        "gzip": 4770
+      },
+      "raw": 37888,
+      "gzip": 6144
+    },
+    "aeris-ui-core-chip.mjs": {
+      "baseline": {
+        "raw": 48766,
+        "gzip": 7620
+      },
+      "raw": 53248,
+      "gzip": 9216
+    },
+    "aeris-ui-core-class-names.mjs": {
+      "baseline": {
+        "raw": 2734,
+        "gzip": 1032
+      },
+      "raw": 7168,
+      "gzip": 3072
+    },
+    "aeris-ui-core-code-block.mjs": {
+      "baseline": {
+        "raw": 35103,
+        "gzip": 6674
+      },
+      "raw": 39936,
+      "gzip": 8192
+    },
+    "aeris-ui-core-color-picker.mjs": {
+      "baseline": {
+        "raw": 126780,
+        "gzip": 21860
+      },
+      "raw": 133120,
+      "gzip": 23552
+    },
+    "aeris-ui-core-command-palette.mjs": {
+      "baseline": {
+        "raw": 46261,
+        "gzip": 7121
+      },
+      "raw": 51200,
+      "gzip": 8192
+    },
+    "aeris-ui-core-compare.mjs": {
+      "baseline": {
+        "raw": 42500,
+        "gzip": 6246
+      },
+      "raw": 47104,
+      "gzip": 8192
+    },
+    "aeris-ui-core-confirm-dialog.mjs": {
+      "baseline": {
+        "raw": 54068,
+        "gzip": 7961
+      },
+      "raw": 58368,
+      "gzip": 9216
+    },
+    "aeris-ui-core-confirm-popup.mjs": {
+      "baseline": {
+        "raw": 65308,
+        "gzip": 9856
+      },
+      "raw": 69632,
+      "gzip": 11264
+    },
+    "aeris-ui-core-context-menu.mjs": {
+      "baseline": {
+        "raw": 56250,
+        "gzip": 8449
+      },
+      "raw": 60416,
+      "gzip": 10240
+    },
+    "aeris-ui-core-date-picker-aeris-date-picker-input-jAhzMzLQ.mjs": {
+      "baseline": {
+        "raw": 44168,
+        "gzip": 8548
+      },
+      "raw": 49152,
+      "gzip": 10240
+    },
+    "aeris-ui-core-date-picker.mjs": {
+      "baseline": {
+        "raw": 137028,
+        "gzip": 21881
+      },
+      "raw": 144384,
+      "gzip": 23552
+    },
+    "aeris-ui-core-dialog.mjs": {
+      "baseline": {
+        "raw": 64231,
+        "gzip": 8234
+      },
+      "raw": 68608,
+      "gzip": 10240
+    },
+    "aeris-ui-core-divider.mjs": {
+      "baseline": {
+        "raw": 12113,
+        "gzip": 1936
+      },
+      "raw": 16384,
+      "gzip": 3072
+    },
+    "aeris-ui-core-drawer.mjs": {
+      "baseline": {
+        "raw": 95877,
+        "gzip": 13254
+      },
+      "raw": 101376,
+      "gzip": 14336
+    },
+    "aeris-ui-core-dynamic-dialog.mjs": {
+      "baseline": {
+        "raw": 14991,
+        "gzip": 3266
+      },
+      "raw": 19456,
+      "gzip": 5120
+    },
+    "aeris-ui-core-editor.mjs": {
+      "baseline": {
+        "raw": 108826,
+        "gzip": 15091
+      },
+      "raw": 114688,
+      "gzip": 16384
+    },
+    "aeris-ui-core-file-upload.mjs": {
+      "baseline": {
+        "raw": 82792,
+        "gzip": 10464
+      },
+      "raw": 87040,
+      "gzip": 12288
+    },
+    "aeris-ui-core-filter-service.mjs": {
+      "baseline": {
+        "raw": 9961,
+        "gzip": 2588
+      },
+      "raw": 14336,
+      "gzip": 4096
+    },
+    "aeris-ui-core-fluid.mjs": {
+      "baseline": {
+        "raw": 3178,
+        "gzip": 961
+      },
+      "raw": 8192,
+      "gzip": 2048
+    },
+    "aeris-ui-core-focus-trap.mjs": {
+      "baseline": {
+        "raw": 6970,
+        "gzip": 2278
+      },
+      "raw": 11264,
+      "gzip": 4096
+    },
+    "aeris-ui-core-form-field.mjs": {
+      "baseline": {
+        "raw": 23030,
+        "gzip": 3242
+      },
+      "raw": 27648,
+      "gzip": 5120
+    },
+    "aeris-ui-core-galleria.mjs": {
+      "baseline": {
+        "raw": 179869,
+        "gzip": 26296
+      },
+      "raw": 189440,
+      "gzip": 27648
+    },
+    "aeris-ui-core-glass.mjs": {
+      "baseline": {
+        "raw": 2594,
+        "gzip": 794
+      },
+      "raw": 7168,
+      "gzip": 2048
+    },
+    "aeris-ui-core-icon-field.mjs": {
+      "baseline": {
+        "raw": 23912,
+        "gzip": 2950
+      },
+      "raw": 28672,
+      "gzip": 4096
+    },
+    "aeris-ui-core-inplace.mjs": {
+      "baseline": {
+        "raw": 24888,
+        "gzip": 3966
+      },
+      "raw": 29696,
+      "gzip": 5120
+    },
+    "aeris-ui-core-input-group.mjs": {
+      "baseline": {
+        "raw": 44819,
+        "gzip": 4242
+      },
+      "raw": 49152,
+      "gzip": 6144
+    },
+    "aeris-ui-core-input-mask.mjs": {
+      "baseline": {
+        "raw": 31563,
+        "gzip": 5096
+      },
+      "raw": 35840,
+      "gzip": 6144
+    },
+    "aeris-ui-core-input-number.mjs": {
+      "baseline": {
+        "raw": 59825,
+        "gzip": 7843
+      },
+      "raw": 64512,
+      "gzip": 9216
+    },
+    "aeris-ui-core-input-otp.mjs": {
+      "baseline": {
+        "raw": 28117,
+        "gzip": 4970
+      },
+      "raw": 32768,
+      "gzip": 6144
+    },
+    "aeris-ui-core-input-text.mjs": {
+      "baseline": {
+        "raw": 23733,
+        "gzip": 3894
+      },
+      "raw": 28672,
+      "gzip": 5120
+    },
+    "aeris-ui-core-kbd.mjs": {
+      "baseline": {
+        "raw": 5637,
+        "gzip": 1547
+      },
+      "raw": 10240,
+      "gzip": 3072
+    },
+    "aeris-ui-core-key-filter.mjs": {
+      "baseline": {
+        "raw": 8143,
+        "gzip": 2298
+      },
+      "raw": 12288,
+      "gzip": 4096
+    },
+    "aeris-ui-core-listbox.mjs": {
+      "baseline": {
+        "raw": 38461,
+        "gzip": 6279
+      },
+      "raw": 43008,
+      "gzip": 8192
+    },
+    "aeris-ui-core-mega-menu.mjs": {
+      "baseline": {
+        "raw": 56948,
+        "gzip": 7819
+      },
+      "raw": 61440,
+      "gzip": 9216
+    },
+    "aeris-ui-core-menu.mjs": {
+      "baseline": {
+        "raw": 62358,
+        "gzip": 9143
+      },
+      "raw": 66560,
+      "gzip": 10240
+    },
+    "aeris-ui-core-menubar.mjs": {
+      "baseline": {
+        "raw": 86920,
+        "gzip": 10685
+      },
+      "raw": 92160,
+      "gzip": 12288
+    },
+    "aeris-ui-core-message.mjs": {
+      "baseline": {
+        "raw": 30074,
+        "gzip": 4395
+      },
+      "raw": 34816,
+      "gzip": 6144
+    },
+    "aeris-ui-core-meter-group.mjs": {
+      "baseline": {
+        "raw": 33853,
+        "gzip": 4802
+      },
+      "raw": 38912,
+      "gzip": 6144
+    },
+    "aeris-ui-core-multi-select.mjs": {
+      "baseline": {
+        "raw": 101262,
+        "gzip": 12106
+      },
+      "raw": 106496,
+      "gzip": 13312
+    },
+    "aeris-ui-core-navbar.mjs": {
+      "baseline": {
+        "raw": 62702,
+        "gzip": 10175
+      },
+      "raw": 67584,
+      "gzip": 11264
+    },
+    "aeris-ui-core-order-list.mjs": {
+      "baseline": {
+        "raw": 37324,
+        "gzip": 5026
+      },
+      "raw": 41984,
+      "gzip": 6144
+    },
+    "aeris-ui-core-organization-chart.mjs": {
+      "baseline": {
+        "raw": 37452,
+        "gzip": 5343
+      },
+      "raw": 41984,
+      "gzip": 7168
+    },
+    "aeris-ui-core-paginator.mjs": {
+      "baseline": {
+        "raw": 43254,
+        "gzip": 5555
+      },
+      "raw": 48128,
+      "gzip": 7168
+    },
+    "aeris-ui-core-panel.mjs": {
+      "baseline": {
+        "raw": 34800,
+        "gzip": 4824
+      },
+      "raw": 38912,
+      "gzip": 6144
+    },
+    "aeris-ui-core-password.mjs": {
+      "baseline": {
+        "raw": 50794,
+        "gzip": 7043
+      },
+      "raw": 55296,
+      "gzip": 8192
+    },
+    "aeris-ui-core-pick-list.mjs": {
+      "baseline": {
+        "raw": 87435,
+        "gzip": 10551
+      },
+      "raw": 92160,
+      "gzip": 12288
+    },
+    "aeris-ui-core-popover.mjs": {
+      "baseline": {
+        "raw": 57599,
+        "gzip": 9556
+      },
+      "raw": 62464,
+      "gzip": 11264
+    },
+    "aeris-ui-core-progress-bar.mjs": {
+      "baseline": {
+        "raw": 33438,
+        "gzip": 4988
+      },
+      "raw": 37888,
+      "gzip": 6144
+    },
+    "aeris-ui-core-progress-spinner.mjs": {
+      "baseline": {
+        "raw": 20962,
+        "gzip": 3561
+      },
+      "raw": 25600,
+      "gzip": 5120
+    },
+    "aeris-ui-core-radio-button.mjs": {
+      "baseline": {
+        "raw": 27299,
+        "gzip": 4282
+      },
+      "raw": 31744,
+      "gzip": 6144
+    },
+    "aeris-ui-core-rating.mjs": {
+      "baseline": {
+        "raw": 25945,
+        "gzip": 4735
+      },
+      "raw": 30720,
+      "gzip": 6144
+    },
+    "aeris-ui-core-scroll-panel.mjs": {
+      "baseline": {
+        "raw": 26370,
+        "gzip": 3795
+      },
+      "raw": 30720,
+      "gzip": 5120
+    },
+    "aeris-ui-core-scroll-top.mjs": {
+      "baseline": {
+        "raw": 15701,
+        "gzip": 2907
+      },
+      "raw": 20480,
+      "gzip": 4096
+    },
+    "aeris-ui-core-select-native.mjs": {
+      "baseline": {
+        "raw": 3739,
+        "gzip": 961
+      },
+      "raw": 8192,
+      "gzip": 2048
+    },
+    "aeris-ui-core-select.mjs": {
+      "baseline": {
+        "raw": 105578,
+        "gzip": 12022
+      },
+      "raw": 111616,
+      "gzip": 13312
+    },
+    "aeris-ui-core-sidebar.mjs": {
+      "baseline": {
+        "raw": 52230,
+        "gzip": 7988
+      },
+      "raw": 57344,
+      "gzip": 9216
+    },
+    "aeris-ui-core-skeleton.mjs": {
+      "baseline": {
+        "raw": 6502,
+        "gzip": 1547
+      },
+      "raw": 11264,
+      "gzip": 3072
+    },
+    "aeris-ui-core-slider.mjs": {
+      "baseline": {
+        "raw": 52022,
+        "gzip": 7308
+      },
+      "raw": 56320,
+      "gzip": 9216
+    },
+    "aeris-ui-core-speed-dial.mjs": {
+      "baseline": {
+        "raw": 44171,
+        "gzip": 7004
+      },
+      "raw": 49152,
+      "gzip": 8192
+    },
+    "aeris-ui-core-split-button.mjs": {
+      "baseline": {
+        "raw": 49523,
+        "gzip": 6953
+      },
+      "raw": 54272,
+      "gzip": 8192
+    },
+    "aeris-ui-core-splitter.mjs": {
+      "baseline": {
+        "raw": 43116,
+        "gzip": 6704
+      },
+      "raw": 48128,
+      "gzip": 8192
+    },
+    "aeris-ui-core-stepper.mjs": {
+      "baseline": {
+        "raw": 43906,
+        "gzip": 6302
+      },
+      "raw": 48128,
+      "gzip": 8192
+    },
+    "aeris-ui-core-style-class.mjs": {
+      "baseline": {
+        "raw": 18267,
+        "gzip": 3733
+      },
+      "raw": 22528,
+      "gzip": 5120
+    },
+    "aeris-ui-core-table.mjs": {
+      "baseline": {
+        "raw": 173807,
+        "gzip": 27343
+      },
+      "raw": 183296,
+      "gzip": 29696
+    },
+    "aeris-ui-core-tabs.mjs": {
+      "baseline": {
+        "raw": 43771,
+        "gzip": 7447
+      },
+      "raw": 48128,
+      "gzip": 9216
+    },
+    "aeris-ui-core-textarea.mjs": {
+      "baseline": {
+        "raw": 32439,
+        "gzip": 5046
+      },
+      "raw": 36864,
+      "gzip": 6144
+    },
+    "aeris-ui-core-theme-builder.mjs": {
+      "baseline": {
+        "raw": 51772,
+        "gzip": 12468
+      },
+      "raw": 56320,
+      "gzip": 14336
+    },
+    "aeris-ui-core-theming.mjs": {
+      "baseline": {
+        "raw": 5713,
+        "gzip": 1894
+      },
+      "raw": 10240,
+      "gzip": 3072
+    },
+    "aeris-ui-core-tiered-menu.mjs": {
+      "baseline": {
+        "raw": 57808,
+        "gzip": 8749
+      },
+      "raw": 62464,
+      "gzip": 10240
+    },
+    "aeris-ui-core-timeline.mjs": {
+      "baseline": {
+        "raw": 30835,
+        "gzip": 4005
+      },
+      "raw": 35840,
+      "gzip": 5120
+    },
+    "aeris-ui-core-toast.mjs": {
+      "baseline": {
+        "raw": 76863,
+        "gzip": 10926
+      },
+      "raw": 81920,
+      "gzip": 12288
+    },
+    "aeris-ui-core-toggle-switch.mjs": {
+      "baseline": {
+        "raw": 20888,
+        "gzip": 3484
+      },
+      "raw": 25600,
+      "gzip": 5120
+    },
+    "aeris-ui-core-toolbar.mjs": {
+      "baseline": {
+        "raw": 62531,
+        "gzip": 9557
+      },
+      "raw": 67584,
+      "gzip": 11264
+    },
+    "aeris-ui-core-tooltip.mjs": {
+      "baseline": {
+        "raw": 23868,
+        "gzip": 4702
+      },
+      "raw": 28672,
+      "gzip": 6144
+    },
+    "aeris-ui-core-tree-select.mjs": {
+      "baseline": {
+        "raw": 95148,
+        "gzip": 11709
+      },
+      "raw": 100352,
+      "gzip": 13312
+    },
+    "aeris-ui-core-tree-table.mjs": {
+      "baseline": {
+        "raw": 150115,
+        "gzip": 23765
+      },
+      "raw": 157696,
+      "gzip": 25600
+    },
+    "aeris-ui-core-tree.mjs": {
+      "baseline": {
+        "raw": 71593,
+        "gzip": 10358
+      },
+      "raw": 75776,
+      "gzip": 12288
+    },
+    "aeris-ui-core.mjs": {
+      "baseline": {
+        "raw": 62468,
+        "gzip": 14156
+      },
+      "raw": 67584,
+      "gzip": 15360
+    }
+  }
+}

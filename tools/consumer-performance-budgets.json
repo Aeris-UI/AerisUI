@@ -1,12 +1,109 @@
 {
-  "sharedCssGzip": 6912,
+  "_policy": "Reviewed production baselines. Hard ceilings allow 5% growth with minimum headroom of 4 KiB raw / 1 KiB gzip, rounded up to KiB. Warnings use 2% with a 1 KiB raw / 256 B gzip noise floor. Baselines are edited only after review.",
+  "sharedCss": {
+    "baseline": {
+      "raw": 37022,
+      "gzip": 6796
+    },
+    "raw": 41984,
+    "gzip": 8192
+  },
   "scenarios": {
-    "native-select": { "raw": 12000, "gzip": 4096 },
-    "basic": { "raw": 45000, "gzip": 12288 },
-    "forms": { "raw": 210000, "gzip": 56000, "initialRaw": 190000, "initialGzip": 50000 },
-    "editable-date-picker": { "raw": 165000, "gzip": 45000 },
-    "data-overlays": { "raw": 253312, "gzip": 60416 },
-    "chart": { "raw": 315000, "gzip": 104448 },
-    "editor": { "raw": 410000, "gzip": 126976 }
+    "basic": {
+      "baseline": {
+        "raw": 35008,
+        "gzip": 9332
+      },
+      "raw": 39936,
+      "gzip": 11264
+    },
+    "native-select": {
+      "baseline": {
+        "raw": 11298,
+        "gzip": 3951
+      },
+      "raw": 16384,
+      "gzip": 5120
+    },
+    "forms": {
+      "baseline": {
+        "raw": 205391,
+        "gzip": 54993
+      },
+      "raw": 216064,
+      "gzip": 58368,
+      "initial": {
+        "baseline": {
+          "raw": 184680,
+          "gzip": 48362
+        },
+        "raw": 194560,
+        "gzip": 51200
+      }
+    },
+    "editable-date-picker": {
+      "baseline": {
+        "raw": 159187,
+        "gzip": 44759
+      },
+      "raw": 167936,
+      "gzip": 47104,
+      "initial": {
+        "baseline": {
+          "raw": 138483,
+          "gzip": 38132
+        },
+        "raw": 145408,
+        "gzip": 40960
+      }
+    },
+    "data-overlays": {
+      "baseline": {
+        "raw": 252191,
+        "gzip": 59674
+      },
+      "raw": 265216,
+      "gzip": 63488
+    },
+    "chart": {
+      "baseline": {
+        "raw": 246229,
+        "gzip": 83991
+      },
+      "raw": 259072,
+      "gzip": 89088
+    },
+    "runtime-theme": {
+      "baseline": {
+        "raw": 55279,
+        "gzip": 16278
+      },
+      "raw": 59392,
+      "gzip": 17408
+    },
+    "code-block": {
+      "baseline": {
+        "raw": 800278,
+        "gzip": 149742
+      },
+      "raw": 840704,
+      "gzip": 157696,
+      "initial": {
+        "baseline": {
+          "raw": 65930,
+          "gzip": 20625
+        },
+        "raw": 70656,
+        "gzip": 22528
+      }
+    },
+    "editor": {
+      "baseline": {
+        "raw": 331944,
+        "gzip": 101916
+      },
+      "raw": 349184,
+      "gzip": 107520
+    }
   }
 }

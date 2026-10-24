@@ -46,8 +46,9 @@
     "check:bundle-size": "node tools/check-bundle-size.mjs",
     "check:consumer-performance": "node tools/check-consumer-performance.mjs",
     "benchmark:consumer-performance": "node tools/check-consumer-performance.mjs --benchmark",
+    "measure:consumer-performance": "node tools/check-consumer-performance.mjs --measure-only",
     "check:doc-performance": "node tools/check-doc-performance.mjs",
-    "test:doc-performance": "node --test tools/check-doc-performance.spec.mjs",
+    "test:performance-budgets": "node --test tools/check-doc-performance.spec.mjs tools/check-library-performance.spec.mjs tools/performance-budget.spec.mjs",
     "check:packed-install": "node tools/check-packed-install.mjs",
     "check:mcp-package": "node tools/check-mcp-package.mjs && node tools/check-mcp-cli.mjs"
   },
