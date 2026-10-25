@@ -825,26 +825,41 @@ test('catalog pickers, blockers and action menus open only while their card is a
     await expect(card.locator('app-catalog-preview')).toBeVisible();
     await expect(card.locator(selector)).toHaveCount(0);
     const field = card.locator('[role="combobox"]').first();
+    const fieldGeometry = () =>
+      card.evaluate((element, panelSelector) => {
+        const control = element.querySelector('[role="combobox"]');
+        if (!control) return null;
+        const root = element as HTMLElement;
+        const cardBounds = root.getBoundingClientRect();
+        const fieldBounds = control.getBoundingClientRect();
+        const panelBounds = root.querySelector(panelSelector)?.getBoundingClientRect();
+        // Normalize the intentional card scale, sampling all bounds in one frame.
+        const scale = cardBounds.height / root.offsetHeight;
+        return {
+          offset: (fieldBounds.y - cardBounds.y) / scale,
+          panelGap: panelBounds ? (panelBounds.y - fieldBounds.bottom) / scale : null,
+        };
+      }, selector);
     const fieldBefore =
-      slug !== 'date-picker' && (await field.count()) ? await field.boundingBox() : null;
-    const cardBefore = await card.boundingBox();
+      slug !== 'date-picker' && (await field.count()) ? await fieldGeometry() : null;
     await card.hover();
     const panel = card.locator(selector);
     await expect(panel).toBeVisible();
-    if (fieldBefore && cardBefore) {
-      const fieldAfter = await field.boundingBox();
-      const cardAfter = await card.boundingBox();
-      expect(fieldAfter).not.toBeNull();
-      expect(cardAfter).not.toBeNull();
-      if (fieldAfter && cardAfter) {
-        expect(Math.abs(fieldAfter.y - cardAfter.y - (fieldBefore.y - cardBefore.y))).toBeLessThan(
-          2,
-        );
-        const panelBounds = await panel.boundingBox();
-        expect(panelBounds).not.toBeNull();
-        if (panelBounds)
-          expect(panelBounds.y).toBeGreaterThanOrEqual(fieldAfter.y + fieldAfter.height + 4);
-      }
+    if (fieldBefore) {
+      await expect
+        .poll(
+          async () => {
+            const after = await fieldGeometry();
+            return after ? Math.abs(after.offset - fieldBefore.offset) : Infinity;
+          },
+          { message: `${slug} field keeps its local position while the card scales` },
+        )
+        .toBeLessThan(2);
+      await expect
+        .poll(async () => (await fieldGeometry())?.panelGap ?? -Infinity, {
+          message: `${slug} panel remains separated from its field`,
+        })
+        .toBeGreaterThanOrEqual(4);
     }
     await expect
       .poll(
