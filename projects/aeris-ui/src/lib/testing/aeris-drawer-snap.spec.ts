@@ -41,7 +41,10 @@ class SnapHost {
 }
 
 describe('Drawer snap points', () => {
-  afterEach(() => TestBed.resetTestingModule());
+  afterEach(() => {
+    TestBed.resetTestingModule();
+    vi.restoreAllMocks();
+  });
 
   it('normalizes units, sorts, caps pixels and removes invalid/equivalent heights', () => {
     expect(
@@ -144,6 +147,7 @@ describe('Drawer snap points', () => {
   });
 
   it('clears dismissal translation when snap points are enabled during a drag', async () => {
+    const flushFrames = mockAnimationFrames();
     const fixture = TestBed.createComponent(SnapHost);
     const host = fixture.componentInstance;
     host.points.set([]);
@@ -167,7 +171,7 @@ describe('Drawer snap points', () => {
         }),
       );
     }
-    await new Promise((resolve) => requestAnimationFrame(resolve));
+    flushFrames();
     await fixture.whenStable();
     expect(panel.style.transform).toContain('40px');
     host.points.set([0.3, 0.6, 0.9]);
@@ -178,13 +182,14 @@ describe('Drawer snap points', () => {
   });
 
   it('recalculates fractional heights on viewport resize without emitting a point change', async () => {
+    const flushFrames = mockAnimationFrames();
     const fixture = TestBed.createComponent(SnapHost);
     await fixture.whenStable();
     const old = Object.getOwnPropertyDescriptor(window, 'innerHeight');
     try {
       Object.defineProperty(window, 'innerHeight', { configurable: true, value: 600 });
       window.dispatchEvent(new Event('resize'));
-      await new Promise((resolve) => requestAnimationFrame(resolve));
+      flushFrames();
       await fixture.whenStable();
       expect(Number(document.querySelector('[role="slider"]')?.getAttribute('aria-valuenow'))).toBe(
         180,
@@ -195,3 +200,21 @@ describe('Drawer snap points', () => {
     }
   });
 });
+
+function mockAnimationFrames(): () => void {
+  const frames = new Map<number, FrameRequestCallback>();
+  let nextId = 0;
+  vi.spyOn(globalThis, 'requestAnimationFrame').mockImplementation((callback) => {
+    frames.set(++nextId, callback);
+    return nextId;
+  });
+  vi.spyOn(globalThis, 'cancelAnimationFrame').mockImplementation((id) => {
+    frames.delete(id);
+  });
+  return () => {
+    expect(frames.size).toBeGreaterThan(0);
+    const callbacks = [...frames.values()];
+    frames.clear();
+    for (const callback of callbacks) callback(performance.now());
+  };
+}
