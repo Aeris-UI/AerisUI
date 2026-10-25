@@ -36,7 +36,7 @@ import { AerisNavbarModule } from '@aeris-ui/core/navbar';
 | `variant` | `AerisNavbarVariant` | `'standard'` | Options: 'standard', 'floating', 'transparent'. Changes only the container surface. |
 | `sticky` | `boolean` | `false` | Uses CSS sticky positioning inside the nearest scrolling ancestor. Set --aeris-navbar-top for an offset. |
 | `closeOnNavigate` | `boolean` | `true` | Closes mobile navigation and navigation dropdowns when an enabled item is activated. Modified and new-tab links remain open. |
-| `closeOnOutsideClick` | `boolean` | `true` | Closes expanded mobile navigation on an outside pointer press. Does not trap focus or block the page. |
+| `closeOnOutsideClick` | `boolean` | `true` | Closes expanded mobile navigation on an outside click, after the pointer release commits its target. Does not trap focus or block the page. |
 | `ariaLabel` | `string` | `'Primary navigation'` | Accessible name of the native navigation landmark. |
 | `ariaLabelledBy` | `string` | `''` | Visible heading ID instead of ariaLabel. Keep the heading outside the collapsible region. |
 | `openAriaLabel` | `string` | `'Open navigation'` | Name of the closed mobile toggle, including a custom toggle. |
@@ -47,7 +47,7 @@ import { AerisNavbarModule } from '@aeris-ui/core/navbar';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `expanded` | `boolean (model)` | `false` | Controls mobile expansion. Returning from mobile to desktop clears it; desktop navigation stays visible. |
-| `expandedChange` | `boolean (output)` | `—` | Emits changes to expanded, including toggle, Escape, outside press and item activation. |
+| `expandedChange` | `boolean (output)` | `—` | Emits changes to expanded, including toggle, Escape, outside click and item activation. |
 | `mobile` | `Signal&lt;boolean&gt;` | `derived` | Read-only effective mobile mode. |
 | `navigationId` | `string` | `generated` | Unique navigation ID used by the built-in and custom toggle aria-controls. |
 | `toggle()` | `() =&gt; void` | `—` | Toggles expanded in mobile mode. Does nothing in desktop mode. |
@@ -71,7 +71,7 @@ import { AerisNavbarModule } from '@aeris-ui/core/navbar';
 | `aeris-navbar-dropdown` | `dropdown component` | `—` | A navigation dropdown within Navbar links. Desktop panels are anchored to their button; mobile content expands inline. It is not a menu or dialog. |
 | `label` | `string` | `required` | Visible dropdown button and accessible name. |
 | `expanded` | `boolean (model)` | `false` | Controls the dropdown. Sibling dropdowns close when another opens; nested dropdowns keep their parent open. |
-| `expandedChange` | `boolean (output)` | `—` | Emits button, Escape, outside press and navigation changes. |
+| `expandedChange` | `boolean (output)` | `—` | Emits button, Escape, outside click and navigation changes. |
 
 ### Slots
 
@@ -248,7 +248,7 @@ export class NavbarResponsiveDemo {
         type: 'boolean (output)',
         defaultValue: '—',
         description:
-          'Emits changes to expanded, including toggle, Escape, outside press and item activation.',
+          'Emits changes to expanded, including toggle, Escape, outside click and item activation.',
       },
       {
         name: 'mobile',
@@ -321,7 +321,7 @@ export class NavbarResponsiveDemo {
         name: 'expandedChange',
         type: 'boolean (output)',
         defaultValue: '—',
-        description: 'Emits button, Escape, outside press and navigation changes.',
+        description: 'Emits button, Escape, outside click and navigation changes.',
       },
     ];
 }
@@ -483,7 +483,7 @@ export class NavbarContentFitDemo {
         type: 'boolean (output)',
         defaultValue: '—',
         description:
-          'Emits changes to expanded, including toggle, Escape, outside press and item activation.',
+          'Emits changes to expanded, including toggle, Escape, outside click and item activation.',
       },
       {
         name: 'mobile',
@@ -556,7 +556,7 @@ export class NavbarContentFitDemo {
         name: 'expandedChange',
         type: 'boolean (output)',
         defaultValue: '—',
-        description: 'Emits button, Escape, outside press and navigation changes.',
+        description: 'Emits button, Escape, outside click and navigation changes.',
       },
     ];
 }
@@ -689,7 +689,7 @@ export class NavbarControlledDemo {
         type: 'boolean (output)',
         defaultValue: '—',
         description:
-          'Emits changes to expanded, including toggle, Escape, outside press and item activation.',
+          'Emits changes to expanded, including toggle, Escape, outside click and item activation.',
       },
       {
         name: 'mobile',
@@ -762,7 +762,7 @@ export class NavbarControlledDemo {
         name: 'expandedChange',
         type: 'boolean (output)',
         defaultValue: '—',
-        description: 'Emits button, Escape, outside press and navigation changes.',
+        description: 'Emits button, Escape, outside click and navigation changes.',
       },
     ];
 }
@@ -903,7 +903,7 @@ export class NavbarDisclosuresDemo {
         type: 'boolean (output)',
         defaultValue: '—',
         description:
-          'Emits changes to expanded, including toggle, Escape, outside press and item activation.',
+          'Emits changes to expanded, including toggle, Escape, outside click and item activation.',
       },
       {
         name: 'mobile',
@@ -976,7 +976,7 @@ export class NavbarDisclosuresDemo {
         name: 'expandedChange',
         type: 'boolean (output)',
         defaultValue: '—',
-        description: 'Emits button, Escape, outside press and navigation changes.',
+        description: 'Emits button, Escape, outside click and navigation changes.',
       },
     ];
 }
@@ -1133,7 +1133,7 @@ export class NavbarCustomDemo {
         type: 'boolean (output)',
         defaultValue: '—',
         description:
-          'Emits changes to expanded, including toggle, Escape, outside press and item activation.',
+          'Emits changes to expanded, including toggle, Escape, outside click and item activation.',
       },
       {
         name: 'mobile',
@@ -1206,7 +1206,7 @@ export class NavbarCustomDemo {
         name: 'expandedChange',
         type: 'boolean (output)',
         defaultValue: '—',
-        description: 'Emits button, Escape, outside press and navigation changes.',
+        description: 'Emits button, Escape, outside click and navigation changes.',
       },
     ];
 }
@@ -1350,7 +1350,7 @@ export class NavbarVariantsDemo {
         type: 'boolean (output)',
         defaultValue: '—',
         description:
-          'Emits changes to expanded, including toggle, Escape, outside press and item activation.',
+          'Emits changes to expanded, including toggle, Escape, outside click and item activation.',
       },
       {
         name: 'mobile',
@@ -1423,7 +1423,7 @@ export class NavbarVariantsDemo {
         name: 'expandedChange',
         type: 'boolean (output)',
         defaultValue: '—',
-        description: 'Emits button, Escape, outside press and navigation changes.',
+        description: 'Emits button, Escape, outside click and navigation changes.',
       },
     ];
 }
@@ -1520,7 +1520,7 @@ export class NavbarStickyDemo {
         type: 'boolean (output)',
         defaultValue: '—',
         description:
-          'Emits changes to expanded, including toggle, Escape, outside press and item activation.',
+          'Emits changes to expanded, including toggle, Escape, outside click and item activation.',
       },
       {
         name: 'mobile',
@@ -1593,7 +1593,7 @@ export class NavbarStickyDemo {
         name: 'expandedChange',
         type: 'boolean (output)',
         defaultValue: '—',
-        description: 'Emits button, Escape, outside press and navigation changes.',
+        description: 'Emits button, Escape, outside click and navigation changes.',
       },
     ];
 }

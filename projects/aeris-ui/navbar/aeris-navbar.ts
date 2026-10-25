@@ -327,10 +327,17 @@ export class AerisNavbar {
     effect((onCleanup) => {
       if (!this.mobile() || !this.expanded() || !this.closeOnOutsideClick()) return;
       onCleanup(
-        this.renderer.listen(this.document, 'pointerdown', (event: PointerEvent) => {
-          if (event.target instanceof Node && !this.host.contains(event.target))
-            this.expanded.set(false);
-        }),
+        // Collapse after the pointer release commits its click target. Closing inline
+        // navigation on pointerdown can move an outside button before its click fires.
+        this.renderer.listen(
+          this.document,
+          'click',
+          (event: MouseEvent) => {
+            if (event.target instanceof Node && !this.host.contains(event.target))
+              this.expanded.set(false);
+          },
+          { capture: true },
+        ),
       );
     });
   }

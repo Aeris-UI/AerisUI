@@ -53,6 +53,8 @@ export const AERIS_RELEASES: readonly AerisReleaseEntry[] = [
       'Breaking: theme().light and theme().dark now contain explicit overrides, not flattened preset defaults. Use resolveAerisThemeScheme() for the effective scheme.',
       'Breaking: Remove the legacy palette names mist, sage, cloud, sand, and umber and their --aeris-palette-* aliases. Use surface, primary, secondary, accent, and contrast.',
       "Apply runtime theme attributes in Angular's server DOM without requiring the browser dataset API.",
+      'Keep mobile Navbar outside dismissal from moving another control before its click completes.',
+      'Remove unintended inherited-text transitions when reduced motion is enabled in the documentation.',
       'Normalize default SVG icons, focus treatment, touch targets, corners, and disabled behavior.',
       'Preserve unfinished IME text composition and improve native disabled-fieldset handling.',
       'Animate Accordion content correctly and align Checkbox labels and Timeline markers.',

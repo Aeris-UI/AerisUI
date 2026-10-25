@@ -131,7 +131,7 @@ export class NavbarPage {
       type: 'boolean',
       defaultValue: 'true',
       description:
-        'Closes expanded mobile navigation on an outside pointer press. Does not trap focus or block the page.',
+        'Closes expanded mobile navigation on an outside click, after the pointer release commits its target. Does not trap focus or block the page.',
     },
     {
       name: 'ariaLabel',
@@ -172,7 +172,7 @@ export class NavbarPage {
       type: 'boolean (output)',
       defaultValue: '—',
       description:
-        'Emits changes to expanded, including toggle, Escape, outside press and item activation.',
+        'Emits changes to expanded, including toggle, Escape, outside click and item activation.',
     },
     {
       name: 'mobile',
@@ -267,7 +267,7 @@ export class NavbarPage {
       name: 'expandedChange',
       type: 'boolean (output)',
       defaultValue: '—',
-      description: 'Emits button, Escape, outside press and navigation changes.',
+      description: 'Emits button, Escape, outside click and navigation changes.',
     },
   ];
   protected readonly slots: readonly ApiRow[] = [

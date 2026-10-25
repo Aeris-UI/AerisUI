@@ -46,7 +46,7 @@ import {
         <button aerisNavbarToggle><span aerisNavbarIcon>+</span></button>
       }
     </aeris-navbar>
-    <button id="after">After</button>
+    <button id="after" (click)="outsideClicks.update((count) => count + 1)">After</button>
   `,
 })
 class NavbarHost {
@@ -65,6 +65,7 @@ class NavbarHost {
   readonly breakpoint = signal<number | 'auto'>(768);
   readonly alignment = signal<'start' | 'center' | 'end'>('center');
   readonly clicks = signal(0);
+  readonly outsideClicks = signal(0);
 }
 
 @Component({
@@ -386,24 +387,27 @@ describe('AerisNavbar', () => {
     expect(fixture.componentInstance.expanded()).toBe(false);
   });
 
-  it('dismisses on outside pointer presses only when enabled and cleans listeners on destruction', async () => {
+  it('dismisses on committed outside clicks only when enabled and cleans listeners on destruction', async () => {
     const fixture = TestBed.createComponent(NavbarHost);
     fixture.componentInstance.mode.set('mobile');
     fixture.componentInstance.expanded.set(true);
     await fixture.whenStable();
     const root = fixture.nativeElement as HTMLElement;
-    root.querySelector('#account')?.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+    root.querySelector('#account')?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(fixture.componentInstance.expanded()).toBe(true);
     root.querySelector('#after')?.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+    expect(fixture.componentInstance.expanded()).toBe(true);
+    root.querySelector('#after')?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     await fixture.whenStable();
     expect(fixture.componentInstance.expanded()).toBe(false);
+    expect(fixture.componentInstance.outsideClicks()).toBe(1);
     fixture.componentInstance.outside.set(false);
     fixture.componentInstance.expanded.set(true);
     await fixture.whenStable();
-    root.querySelector('#after')?.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+    root.querySelector('#after')?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(fixture.componentInstance.expanded()).toBe(true);
     fixture.destroy();
-    document.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+    document.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(fixture.componentInstance.expanded()).toBe(true);
   });
 

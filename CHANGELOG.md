@@ -57,6 +57,8 @@ release line.
 ### Fixed
 
 - Apply runtime theme attributes in Angular's server DOM without requiring the browser `dataset` API.
+- Keep mobile Navbar outside dismissal from moving another control before its click completes.
+- Remove unintended inherited-text transitions when reduced motion is enabled in the documentation.
 - Normalize default SVG icons, focus treatment, touch targets, corners, and disabled behavior.
 - Preserve unfinished IME text composition and improve native disabled-fieldset handling.
 - Animate Accordion content correctly and align Checkbox labels and Timeline markers.
