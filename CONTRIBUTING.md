@@ -83,6 +83,10 @@ entry points are not pulled into core scenarios. Run `npm run benchmark:consumer
 changing Table filtering or overlay interaction hot paths; its browser timings are diagnostic and
 are not used as environment-sensitive CI limits.
 
+`npm run build:site` builds the library and documentation for static hosting, including the
+documentation checks and budgets. Vercel uses this target. Full `npm run build` verification,
+including packed consumers and Chromium hydration, remains a CI and release responsibility.
+
 The packed-install checks use a temporary directory outside the repository so workspace
 dependencies cannot hide missing peers. They compile with the consumer's own Angular compiler,
 render on the server, and hydrate in Chromium, checking server-node reuse, deferred tabs, and

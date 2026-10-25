@@ -4,6 +4,20 @@ import test from 'node:test';
 
 const workflowPath = new URL('../.github/workflows/release.yml', import.meta.url);
 
+test('deploys the documentation without running package or browser verification on Vercel', async () => {
+  const manifest = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
+  const deployment = JSON.parse(await readFile(new URL('../vercel.json', import.meta.url), 'utf8'));
+  assert.equal(deployment.buildCommand, 'npm run build:site');
+  assert.equal(
+    manifest.scripts['build:site'],
+    'npm run check:versions && npm run build:lib && npm run build:docs',
+  );
+  assert.ok(
+    manifest.scripts.build.includes('npm run check:packed-install'),
+    'The full release build must retain packed browser verification.',
+  );
+});
+
 test('builds release artifacts before running tests that resolve package entry points', async () => {
   const workflow = await readFile(workflowPath, 'utf8');
   const buildIndex = workflow.indexOf('- name: Build and verify release');

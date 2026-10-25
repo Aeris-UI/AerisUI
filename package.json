@@ -14,6 +14,7 @@
     "test:browser-server": "node --test tools/serve-browser-app.spec.mjs",
     "build": "npm run check:versions && npm run build:lib && npm run check:package && npm run check:bundle-size && npm run check:consumer-performance && npm run check:packed-install && npm run build:mcp && npm run check:mcp-package && npm run test:theme-cli && npm run test:ng-add && npm run test:mcp && npm run build:docs",
     "build:lib": "ng build aeris-ui && npm run build:schematics",
+    "build:site": "npm run check:versions && npm run build:lib && npm run build:docs",
     "build:mcp": "npm run check:ai-docs && node tools/prepare-mcp-package.mjs && tsc -p projects/aeris-mcp/tsconfig.json",
     "build:schematics": "tsc -p projects/aeris-ui/tsconfig.schematics.json",
     "build:docs": "npm run check:ai-docs && npm run check:doc-examples && npm run check:doc-example-compilation && npm run check:doc-api-options && npm run check:seo && ng build docs --stats-json && npm run check:doc-performance",
