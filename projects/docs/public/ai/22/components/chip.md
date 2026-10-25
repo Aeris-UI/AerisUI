@@ -2,7 +2,7 @@
 
 > Compact labels, images and custom content, with accessible removal and optional grouped selection.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/chip`
 - Human-readable documentation: [https://aeris-ui.dev/components/chip](https://aeris-ui.dev/components/chip)

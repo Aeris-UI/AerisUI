@@ -2,7 +2,7 @@
 
 > Responsive navigation with native links, collapsible groups, icon-only presentation, and an accessible mobile drawer.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/sidebar`
 - Human-readable documentation: [https://aeris-ui.dev/components/sidebar](https://aeris-ui.dev/components/sidebar)

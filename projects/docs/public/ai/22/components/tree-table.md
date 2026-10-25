@@ -2,7 +2,7 @@
 
 > Hierarchical tabular data with expansion, filtering, custom editors, pagination, lazy loading, and branch and column pinning.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/tree-table`
 - Human-readable documentation: [https://aeris-ui.dev/components/tree-table](https://aeris-ui.dev/components/tree-table)

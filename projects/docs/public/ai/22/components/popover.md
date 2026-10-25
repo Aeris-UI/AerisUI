@@ -2,7 +2,7 @@
 
 > Anchored content with controlled, click, or hover/focus opening, templates, and responsive placement.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/popover`
 - Human-readable documentation: [https://aeris-ui.dev/components/popover](https://aeris-ui.dev/components/popover)

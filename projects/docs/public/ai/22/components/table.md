@@ -2,7 +2,7 @@
 
 > Tabular data with sorting, filtering, pagination, custom cell editors, row reordering, and row and column pinning.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/table`
 - Human-readable documentation: [https://aeris-ui.dev/components/table](https://aeris-ui.dev/components/table)

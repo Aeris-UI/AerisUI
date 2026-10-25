@@ -3,7 +3,7 @@
   "schemaVersion": 1,
   "library": {
     "name": "@aeris-ui/core",
-    "version": "22.0.0-alpha.10",
+    "version": "22.0.0-alpha.11",
     "status": "alpha",
     "angularPeerRange": ">=22.0.6 <23.0.0",
     "documentationUrl": "https://aeris-ui.dev",
@@ -351,7 +351,7 @@
           "id": "alpha-status",
           "title": "Alpha status",
           "paragraphs": [
-            "Aeris 22.0.0-alpha.10 is an active-development alpha release. It is not production ready and should not be used for critical or production applications yet.",
+            "Aeris 22.0.0-alpha.11 is an active-development alpha release. It is not production ready and should not be used for critical or production applications yet.",
             "Public APIs, styling contracts, component behavior, and migration requirements may change before the first stable release as consumer testing uncovers improvements."
           ],
           "bullets": [
@@ -387,7 +387,7 @@
             {
               "label": "Pinned alpha (recommended)",
               "language": "Shell",
-              "code": "ng add @aeris-ui/core@22.0.0-alpha.10"
+              "code": "ng add @aeris-ui/core@22.0.0-alpha.11"
             },
             {
               "label": "Newest alpha",
@@ -506,7 +506,7 @@
             {
               "label": "Terminal",
               "language": "Shell",
-              "code": "ng add @aeris-ui/core@22.0.0-alpha.10 --config=aeris.setup.json"
+              "code": "ng add @aeris-ui/core@22.0.0-alpha.11 --config=aeris.setup.json"
             }
           ]
         },
@@ -521,7 +521,7 @@
             {
               "label": "Terminal",
               "language": "Shell",
-              "code": "ng add @aeris-ui/core@22.0.0-alpha.10 --project=web --surface=\"#f1f4f8\" --primary=\"#2d63a8\" --secondary=\"#546b89\" --accent=\"#368678\" --contrast=\"#39404a\" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts"
+              "code": "ng add @aeris-ui/core@22.0.0-alpha.11 --project=web --surface=\"#f1f4f8\" --primary=\"#2d63a8\" --secondary=\"#546b89\" --accent=\"#368678\" --contrast=\"#39404a\" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts"
             },
             {
               "label": "aeris.setup.json",
@@ -542,7 +542,7 @@
             {
               "label": "Terminal",
               "language": "Shell",
-              "code": "npm install @aeris-ui/core@22.0.0-alpha.10"
+              "code": "npm install @aeris-ui/core@22.0.0-alpha.11"
             }
           ]
         },
@@ -2854,7 +2854,7 @@
           "bullets": [
             "Node.js 20 or newer for the local MCP process.",
             "An AI editor, CLI, or desktop application that supports local stdio MCP servers.",
-            "Use @aeris-ui/mcp 22.0.0-alpha.10 with @aeris-ui/core 22.0.0-alpha.10.",
+            "Use @aeris-ui/mcp 22.0.0-alpha.11 with @aeris-ui/core 22.0.0-alpha.11.",
             "Restart or reload the AI client after changing its MCP configuration."
           ],
           "note": "Pin the MCP and core packages to the same exact alpha version."
@@ -2871,7 +2871,7 @@
             {
               "label": "Generic MCP client configuration",
               "language": "JSON",
-              "code": "{\n  \"mcpServers\": {\n    \"aeris\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"@aeris-ui/mcp@22.0.0-alpha.10\"]\n    }\n  }\n}"
+              "code": "{\n  \"mcpServers\": {\n    \"aeris\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"@aeris-ui/mcp@22.0.0-alpha.11\"]\n    }\n  }\n}"
             }
           ],
           "note": "Do not add @aeris-ui/mcp to the Angular application dependencies. It belongs in the AI client configuration, not application source or runtime code.",
@@ -2893,7 +2893,7 @@
             {
               "label": "Install the MCP executable",
               "language": "Shell",
-              "code": "npm install --global @aeris-ui/mcp@22.0.0-alpha.10"
+              "code": "npm install --global @aeris-ui/mcp@22.0.0-alpha.11"
             },
             {
               "label": "Global installation configuration",
@@ -3364,7 +3364,7 @@
       "group": "Releases and updates",
       "title": "Version compatibility",
       "description": "Choose an Aeris release line that is verified for the Angular version used by your application.",
-      "summary": "The current package is Aeris 22.0.0-alpha.10, an alpha that is not production ready. Its Angular peer dependencies use >=22.0.6 <23.0.0, keeping the evaluated range within Angular 22.",
+      "summary": "The current package is Aeris 22.0.0-alpha.11, an alpha that is not production ready. Its Angular peer dependencies use >=22.0.6 <23.0.0, keeping the evaluated range within Angular 22.",
       "sections": [
         {
           "id": "matrix",
@@ -3402,7 +3402,7 @@
             {
               "label": "Shell",
               "language": "Shell",
-              "code": "npm view @aeris-ui/core@22.0.0-alpha.10 peerDependencies"
+              "code": "npm view @aeris-ui/core@22.0.0-alpha.11 peerDependencies"
             }
           ]
         },
@@ -3487,7 +3487,7 @@
             {
               "label": "Shell",
               "language": "Shell",
-              "code": "npm install @aeris-ui/core@22.0.0-alpha.10"
+              "code": "npm install @aeris-ui/core@22.0.0-alpha.11"
             }
           ]
         },
@@ -3501,7 +3501,7 @@
             {
               "label": "Shell",
               "language": "Shell",
-              "code": "ng update @angular/core@22 @angular/cli@22\nnpm install @aeris-ui/core@22.0.0-alpha.10"
+              "code": "ng update @angular/core@22 @angular/cli@22\nnpm install @aeris-ui/core@22.0.0-alpha.11"
             }
           ],
           "note": "The commands show the currently supported Angular major. Replace the major only after it appears in the compatibility matrix."
@@ -3537,7 +3537,7 @@
           "id": "release-specific",
           "title": "Release-specific migration notes",
           "paragraphs": [
-            "Aeris 22.0.0-alpha.10 renders ordinary Tabs panel content eagerly. Applications that relied on alpha.4 creating only the active panel must choose an explicit deferred template strategy.",
+            "Aeris 22.0.0-alpha.11 renders ordinary Tabs panel content eagerly. Applications that relied on alpha.4 creating only the active panel must choose an explicit deferred template strategy.",
             "Use a bare aerisTabContent template to initialize expensive content on first activation and preserve its state. Set the directive to active to destroy and recreate the content whenever selection changes."
           ],
           "code": [
@@ -3614,6 +3614,53 @@
           ]
         },
         {
+          "id": "version-22.0.0-alpha.11",
+          "title": "Aeris 22.0.0-alpha.11",
+          "paragraphs": [
+            "Alpha · 25 October 2026"
+          ],
+          "bullets": [
+            "Listbox with single and multiple selection, filtering, groups, and custom templates.",
+            "CommandPalette with searchable commands, keyboard navigation, and inline or dialog presentation.",
+            "Sidebar and Navbar with responsive navigation, nested groups, active states, and compact layouts.",
+            "Kbd with accessible key symbols and composed shortcut hints.",
+            "Application-wide and per-component default-icon customization, with icon-library-independent APIs.",
+            "Optional Button toggle and ButtonGroup selection, including Signal Forms integration through @aeris-ui/core/button/forms.",
+            "Native Select styling through @aeris-ui/core/select/native.",
+            "Checkbox and RadioButton card appearances, Chip selection groups, and cancellable Chip removal.",
+            "DatePicker localized typed date, month, year, time, and date-time entry.",
+            "ColorPicker opacity, named presets, inline palettes, color areas, and channel sliders.",
+            "Drawer swipe dismissal and bottom-drawer snap points; Popover hover and focus triggering.",
+            "Chart presentation helpers, gradient area fills, shared multi-series tooltips, radial charts, and gauges. Rendering resolution remains consumer-configurable.",
+            "Table row reordering, plus Table and TreeTable custom cell editors, editing permissions, and consistent row and column pinning APIs.",
+            "Toolbar actions, selection groups, separators, vertical and attached layouts, overflow dragging, automatic item reveal, and nonmodal floating action bars scoped to the viewport or a container.",
+            "Reviewed bundle baselines, isolated consumer measurements, and CI performance reports.",
+            "Simplify custom-theme setup and the Design Lab with starter controls, advanced scheme editing, saved drafts, actionable contrast reports, and generated configuration.",
+            "Use CommandPalette for documentation search and Sidebar for documentation navigation.",
+            "Polish product showcases, component examples, copyable code, and quick-link navigation.",
+            "Update compatible Angular tooling and development dependencies, including security patches.",
+            "Make theme inheritance consistent: empty and geometry-only configurations retain Monochrome. Presets retain their identity separately from explicit light/dark overrides. Seed and tone-base changes regenerate inherited interaction colors without discarding explicit overrides.",
+            "Add theme.preset, resolveAerisThemeScheme(), and serializable null resets for whole semantic tones or individual tone properties. Switching presets resets colors while retaining geometry.",
+            "Breaking: Advance the color derivation contract to v2 for the new custom-theme inheritance behavior. Official preset colors are unchanged. Review custom themes before regenerating CSS with derivationVersion: 2.",
+            "Breaking: theme().light and theme().dark now contain explicit overrides, not flattened preset defaults. Use resolveAerisThemeScheme() for the effective scheme.",
+            "Breaking: Remove the legacy palette names mist, sage, cloud, sand, and umber and their --aeris-palette-* aliases. Use surface, primary, secondary, accent, and contrast.",
+            "Apply runtime theme attributes in Angular's server DOM without requiring the browser dataset API.",
+            "Normalize default SVG icons, focus treatment, touch targets, corners, and disabled behavior.",
+            "Preserve unfinished IME text composition and improve native disabled-fieldset handling.",
+            "Animate Accordion content correctly and align Checkbox labels and Timeline markers.",
+            "Match BlockUI corners to the blocked element and stabilize ButtonGroup shared borders.",
+            "Keep chart area fills behind every series instead of covering other lines.",
+            "Improve mobile and RTL table containment, editable DatePicker sizing, and active navigation contrast.",
+            "Correct Toolbar wrapping geometry and overflow interactions, Sidebar pill spacing, catalog image corners, and Editor formatting-action visibility.",
+            "Review custom-theme inheritance and the derivation-v2 changes above before regenerating theme CSS.",
+            "Replace removed palette aliases with semantic palette names.",
+            "Breaking: Splitter replaces divider with showHandle; its divider is always visible. Compare also supports showHandle. Review custom divider/handle styling against the updated APIs.",
+            "Breaking: Toolbar has a redesigned action and grouping API. Review projected actions and custom Toolbar styles against the current documentation.",
+            "Use AerisChipModule for Chip and ChipGroup together; review existing Chip imports.",
+            "Install Shiki when importing @aeris-ui/core/code-block, including when highlighting is disabled. It remains optional for applications that do not import CodeBlock; highlighting loads lazily."
+          ]
+        },
+        {
           "id": "version-22.0.0-alpha.10",
           "title": "Aeris 22.0.0-alpha.10",
           "paragraphs": [
@@ -3647,7 +3694,7 @@
             "Correct Editor toolbar separators and Textarea automatic sizing.",
             "Breaking: remove Galleria indicators, including showIndicators, indicatorsOverlay, indicatorsAriaLabel, indicator design tokens, and the indicator change reason.",
             "Updating from alpha.9: remove any Galleria indicator bindings or token overrides. Use thumbnails or previous/next navigation instead.",
-            "Install Shiki if you use CodeBlock syntax highlighting; plain code rendering does not require it.",
+            "Install Shiki when importing CodeBlock, including for plain code rendering. Highlighting loads lazily; unrelated Aeris components do not require Shiki.",
             "Explicitly configure Earth, Coastal, or Orchid if you want to retain a colored preset rather than the new Monochrome default.",
             "Review custom component styling against the updated geometry and visual tokens."
           ]
