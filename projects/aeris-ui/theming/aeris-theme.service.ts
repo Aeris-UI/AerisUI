@@ -69,9 +69,9 @@ export class AerisThemeService {
     const root = this.document.documentElement;
     const theme = this.theme();
 
-    root.dataset['aerisTheme'] = this.resolvedMode();
-    root.dataset['aerisDensity'] = theme.density;
-    root.dataset['aerisRadius'] = theme.radius;
+    root.setAttribute('data-aeris-theme', this.resolvedMode());
+    root.setAttribute('data-aeris-density', theme.density);
+    root.setAttribute('data-aeris-radius', theme.radius);
     this.syncDirection(root, theme.direction);
 
     const tokens = resolveAerisThemeTokens(theme, this.resolvedMode());
@@ -124,11 +124,11 @@ export class AerisThemeService {
 
   private syncDirection(root: HTMLElement, direction: AerisDirection | undefined): void {
     if (!direction) {
-      delete root.dataset['aerisDirection'];
+      root.removeAttribute('data-aeris-direction');
       return;
     }
 
-    root.dataset['aerisDirection'] = direction;
+    root.setAttribute('data-aeris-direction', direction);
     root.dir = direction;
   }
 

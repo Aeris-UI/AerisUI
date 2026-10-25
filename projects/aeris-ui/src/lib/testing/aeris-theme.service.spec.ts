@@ -60,6 +60,31 @@ describe('AerisThemeService', () => {
     );
   });
 
+  it('synchronizes theme attributes without requiring the browser dataset API', async () => {
+    const serverDocument = document.implementation.createHTMLDocument('Server');
+    const root = serverDocument.documentElement;
+    Object.defineProperty(root, 'dataset', { value: undefined });
+    TestBed.configureTestingModule({
+      providers: [
+        provideAeris({ mode: 'light', themeModeStorageKey: false, theme: { direction: 'rtl' } }),
+        { provide: DOCUMENT, useValue: serverDocument },
+      ],
+    });
+    const service = TestBed.inject(AerisThemeService);
+    await TestBed.tick();
+    expect(root.getAttribute('data-aeris-theme')).toBe('light');
+    expect(root.getAttribute('data-aeris-density')).toBe(service.theme().density);
+    expect(root.getAttribute('data-aeris-radius')).toBe(service.theme().radius);
+    expect(root.getAttribute('data-aeris-direction')).toBe('rtl');
+    expect(root.dir).toBe('rtl');
+    expect(root.style.getPropertyValue('--aeris-primary')).toBe('#111111');
+    service.setMode('dark');
+    service.setTheme({});
+    await TestBed.tick();
+    expect(root.getAttribute('data-aeris-theme')).toBe('dark');
+    expect(root.hasAttribute('data-aeris-direction')).toBe(false);
+  });
+
   it('reports invalid runtime themes once in development mode', async () => {
     const warning = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     TestBed.configureTestingModule({
