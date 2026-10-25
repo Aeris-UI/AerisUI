@@ -8,15 +8,20 @@ test('checkbox controls align with their labels in either label position', async
   await expect(labels).toHaveCount(2);
   for (const width of [390, 1280]) {
     await page.setViewportSize({ width, height: 900 });
-    const centers = await labels.evaluateAll((elements) =>
-      elements.map((element) => {
-        const control = element.querySelector('.aeris-checkbox__control');
-        if (!control) throw new Error('Checkbox control missing');
-        const box = control.getBoundingClientRect();
-        return box.y + box.height / 2;
-      }),
-    );
-    expect(Math.max(...centers) - Math.min(...centers)).toBeLessThanOrEqual(1);
+    await labels.first().scrollIntoViewIfNeeded();
+    await expect
+      .poll(async () => {
+        const centers = await labels.evaluateAll((elements) =>
+          elements.map((element) => {
+            const control = element.querySelector('.aeris-checkbox__control');
+            if (!control) throw new Error('Checkbox control missing');
+            const box = control.getBoundingClientRect();
+            return box.y + box.height / 2;
+          }),
+        );
+        return Math.max(...centers) - Math.min(...centers);
+      })
+      .toBeLessThanOrEqual(1);
     for (const label of await labels.all()) {
       const offset = await label.evaluate((element) => {
         const controlElement = element.querySelector('.aeris-checkbox__control');

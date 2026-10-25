@@ -10,6 +10,7 @@ test('channel examples are independent and track gradients paint both rounded ed
   await page.goto('/components/color-picker');
   const example = page.locator('#color-picker-channels [preview]');
   const sliders = example.getByRole('slider');
+  await expect(sliders).toHaveCount(4);
   const original = await sliders.evaluateAll((elements) =>
     elements.map((element) => (element as HTMLInputElement).value),
   );

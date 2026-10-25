@@ -196,16 +196,19 @@ test('viewport toolbars escape transformed ancestors, follow scrolling, and rest
   await page.getByRole('button', { name: 'Search documentation', exact: true }).click();
   const search = page.getByRole('dialog', { name: 'Search documentation', exact: true });
   await expect(search).toBeVisible();
-  const overlayZIndex = await search.evaluate((element) =>
-    Number.parseInt(
-      getComputedStyle(element.closest('[data-aeris-append-to="body"]') ?? element).zIndex,
-      10,
-    ),
-  );
   const toolbarZIndex = await toolbar.evaluate((element) =>
     Number.parseInt(getComputedStyle(element).zIndex, 10),
   );
-  expect(overlayZIndex).toBeGreaterThan(toolbarZIndex);
+  await expect
+    .poll(() =>
+      search.evaluate((element) =>
+        Number.parseInt(
+          getComputedStyle(element.closest('[data-aeris-append-to="body"]') ?? element).zIndex,
+          10,
+        ),
+      ),
+    )
+    .toBeGreaterThan(toolbarZIndex);
   await page.keyboard.press('Escape');
   await expect(search).toBeHidden();
   await expect(toolbar).toBeVisible();

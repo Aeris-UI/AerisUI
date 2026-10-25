@@ -86,11 +86,16 @@ test('Navbar nested menus fly out with hover, directional keys and viewport flip
     await expect(panel).toBeHidden();
   }
   await navbar.evaluate((element) => element.setAttribute('dir', 'ltr'));
+  const originalStyle = await resources.getAttribute('style');
+  const chromeStyle = await page.addStyleTag({ content: 'app-page-toc { visibility: hidden; }' });
+  // Move the actual anchor, not the positioned panel which must follow that anchor.
+  await resources.evaluate((element) => {
+    element.style.position = 'fixed';
+    element.style.right = '10px';
+    element.style.top = '160px';
+  });
   await resources.click();
   const panel = page.getByRole('group', { name: 'Resources', exact: true });
-  await panel.evaluate((element) => {
-    element.style.left = `${innerWidth - element.getBoundingClientRect().width - 10}px`;
-  });
   await panel.getByRole('button', { name: 'More resources', exact: true }).hover();
   const flyout = page.getByRole('group', { name: 'More resources', exact: true });
   await expect(flyout).toHaveAttribute('data-placement', 'left');
@@ -101,6 +106,11 @@ test('Navbar nested menus fly out with hover, directional keys and viewport flip
     expect(bounds.x + bounds.width).toBeLessThanOrEqual(1440);
   }
   await resources.click();
+  await resources.evaluate((element, previous) => {
+    if (previous === null) element.removeAttribute('style');
+    else element.setAttribute('style', previous);
+  }, originalStyle);
+  await chromeStyle.evaluate((element) => element.remove());
   await page.setViewportSize({ width: 390, height: 844 });
   await navbar.getByRole('button', { name: 'Open navigation', exact: true }).click();
   await resources.click();
@@ -280,6 +290,12 @@ test('Navbar preserves native semantics, active state and disabled items', async
   await expect(nav.getByRole('button', { name: 'Overview' })).not.toHaveAttribute('aria-current');
   const controlled = page.locator('#navbar-controlled');
   await controlled.getByRole('button', { name: 'Expand', exact: true }).click();
+  await expect(controlled.locator('.navbar-preview-controls [role="status"]')).toHaveText(
+    'Expanded',
+  );
+  await expect(
+    controlled.getByRole('navigation', { name: 'Controlled example navigation' }),
+  ).toBeVisible();
   await expect(controlled.getByRole('button', { name: 'Unavailable' })).toBeDisabled();
   await expect(example.locator('[role="menu"]')).toHaveCount(0);
 });
