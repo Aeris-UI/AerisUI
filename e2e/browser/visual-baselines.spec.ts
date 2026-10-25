@@ -63,6 +63,8 @@ test('catalog preview cards retain their resting composition', async ({ page, ba
   await page.getByRole('button', { name: 'Button', exact: true }).click();
   await expect(page.locator('.catalog-preview-card')).toHaveCount(4);
   await expect(page.locator('app-catalog-preview')).toHaveCount(4);
+  // Keep local Inter installations from differing from the font-CDN-independent CI fallback.
+  await page.addStyleTag({ content: '.catalog-previews { font-family: Arial, sans-serif; }' });
   await page.locator('h1').hover();
   await expect(page.locator('.catalog-previews')).toHaveScreenshot('catalog-buttons.png', {
     animations: 'disabled',
