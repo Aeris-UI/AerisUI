@@ -59,6 +59,12 @@ secondary-entry-point architecture. Prefer focused changes and framework-native 
 
 ## Verification
 
+Browser CI builds the applications once and distributes the complete critical suite across eight
+shards, with two workers each. The required `browser` check passes only when the build and every
+shard succeed. Each shard has a 15-minute Playwright deadline within its 20-minute job limit so
+failure reports, screenshots, and traces can be uploaded. Video recording is disabled; retries
+remain disabled. The `browser-report-N` artifacts contain the individual shard reports.
+
 ```bash
 npm run check:versions
 npm audit --audit-level=moderate
