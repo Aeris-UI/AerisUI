@@ -27,4 +27,13 @@ test('builds release artifacts before running tests that resolve package entry p
     documentationTestIndex < packIndex,
     'Release artifacts must only be packed after all test suites pass.',
   );
+  const browserInstallIndex = workflow.indexOf('npx playwright install --with-deps chromium');
+  assert.ok(
+    browserInstallIndex > buildIndex && browserInstallIndex < workflow.indexOf('npm run build'),
+    'Packed browser hydration requires Chromium before the full release build.',
+  );
+  assert.ok(
+    workflow.includes('npm run check:minimum-angular'),
+    'Release verification must cover the minimum supported Angular version.',
+  );
 });

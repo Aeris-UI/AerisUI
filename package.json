@@ -50,6 +50,7 @@
     "check:doc-performance": "node tools/check-doc-performance.mjs",
     "test:performance-budgets": "node --test tools/check-doc-performance.spec.mjs tools/check-library-performance.spec.mjs tools/performance-budget.spec.mjs",
     "check:packed-install": "node tools/check-packed-install.mjs",
+    "check:minimum-angular": "node tools/check-packed-install.mjs --minimum-angular",
     "check:mcp-package": "node tools/check-mcp-package.mjs && node tools/check-mcp-cli.mjs"
   },
   "private": true,
@@ -95,16 +96,16 @@
   "overrides": {
     "@babel/core": "7.29.7",
     "@hono/node-server": "2.1.1",
-    "body-parser": "2.3.0",
+    "body-parser": "2.4.0",
     "brace-expansion": "5.0.9",
     "esbuild": "0.28.2",
-    "fast-uri": "3.1.8",
+    "fast-uri": "3.1.9",
     "hono": "4.13.11",
     "immutable": "5.1.9",
-    "qs": "6.16.0",
+    "qs": "6.16.1",
     "vite": "8.3.3",
     "jsdom": {
-      "undici": "7.29.1"
+      "undici": "7.30.1"
     }
   },
   "allowScripts": {

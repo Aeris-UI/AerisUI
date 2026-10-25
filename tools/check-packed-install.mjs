@@ -1,14 +1,7 @@
-import {
-  existsSync,
-  mkdirSync,
-  mkdtempSync,
-  readFileSync,
-  readdirSync,
-  rmSync,
-  writeFileSync,
-} from 'node:fs';
-import { dirname, relative, resolve } from 'node:path';
+import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { basename, dirname, relative, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { tmpdir } from 'node:os';
 
 const packageDirectory = resolve('dist/aeris-ui');
 const packageManifestPath = resolve(packageDirectory, 'package.json');
@@ -22,9 +15,13 @@ if (!existsSync(packageManifestPath)) {
 
 const workspaceManifest = readJson(resolve('package.json'));
 const packageManifest = readJson(packageManifestPath);
-const temporaryRoot = resolve('.angular/packed-install');
-mkdirSync(temporaryRoot, { recursive: true });
-const workspace = mkdtempSync(resolve(temporaryRoot, 'consumer-'));
+const minimumAngular = process.argv.includes('--minimum-angular');
+const angularVersion = minimumAngular
+  ? packageManifest.peerDependencies['@angular/core'].match(/>=([\d.]+)/)?.[1]
+  : undefined;
+if (minimumAngular && !angularVersion) fail('Cannot determine the minimum Angular version.');
+// Parent node_modules must not hide missing optional peers in an isolated consumer.
+const workspace = mkdtempSync(resolve(tmpdir(), 'aeris-packed-consumer-'));
 
 let failureMessage;
 
@@ -41,12 +38,25 @@ try {
     type: 'module',
     dependencies: {
       '@aeris-ui/core': `file:${normalizePath(relative(workspace, archivePath))}`,
-      '@angular/common': workspaceManifest.dependencies['@angular/common'],
-      '@angular/compiler': workspaceManifest.dependencies['@angular/compiler'],
-      '@angular/core': workspaceManifest.dependencies['@angular/core'],
-      '@angular/forms': workspaceManifest.dependencies['@angular/forms'],
-      '@angular/platform-browser': workspaceManifest.dependencies['@angular/platform-browser'],
-      '@angular/platform-server': workspaceManifest.devDependencies['@angular/platform-server'],
+      ...Object.fromEntries(
+        [
+          'common',
+          'compiler',
+          'core',
+          'forms',
+          'platform-browser',
+          'platform-server',
+          'compiler-cli',
+        ].map((name) => [
+          `@angular/${name}`,
+          angularVersion ??
+            workspaceManifest.dependencies[`@angular/${name}`] ??
+            workspaceManifest.devDependencies[`@angular/${name}`],
+        ]),
+      ),
+      typescript: workspaceManifest.devDependencies.typescript,
+      '@types/node': workspaceManifest.devDependencies['@types/node'],
+      '@angular/cli': angularVersion ?? workspaceManifest.devDependencies['@angular/cli'],
       rxjs: workspaceManifest.dependencies.rxjs,
     },
   });
@@ -130,7 +140,7 @@ export class PackedConsumer {}
     `import '@angular/compiler';
 import { Component } from '@angular/core';
 import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
-import { renderApplication } from '@angular/platform-server';
+import { provideServerRendering, renderApplication } from '@angular/platform-server';
 import { AerisButtonForms } from '@aeris-ui/core/button/forms';
 import { AerisButtonGroup } from '@aeris-ui/core/button-group';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -151,13 +161,17 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
 import { AerisProgressBar } from '@aeris-ui/core/progress-bar';
 import { AerisRadioButton } from '@aeris-ui/core/radio-button';
 import { AerisTable } from '@aeris-ui/core/table';
+import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
+import { provideAeris } from '@aeris-ui/core/theming';
 
 @Component({
   selector: 'aeris-ssr-consumer',
-  imports: [AerisKbdModule, AerisNavbarModule, AerisSidebarModule, AerisCommandPalette, AerisListbox, AerisChipModule, AerisButtonForms, ReactiveFormsModule, AerisButtonGroup, AerisDatePicker, AerisSelect, AerisTabsModule, AerisCheckbox,
+  imports: [AerisToolbarModule, AerisKbdModule, AerisNavbarModule, AerisSidebarModule, AerisCommandPalette, AerisListbox, AerisChipModule, AerisButtonForms, ReactiveFormsModule, AerisButtonGroup, AerisDatePicker, AerisSelect, AerisTabsModule, AerisCheckbox,
     AerisColorPicker, AerisDrawer, AerisInputNumber, AerisProgressBar, AerisRadioButton,
     AerisTable, AerisNativeSelect],
   template: \`
+    <aeris-toolbar floating ariaLabel="Packed floating actions"><button aerisToolbarItem>Archive</button></aeris-toolbar>
+    <aeris-toolbar floating floatingScope="container" ariaLabel="Packed contained actions"><button aerisToolbarItem>Restore</button></aeris-toolbar>
     <aeris-date-picker ariaLabel="Start date" appendTo="body" />
     <kbd aerisKbd size="sm">Escape</kbd>
     <select aerisNativeSelect aria-label="Packed native region" name="native-region"><option value="rs">Serbia</option></select>
@@ -217,7 +231,7 @@ const html = await renderApplication(
   (context) =>
     bootstrapApplication(
       SsrConsumer,
-      { providers: [provideClientHydration()] },
+      { providers: [provideServerRendering(), provideClientHydration(), provideAeris({ themeModeStorageKey: false })] },
       context,
     ),
   {
@@ -228,6 +242,10 @@ const html = await renderApplication(
 );
 
 assert(html.includes('ngh='), 'SSR output is missing hydration metadata.');
+assert(html.includes('__nghData__'), 'SSR output is missing serialized hydration state.');
+assert(html.includes('data-aeris-theme="light"'), 'Runtime theme attributes did not render on the server.');
+assert(html.includes('Packed floating actions') && html.includes('Packed contained actions'), 'Floating Toolbars did not render on the server.');
+await import('node:fs/promises').then(fs => fs.writeFile('rendered.html', html));
 assert(html.includes('aria-pressed="false"'), 'The toggle state is missing on the server.');
 assert(html.includes('aria-pressed="true"'), 'The classic-forms toggle state is missing on the server.');
 assert((html.match(/role="radio"/g) ?? []).length === 2, 'Selection members did not render on the server.');
@@ -271,6 +289,17 @@ function assert(condition: boolean, message: string): asserts condition {
 }
 `,
   );
+  const serverSource = readFileSync(resolve(workspace, 'consumer-ssr.ts'), 'utf8');
+  writeFileSync(
+    resolve(workspace, 'consumer-browser.ts'),
+    serverSource
+      .split('const html = await renderApplication(')[0]
+      .replace(
+        "import { provideServerRendering, renderApplication } from '@angular/platform-server';",
+        '',
+      ) +
+      '\nbootstrapApplication(SsrConsumer, { providers: [provideClientHydration(), provideAeris({ themeModeStorageKey: false })] }).then(async app => { await app.whenStable(); document.documentElement.dataset.hydrated = "true"; }).catch(console.error);\n',
+  );
   writeJson(resolve(workspace, 'tsconfig.json'), {
     compilerOptions: {
       target: 'ES2022',
@@ -281,33 +310,50 @@ function assert(condition: boolean, message: string): asserts condition {
       experimentalDecorators: true,
       useDefineForClassFields: false,
       lib: ['ES2022', 'DOM'],
+      types: ['node'],
     },
     angularCompilerOptions: {
       strictTemplates: true,
       compilationMode: 'full',
     },
-    files: ['consumer.ts', 'consumer-ssr.ts'],
+    files: ['consumer.ts', 'consumer-ssr.ts', 'consumer-browser.ts'],
   });
 
   runNode(
     [
-      resolve('node_modules/@angular/compiler-cli/bundles/src/bin/ngc.js'),
+      resolve(workspace, 'node_modules/@angular/compiler-cli/bundles/src/bin/ngc.js'),
       '-p',
       resolve(workspace, 'tsconfig.json'),
     ],
     workspace,
   );
   runNode([resolve(workspace, 'consumer-ssr.js')], workspace);
+  runNode([resolve('tools/check-packed-browser.mjs'), workspace], process.cwd());
   runNode([resolve('tools/check-ng-add.mjs')], process.cwd(), {
     AERIS_PACKAGE_ROOT: installedPackageRoot,
   });
+  runNpm(
+    [
+      'install',
+      '--ignore-scripts',
+      '--package-lock=false',
+      `shiki@${packageManifest.peerDependencies.shiki}`,
+    ],
+    workspace,
+  );
+  runNode([resolve('tools/check-packed-browser.mjs'), workspace, '--code-block'], process.cwd());
 
   process.stdout.write(
-    `Verified manual imports, SSR/hydration, and ng add from packed @aeris-ui/core ${packageManifest.version}.\n`,
+    `Verified manual imports, server rendering, browser hydration, and ng add from packed @aeris-ui/core ${packageManifest.version} on Angular ${readJson(resolve(workspace, 'node_modules/@angular/core/package.json')).version}.\n`,
   );
 } catch (error) {
   failureMessage = error instanceof Error ? error.message : String(error);
 } finally {
+  assert(
+    dirname(workspace) === resolve(tmpdir()) &&
+      basename(workspace).startsWith('aeris-packed-consumer-'),
+    'Refusing to clean a directory outside the isolated consumer workspace.',
+  );
   rmSync(workspace, { recursive: true, force: true });
 }
 

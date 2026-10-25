@@ -55,7 +55,12 @@ jobs:
         run: npm run check:consumer-performance
 
       - name: Test packed library installation
-        run: npm run check:packed-install
+        run: |
+          npx playwright install --with-deps chromium
+          npm run check:packed-install
+
+      - name: Verify minimum supported Angular
+        run: npm run check:minimum-angular
 
       - name: Build MCP server
         run: npm run build:mcp

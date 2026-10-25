@@ -65,6 +65,8 @@ npm audit --audit-level=moderate
 npm run build:lib
 npm run build:mcp
 npm run check:package
+npm run check:packed-install
+npm run check:minimum-angular
 npm run check:mcp-package
 npm run test:performance-budgets
 npm run check:bundle-size
@@ -80,6 +82,12 @@ cost with a plain Angular application. It also verifies that Chart.js, Lexical, 
 entry points are not pulled into core scenarios. Run `npm run benchmark:consumer-performance` when
 changing Table filtering or overlay interaction hot paths; its browser timings are diagnostic and
 are not used as environment-sensitive CI limits.
+
+The packed-install checks use a temporary directory outside the repository so workspace
+dependencies cannot hide missing peers. They compile with the consumer's own Angular compiler,
+render on the server, and hydrate in Chromium, checking server-node reuse, deferred tabs, and
+floating Toolbar placement. Install Chromium with `npx playwright install chromium` first.
+`check:minimum-angular` repeats this against the exact lower bound of the declared Angular peer range.
 
 ### Performance budgets
 
