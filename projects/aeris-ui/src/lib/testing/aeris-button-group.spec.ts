@@ -54,4 +54,24 @@ describe('AerisButtonGroup', () => {
 
     expect([...controls].every((control) => control.tabIndex === 0)).toBe(true);
   });
+
+  it('does not treat an action group as a radio group, tablist or selection manager', async () => {
+    const fixture = TestBed.createComponent(ButtonGroupTestHost);
+    await fixture.whenStable();
+    const group = fixture.nativeElement.querySelector('aeris-button-group') as HTMLElement;
+    const controls = [...group.querySelectorAll<HTMLElement>('button, a')];
+    for (const key of ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End']) {
+      const event = new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true });
+      controls[0].dispatchEvent(event);
+      expect(event.defaultPrevented).toBe(false);
+    }
+    for (const control of controls) {
+      expect(control.hasAttribute('aria-pressed')).toBe(false);
+      expect(control.hasAttribute('aria-checked')).toBe(false);
+      expect(control.hasAttribute('aria-selected')).toBe(false);
+      expect(control.hasAttribute('role')).toBe(false);
+    }
+    expect(group.getAttribute('role')).toBe('group');
+    expect(group.hasAttribute('tabindex')).toBe(false);
+  });
 });

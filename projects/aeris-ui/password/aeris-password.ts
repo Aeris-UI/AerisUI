@@ -16,7 +16,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
+import { ɵAerisIcon, ɵaerisDisplayInvalid } from '@aeris-ui/core';
 import {
   ɵAerisAppendTo,
   type AerisAppendTo,
@@ -99,7 +99,7 @@ let passwordId = 0;
 
 @Component({
   selector: 'aeris-password',
-  imports: [NgTemplateOutlet, ɵAerisAppendTo],
+  imports: [ɵAerisIcon, NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     <span
       class="aeris-password"
@@ -142,7 +142,13 @@ let passwordId = 0;
               [attr.aria-label]="clearButtonAriaLabel()"
               (click)="clear()"
             >
-              <span aria-hidden="true"></span>
+              @if (clearIconTemplate(); as customIcon) {
+                <span aria-hidden="true" data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <span aerisInternalIcon="close" aria-hidden="true"></span>
+              }
             </button>
           }
           @if (toggleMask()) {
@@ -154,17 +160,31 @@ let passwordId = 0;
               (click)="toggleVisibility()"
             >
               @if (visible()) {
-                <svg aria-hidden="true" viewBox="0 0 24 24">
-                  <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z" />
-                  <circle cx="12" cy="12" r="2.75" />
-                </svg>
+                @if (visibleIconTemplate(); as customIcon) {
+                  <span class="aeris-custom-icon" aria-hidden="true" data-aeris-custom-icon
+                    ><ng-container [ngTemplateOutlet]="customIcon"
+                  /></span>
+                } @else {
+                  <span
+                    aerisInternalIcon="eye"
+                    class="aeris-password__visibility-mark"
+                    data-visible="true"
+                    aria-hidden="true"
+                  ></span>
+                }
               } @else {
-                <svg aria-hidden="true" viewBox="0 0 24 24">
-                  <path d="M9.4 6.4A10.6 10.6 0 0 1 12 6c6 0 9.5 6 9.5 6a15 15 0 0 1-2.8 3.4" />
-                  <path d="M14.6 17.6a10.6 10.6 0 0 1-2.6.4c-6 0-9.5-6-9.5-6a15 15 0 0 1 2.8-3.4" />
-                  <path d="M10.1 10.1a2.7 2.7 0 0 0 3.8 3.8" />
-                  <path d="M4 4l16 16" />
-                </svg>
+                @if (maskedIconTemplate(); as customIcon) {
+                  <span class="aeris-custom-icon" aria-hidden="true" data-aeris-custom-icon
+                    ><ng-container [ngTemplateOutlet]="customIcon"
+                  /></span>
+                } @else {
+                  <span
+                    aerisInternalIcon="eyeOff"
+                    class="aeris-password__visibility-mark"
+                    data-visible="false"
+                    aria-hidden="true"
+                  ></span>
+                }
               }
             </button>
           }
@@ -241,6 +261,10 @@ let passwordId = 0;
   },
 })
 export class AerisPasswordComponent implements ControlValueAccessor {
+  readonly visibleIconTemplate = input<TemplateRef<void>>();
+  readonly maskedIconTemplate = input<TemplateRef<void>>();
+  readonly clearIconTemplate = input<TemplateRef<void>>();
+
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly inputElement = viewChild<ElementRef<HTMLInputElement>>('passwordInput');
   private readonly feedbackPanel = viewChild<ElementRef<HTMLElement>>('feedbackPanel');

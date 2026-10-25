@@ -219,7 +219,7 @@ interface AerisAccordionToggleIconContext {
   protected readonly templates: readonly ApiRow[] = [
     { name: 'aerisAccordionHeader', type: 'AerisAccordionHeaderContext', defaultValue: 'header input', description: 'Custom header content rendered inside the native disclosure button.' },
     { name: 'aerisAccordionToggleIcon', type: 'AerisAccordionToggleIconContext', defaultValue: 'built-in chevron', description: 'Custom decorative toggle icon for one panel or every panel when placed directly in the accordion.' },
-    { name: 'default panel content', type: 'content projection', defaultValue: '-', description: 'Panel body rendered when the panel is expanded.' },
+    { name: 'default panel content', type: 'content projection', defaultValue: '-', description: 'Panel body retained for smooth expansion and collapse. Collapsed content is hidden and inert.' },
   ];
 
   protected readonly methods: readonly ApiRow[] = [

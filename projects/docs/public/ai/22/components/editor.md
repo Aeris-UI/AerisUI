@@ -2,7 +2,7 @@
 
 > Rich text editing with optional Lexical peers, accessible toolbar controls, and Forms support.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/editor`
 - Human-readable documentation: [https://aeris-ui.dev/components/editor](https://aeris-ui.dev/components/editor)
@@ -31,6 +31,7 @@ import { AerisEditor } from '@aeris-ui/core/editor';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `toolbarIcons` | `Readonly&lt;Partial&lt;Record&lt;AerisEditorFormat, TemplateRef&lt;void&gt;&gt;&gt;&gt;` | `{}` | Optional artwork templates keyed by the documented formats. Omitted formats retain their default icons or labels; buttons retain their commands, disabled state, and accessible names. |
 | `value` | `string (model)` | `''` | HTML content value with two-way binding and Forms support. Incoming HTML is sanitized before Lexical imports supported nodes. |
 | `inputId` | `string` | `''` | ID applied to the editable textbox. |
 | `name` | `string` | `''` | Adds a hidden input for native form submission of the HTML value. |
@@ -172,7 +173,9 @@ interface AerisEditorChangeEvent {
 | --- | --- | --- | --- |
 | `--aeris-surface / --aeris-surface-2` | `CSS custom property` | — | Editor surface, toolbar, and filled appearance. |
 | `--aeris-border` | `CSS custom property` | — | Editor and toolbar borders. |
-| `--aeris-primary / --aeris-primary-soft` | `CSS custom property` | — | Quote accent and active toolbar background. |
+| `--aeris-primary` | `CSS custom property` | — | Checklist markers and default active toolbar fill. |
+| `--aeris-editor-toolbar-active-background` | `CSS custom property` | — | Solid background for active formatting actions. |
+| `--aeris-editor-toolbar-active-color` | `CSS custom property` | — | Contrasting icon color for active formatting actions. |
 | `--aeris-warning` | `CSS custom property` | — | Text highlight color. |
 | `--aeris-text / --aeris-text-muted` | `CSS custom property` | — | Editable content, placeholder, and quote text. |
 | `--aeris-focus` | `CSS custom property` | — | Focus border and ring. |
@@ -232,12 +235,16 @@ import { AerisEditor } from '@aeris-ui/core/editor';
       color: var(--aeris-danger);
     }
 
+    .field {
+      width: min(100%, 44rem);
+    }
+
     .editor-field {
       align-items: stretch;
     }
   `
 })
-export class EditorBasicBasicDemo {
+export class EditorBasicDemo {
   protected readonly content = signal(
     '<p>Write clear product notes with Aeris.</p>',
   );
@@ -295,12 +302,16 @@ import { AerisEditor } from '@aeris-ui/core/editor';
       color: var(--aeris-danger);
     }
 
+    .field {
+      width: min(100%, 44rem);
+    }
+
     .editor-field {
       align-items: stretch;
     }
   `
 })
-export class EditorToolbarToolbarFormatsDemo {
+export class EditorToolbarDemo {
 }
 ```
 
@@ -356,6 +367,10 @@ import { AERIS_EDITOR_ALL_FORMATS, AerisEditor } from '@aeris-ui/core/editor';
       color: var(--aeris-danger);
     }
 
+    .field {
+      width: min(100%, 44rem);
+    }
+
     .editor-field {
       align-items: stretch;
     }
@@ -365,7 +380,7 @@ import { AERIS_EDITOR_ALL_FORMATS, AerisEditor } from '@aeris-ui/core/editor';
     }
   `
 })
-export class EditorComprehensiveCompleteToolbarDemo {
+export class EditorComprehensiveDemo {
   protected readonly allFormats = AERIS_EDITOR_ALL_FORMATS;
   protected readonly comprehensiveContent = signal(
     '<h1>Quarterly product brief</h1><p><strong>Use the complete toolbar</strong> to structure, emphasize, align, transform, and organize this document.</p><blockquote>Every visible action is backed by Lexical state and HTML serialization.</blockquote><ul><li>Shape the narrative</li><li>Review the checklist</li><li>Publish the update</li></ul>',
@@ -426,12 +441,16 @@ import { $getRoot } from 'lexical';
       color: var(--aeris-danger);
     }
 
+    .field {
+      width: min(100%, 44rem);
+    }
+
     .editor-field {
       align-items: stretch;
     }
   `
 })
-export class EditorExtensionsLexicalExtensionsDemo {
+export class EditorExtensionsDemo {
   protected readonly extensionContent = signal(
     '<p>This example reads the immutable Lexical editor state through an Aeris extension.</p>',
   );
@@ -460,7 +479,7 @@ Limit the toolbar to the actions that make sense for a specific field.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisEditor, type AerisEditorFormat } from '@aeris-ui/core/editor';
 
 @Component({
@@ -505,12 +524,19 @@ import { AerisEditor, type AerisEditorFormat } from '@aeris-ui/core/editor';
       color: var(--aeris-danger);
     }
 
+    .field {
+      width: min(100%, 44rem);
+    }
+
     .editor-field {
       align-items: stretch;
     }
   `
 })
-export class EditorCustomToolbarCustomToolbarDemo {
+export class EditorCustomToolbarDemo {
+  protected readonly compactContent = signal('<p>Only inline formatting is available here.</p>');
+
+
   protected readonly inlineFormats: readonly AerisEditorFormat[] = [
     'undo',
     'redo',
@@ -537,7 +563,7 @@ import { AerisEditor } from '@aeris-ui/core/editor';
   templateUrl: './editor-states.demo.html',
   styleUrl: './editor-states.demo.scss'
 })
-export class EditorStatesAppearancesAndStatesDemo {
+export class EditorStatesDemo {
 }
 ```
 
@@ -594,7 +620,7 @@ export class EditorStatesAppearancesAndStatesDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -630,6 +656,10 @@ export class EditorStatesAppearancesAndStatesDemo {
   }
 }
 
+.field {
+  width: min(100%, 44rem);
+}
+
 .editor-state-grid {
   align-items: start;
 }
@@ -651,7 +681,7 @@ import { AerisEditor } from '@aeris-ui/core/editor';
   templateUrl: './editor-validation.demo.html',
   styleUrl: './editor-validation.demo.scss'
 })
-export class EditorValidationValidationDemo {
+export class EditorValidationDemo {
   protected readonly validationContent = signal('');
   protected readonly validationTouched = signal(false);
   protected readonly validationInvalid = computed(
@@ -677,11 +707,13 @@ export class EditorValidationValidationDemo {
     fluid
   />
   @if (validationInvalid()) {
-    <small id="validated-editor-message" class="error state-message"
-      >Article body is required.</small>
+    <small id="validated-editor-message" class="error state-message">
+      Article body is required.
+    </small>
   } @else {
-    <small id="validated-editor-message" class="state-message"
-      >Use clear headings and concise paragraphs.</small>
+    <small id="validated-editor-message" class="state-message">
+      Use clear headings and concise paragraphs.
+    </small>
   }
 </div>
 ```
@@ -715,8 +747,8 @@ export class EditorValidationValidationDemo {
   color: var(--aeris-danger);
 }
 
-.field small.error {
-  color: var(--aeris-danger);
+.field {
+  width: min(100%, 44rem);
 }
 
 .editor-field {
@@ -735,7 +767,7 @@ Editor implements ControlValueAccessor and synchronizes HTML value, disabled sta
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AerisEditor } from '@aeris-ui/core/editor';
 
@@ -745,7 +777,9 @@ import { AerisEditor } from '@aeris-ui/core/editor';
   templateUrl: './editor-forms.demo.html',
   styleUrl: './editor-forms.demo.scss'
 })
-export class EditorFormsReactiveAndTemplateDrivenFormsDemo {
+export class EditorFormsDemo {
+  protected readonly content = signal('<p>Write clear product notes with Aeris.</p>');
+
   protected readonly reactiveContent =
     new FormControl('<p>Reactive form content.</p>');
 
@@ -785,7 +819,7 @@ export class EditorFormsReactiveAndTemplateDrivenFormsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -821,6 +855,10 @@ export class EditorFormsReactiveAndTemplateDrivenFormsDemo {
   }
 }
 
+.field {
+  width: min(100%, 44rem);
+}
+
 .editor-state-grid {
   align-items: start;
 }
@@ -830,7 +868,7 @@ export class EditorFormsReactiveAndTemplateDrivenFormsDemo {
 
 - The editable area uses role="textbox" with aria-multiline="true".
 - Associate a visible label through inputId, or provide ariaLabel only when no visible label exists.
-- The toolbar uses native buttons inside a labeled role="toolbar"; active inline formats expose aria-pressed.
+- The toolbar uses native buttons inside a labeled role="toolbar"; active inline formats expose aria-pressed and a solid, contrasting active fill distinct from the hover state.
 - Checklist items expose Lexical's checkbox semantics and can be operated with a pointer or keyboard while editing.
 - Consumer extensions are responsible for the semantics, keyboard behavior, focus management, and announcements of any custom nodes or controls they register.
 - Use ariaDescribedBy for help and validation messages. Required and invalid state are reflected with ARIA attributes.

@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -7,8 +8,10 @@ import {
   output,
   signal,
   viewChild,
+  TemplateRef,
 } from '@angular/core';
 import {
+  ɵAerisIcon,
   ɵAerisAppendTo,
   type AerisAppendTo,
   type AerisOverlayCollisionPadding,
@@ -23,7 +26,7 @@ export interface AerisPaginatorPageEvent {
 
 @Component({
   selector: 'aeris-paginator',
-  imports: [ɵAerisAppendTo],
+  imports: [ɵAerisIcon, NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     <nav class="aeris-paginator" [attr.aria-label]="ariaLabel()">
       <span class="aeris-paginator__report" aria-live="polite">{{ pageReport() }}</span>
@@ -35,10 +38,20 @@ export interface AerisPaginatorPageEvent {
           [disabled]="currentPage() === 0"
           (click)="goToPage(0)"
         >
-          <span
-            class="aeris-paginator__page-icon aeris-paginator__page-icon--first"
-            aria-hidden="true"
-          ></span>
+          @if (firstIconTemplate(); as customIcon) {
+            <span
+              class="aeris-paginator__page-icon aeris-paginator__page-icon--first"
+              aria-hidden="true"
+              data-aeris-custom-icon
+              ><ng-container [ngTemplateOutlet]="customIcon"
+            /></span>
+          } @else {
+            <span
+              aerisInternalIcon="chevrons"
+              class="aeris-paginator__page-icon aeris-paginator__page-icon--first"
+              aria-hidden="true"
+            ></span>
+          }
         </button>
         <button
           type="button"
@@ -46,10 +59,20 @@ export interface AerisPaginatorPageEvent {
           [disabled]="currentPage() === 0"
           (click)="goToPage(currentPage() - 1)"
         >
-          <span
-            class="aeris-paginator__page-icon aeris-paginator__page-icon--previous"
-            aria-hidden="true"
-          ></span>
+          @if (previousIconTemplate(); as customIcon) {
+            <span
+              class="aeris-paginator__page-icon aeris-paginator__page-icon--previous"
+              aria-hidden="true"
+              data-aeris-custom-icon
+              ><ng-container [ngTemplateOutlet]="customIcon"
+            /></span>
+          } @else {
+            <span
+              aerisInternalIcon="chevron"
+              class="aeris-paginator__page-icon aeris-paginator__page-icon--previous"
+              aria-hidden="true"
+            ></span>
+          }
         </button>
 
         @for (page of visiblePages(); track page) {
@@ -69,10 +92,20 @@ export interface AerisPaginatorPageEvent {
           [disabled]="currentPage() >= pageCount() - 1"
           (click)="goToPage(currentPage() + 1)"
         >
-          <span
-            class="aeris-paginator__page-icon aeris-paginator__page-icon--next"
-            aria-hidden="true"
-          ></span>
+          @if (nextIconTemplate(); as customIcon) {
+            <span
+              class="aeris-paginator__page-icon aeris-paginator__page-icon--next"
+              aria-hidden="true"
+              data-aeris-custom-icon
+              ><ng-container [ngTemplateOutlet]="customIcon"
+            /></span>
+          } @else {
+            <span
+              aerisInternalIcon="chevron"
+              class="aeris-paginator__page-icon aeris-paginator__page-icon--next"
+              aria-hidden="true"
+            ></span>
+          }
         </button>
         <button
           type="button"
@@ -80,10 +113,20 @@ export interface AerisPaginatorPageEvent {
           [disabled]="currentPage() >= pageCount() - 1"
           (click)="goToPage(pageCount() - 1)"
         >
-          <span
-            class="aeris-paginator__page-icon aeris-paginator__page-icon--last"
-            aria-hidden="true"
-          ></span>
+          @if (lastIconTemplate(); as customIcon) {
+            <span
+              class="aeris-paginator__page-icon aeris-paginator__page-icon--last"
+              aria-hidden="true"
+              data-aeris-custom-icon
+              ><ng-container [ngTemplateOutlet]="customIcon"
+            /></span>
+          } @else {
+            <span
+              aerisInternalIcon="chevrons"
+              class="aeris-paginator__page-icon aeris-paginator__page-icon--last"
+              aria-hidden="true"
+            ></span>
+          }
         </button>
       </div>
 
@@ -102,7 +145,17 @@ export interface AerisPaginatorPageEvent {
             (keydown)="handleRowsTriggerKeydown($event)"
           >
             <span [id]="rowsValueId">{{ rows() }}</span>
-            <span class="aeris-paginator__chevron" aria-hidden="true"></span>
+            @if (dropdownIconTemplate(); as customIcon) {
+              <span class="aeris-paginator__chevron" aria-hidden="true" data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <span
+                aerisInternalIcon="chevron"
+                class="aeris-paginator__chevron"
+                aria-hidden="true"
+              ></span>
+            }
           </button>
 
           @if (rowsPanelOpen()) {
@@ -128,7 +181,17 @@ export interface AerisPaginatorPageEvent {
                 >
                   <span>{{ option }}</span>
                   @if (option === rows()) {
-                    <span class="aeris-paginator__check" aria-hidden="true"></span>
+                    @if (checkIconTemplate(); as customIcon) {
+                      <span class="aeris-paginator__check" aria-hidden="true" data-aeris-custom-icon
+                        ><ng-container [ngTemplateOutlet]="customIcon"
+                      /></span>
+                    } @else {
+                      <span
+                        aerisInternalIcon="check"
+                        class="aeris-paginator__check"
+                        aria-hidden="true"
+                      ></span>
+                    }
                   }
                 </button>
               }
@@ -141,6 +204,13 @@ export interface AerisPaginatorPageEvent {
   styleUrl: './aeris-paginator.scss',
 })
 export class AerisPaginator {
+  readonly firstIconTemplate = input<TemplateRef<void>>();
+  readonly previousIconTemplate = input<TemplateRef<void>>();
+  readonly nextIconTemplate = input<TemplateRef<void>>();
+  readonly lastIconTemplate = input<TemplateRef<void>>();
+  readonly dropdownIconTemplate = input<TemplateRef<void>>();
+  readonly checkIconTemplate = input<TemplateRef<void>>();
+
   protected readonly dismissOverlay = (): boolean => {
     this.closeRowsPanel();
     return true;

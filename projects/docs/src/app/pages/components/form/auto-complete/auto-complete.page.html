@@ -250,9 +250,7 @@
     completeOnFocus
     fluid
   &gt;
-    &lt;ng-template aerisAutoCompleteGroup let-group="group"&gt;
-      &#123;&#123; group &#125;&#125; skills
-    &lt;/ng-template&gt;
+    &lt;ng-template aerisAutoCompleteGroup let-group="group"&gt;&#123;&#123; group &#125;&#125; skills&lt;/ng-template&gt;
     &lt;ng-template aerisAutoCompleteOption let-option&gt;
       &lt;span class="option-template"&gt;
         &lt;aeris-avatar
@@ -383,11 +381,7 @@
       (blurred)="touched.set(true)"
       fluid
     /&gt;
-    &lt;small
-      id="autocomplete-invalid-message"
-      [class.error]="invalid()"
-      aria-live="polite"
-    &gt;
+    &lt;small id="autocomplete-invalid-message" [class.error]="invalid()" aria-live="polite"&gt;
       &#123;&#123; invalid() ? 'Choose a framework.' : 'Required.' &#125;&#125;
     &lt;/small&gt;
   &lt;/div&gt;

@@ -110,6 +110,113 @@ class DatePickerTimeOnlyTestHost {
 }
 
 describe('AerisDatePicker', () => {
+  it.each([
+    ['year', 'en-US', '2026'],
+    ['year', 'de-DE', '2026'],
+    ['month', 'en-US', 'June 2026'],
+    ['month', 'de-DE', 'Juni 2026'],
+    ['day', 'en-US', 'Jun 11, 2026'],
+  ] as const)(
+    'formats %s selection at its selected precision in %s',
+    async (view, locale, expected) => {
+      const fixture = TestBed.createComponent(AerisDatePicker);
+      fixture.componentRef.setInput('view', view);
+      fixture.componentRef.setInput('locale', locale);
+      fixture.componentRef.setInput('name', 'precisionDate');
+      fixture.componentInstance.writeValue(new Date(2026, 5, 11));
+      await fixture.whenStable();
+      expect(
+        fixture.nativeElement.querySelector('.aeris-date-picker__value').textContent.trim(),
+      ).toBe(expected);
+      // Display precision must not alter the Date model or native form serialization.
+      expect((fixture.componentInstance.value() as Date).getDate()).toBe(11);
+      expect(fixture.nativeElement.querySelector('input[type="hidden"]').value).toBe('2026-06-11');
+    },
+  );
+
+  it.each(['month', 'year'] as const)(
+    'displays only %s precision after choosing an option',
+    async (view) => {
+      const fixture = TestBed.createComponent(AerisDatePicker);
+      fixture.componentRef.setInput('view', view);
+      fixture.componentRef.setInput('locale', 'en-US');
+      fixture.componentInstance.writeValue(new Date(2026, 9, 16));
+      await fixture.whenStable();
+      fixture.componentInstance.openPanel();
+      await fixture.whenStable();
+      const option = Array.from(
+        fixture.nativeElement.querySelectorAll('[role="option"]') as NodeListOf<HTMLButtonElement>,
+      ).find((item) => item.textContent?.trim() === (view === 'year' ? '2027' : 'Jun'));
+      expect(option).toBeDefined();
+      option?.click();
+      await fixture.whenStable();
+      expect(
+        fixture.nativeElement.querySelector('.aeris-date-picker__value').textContent.trim(),
+      ).toBe(view === 'year' ? '2027' : 'June 2026');
+      const selected = fixture.componentInstance.value();
+      expect(selected).toBeInstanceOf(Date);
+      expect((selected as Date).getDate()).toBe(1);
+    },
+  );
+
+  it('keeps midnight formatting consistent with the configured editable hour range', async () => {
+    const fixture = TestBed.createComponent(AerisDatePicker);
+    fixture.componentRef.setInput('mode', 'time');
+    fixture.componentRef.setInput('hourCycle', '24');
+    fixture.componentRef.setInput('locale', 'en-US');
+    fixture.componentInstance.writeValue(new Date(2026, 5, 11, 0, 0, 0));
+    await fixture.whenStable();
+    const display = fixture.nativeElement.querySelector('.aeris-date-picker__value') as HTMLElement;
+    expect(display.textContent?.trim()).toBe('00:00');
+    fixture.componentRef.setInput('hourCycle', '12');
+    fixture.componentRef.setInput('locale', 'ja-JP');
+    await fixture.whenStable();
+    expect(display.textContent).toContain('12:00');
+  });
+  it('keeps empty intermediate time input from overwriting the committed value', async () => {
+    const fixture = TestBed.createComponent(DatePickerDateTimeTestHost);
+    await fixture.whenStable();
+    fixture.componentInstance.picker().openPanel();
+    await fixture.whenStable();
+    const inputs = fixture.nativeElement.querySelectorAll(
+      '.aeris-date-picker__time input',
+    ) as NodeListOf<HTMLInputElement>;
+    const original = fixture.componentInstance.date();
+    for (const input of Array.from(inputs)) {
+      input.value = '';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      await fixture.whenStable();
+      expect(fixture.componentInstance.date()).toBe(original);
+      expect(fixture.componentInstance.lastChange()).toBeNull();
+    }
+  });
+
+  it('preserves early-year values through CVA normalization, calendar selection and native serialization', async () => {
+    const fixture = TestBed.createComponent(AerisDatePicker);
+    fixture.componentRef.setInput('name', 'earlyDate');
+    fixture.componentRef.setInput('appendTo', 'self');
+    const date = new Date(0);
+    date.setFullYear(42, 5, 11);
+    date.setHours(13, 30, 0, 0);
+    fixture.componentInstance.writeValue(date);
+    await fixture.whenStable();
+    expect(fixture.componentInstance.value()).not.toBe(date);
+    expect(
+      (fixture.nativeElement.querySelector('input[type="hidden"]') as HTMLInputElement).value,
+    ).toBe('0042-06-11');
+    expect(date.getHours()).toBe(13);
+    fixture.componentInstance.openPanel();
+    await fixture.whenStable();
+    const day = fixture.nativeElement.querySelector(
+      '[data-date="0042-06-12"]',
+    ) as HTMLButtonElement;
+    expect(day).not.toBeNull();
+    day.click();
+    await fixture.whenStable();
+    const selected = fixture.componentInstance.value() as Date;
+    expect(selected.getFullYear()).toBe(42);
+    expect(selected.getDate()).toBe(12);
+  });
   it('exposes combobox, form, and accessibility semantics', async () => {
     const fixture = TestBed.createComponent(DatePickerTestHost);
     await fixture.whenStable();
@@ -327,9 +434,7 @@ describe('AerisDatePicker', () => {
     expect(trigger.getAttribute('aria-expanded')).toBe('true');
 
     monthOptions.item(0).click();
-    monthOptions
-      .item(0)
-      .dispatchEvent(new FocusEvent('focusout', { bubbles: true }));
+    monthOptions.item(0).dispatchEvent(new FocusEvent('focusout', { bubbles: true }));
     fixture.detectChanges();
     await fixture.whenStable();
 

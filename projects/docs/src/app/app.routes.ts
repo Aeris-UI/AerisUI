@@ -49,6 +49,12 @@ export const routes: Routes = [
     data: { guideId: 'theming' },
   },
   {
+    path: 'guides/theme-reference',
+    title: 'Theme reference - Aeris UI',
+    loadComponent: () => import('./pages/guides/guide.page').then((page) => page.GuidePage),
+    data: { guideId: 'theme-reference' },
+  },
+  {
     path: 'guides/design-system',
     title: 'Design system workflow - Aeris UI',
     loadComponent: () => import('./pages/guides/guide.page').then((page) => page.GuidePage),
@@ -306,6 +312,12 @@ export const routes: Routes = [
       import('./pages/components/form/select/select.page').then((page) => page.SelectPage),
   },
   {
+    path: 'components/listbox',
+    title: 'Listbox - Aeris UI',
+    loadComponent: () =>
+      import('./pages/components/form/listbox/listbox.page').then((page) => page.ListboxPage),
+  },
+  {
     path: 'components/textarea',
     title: 'Textarea - Aeris UI',
     loadComponent: () =>
@@ -408,6 +420,18 @@ export const routes: Routes = [
       import('./pages/components/panel/tabs/tabs.page').then((page) => page.TabsPage),
   },
   {
+    path: 'components/navbar',
+    title: 'Navbar - Aeris UI',
+    loadComponent: () =>
+      import('./pages/components/menu/navbar/navbar.page').then((page) => page.NavbarPage),
+  },
+  {
+    path: 'components/sidebar',
+    title: 'Sidebar - Aeris UI',
+    loadComponent: () =>
+      import('./pages/components/menu/sidebar/sidebar.page').then((page) => page.SidebarPage),
+  },
+  {
     path: 'components/toolbar',
     title: 'Toolbar - Aeris UI',
     loadComponent: () =>
@@ -461,6 +485,14 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/components/overlay/confirm-dialog/confirm-dialog.page').then(
         (page) => page.ConfirmDialogPage,
+      ),
+  },
+  {
+    path: 'components/command-palette',
+    title: 'CommandPalette - Aeris UI',
+    loadComponent: () =>
+      import('./pages/components/overlay/command-palette/command-palette.page').then(
+        (page) => page.CommandPalettePage,
       ),
   },
   {
@@ -640,6 +672,12 @@ export const routes: Routes = [
       import('./pages/components/utilities/class-names/class-names.page').then(
         (page) => page.ClassNamesPage,
       ),
+  },
+  {
+    path: 'components/kbd',
+    title: 'Kbd - Aeris UI',
+    loadComponent: () =>
+      import('./pages/components/utilities/kbd/kbd.page').then((page) => page.KbdPage),
   },
   {
     path: 'components/filter-service',

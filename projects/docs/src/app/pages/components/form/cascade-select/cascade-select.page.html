@@ -52,8 +52,9 @@
     ariaDescribedBy="cascade-basic-help"
     fluid
   /&gt;
-  &lt;small id="cascade-basic-help"
-    &gt;Open the panel, then move across the location hierarchy.&lt;/small&gt;
+  &lt;small id="cascade-basic-help"&gt;
+    Open the panel, then move across the location hierarchy.
+  &lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -146,9 +147,9 @@
         &lt;span class="cascade-option__mark" aria-hidden="true"&gt;&#123;&#123; level + 1 &#125;&#125;&lt;/span&gt;
         &lt;span class="cascade-option__copy"&gt;
           &lt;strong&gt;&#123;&#123; option.label &#125;&#125;&lt;/strong&gt;
-          &lt;small&gt;&#123;&#123;
-            option.children?.length ? 'Open next level' : 'Select this value'
-          &#125;&#125;&lt;/small&gt;
+          &lt;small&gt;
+            &#123;&#123; option.children?.length ? 'Open next level' : 'Select this value' &#125;&#125;
+          &lt;/small&gt;
         &lt;/span&gt;
       &lt;/span&gt;
     &lt;/ng-template&gt;

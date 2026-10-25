@@ -28,22 +28,19 @@
       [disabled]="copyState() === 'copying'"
       (click)="copy()"
     >
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        @if (copyState() === 'copied') {
-          <path d="m5 12 4 4 10-10" />
-        } @else {
-          <rect x="8" y="8" width="12" height="12" rx="2" />
-          <path d="M16 8V4H4v12h4" />
-        }
-      </svg>
+      @if (copyState() === 'copied' ? copiedIconTemplate() : copyIconTemplate(); as customIcon) {
+        <span class="aeris-custom-icon" data-aeris-custom-icon aria-hidden="true">
+          <ng-container [ngTemplateOutlet]="customIcon" />
+        </span>
+      } @else {
+        <span
+          [aerisInternalIcon]="copyState() === 'copied' ? 'check' : 'copy'"
+          class="aeris-code-block__copy-icon"
+          aria-hidden="true"
+          [attr.data-copied]="copyState() === 'copied' || null"
+        >
+        </span>
+      }
       <span class="aeris-code-block__copy-label">{{
         copyState() === 'copied' ? copiedLabel() : copyLabel()
       }}</span>

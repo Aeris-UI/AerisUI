@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
 import {
   AerisMeterGroupModule,
   type AerisMeterGroupItem,
@@ -38,6 +39,7 @@ interface TokenRow {
 @Component({
   selector: 'app-meter-group-page',
   imports: [
+    AerisButton,
     AerisMeterGroupModule,
     AerisTabsModule,
     LucideDynamicIcon,
@@ -51,6 +53,25 @@ interface TokenRow {
   styleUrl: './meter-group.page.scss',
 })
 export class MeterGroupPage {
+  protected readonly includeCache = signal(true);
+  protected readonly capacityItems = computed<readonly AerisMeterGroupItem[]>(() => [
+    { label: 'Projects', value: 48, tone: 'primary' },
+    { label: 'Assets', value: 32, tone: 'info' },
+    { label: 'Cache', value: this.includeCache() ? 16 : 0, tone: 'warning' },
+  ]);
+  protected readonly capacityFormatter = ({ value }: AerisMeterGroupItemContext): string =>
+    `${value} GB`;
+  protected readonly capacityTsCode = `import { computed, signal } from '@angular/core';
+import { type AerisMeterGroupItem, type AerisMeterGroupItemContext } from '@aeris-ui/core/meter-group';
+
+protected readonly includeCache = signal(true);
+protected readonly capacityItems = computed<readonly AerisMeterGroupItem[]>(() => [
+  { label: 'Projects', value: 48, tone: 'primary' },
+  { label: 'Assets', value: 32, tone: 'info' },
+  { label: 'Cache', value: this.includeCache() ? 16 : 0, tone: 'warning' },
+]);
+protected readonly capacityFormatter = ({ value }: AerisMeterGroupItemContext): string => \`\${value} GB\`;`;
+  protected readonly capacityCssCode = `.meter-stack { display: grid; gap: 1.25rem; }`;
   protected readonly icons = {
     AppWindow: LucideAppWindow,
     Image: LucideImage,
@@ -103,6 +124,7 @@ protected readonly basicItems: readonly AerisMeterGroupItem[] = [
   protected readonly featureLinks: readonly PageTocLink[] = [
     { id: 'meter-group-import', label: 'Import' },
     { id: 'meter-group-basic', label: 'Basic' },
+    { id: 'meter-group-capacity', label: 'Capacity' },
     { id: 'meter-group-multiple', label: 'Multiple' },
     { id: 'meter-group-colors', label: 'Colors' },
     { id: 'meter-group-icons', label: 'Icons' },
@@ -352,6 +374,12 @@ interface AerisMeterGroupSummaryContext {
       type: 'string',
       defaultValue: "''",
       description: 'ID of visible text that labels the meter track.',
+    },
+    {
+      name: 'ariaDescribedBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Space-separated IDs of supporting text describing the inner meter track.',
     },
     {
       name: 'ariaValueText',

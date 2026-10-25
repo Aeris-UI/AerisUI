@@ -1,8 +1,8 @@
 # Popover
 
-> Target-anchored overlay content with controlled visibility, templates, focus management, and responsive placement.
+> Anchored content with controlled, click, or hover/focus opening, templates, and responsive placement.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/popover`
 - Human-readable documentation: [https://aeris-ui.dev/components/popover](https://aeris-ui.dev/components/popover)
@@ -29,11 +29,15 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `trigger` | `AerisPopoverTrigger` | `'manual'` | Options: 'manual', 'hover'. Hover binds pointer and keyboard-focus events to target. Buttons also toggle on click/tap; links keep normal navigation. Hover mode never autofocuses or traps focus. |
+| `openDelay` | `number` | `200` | Pointer opening delay in milliseconds in hover mode. Keyboard focus opens immediately. Negative or non-finite values are treated as zero. |
+| `closeDelay` | `number` | `150` | Closing delay in milliseconds after pointer and focus leave both regions in hover mode. Safe pointer travel across the gap is allowed first. Negative or non-finite values are treated as zero. |
+| `closeIconTemplate` | `TemplateRef&lt;AerisPopoverTemplateContext&gt; &#124; undefined` | `undefined` | Optional close artwork. Takes precedence over the projected close-icon template; Aeris keeps the close button and its accessible name. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'body'` | Mounts the popover overlay locally, in document.body, or in the supplied DOM/template target. |
-| `target` | `AerisPopoverTarget` | `null` | Element or trigger event used when visible is controlled directly. |
+| `target` | `AerisPopoverTarget` | `null` | Element or trigger event used when visible is controlled directly. Required as a stable element reference for automatic hover/focus triggering. |
 | `header` | `string` | `''` | Visible popover title. |
 | `placement` | `AerisPopoverPlacement` | `'auto'` | Preferred placement around the target. Options: 'auto', 'top', 'right', 'bottom', 'left'. |
-| `alignment` | `AerisPopoverAlignment` | `'center'` | Alignment along the target edge. Options: 'start', 'center', 'end'. |
+| `alignment` | `AerisPopoverAlignment` | `'center'` | Alignment along the target edge. Horizontal start/end follow the trigger's text direction. Options: 'start', 'center', 'end'. |
 | `width` | `string` | `''` | Custom popover width. |
 | `maxWidth` | `string` | `''` | Custom maximum width. |
 | `offset` | `number` | `10` | Distance between target and popover in pixels. |
@@ -41,9 +45,9 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
 | `closeOnOutsideClick` | `boolean` | `true` | Allows outside pointerdown to close. |
 | `closeOnEscape` | `boolean` | `true` | Allows Escape to close. |
 | `closable` | `boolean` | `false` | Shows the built-in close button. |
-| `focusTrap` | `boolean` | `true` | Keeps Tab navigation inside the popover. |
-| `restoreFocus` | `boolean` | `true` | Returns focus to the trigger after close. |
-| `autoFocus` | `boolean` | `true` | Moves focus into the popover after open. |
+| `focusTrap` | `boolean` | `true` | Keeps Tab navigation inside a manual popover. Ignored in hover mode. |
+| `restoreFocus` | `boolean` | `true` | Returns focus to the trigger after close. In hover mode, only Escape or closing while focus is inside returns focus; pointer departure and outside clicks never steal focus. |
+| `autoFocus` | `boolean` | `true` | Moves focus into a manual popover after open. Ignored in hover mode; Tab from the trigger enters its content. |
 | `initialFocus` | `string` | `''` | Selector for the initial focus target. |
 | `showArrow` | `boolean` | `true` | Shows the pointer arrow. |
 | `closeAriaLabel` | `string` | `'Close popover'` | Accessible label for the close button. |
@@ -80,7 +84,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `show(targetOrEvent?, originalEvent?)` | `(AerisPopoverTarget, Event &#124; null) =&gt; void` | `-` | Opens the popover relative to a target. |
-| `hide(event?, reason?)` | `(Event &#124; null, AerisPopoverCloseReason) =&gt; void` | `reason: 'api'` | Closes the popover and records the close reason. Options: 'api', 'close-button', 'escape', 'outside'. |
+| `hide(event?, reason?)` | `(Event &#124; null, AerisPopoverCloseReason) =&gt; void` | `reason: 'api'` | Closes the popover and records the close reason. Options: 'api', 'close-button', 'escape', 'outside', 'interaction'. |
 | `toggle(targetOrEvent?, originalEvent?)` | `(AerisPopoverTarget, Event &#124; null) =&gt; void` | `-` | Opens when closed or closes when open. |
 | `focus(options?)` | `(FocusOptions) =&gt; void` | `-` | Moves focus to the configured initial focus target. |
 | `reposition()` | `() =&gt; void` | `-` | Recalculates target-relative position. |
@@ -92,7 +96,8 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
 ```ts
 type AerisPopoverPlacement = 'auto' | 'top' | 'right' | 'bottom' | 'left';
 type AerisPopoverAlignment = 'start' | 'center' | 'end';
-type AerisPopoverCloseReason = 'api' | 'close-button' | 'escape' | 'outside';
+type AerisPopoverTrigger = 'manual' | 'hover';
+type AerisPopoverCloseReason = 'api' | 'close-button' | 'escape' | 'outside' | 'interaction';
 type AerisPopoverTarget = Element | EventTarget | Event | null | undefined;
 
 interface AerisPopoverVisibilityChangeEvent {
@@ -143,7 +148,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
   templateUrl: './popover-basic.demo.html',
   styleUrl: './popover-basic.demo.scss'
 })
-export class PopoverBasicBasicDemo {
+export class PopoverBasicDemo {
 }
 ```
 
@@ -191,20 +196,82 @@ export class PopoverBasicBasicDemo {
 }
 
 .popover-card strong {
-  color: var(--text);
+  color: var(--aeris-text);
 }
 
 .popover-card p {
   margin: 0;
-  color: var(--text-2);
+  color: var(--aeris-text-2);
 }
 
 .demo-status {
   width: 100%;
   margin: 0.875rem 0 0;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
 }
+
+.popover-card,
+.headless-popover {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.popover-card strong,
+.headless-popover strong {
+  color: var(--aeris-text);
+}
+
+.popover-card p,
+.headless-popover p {
+  color: var(--aeris-text-2);
+}
+```
+
+### Hover and focus
+
+Hover or focus the button to preview content. On touch screens, tap to toggle.
+
+#### TS
+
+```ts
+import { Component, ElementRef, viewChild } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisPopoverModule } from '@aeris-ui/core/popover';
+
+@Component({
+  selector: 'app-popover-hover-demo',
+  imports: [AerisButton, AerisPopoverModule],
+  templateUrl: './popover-hover.demo.html'
+})
+export class PopoverHoverDemo {
+  protected readonly hoverTarget = viewChild<unknown, ElementRef<HTMLButtonElement>>(
+      'hoverButton',
+      {
+        read: ElementRef,
+      },
+    );
+}
+```
+
+#### HTML
+
+```html
+<div>
+  <button #hoverButton aerisButton type="button">Preview content</button>
+  <aeris-popover
+    #hoverPopover
+    trigger="hover"
+    [target]="hoverTarget()?.nativeElement"
+    [openDelay]="200"
+    [closeDelay]="150"
+    header="Content preview"
+    closable
+  >
+    <p>Move from the trigger into this panel without closing it.</p>
+    <button aerisButton type="button" (click)="hoverPopover.hide()">Done</button>
+  </aeris-popover>
+</div>
 ```
 
 ### Controlled
@@ -224,7 +291,7 @@ import { AerisPopoverModule, type AerisPopoverVisibilityChangeEvent } from '@aer
   templateUrl: './popover-controlled.demo.html',
   styleUrl: './popover-controlled.demo.scss'
 })
-export class PopoverControlledControlledDemo {
+export class PopoverControlledDemo {
   protected readonly controlledOpen = signal(false);
   protected readonly controlledTarget = signal<EventTarget | null>(null);
   protected readonly lastEvent = signal('Popover is closed.');
@@ -287,18 +354,41 @@ export class PopoverControlledControlledDemo {
 }
 
 .popover-card strong {
-  color: var(--text);
+  color: var(--aeris-text);
 }
 
 .popover-card p {
   margin: 0;
-  color: var(--text-2);
+  color: var(--aeris-text-2);
 }
 
 .demo-status {
   width: 100%;
   margin: 0.875rem 0 0;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
+  font-size: 0.8125rem;
+}
+
+.popover-card,
+.headless-popover {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.popover-card strong,
+.headless-popover strong {
+  color: var(--aeris-text);
+}
+
+.popover-card p,
+.headless-popover p {
+  color: var(--aeris-text-2);
+}
+
+.demo-status {
+  width: 100%;
+  margin: 0.875rem 0 0;
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
 }
 ```
@@ -320,7 +410,7 @@ import { AerisPopoverModule, type AerisPopover, type AerisPopoverPlacement } fro
   templateUrl: './popover-placement.demo.html',
   styleUrl: './popover-placement.demo.scss'
 })
-export class PopoverPlacementPlacementDemo {
+export class PopoverPlacementDemo {
   protected readonly activePlacement = signal<AerisPopoverPlacement>('auto');
 
   protected openPlacement(
@@ -406,19 +496,48 @@ export class PopoverPlacementPlacementDemo {
 }
 
 .popover-card strong {
-  color: var(--text);
+  color: var(--aeris-text);
 }
 
 .popover-card p {
   margin: 0;
-  color: var(--text-2);
+  color: var(--aeris-text-2);
 }
 
 .demo-status {
   width: 100%;
   margin: 0.875rem 0 0;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
+}
+
+.placement-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.5rem;
+  max-width: 34rem;
+}
+
+.popover-card,
+.headless-popover {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.popover-card strong,
+.headless-popover strong {
+  color: var(--aeris-text);
+}
+
+.popover-card p,
+.headless-popover p {
+  color: var(--aeris-text-2);
+}
+
+@media (max-width: 42rem) {
+  .placement-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 ```
 
@@ -439,7 +558,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
   templateUrl: './popover-templates.demo.html',
   styleUrl: './popover-templates.demo.scss'
 })
-export class PopoverTemplatesTemplatesDemo {
+export class PopoverTemplatesDemo {
   protected readonly selectedFlight = signal('Aeris 482');
 }
 ```
@@ -453,9 +572,10 @@ export class PopoverTemplatesTemplatesDemo {
   </button>
   <aeris-popover #templatePopover closable>
     <ng-template aerisPopoverHeader>
-      <span class="popover-header"
-        ><span class="popover-dot" aria-hidden="true"></span>
-        {{ selectedFlight() }}</span>
+      <span class="popover-header">
+        <span class="popover-dot" aria-hidden="true"></span>
+        {{ selectedFlight() }}
+      </span>
     </ng-template>
     <ng-template aerisPopoverCloseIcon>
       <span aria-hidden="true">Ã—</span>
@@ -502,7 +622,7 @@ export class PopoverTemplatesTemplatesDemo {
   width: 0.55rem;
   height: 0.55rem;
   border-radius: 999px;
-  background: var(--success);
+  background: var(--aeris-success);
 }
 
 .popover-footer {
@@ -543,19 +663,25 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
     </div>
   `,
   styles: `
+    .popover-card,
     .headless-popover {
       display: grid;
-      gap: 0.75rem;
-      min-width: 16rem;
+      gap: 0.5rem;
     }
 
+    .popover-card strong,
     .headless-popover strong {
-      color: var(--text);
+      color: var(--aeris-text);
     }
 
+    .popover-card p,
     .headless-popover p {
-      margin: 0;
-      color: var(--text-2);
+      color: var(--aeris-text-2);
+    }
+
+    .headless-popover {
+      min-width: 16rem;
+      gap: 0.75rem;
     }
 
     .headless-popover .aeris-button {
@@ -563,7 +689,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
     }
   `
 })
-export class PopoverHeadlessHeadlessDemo {
+export class PopoverHeadlessDemo {
 }
 ```
 
@@ -584,7 +710,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
   templateUrl: './popover-options.demo.html',
   styleUrl: './popover-options.demo.scss'
 })
-export class PopoverOptionsOptionsDemo {
+export class PopoverOptionsDemo {
 }
 ```
 
@@ -633,19 +759,35 @@ export class PopoverOptionsOptionsDemo {
 }
 
 .popover-card strong {
-  color: var(--text);
+  color: var(--aeris-text);
 }
 
 .popover-card p {
   margin: 0;
-  color: var(--text-2);
+  color: var(--aeris-text-2);
 }
 
 .demo-status {
   width: 100%;
   margin: 0.875rem 0 0;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
+}
+
+.popover-card,
+.headless-popover {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.popover-card strong,
+.headless-popover strong {
+  color: var(--aeris-text);
+}
+
+.popover-card p,
+.headless-popover p {
+  color: var(--aeris-text-2);
 }
 ```
 
@@ -653,16 +795,19 @@ export class PopoverOptionsOptionsDemo {
 
 - The popover uses role="dialog" and receives an accessible name from header, aerisPopoverHeader, ariaLabel, or ariaLabelledBy.
 - The trigger receives aria-haspopup="dialog", aria-expanded, and aria-controls while the popover is open, then its previous values are restored.
-- Focus moves into the popover by default, remains trapped while open, and returns to the trigger when closed.
+- Manual popovers move focus into their content by default, trap Tab navigation, and return focus when closed. These settings are unchanged for existing click/API usage.
+- With trigger="hover", supply a stable [target] element. Pointer entry waits for openDelay; keyboard focus opens immediately. Neither moves focus nor traps it. Tab from the trigger enters the panel; Shift + Tab from its first control returns to the trigger. Focus and pointer can move between the trigger and content, including owned portaled controls. Leaving both closes after closeDelay. Escape dismisses without reopening until a fresh interaction.
+- Use a native button for a preview that must also work on touch: tapping toggles it. Links keep their navigation and are never intercepted for touch previews; provide a separate preview button or keep essential information available at the destination. Do not add a second click toggle handler to an automatically triggered button. The visible model and existing methods remain available in both modes.
 - Use a native button or another keyboard-focusable element as the trigger.
+- With nested overlays, only the topmost popover handles outside dismissal and focus trapping. Escape closes one eligible layer at a time; a descendant that handles Escape can keep its popover open.
 - Motion respects reduced-motion preferences.
 
 ### Keyboard support
 
 | Key | Function |
 | --- | --- |
-| `Tab` | Moves to the next focusable control inside the popover. |
-| `Shift + Tab` | Moves to the previous focusable control inside the popover. |
+| `Tab` | Moves through content. In hover mode, Tab from the trigger enters the panel and can leave without being trapped. |
+| `Shift + Tab` | Moves backward. In hover mode, the first panel control returns to the trigger. |
 | `Escape` | Closes the popover when closeOnEscape is enabled and restores trigger focus. |
 | `Enter` | Activates the focused button or link. |
 | `Space` | Activates the focused button. |

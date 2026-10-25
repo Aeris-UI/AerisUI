@@ -1,0 +1,81 @@
+@use '../../form/shared/form-docs';
+
+:host {
+  display: block;
+  min-inline-size: 0;
+}
+.sidebar-frame {
+  display: flex;
+  min-inline-size: 0;
+  block-size: 23rem;
+  border: 1px solid var(--aeris-border);
+  border-radius: var(--aeris-radius-surface);
+  overflow: clip;
+}
+.sidebar-main {
+  color: var(--aeris-text);
+  flex: 1;
+  min-inline-size: 0;
+  overflow: auto;
+  padding: 1rem;
+  background: var(--aeris-surface-2);
+}
+.sidebar-main p {
+  margin-block: 0.75rem 0;
+}
+.sidebar-brand {
+  padding-inline: 0.75rem;
+}
+.sidebar-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-block-end: 1rem;
+}
+.sidebar-preview-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.sidebar-preview-status {
+  margin-block: 0.75rem 1rem;
+  color: var(--aeris-text-muted);
+}
+.sidebar-preview-frame {
+  box-sizing: border-box;
+  display: block;
+  inline-size: 100%;
+  block-size: 25rem;
+  border: 1px solid var(--aeris-border);
+  border-radius: var(--aeris-radius-surface);
+  background: var(--aeris-surface);
+}
+.sidebar-preview-frame--compact {
+  inline-size: min(22rem, 100%);
+}
+.sidebar-workspace {
+  display: flex;
+  block-size: 100dvh;
+  min-inline-size: 0;
+  background: var(--aeris-surface);
+}
+.sidebar-workspace__main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-inline-size: 0;
+}
+.sidebar-workspace__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-block-end: 1px solid var(--aeris-border);
+  font-size: var(--aeris-body-font-size);
+}
+.sidebar-workspace h4 {
+  margin: 0;
+  font-size: 1rem;
+}

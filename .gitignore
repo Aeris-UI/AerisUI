@@ -64,6 +64,8 @@ testem.log
 /typings
 __screenshots__/
 aeris-update-plan.md
+/aeris-component-improvements-plan.md
+/aeris-component-additions-plan.md
 
 # End-to-end test output
 /playwright-report/

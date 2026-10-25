@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   Directive,
@@ -6,13 +7,15 @@ import {
   computed,
   forwardRef,
   input,
+  inject,
   model,
   output,
   signal,
   viewChild,
+  TemplateRef,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
+import { COMPOSITION_BUFFER_MODE, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵAerisIcon, ɵaerisDisplayInvalid } from '@aeris-ui/core';
 
 export type AerisTextareaSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisTextareaAppearance = 'outline' | 'filled';
@@ -49,7 +52,7 @@ let textareaId = 0;
 
 @Component({
   selector: 'aeris-textarea',
-  imports: [AerisTextareaDirective],
+  imports: [ɵAerisIcon, NgTemplateOutlet, AerisTextareaDirective],
   template: `
     <span
       class="aeris-textarea-component"
@@ -88,6 +91,8 @@ let textareaId = 0;
           [style.height.px]="autoResize() ? autoHeight() : null"
           [style.overflow-y]="autoResize() && atMaximumHeight() ? 'auto' : null"
           (input)="handleInput($event)"
+          (compositionstart)="composing = true"
+          (compositionend)="handleCompositionEnd($event)"
           (focus)="focused.emit($event)"
           (blur)="handleBlur($event)"
           (scroll)="scrolled.emit($event)"
@@ -100,7 +105,13 @@ let textareaId = 0;
             [attr.aria-label]="clearButtonAriaLabel()"
             (click)="clear()"
           >
-            <span aria-hidden="true"></span>
+            @if (clearIconTemplate(); as customIcon) {
+              <span aria-hidden="true" data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <span aerisInternalIcon="close" aria-hidden="true"></span>
+            }
           </button>
         }
       </span>
@@ -132,6 +143,10 @@ let textareaId = 0;
   },
 })
 export class AerisTextareaComponent implements ControlValueAccessor {
+  private readonly bufferComposition = inject(COMPOSITION_BUFFER_MODE, { optional: true }) ?? true;
+  protected composing = false;
+  readonly clearIconTemplate = input<TemplateRef<void>>();
+
   readonly value = model('');
   readonly inputId = input('');
   readonly name = input('');
@@ -246,8 +261,15 @@ export class AerisTextareaComponent implements ControlValueAccessor {
   }
 
   protected handleInput(event: Event): void {
-    this.setValue((event.target as HTMLTextAreaElement).value);
+    if (!this.bufferComposition || !(this.composing || (event as InputEvent).isComposing)) {
+      this.setValue((event.target as HTMLTextAreaElement).value);
+    }
     this.resizeToContent();
+  }
+
+  protected handleCompositionEnd(event: CompositionEvent): void {
+    this.composing = false;
+    if (this.bufferComposition) this.handleInput(event);
   }
 
   protected handleBlur(event: FocusEvent): void {

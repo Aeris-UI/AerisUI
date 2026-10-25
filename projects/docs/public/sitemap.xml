@@ -25,6 +25,9 @@
     <loc>https://aeris-ui.dev/guides/theming</loc>
   </url>
   <url>
+    <loc>https://aeris-ui.dev/guides/theme-reference</loc>
+  </url>
+  <url>
     <loc>https://aeris-ui.dev/guides/design-system</loc>
   </url>
   <url>
@@ -130,6 +133,9 @@
     <loc>https://aeris-ui.dev/components/select</loc>
   </url>
   <url>
+    <loc>https://aeris-ui.dev/components/listbox</loc>
+  </url>
+  <url>
     <loc>https://aeris-ui.dev/components/textarea</loc>
   </url>
   <url>
@@ -175,6 +181,12 @@
     <loc>https://aeris-ui.dev/components/tabs</loc>
   </url>
   <url>
+    <loc>https://aeris-ui.dev/components/navbar</loc>
+  </url>
+  <url>
+    <loc>https://aeris-ui.dev/components/sidebar</loc>
+  </url>
+  <url>
     <loc>https://aeris-ui.dev/components/toolbar</loc>
   </url>
   <url>
@@ -197,6 +209,9 @@
   </url>
   <url>
     <loc>https://aeris-ui.dev/components/confirm-dialog</loc>
+  </url>
+  <url>
+    <loc>https://aeris-ui.dev/components/command-palette</loc>
   </url>
   <url>
     <loc>https://aeris-ui.dev/components/confirm-popup</loc>
@@ -275,6 +290,9 @@
   </url>
   <url>
     <loc>https://aeris-ui.dev/components/class-names</loc>
+  </url>
+  <url>
+    <loc>https://aeris-ui.dev/components/kbd</loc>
   </url>
   <url>
     <loc>https://aeris-ui.dev/components/filter-service</loc>

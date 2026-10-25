@@ -1,6 +1,29 @@
 import { expect, test } from './fixtures';
 import { COMPONENT_CATALOG } from '../../projects/docs/src/app/data/component-catalog';
 
+test('required radio example clears its error when a delivery speed is selected', async ({
+  page,
+}) => {
+  await page.goto('/components/radio-button');
+  const example = page.locator('#radio-states .preview');
+  const standard = example.getByRole('radio', { name: 'Standard', exact: true });
+  const express = example.getByRole('radio', { name: 'Express', exact: true });
+  await expect(standard).toHaveAttribute('aria-invalid', 'true');
+  await expect(express).toHaveAttribute('aria-invalid', 'true');
+  await expect(example.locator('#delivery-error')).toBeVisible();
+
+  for (const option of [standard, express]) {
+    await option.locator('..').click();
+    await expect(option).toBeChecked();
+    await expect(example.locator('[aria-invalid="true"]')).toHaveCount(0);
+    await expect(example.locator('[data-invalid]')).toHaveCount(0);
+    await expect(example.locator('#delivery-error')).toHaveCount(0);
+    await expect(example.locator('[aria-describedby="delivery-error"]')).toHaveCount(0);
+  }
+  await expect(standard).not.toBeChecked();
+  await expect(example.getByRole('radio', { name: 'Selected and unavailable' })).toBeChecked();
+});
+
 test('catalog editor formats its phrase and toolbar only while hovered', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/components');
@@ -802,26 +825,41 @@ test('catalog pickers, blockers and action menus open only while their card is a
     await expect(card.locator('app-catalog-preview')).toBeVisible();
     await expect(card.locator(selector)).toHaveCount(0);
     const field = card.locator('[role="combobox"]').first();
+    const fieldGeometry = () =>
+      card.evaluate((element, panelSelector) => {
+        const control = element.querySelector('[role="combobox"]');
+        if (!control) return null;
+        const root = element as HTMLElement;
+        const cardBounds = root.getBoundingClientRect();
+        const fieldBounds = control.getBoundingClientRect();
+        const panelBounds = root.querySelector(panelSelector)?.getBoundingClientRect();
+        // Normalize the intentional card scale, sampling all bounds in one frame.
+        const scale = cardBounds.height / root.offsetHeight;
+        return {
+          offset: (fieldBounds.y - cardBounds.y) / scale,
+          panelGap: panelBounds ? (panelBounds.y - fieldBounds.bottom) / scale : null,
+        };
+      }, selector);
     const fieldBefore =
-      slug !== 'date-picker' && (await field.count()) ? await field.boundingBox() : null;
-    const cardBefore = await card.boundingBox();
+      slug !== 'date-picker' && (await field.count()) ? await fieldGeometry() : null;
     await card.hover();
     const panel = card.locator(selector);
     await expect(panel).toBeVisible();
-    if (fieldBefore && cardBefore) {
-      const fieldAfter = await field.boundingBox();
-      const cardAfter = await card.boundingBox();
-      expect(fieldAfter).not.toBeNull();
-      expect(cardAfter).not.toBeNull();
-      if (fieldAfter && cardAfter) {
-        expect(Math.abs(fieldAfter.y - cardAfter.y - (fieldBefore.y - cardBefore.y))).toBeLessThan(
-          2,
-        );
-        const panelBounds = await panel.boundingBox();
-        expect(panelBounds).not.toBeNull();
-        if (panelBounds)
-          expect(panelBounds.y).toBeGreaterThanOrEqual(fieldAfter.y + fieldAfter.height + 4);
-      }
+    if (fieldBefore) {
+      await expect
+        .poll(
+          async () => {
+            const after = await fieldGeometry();
+            return after ? Math.abs(after.offset - fieldBefore.offset) : Infinity;
+          },
+          { message: `${slug} field keeps its local position while the card scales` },
+        )
+        .toBeLessThan(2);
+      await expect
+        .poll(async () => (await fieldGeometry())?.panelGap ?? -Infinity, {
+          message: `${slug} panel remains separated from its field`,
+        })
+        .toBeGreaterThanOrEqual(4);
     }
     await expect
       .poll(
@@ -949,100 +987,15 @@ test('documentation search loads on demand and focuses its search field', async 
   await page.getByRole('button', { name: 'Search documentation', exact: true }).click();
   const dialog = page.getByRole('dialog', { name: 'Search documentation', exact: true });
   await expect(dialog).toBeVisible();
-  const input = dialog.getByRole('searchbox');
+  const input = dialog.getByRole('combobox');
   await expect(input).toBeFocused();
   await input.fill('select');
-  await expect(dialog.getByRole('link', { name: /^Select / })).toBeVisible();
+  await expect(dialog.getByRole('option', { name: 'Select', exact: true })).toBeVisible();
   await input.press('Escape');
   await expect(dialog).not.toBeVisible();
 });
 
-const COMPONENT_ROUTES = [
-  'button',
-  'button-group',
-  'speed-dial',
-  'split-button',
-  'auto-complete',
-  'cascade-select',
-  'input-text',
-  'input-number',
-  'input-mask',
-  'key-filter',
-  'input-otp',
-  'checkbox',
-  'color-picker',
-  'editor',
-  'form-field',
-  'icon-field',
-  'input-group',
-  'radio-button',
-  'rating',
-  'select',
-  'textarea',
-  'toggle-switch',
-  'tree-select',
-  'date-picker',
-  'slider',
-  'multi-select',
-  'password',
-  'accordion',
-  'card',
-  'divider',
-  'panel',
-  'scroll-panel',
-  'splitter',
-  'stepper',
-  'tabs',
-  'toolbar',
-  'breadcrumb',
-  'context-menu',
-  'menu',
-  'mega-menu',
-  'menubar',
-  'tiered-menu',
-  'confirm-dialog',
-  'confirm-popup',
-  'dialog',
-  'drawer',
-  'dynamic-dialog',
-  'popover',
-  'tooltip',
-  'file-upload',
-  'carousel',
-  'galleria',
-  'compare',
-  'chart',
-  'progress-bar',
-  'toast',
-  'message',
-  'table',
-  'pick-list',
-  'order-list',
-  'organization-chart',
-  'timeline',
-  'tree',
-  'tree-table',
-  'paginator',
-  'scroll-top',
-  'animate-on-scroll',
-  'auto-focus',
-  'class-names',
-  'filter-service',
-  'focus-trap',
-  'glass',
-  'style-class',
-  'chip',
-  'fluid',
-  'inplace',
-  'meter-group',
-  'progress-spinner',
-  'skeleton',
-  'block-ui',
-  'avatar',
-  'badge',
-] as const;
-
-for (const route of COMPONENT_ROUTES) {
+for (const { slug: route } of COMPONENT_CATALOG) {
   test(`${route} page renders without browser errors`, async ({ page }) => {
     const response = await page.goto(`/components/${route}`);
     expect(response?.ok()).toBe(true);
@@ -1068,7 +1021,12 @@ test('IconField search clear uses the Aeris button hover and clears the value', 
     const style = getComputedStyle(element);
     return style.maskImage || style.webkitMaskImage;
   });
-  expect(iconMask).toContain('M6');
+  const closeIcon = await clear.evaluate((element) =>
+    getComputedStyle(element).getPropertyValue('--aeris-icon-close').trim(),
+  );
+  expect(closeIcon).not.toBe('');
+  // CSSOM serializes URL quotes differently from custom property token text.
+  expect(iconMask.replaceAll('\\', '')).toContain(closeIcon.slice(5, -2));
   await clear.click();
   await expect(search).toHaveValue('');
   await expect(search).toBeFocused();

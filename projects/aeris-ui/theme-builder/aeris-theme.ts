@@ -6,33 +6,33 @@ export interface AerisPaletteConfig {
   readonly contrast: string;
 }
 
-export interface AerisPalette extends AerisPaletteConfig {
-  /** @deprecated Use surface. Retained until the legacy Design Lab is replaced. */
-  readonly mist: string;
-  /** @deprecated Use primary. Retained until the legacy Design Lab is replaced. */
-  readonly sage: string;
-  /** @deprecated Use secondary. Retained until the legacy Design Lab is replaced. */
-  readonly cloud: string;
-  /** @deprecated Use accent. Retained until the legacy Design Lab is replaced. */
-  readonly sand: string;
-  /** @deprecated Use contrast. Retained until the legacy Design Lab is replaced. */
-  readonly umber: string;
-}
+export type AerisPalette = AerisPaletteConfig;
 
 export type AerisSemanticToneName =
   'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'contrast';
 
+export const AERIS_SEMANTIC_TONE_NAMES: readonly AerisSemanticToneName[] = [
+  'primary',
+  'secondary',
+  'success',
+  'info',
+  'warning',
+  'danger',
+  'contrast',
+];
+
 export interface AerisSemanticTone {
-  readonly base?: string;
-  readonly boundary?: string;
-  readonly hover?: string;
-  readonly active?: string;
-  readonly onBase?: string;
-  readonly onHover?: string;
-  readonly onActive?: string;
-  readonly text?: string;
-  readonly soft?: string;
-  readonly onSoft?: string;
+  /** Omit a value to inherit it; use null to request automatic derivation. */
+  readonly base?: string | null;
+  readonly boundary?: string | null;
+  readonly hover?: string | null;
+  readonly active?: string | null;
+  readonly onBase?: string | null;
+  readonly onHover?: string | null;
+  readonly onActive?: string | null;
+  readonly text?: string | null;
+  readonly soft?: string | null;
+  readonly onSoft?: string | null;
 }
 
 export interface AerisResolvedSemanticTone {
@@ -49,7 +49,7 @@ export interface AerisResolvedSemanticTone {
 }
 
 export type AerisSemanticTones = Readonly<
-  Partial<Record<AerisSemanticToneName, AerisSemanticTone>>
+  Partial<Record<AerisSemanticToneName, AerisSemanticTone | null>>
 >;
 
 export type AerisResolvedSemanticTones = Readonly<
@@ -101,6 +101,8 @@ export interface AerisRadiusScale {
 }
 
 export interface AerisTheme {
+  /** Inherited defaults. Light/dark objects contain only explicit overrides. */
+  readonly preset: AerisThemePresetName;
   readonly palette: AerisPalette;
   readonly light: AerisThemeScheme;
   readonly dark: AerisThemeScheme;
@@ -123,6 +125,7 @@ export interface AerisThemeOverride extends Omit<
 export type AerisThemePresetName = 'earth' | 'coastal' | 'orchid' | 'monochrome';
 
 export interface AerisThemePreset extends AerisThemeOverride {
+  readonly preset: AerisThemePresetName;
   readonly palette: AerisPaletteConfig;
 }
 
@@ -314,8 +317,7 @@ const AERIS_COLORED_DARK_SCHEME = {
   borderStrong: '#757575',
 } as const satisfies AerisThemeScheme;
 
-/** Accessible Aeris starter themes that can be passed directly to provideAeris(). */
-export const AERIS_THEME_PRESETS = {
+const THEME_DEFINITIONS = {
   earth: {
     palette: {
       surface: '#f1f4f2',
@@ -403,7 +405,90 @@ export const AERIS_THEME_PRESETS = {
       },
     },
   },
-} as const satisfies Readonly<Record<AerisThemePresetName, AerisThemePreset>>;
+} as const satisfies Readonly<
+  Record<
+    AerisThemePresetName,
+    {
+      readonly palette: AerisPaletteConfig;
+      readonly light?: AerisThemeScheme;
+      readonly dark?: AerisThemeScheme;
+    }
+  >
+>;
+
+/** Starter themes retain their identity without copying defaults into user overrides. */
+export const AERIS_THEME_PRESETS: Readonly<Record<AerisThemePresetName, AerisThemePreset>> = {
+  earth: { preset: 'earth', palette: THEME_DEFINITIONS.earth.palette },
+  coastal: { preset: 'coastal', palette: THEME_DEFINITIONS.coastal.palette },
+  orchid: { preset: 'orchid', palette: THEME_DEFINITIONS.orchid.palette },
+  monochrome: { preset: 'monochrome', palette: THEME_DEFINITIONS.monochrome.palette },
+};
+
+/** Effective preset defaults and user overrides; null tone values mean automatic. */
+export function resolveAerisThemeScheme(
+  theme: AerisTheme,
+  mode: 'light' | 'dark',
+): AerisThemeScheme {
+  const definition: {
+    readonly palette: AerisPaletteConfig;
+    readonly light?: AerisThemeScheme;
+    readonly dark?: AerisThemeScheme;
+  } = Object.hasOwn(THEME_DEFINITIONS, theme.preset)
+    ? THEME_DEFINITIONS[theme.preset]
+    : THEME_DEFINITIONS.monochrome;
+  const inherited = { ...definition[mode] };
+  const overrides = theme[mode];
+  const surfaceChanged = theme.palette.surface !== definition.palette.surface;
+
+  // A changed seed releases only its dependent preset values, never user overrides.
+  if (surfaceChanged) {
+    for (const key of [
+      'page',
+      'surface',
+      'surface2',
+      'surface3',
+      'interactiveHover',
+      'border',
+      'borderStrong',
+    ] as const)
+      delete inherited[key];
+  }
+  if (theme.palette.primary !== definition.palette.primary) {
+    delete inherited.focus;
+    delete inherited.interactiveHover;
+  }
+  if (theme.palette.secondary !== definition.palette.secondary) {
+    delete inherited.border;
+    delete inherited.borderStrong;
+  }
+  if (theme.palette.accent !== definition.palette.accent) delete inherited.accent;
+
+  const tones: Partial<Record<AerisSemanticToneName, AerisSemanticTone>> = {};
+  for (const name of AERIS_SEMANTIC_TONE_NAMES) {
+    const override = overrides.tones?.[name];
+    const seedChanged =
+      (name === 'primary' || name === 'secondary' || name === 'contrast') &&
+      theme.palette[name] !== definition.palette[name];
+    const defaults = { ...inherited.tones?.[name] };
+    const baseChanged = override?.base !== undefined && override.base !== defaults.base;
+    if (surfaceChanged) {
+      delete defaults.soft;
+      delete defaults.onSoft;
+      delete defaults.text;
+    }
+    if (override?.hover !== undefined) delete defaults.onHover;
+    if (override?.active !== undefined) delete defaults.onActive;
+    if (override?.soft !== undefined || override?.text !== undefined) delete defaults.onSoft;
+    tones[name] =
+      override === null
+        ? {}
+        : {
+            ...(!seedChanged && !baseChanged ? defaults : {}),
+            ...override,
+          };
+  }
+  return { ...inherited, ...overrides, tones };
+}
 
 export const AERIS_DENSITY_PRESETS: Readonly<
   Record<'compact' | 'medium' | 'comfortable', AerisDensityScale>
@@ -466,16 +551,12 @@ export const AERIS_RADIUS_PRESETS: Readonly<Record<'soft' | 'rounded' | 'pill', 
   };
 
 export const AERIS_DEFAULT_THEME: AerisTheme = {
+  preset: 'monochrome',
   palette: {
     ...AERIS_THEME_PRESETS.monochrome.palette,
-    mist: AERIS_THEME_PRESETS.monochrome.palette.surface,
-    sage: AERIS_THEME_PRESETS.monochrome.palette.primary,
-    cloud: AERIS_THEME_PRESETS.monochrome.palette.secondary,
-    sand: AERIS_THEME_PRESETS.monochrome.palette.accent,
-    umber: AERIS_THEME_PRESETS.monochrome.palette.contrast,
   },
-  light: { ...AERIS_THEME_PRESETS.monochrome.light },
-  dark: { ...AERIS_THEME_PRESETS.monochrome.dark },
+  light: {},
+  dark: {},
   radius: 'rounded',
   radii: AERIS_RADIUS_PRESETS,
   density: 'medium',

@@ -19,6 +19,7 @@ import {
   viewChildren,
 } from '@angular/core';
 import {
+  ɵAerisIcon,
   ɵAerisAppendTo,
   aerisInternalClampOverlayPoint,
   aerisInternalCreateFrameScheduler,
@@ -109,7 +110,7 @@ let nextContextMenuId = 0;
 
 @Component({
   selector: 'aeris-context-menu',
-  imports: [NgTemplateOutlet, ɵAerisAppendTo],
+  imports: [ɵAerisIcon, NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     <ng-template #menuList let-entries let-level="level">
       <ul
@@ -223,9 +224,20 @@ let nextContextMenuId = 0;
         <kbd class="aeris-context-menu__shortcut">{{ item.shortcut }}</kbd>
       }
       @if (hasSubmenu) {
-        <svg class="aeris-context-menu__submenu-icon" viewBox="0 0 20 20" aria-hidden="true">
-          <path d="m7.5 4.5 5 5.5-5 5.5" />
-        </svg>
+        @if (submenuIconTemplate(); as customIcon) {
+          <span
+            class="aeris-custom-icon aeris-context-menu__submenu-icon"
+            aria-hidden="true"
+            data-aeris-custom-icon
+            ><ng-container [ngTemplateOutlet]="customIcon"
+          /></span>
+        } @else {
+          <span
+            aerisInternalIcon="chevronRight"
+            class="aeris-context-menu__submenu-icon"
+            aria-hidden="true"
+          ></span>
+        }
       }
     </ng-template>
 
@@ -263,6 +275,8 @@ let nextContextMenuId = 0;
   },
 })
 export class AerisContextMenu<T = unknown> {
+  readonly submenuIconTemplate = input<TemplateRef<void>>();
+
   protected readonly dismissOverlay = (): boolean => {
     if (!this.closeOnEscape()) return false;
     this.hide();

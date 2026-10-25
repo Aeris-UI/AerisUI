@@ -8,6 +8,10 @@
     <output aria-label="Overlay Back result">{{ lastDismissResult() }}</output>
   </header>
 
+  <app-color-picker-alpha-fixture />
+  <app-hover-overlay-fixture />
+  <app-button-foundation-fixture />
+
   <section data-fixture="forms" aria-labelledby="forms-title">
     <h2 id="forms-title">Forms</h2>
     <div class="fixture-grid">
@@ -241,4 +245,35 @@
       <aeris-scroll-top alwaysVisible strategy="absolute" />
     </div>
   </section>
+  <app-icon-customization-fixture />
+  <app-global-icons-fixture />
+  <app-choice-cards-fixture />
+  <app-chip-removal-fixture />
+  <app-drawer-swipe-fixture />
+  <app-date-entry-fixture />
+  <section data-fixture="date-time-foundation" class="fixture">
+    <h2>Date and time value foundation</h2>
+    <label for="foundation-meeting">Foundation meeting</label>
+    <aeris-date-picker
+      inputId="foundation-meeting"
+      name="foundationMeeting"
+      mode="dateTime"
+      hourCycle="24"
+      showSeconds
+      [(value)]="foundationMeeting"
+    />
+    <label for="foundation-early">Early calendar year</label>
+    <aeris-date-picker
+      inputId="foundation-early"
+      name="foundationEarly"
+      [(value)]="foundationEarlyDate"
+    />
+    <label for="foundation-british">British calendar</label>
+    <aeris-date-picker
+      inputId="foundation-british"
+      locale="en-GB"
+      [(value)]="foundationBritishDate"
+    />
+  </section>
+  <app-native-choice-groups-fixture />
 </main>

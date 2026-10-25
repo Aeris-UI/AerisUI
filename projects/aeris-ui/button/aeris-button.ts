@@ -1,6 +1,19 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, TemplateRef, booleanAttribute, computed, input, output } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  Renderer2,
+  TemplateRef,
+  booleanAttribute,
+  computed,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 import type { AerisSeverity } from '@aeris-ui/core';
+import { aerisInternalButtonSelection } from './aeris-button-selection';
+import { AerisButtonToggle } from './aeris-button-toggle';
 
 export type AerisButtonVariant = 'solid' | 'outline' | 'ghost' | 'link';
 
@@ -37,7 +50,6 @@ export interface AerisButtonContentTemplateContext {
     '[attr.data-rounded]': 'rounded() || null',
     '[attr.data-fluid]': 'fluid() || null',
     '[attr.aria-disabled]': 'effectiveDisabled() ? "true" : null',
-    '(click)': 'preventLoadingActivation($event)',
   },
 })
 export class AerisButtonDirective {
@@ -53,11 +65,28 @@ export class AerisButtonDirective {
   readonly rounded = input(false, { transform: booleanAttribute });
   readonly fluid = input(false, { transform: booleanAttribute });
   protected readonly effectiveVariant = this.variant;
-  protected readonly effectiveDisabled = computed(() => this.disabled() || this.loading());
-  protected preventLoadingActivation(event: Event): void {
-    if (!this.effectiveDisabled()) return;
-    event.preventDefault();
-    event.stopImmediatePropagation();
+  private readonly selection = inject(aerisInternalButtonSelection, { optional: true, self: true });
+  protected readonly effectiveDisabled = computed(
+    () => this.disabled() || this.loading() || !!this.selection?.selectionDisabled(),
+  );
+
+  constructor() {
+    const element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+    if (element.tagName !== 'A') return;
+
+    // Capture runs before Angular's coalesced consumer click listeners. Native buttons
+    // need no listener: their disabled property already suppresses activation.
+    const stopListening = inject(Renderer2).listen(
+      element,
+      'click',
+      (event: Event) => {
+        if (!this.effectiveDisabled()) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      },
+      { capture: true },
+    );
+    inject(DestroyRef).onDestroy(stopListening);
   }
 }
 
@@ -158,4 +187,4 @@ export class AerisButtonComponent {
   readonly blurred = output<FocusEvent>();
 }
 
-export const AerisButton = [AerisButtonDirective, AerisButtonComponent] as const;
+export const AerisButton = [AerisButtonDirective, AerisButtonComponent, AerisButtonToggle] as const;

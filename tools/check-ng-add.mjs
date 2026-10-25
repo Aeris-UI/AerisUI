@@ -1,5 +1,6 @@
 import { resolve } from 'node:path';
 import { readFileSync } from 'node:fs';
+import { pathToFileURL } from 'node:url';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing/index.js';
 import { Tree } from '@angular-devkit/schematics';
 
@@ -119,7 +120,13 @@ async function verifyBuildTimeSetup() {
   const workspace = JSON.parse(result.readContent('/angular.json'));
 
   assert(config.theme.palette.primary === '#7196b4', 'Custom seeds were not persisted.');
-  assert(config.derivationVersion === 1, 'Color derivation version was not pinned.');
+  const { AERIS_COLOR_DERIVATION_VERSION } = await import(
+    `${pathToFileURL(resolve(packageRoot, 'fesm2022/aeris-ui-core-theme-builder.mjs'))}`
+  );
+  assert(
+    config.derivationVersion === AERIS_COLOR_DERIVATION_VERSION,
+    'Color derivation version was not pinned.',
+  );
   assert(config.css.schemes === 'light', 'Single-scheme configuration was not persisted.');
   assert(css.includes('color-scheme: light'), 'Light-only CSS was not generated.');
   assert(!css.includes("data-aeris-theme='dark'"), 'Light-only CSS contains a dark scheme.');

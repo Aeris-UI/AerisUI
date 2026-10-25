@@ -79,7 +79,10 @@ jobs:
         run: npm run test:release
 
       - name: Build and verify release
-        run: npm run build
+        run: |
+          npx playwright install --with-deps chromium
+          npm run build
+          npm run check:minimum-angular
 
       - name: Test library
         run: npm run test:lib -- --watch=false

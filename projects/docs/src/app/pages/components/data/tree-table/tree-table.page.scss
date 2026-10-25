@@ -1,5 +1,35 @@
 @use '../../form/shared/form-docs';
 
+.custom-editor-demo,
+.custom-cell-editor {
+  display: grid;
+  min-inline-size: 0;
+  inline-size: 100%;
+  gap: 0.75rem;
+}
+
+.selection-workflow {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  gap: 1rem;
+}
+
+.workflow-note {
+  margin: 0;
+  color: var(--text-2);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.selection-workflow [aerisToolbarStart] {
+  flex: 1 1 12rem;
+}
+
+.selection-workflow [aerisToolbarEnd] {
+  flex: 2 1 24rem;
+}
+
 .tree-table-demo {
   width: 100%;
 }

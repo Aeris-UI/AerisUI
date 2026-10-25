@@ -165,9 +165,12 @@ export async function readPageExampleContext(path) {
       return [
         ...selectedImports.values(),
         ...selectedTopLevel.values(),
-        ...[...selectedMembers.values()].filter(
-          (code) => !/^protected readonly icons = DOC_ICONS;$/m.test(code.trim()),
-        ),
+        // Dependency discovery order is not initialization order. Preserve the page's
+        // declarations so a form never runs before the signal it reads is initialized.
+        ...[...members]
+          .filter(([name]) => selectedMembers.has(name))
+          .map(([, code]) => code)
+          .filter((code) => !/^protected readonly icons = DOC_ICONS;$/m.test(code.trim())),
       ]
         .join('\n\n')
         .trim();

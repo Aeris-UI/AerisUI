@@ -2,7 +2,7 @@
   <app-component-page-header
     category="Data"
     title="Table"
-    description="Display structured data with native table semantics, sorting, filtering, pagination, selection, expansion, templates, and responsive layouts."
+    description="Display structured data with native table semantics, filtering, pagination, selection, custom editors, row and column pinning, and responsive layouts."
   />
 
   <section class="import-section" aria-labelledby="table-import-title">
@@ -235,6 +235,188 @@
             </app-form-demo>
 
             <app-form-demo
+              id="table-selection-workflow"
+              title="Selection workflow"
+              description="Keep one selectedKeys model for counts and bulk actions across pages and filters. Use the column menu to hide or restore fields, or reorder visible headers with their keyboard controls."
+            >
+              <div preview class="selection-workflow">
+                <aeris-toolbar fluid wrap variant="plain" role="group" ariaLabel="Member bulk actions">
+                  <span aerisToolbarStart aria-live="polite"
+                    >{{ workflowSelected().length }} selected across all pages</span
+                  >
+                  <div aerisToolbarEnd>
+                    <button
+                      aerisButton
+                      type="button"
+                      variant="ghost"
+                      [disabled]="!workflowSelected().length || workflowBusy()"
+                      (click)="clearWorkflowSelection(workflowFocusTarget()?.nativeElement)"
+                    >
+                      Clear selection
+                    </button>
+                    <button
+                      aerisButton
+                      type="button"
+                      severity="danger"
+                      [disabled]="!workflowSelected().length || workflowBusy()"
+                      [loading]="workflowBusy()"
+                      (click)="removeWorkflowMembers(workflowFocusTarget()?.nativeElement)"
+                    >
+                      Remove selected members
+                    </button>
+                    <button
+                      #workflowColumnsButton
+                      aerisButton
+                      type="button"
+                      variant="outline"
+                      (click)="workflowMenu.toggle($event)"
+                    >
+                      Columns
+                    </button>
+                    <button
+                      aerisButton
+                      type="button"
+                      variant="ghost"
+                      [disabled]="workflowBusy()"
+                      (click)="restoreWorkflowMembers()"
+                    >
+                      Restore members
+                    </button>
+                  </div>
+                </aeris-toolbar>
+                <aeris-menu
+                  #workflowMenu
+                  popup
+                  [model]="workflowColumnItems()"
+                  ariaLabel="Member columns"
+                />
+                <aeris-table
+                  caption="Member selection workspace"
+                  rowKeyField="id"
+                  [data]="workflowMembers()"
+                  [columns]="workflowColumns()"
+                  (columnsChange)="orderWorkflowColumns($event)"
+                  [(selectedKeys)]="workflowSelected"
+                  [(filterValue)]="workflowQuery"
+                  [(first)]="workflowFirst"
+                  [(sort)]="workflowSort"
+                  [(columnFilters)]="workflowFilters"
+                  selectionMode="multiple"
+                  paginator
+                  [rows]="2"
+                  globalFilter
+                  columnFilter
+                  reorderableColumns
+                  filterLabel="Find members"
+                  filterPlaceholder="Search visible columns"
+                  [loading]="workflowBusy()"
+                  loadingMessage="Removing members"
+                  emptyMessage="No matching members. Clear filters or restore the example data."
+                />
+                <p class="workflow-note" role="status">{{ workflowStatus() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="selection-workflow"&gt;
+  &lt;aeris-toolbar fluid wrap variant="plain" role="group" ariaLabel="Member bulk actions"&gt;
+    &lt;span aerisToolbarStart aria-live="polite"&gt;
+      &#123;&#123; workflowSelected().length &#125;&#125; selected across all pages
+    &lt;/span&gt;
+    &lt;div aerisToolbarEnd&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        variant="ghost"
+        [disabled]="!workflowSelected().length || workflowBusy()"
+        (click)="clearWorkflowSelection(workflowFocusTarget()?.nativeElement)"
+      &gt;
+        Clear selection
+      &lt;/button&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        severity="danger"
+        [disabled]="!workflowSelected().length || workflowBusy()"
+        [loading]="workflowBusy()"
+        (click)="removeWorkflowMembers(workflowFocusTarget()?.nativeElement)"
+      &gt;
+        Remove selected members
+      &lt;/button&gt;
+      &lt;button
+        #workflowColumnsButton
+        aerisButton
+        type="button"
+        variant="outline"
+        (click)="workflowMenu.toggle($event)"
+      &gt;
+        Columns
+      &lt;/button&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        variant="ghost"
+        [disabled]="workflowBusy()"
+        (click)="restoreWorkflowMembers()"
+      &gt;
+        Restore members
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/aeris-toolbar&gt;
+  &lt;aeris-menu
+    #workflowMenu
+    popup
+    [model]="workflowColumnItems()"
+    ariaLabel="Member columns"
+  /&gt;
+  &lt;aeris-table
+    caption="Member selection workspace"
+    rowKeyField="id"
+    [data]="workflowMembers()"
+    [columns]="workflowColumns()"
+    (columnsChange)="orderWorkflowColumns($event)"
+    [(selectedKeys)]="workflowSelected"
+    [(filterValue)]="workflowQuery"
+    [(first)]="workflowFirst"
+    [(sort)]="workflowSort"
+    [(columnFilters)]="workflowFilters"
+    selectionMode="multiple"
+    paginator
+    [rows]="2"
+    globalFilter
+    columnFilter
+    reorderableColumns
+    filterLabel="Find members"
+    filterPlaceholder="Search visible columns"
+    [loading]="workflowBusy()"
+    loadingMessage="Removing members"
+    emptyMessage="No matching members. Clear filters or restore the example data."
+  /&gt;
+  &lt;p class="workflow-note" role="status"&gt;&#123;&#123; workflowStatus() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <p>
+              The count is the number of keys in <code>selectedKeys</code>, including selections on
+              other pages or hidden by filtering. The header checkbox changes only the current
+              filtered page; clearing selection clears every key. Bulk removal in this example
+              applies to all selected keys, not just the visible rows, and returns focus to Columns.
+              The delay simulates a request; a real application should retain data and selection
+              until its server confirms success and announce failures without clearing selection.
+            </p>
+            <p>
+              The column chooser clears a hidden column's filter and sort, preserves visible-column
+              order, and keeps Name available. Global search uses visible filterable columns. CSV
+              export also follows the current <code>columns</code> order; hidden fields are
+              excluded. Column visibility is presentation, not permission control: remove sensitive
+              fields from data returned by your server.
+            </p>
+            <p>
+              With <code>lazy</code>, Table emits request state through <code>lazyLoad</code> but
+              still filters, sorts, and paginates the supplied <code>data</code> locally. The header
+              checkbox cannot select unloaded server records. For remote datasets, preserve stable
+              keys in your controlled model and resolve selected records on the server; do not
+              interpret the loaded rows or selection count as every matching record. The
+              <code>selectRows()</code> helper accepts only keys present in the supplied data.
+            </p>
+
+            <app-form-demo
               id="table-context-menu"
               title="Context menu"
               description="Bind an Aeris ContextMenu instance to the table. Right-clicking a body row opens the menu and exposes the row through controlled contextMenuRow state."
@@ -348,6 +530,44 @@
             </app-form-demo>
 
             <app-form-demo
+              id="table-row-reordering"
+              title="Row reordering"
+              description="Drag a dedicated handle, or click/tap a source handle and then a destination handle. Keyboard users can also press Alt + Arrow Up/Down. Liam stays fixed in place. The external button demonstrates the same moveRow method."
+              [tsCode]="rowReorderCode"
+            >
+              <div preview class="row-reorder-demo">
+                <button aerisButton variant="outline" (click)="reorderTable.moveRow(0, 1)">
+                  Move first row down
+                </button>
+                <aeris-table
+                  #reorderTable
+                  caption="Team priority order"
+                  [(data)]="reorderMembers"
+                  [columns]="reorderColumns"
+                  reorderableRows
+                  [rowReorderDisabled]="pinnedMember"
+                  (rowReordered)="handleRowReorder($event)"
+                />
+                <p class="workflow-note">{{ reorderStatus() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="row-reorder-demo"&gt;
+  &lt;button aerisButton variant="outline" (click)="reorderTable.moveRow(0, 1)"&gt;
+    Move first row down
+  &lt;/button&gt;
+  &lt;aeris-table
+    #reorderTable
+    caption="Team priority order"
+    [(data)]="reorderMembers"
+    [columns]="reorderColumns"
+    reorderableRows
+    [rowReorderDisabled]="pinnedMember"
+    (rowReordered)="handleRowReorder($event)"
+  /&gt;
+  &lt;p class="workflow-note"&gt;&#123;&#123; reorderStatus() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
               id="table-expansion"
               title="Row expansion"
               description="Expandable rows keep the disclosure button, aria-expanded state, and expanded content synchronized."
@@ -375,7 +595,8 @@
     [(expandedKeys)]="expandedMembers"
   &gt;
     &lt;ng-template aerisTableExpansion let-row&gt;
-      &lt;strong&gt;&#123;&#123; row['name'] &#125;&#125;&lt;/strong&gt; - &#123;&#123; row['notes'] &#125;&#125;
+      &lt;strong&gt;&#123;&#123; row['name'] &#125;&#125;&lt;/strong&gt;
+      - &#123;&#123; row['notes'] &#125;&#125;
     &lt;/ng-template&gt;
   &lt;/aeris-table&gt;
 &lt;/div&gt;</code></pre>
@@ -384,7 +605,7 @@
             <app-form-demo
               id="table-editing"
               title="In-cell editing"
-              description="Double-click a cell to edit. Aeris emits the edit event and lets the app decide how to persist the value."
+              description="Double-click a cell to edit using the built-in text input. Aeris emits the edit event and lets the app decide how to persist the value."
               [tsCode]="editCode"
             >
               <div preview>
@@ -403,6 +624,332 @@
     [columns]="compactColumns"
     editable
     (cellEdited)="handleCellEdit($event)"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="table-editing-permissions"
+              title="Editing permissions"
+              description="Name inherits the table default. Team opts in at column level. Status opts out. The cell predicate locks Noah's entire row and Sofia's Team cell. Toggle the default to see which cells inherit it."
+            >
+              <div preview class="custom-editor-demo">
+                <button
+                  aerisButton
+                  variant="outline"
+                  [attr.aria-pressed]="permissionDefault()"
+                  (click)="permissionDefault.set(!permissionDefault())"
+                >
+                  Table default: {{ permissionDefault() ? 'editable' : 'read-only' }}
+                </button>
+                <aeris-table
+                  caption="Editing permissions"
+                  [data]="permissionRows()"
+                  [columns]="permissionColumns"
+                  [editable]="permissionDefault()"
+                  [cellEditable]="canEditCell"
+                  (cellEdited)="savePermissionEdit($event)"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="custom-editor-demo"&gt;
+  &lt;button
+    aerisButton
+    variant="outline"
+    [attr.aria-pressed]="permissionDefault()"
+    (click)="permissionDefault.set(!permissionDefault())"
+  &gt;
+    Table default: &#123;&#123; permissionDefault() ? 'editable' : 'read-only' &#125;&#125;
+  &lt;/button&gt;
+  &lt;aeris-table
+    caption="Editing permissions"
+    [data]="permissionRows()"
+    [columns]="permissionColumns"
+    [editable]="permissionDefault()"
+    [cellEditable]="canEditCell"
+    (cellEdited)="savePermissionEdit($event)"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="table-custom-editors"
+              title="Custom editors"
+              description="Edit text, quantities, dates, and selections directly. Leaving a cell commits its valid draft. Double-click another cell to switch immediately; Escape cancels. Body-mounted pickers remain part of the editor."
+            >
+              <div preview class="custom-editor-demo">
+                <aeris-table
+                  caption="Custom editor records"
+                  [data]="customEditorRows()"
+                  [columns]="customEditorColumns"
+                  editable
+                  (cellEdited)="saveCustomEditor($event)"
+                  (editCancelled)="editorResult.set('Edit cancelled.')"
+                >
+                  <ng-template aerisTableEditor let-editor let-column="column">
+                    @let draft = editor.value();
+                    <div class="custom-cell-editor">
+                      @switch (column.field) {
+                        @case ('quantity') {
+                          <aeris-input-number
+                            [ariaLabel]="editor.ariaLabel"
+                            [value]="typeof draft === 'number' ? draft : null"
+                            (valueChange)="
+                              editor.value.set($event);
+                              editor.valid.set($event !== null && $event >= 0)
+                            "
+                            [invalid]="typeof draft !== 'number' || draft < 0"
+                            fluid
+                          />
+                          @if (typeof draft !== 'number' || draft < 0) {
+                            <small role="alert">Enter a quantity of zero or greater.</small>
+                          }
+                        }
+                        @case ('status') {
+                          <aeris-select
+                            [ariaLabel]="editor.ariaLabel"
+                            [options]="editorStatuses"
+                            [value]="typeof draft === 'string' ? draft : null"
+                            (valueChange)="editor.value.set($event)"
+                            appendTo="body"
+                            fluid
+                          />
+                        }
+                        @case ('date') {
+                          @if (isDate(draft) || draft === null) {
+                            <aeris-date-picker
+                              [ariaLabel]="editor.ariaLabel"
+                              [value]="draft"
+                              (valueChange)="editor.value.set($event)"
+                              appendTo="body"
+                              fluid
+                            />
+                          }
+                        }
+                        @default {
+                          <aeris-input-text
+                            [ariaLabel]="editor.ariaLabel"
+                            [value]="typeof draft === 'string' ? draft : ''"
+                            (valueChange)="editor.value.set($event)"
+                            fluid
+                          />
+                        }
+                      }
+                    </div>
+                  </ng-template>
+                </aeris-table>
+                <small role="status">{{ editorResult() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="custom-editor-demo"&gt;
+  &lt;aeris-table
+    caption="Custom editor records"
+    [data]="customEditorRows()"
+    [columns]="customEditorColumns"
+    editable
+    (cellEdited)="saveCustomEditor($event)"
+    (editCancelled)="editorResult.set('Edit cancelled.')"
+  &gt;
+    &lt;ng-template aerisTableEditor let-editor let-column="column"&gt;
+      &#64;let draft = editor.value();
+      &lt;div class="custom-cell-editor"&gt;
+        &#64;switch (column.field) &#123;
+          &#64;case ('quantity') &#123;
+            &lt;aeris-input-number
+              [ariaLabel]="editor.ariaLabel"
+              [value]="typeof draft === 'number' ? draft : null"
+              (valueChange)="
+                editor.value.set($event); editor.valid.set($event !== null &amp;&amp; $event &gt;= 0)
+              "
+              [invalid]="typeof draft !== 'number' || draft &lt; 0"
+              fluid
+            /&gt;
+            &#64;if (typeof draft !== 'number' || draft &lt; 0) &#123;
+              &lt;small role="alert"&gt;Enter a quantity of zero or greater.&lt;/small&gt;
+            &#125;
+          &#125;
+          &#64;case ('status') &#123;
+            &lt;aeris-select
+              [ariaLabel]="editor.ariaLabel"
+              [options]="editorStatuses"
+              [value]="typeof draft === 'string' ? draft : null"
+              (valueChange)="editor.value.set($event)"
+              appendTo="body"
+              fluid
+            /&gt;
+          &#125;
+          &#64;case ('date') &#123;
+            &#64;if (isDate(draft) || draft === null) &#123;
+              &lt;aeris-date-picker
+                [ariaLabel]="editor.ariaLabel"
+                [value]="draft"
+                (valueChange)="editor.value.set($event)"
+                appendTo="body"
+                fluid
+              /&gt;
+            &#125;
+          &#125;
+          &#64;default &#123;
+            &lt;aeris-input-text
+              [ariaLabel]="editor.ariaLabel"
+              [value]="typeof draft === 'string' ? draft : ''"
+              (valueChange)="editor.value.set($event)"
+              fluid
+            /&gt;
+          &#125;
+        &#125;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-table&gt;
+  &lt;small role="status"&gt;&#123;&#123; editorResult() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="table-sticky-headers"
+              title="Sticky headers"
+              description="Headers and filters stay aligned at measured offsets. Toggle stickyHeader to let both scroll normally."
+            >
+              <div preview class="custom-editor-demo">
+                <button
+                  aerisButton
+                  variant="outline"
+                  [attr.aria-pressed]="pinHeaders()"
+                  (click)="pinHeaders.set(!pinHeaders())"
+                >
+                  Sticky headers: {{ pinHeaders() ? 'on' : 'off' }}
+                </button>
+                <aeris-table
+                  caption="Sticky headers and filters"
+                  [data]="pinningRows()"
+                  [columns]="pinningPlainColumns"
+                  scrollable
+                  scrollHeight="22rem"
+                  columnFilter
+                  [stickyHeader]="pinHeaders()"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="custom-editor-demo"&gt;
+  &lt;button
+    aerisButton
+    variant="outline"
+    [attr.aria-pressed]="pinHeaders()"
+    (click)="pinHeaders.set(!pinHeaders())"
+  &gt;
+    Sticky headers: &#123;&#123; pinHeaders() ? 'on' : 'off' &#125;&#125;
+  &lt;/button&gt;
+  &lt;aeris-table
+    caption="Sticky headers and filters"
+    [data]="pinningRows()"
+    [columns]="pinningPlainColumns"
+    scrollable
+    scrollHeight="22rem"
+    columnFilter
+    [stickyHeader]="pinHeaders()"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="table-pinned-columns"
+              title="Pinned columns"
+              description="Name stays at the logical start and Status at the end. Both sides follow RTL automatically. Scroll horizontally; if pinned columns leave less than 44px for normal content, they scroll normally instead."
+            >
+              <div preview class="custom-editor-demo">
+                <aeris-table
+                  caption="Start and end columns"
+                  [data]="pinningRows()"
+                  [columns]="pinnedColumns()"
+                  scrollable
+                  scrollHeight="22rem"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="custom-editor-demo"&gt;
+  &lt;aeris-table
+    caption="Start and end columns"
+    [data]="pinningRows()"
+    [columns]="pinnedColumns()"
+    scrollable
+    scrollHeight="22rem"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="table-pinned-rows"
+              title="Pinned rows"
+              description="Record 3 stays below the header and Record 18 stays at the bottom. Pinning changes only the displayed order, not your data or pagination. Filtered-out and off-page records are not brought back by pinning."
+            >
+              <div preview class="custom-editor-demo">
+                <button
+                  aerisButton
+                  variant="outline"
+                  [attr.aria-pressed]="pinRows().top.length > 0"
+                  (click)="
+                    pinRows.set(pinRows().top.length ? { top: [], bottom: [] } : defaultPinRows)
+                  "
+                >
+                  {{ pinRows().top.length ? 'Unpin rows' : 'Pin rows' }}
+                </button>
+                <aeris-table
+                  caption="Top and bottom rows"
+                  [data]="pinningRows()"
+                  [columns]="pinningPlainColumns"
+                  scrollable
+                  scrollHeight="26rem"
+                  [(pinnedRows)]="pinRows"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="custom-editor-demo"&gt;
+  &lt;button
+    aerisButton
+    variant="outline"
+    [attr.aria-pressed]="pinRows().top.length &gt; 0"
+    (click)="pinRows.set(pinRows().top.length ? &#123; top: [], bottom: [] &#125; : defaultPinRows)"
+  &gt;
+    &#123;&#123; pinRows().top.length ? 'Unpin rows' : 'Pin rows' &#125;&#125;
+  &lt;/button&gt;
+  &lt;aeris-table
+    caption="Top and bottom rows"
+    [data]="pinningRows()"
+    [columns]="pinningPlainColumns"
+    scrollable
+    scrollHeight="26rem"
+    [(pinnedRows)]="pinRows"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="table-combined-pinning"
+              title="Combined pinning"
+              description="Pinned rows and columns meet without content showing through. Try sorting, filtering, resizing or editing a cell. Columns reorder within their pin group; row reordering is unavailable while rows are pinned."
+            >
+              <div preview class="custom-editor-demo">
+                <aeris-table
+                  caption="Combined pinning"
+                  striped
+                  [data]="pinningRows()"
+                  [(columns)]="pinnedColumns"
+                  [pinnedRows]="defaultPinRows"
+                  scrollable
+                  scrollHeight="26rem"
+                  columnFilter
+                  resizableColumns
+                  reorderableColumns
+                  editable
+                  (cellEdited)="savePinnedEdit($event)"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="custom-editor-demo"&gt;
+  &lt;aeris-table
+    caption="Combined pinning"
+    striped
+    [data]="pinningRows()"
+    [(columns)]="pinnedColumns"
+    [pinnedRows]="defaultPinRows"
+    scrollable
+    scrollHeight="26rem"
+    columnFilter
+    resizableColumns
+    reorderableColumns
+    editable
+    (cellEdited)="savePinnedEdit($event)"
   /&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -660,7 +1207,18 @@
               <div role="row">
                 <code role="cell">aerisTableCell</code
                 ><span role="cell">value, row, column, rowIndex</span
-                ><span role="cell">Custom body cells.</span>
+                ><span role="cell"
+                  >Custom body content outside editing. Use aerisTableEditor to replace the editing
+                  view.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">aerisTableEditor</code
+                ><span role="cell">editor ($implicit), row, column, rowIndex</span>
+                <span role="cell"
+                  >Custom editing view. Included in AerisTableModule and
+                  AerisTableContextMenuModule; no additional table import.</span
+                >
               </div>
               <div role="row">
                 <code role="cell">aerisTableExpansion</code><span role="cell">row, rowIndex</span
@@ -676,11 +1234,89 @@
               </div>
             </div>
 
+            <h3>Custom editor state</h3>
+            <p>
+              The template receives the editor as its implicit value and as editor. Use the row or
+              node metadata for application validation. Bind the control's accessible name and
+              connect its value changes to the draft. Leaving the editor commits a valid draft.
+              Switching cells commits the previous draft, or discards it if invalid, and opens the
+              new cell immediately. Portaled controls must link their panels with aria-controls or
+              aria-owns.
+            </p>
+            <div class="api-table" role="table" aria-label="Table custom editor state" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Member</b><b role="columnheader">Type</b
+                ><b role="columnheader">Behavior</b>
+              </div>
+              <div role="row">
+                <code role="cell">value</code><code role="cell">WritableSignal&lt;unknown&gt;</code
+                ><span role="cell"
+                  >Draft value. Replace it with value.set(next); preserve number, boolean, Date,
+                  array, object, or null types.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">originalValue</code><code role="cell">unknown</code
+                ><span role="cell"
+                  >Value at edit start. Treat objects and dates as immutable; no deep cloning is
+                  performed.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">valid</code><code role="cell">WritableSignal&lt;boolean&gt;</code>
+                <span role="cell"
+                  >Whether the draft may commit. Defaults to true. Update this from your form
+                  validation; invalid drafts stay open on blur and are discarded when switching
+                  cells.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">ariaLabel</code><code role="cell">string</code
+                ><span role="cell"
+                  >Default accessible name: Edit followed by the column header. Bind it to your
+                  editor control.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">commit(event?)</code
+                ><code role="cell">(event?: Event) =&gt; void</code
+                ><span role="cell"
+                  >Saves a valid draft and finishes editing. Also runs automatically when focus or a
+                  pointer leaves the owned editor, or on an unconsumed Enter outside multiline
+                  fields.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">cancel(event?)</code
+                ><code role="cell">(event?: Event) =&gt; void</code
+                ><span role="cell"
+                  >Discards the draft and finishes editing. Escape also cancels unless a child
+                  control consumes it or has an open picker.</span
+                >
+              </div>
+            </div>
             <h3 id="table-api-methods" tabindex="-1">Methods</h3>
+            <p>
+              Row reordering requires a unique, non-empty string or finite number in rowKeyField for
+              every row. Sorting, non-empty global/column filters, paginator, lazy, loading, and
+              active cell editing disable moves. Disabled rows stay fixed and cannot be crossed.
+              Selection and expansion remain attached to their keys. Table state does not serialize
+              row order: persist the data array in your application. TreeTable hierarchical
+              reordering is not supported.
+            </p>
             <div class="api-table compact" role="table" aria-label="Table methods" tabindex="0">
               <div class="api-head" role="row">
                 <b role="columnheader">Name</b><b role="columnheader">Returns</b
                 ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">moveRow(fromIndex, toIndex, originalEvent?)</code
+                ><span role="cell">boolean</span
+                ><span role="cell"
+                  >Moves a row using zero-based data indices; returns false without events for
+                  invalid, disabled, or unsupported moves. The optional Event defaults to
+                  null.</span
+                >
               </div>
               <div role="row">
                 <code role="cell">reset()</code><span role="cell">void</span
@@ -757,7 +1393,62 @@
     <aeris-tab-panel value="interfaces" label="Interfaces">
       <section class="doc-section">
         <h2>Interfaces and types</h2>
+        <app-code-block [code]="editorInterfacesCode" language="TypeScript" />
         <app-code-block [code]="interfacesCode" language="TypeScript" />
+        <h3>Editing permissions</h3>
+        <p>
+          The final permission is
+          <code>cellEditable(row, column) ?? column.editable ?? editable</code>. True allows
+          editing, false prevents it, and undefined inherits. The table setting is a default, not a
+          master switch: an explicit column or cell true can enable editing when the default is
+          false. The predicate can restrict whole rows or individual cells. Keep it pure. If
+          permission is revoked during editing, the draft is cancelled without saving. Read-only
+          cells still support normal selection and projected content.
+        </p>
+        <div
+          class="api-table compact"
+          role="table"
+          aria-label="Column editing permission"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Property</b><b role="columnheader">Type</b
+            ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+          </div>
+          <div role="row">
+            <code role="cell">AerisTableColumn.editable</code
+            ><code role="cell">boolean | undefined</code><code role="cell">undefined</code
+            ><span role="cell"
+              >Overrides the table default for a column. cellEditable has final priority.</span
+            >
+          </div>
+        </div>
+        <h3>Pinning</h3>
+        <p>
+          Both tables use stickyHeader, column pinned and the pinnedRows model. Column pinned
+          accepts <code>'start'</code> or <code>'end'</code>; omit it for normal scrolling. Columns
+          are displayed in start, normal and end groups without mutating your configuration.
+          Reordering stays within a pin group. Pin keys refer to stable, unique row keys; top wins
+          if a key appears on both sides. Normal filters and pagination apply first, then visible
+          rows are grouped top, normal and bottom in their current sorted order. Pinning never
+          fetches missing lazy data or duplicates records. Persist pin state through your own model;
+          saveState, restoreState and reset do not own it. Oversized pinned regions revert to
+          scrolling to leave at least 44px for normal content. Responsive stack mode disables
+          sticking. Table expansion detail rows travel with their parent.
+        </p>
+        <div class="api-table compact" role="table" aria-label="Column pinning option" tabindex="0">
+          <div class="api-head" role="row">
+            <b role="columnheader">Property</b><b role="columnheader">Type</b
+            ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+          </div>
+          <div role="row">
+            <code role="cell">AerisTableColumn.pinned</code
+            ><code role="cell">'start' | 'end' | undefined</code><code role="cell">undefined</code
+            ><span role="cell"
+              >Pins the column to a logical edge, including its header and filter cell.</span
+            >
+          </div>
+        </div>
       </section>
     </aeris-tab-panel>
 
@@ -808,6 +1499,17 @@
     <aeris-tab-panel value="accessibility" label="Accessibility">
       <section class="doc-section">
         <h2>Accessibility</h2>
+        <p>
+          Click or tap a row handle, then a destination handle to move without dragging. The pressed
+          state and live instructions identify the picked row. Activate the same handle again or
+          press Escape to cancel.
+        </p>
+        <p>
+          Row reorder handles are named native buttons with instructions. Use Alt + Arrow Up/Down to
+          move a focused row; focus stays on that row and its new position is announced. Escape
+          cancels pointer dragging. For non-drag pointer alternatives, provide buttons calling
+          moveRow(), as in the Row reordering example.
+        </p>
         <ul>
           <li>
             Table uses native <code>table</code>, <code>caption</code>, <code>thead</code>,
@@ -833,6 +1535,10 @@
             When <code>showOverflowTooltip</code> is enabled, truncated headers and cells use Aeris
             Tooltip to reveal their complete value.
           </li>
+          <li>
+            Read-only cells have no edit indicator or editing tab stop. Double-click, Enter and F2
+            cannot start editing them.
+          </li>
           <li>Loading and empty states use status semantics and remain inside the table body.</li>
           <li>
             Stack responsive mode preserves cell labels through generated row labels on narrow
@@ -844,6 +1550,12 @@
           </li>
         </ul>
         <h3>Keyboard support</h3>
+        <p>
+          Editors commit valid drafts when you leave the cell or press an unconsumed Enter.
+          Textareas keep Enter for new lines, and nested pickers handle their own keys. Escape
+          cancels. The first available control receives focus on entry; keyboard completion returns
+          focus to the cell without stealing focus from outside controls on blur.
+        </p>
         <div
           class="api-table keyboard-table"
           role="table"
@@ -852,6 +1564,17 @@
         >
           <div class="api-head" role="row">
             <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Enter</kbd> / <kbd>F2</kbd> on an editable cell</span>
+            <span role="cell">Starts editing and focuses the first available editor control.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Escape</kbd> while editing</span>
+            <span role="cell"
+              >Cancels the edit after any nested picker has handled its own Escape. Custom editors
+              commit valid drafts when you leave the cell.</span
+            >
           </div>
           <div role="row">
             <kbd role="cell">Tab</kbd
@@ -901,7 +1624,24 @@
             >
           </div>
           <div role="row">
-            <span role="cell"><kbd>Alt</kbd> + <kbd>Arrow Left</kbd> / <kbd>Arrow Right</kbd></span
+            <span role="cell"><kbd>Alt</kbd> + <kbd>Arrow Up</kbd> / <kbd>Arrow Down</kbd></span
+            ><span role="cell"
+              >Moves the row whose reorder handle has focus. Bounds and fixed rows are
+              respected.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd> on a reorder handle</span
+            ><span role="cell"
+              >Picks a source row, then places it at the next activated destination handle.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Escape</kbd
+            ><span role="cell">Cancels row dragging or a picked row without changing data.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Alt</kbd> + <kbd>Arrow Left</kbd> / <kbd>Arrow Right</kbd></span>
             ><span role="cell"
               >Moves a focused reorderable header one position in the requested visual
               direction.</span

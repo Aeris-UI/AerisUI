@@ -2,7 +2,7 @@
 
 > Directive for filtering native text input with presets, custom patterns, and paste handling.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/key-filter`
 - Human-readable documentation: [https://aeris-ui.dev/components/key-filter](https://aeris-ui.dev/components/key-filter)
@@ -142,7 +142,7 @@ import { AerisKeyFilter } from '@aeris-ui/core/key-filter';
     }
   `
 })
-export class KeyFilterBasicBasicDemo {
+export class KeyFilterBasicDemo {
 }
 ```
 
@@ -163,7 +163,7 @@ import { AerisKeyFilter } from '@aeris-ui/core/key-filter';
   templateUrl: './key-filter-presets.demo.html',
   styleUrl: './key-filter-presets.demo.scss'
 })
-export class KeyFilterPresetsPresetsDemo {
+export class KeyFilterPresetsDemo {
 }
 ```
 
@@ -220,7 +220,7 @@ export class KeyFilterPresetsPresetsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -274,7 +274,7 @@ import { AerisKeyFilter } from '@aeris-ui/core/key-filter';
   templateUrl: './key-filter-decimals.demo.html',
   styleUrl: './key-filter-decimals.demo.scss'
 })
-export class KeyFilterDecimalsNumbersDemo {
+export class KeyFilterDecimalsDemo {
 }
 ```
 
@@ -313,7 +313,7 @@ export class KeyFilterDecimalsNumbersDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -404,7 +404,7 @@ import { AerisKeyFilter } from '@aeris-ui/core/key-filter';
     }
   `
 })
-export class KeyFilterCustomCustomPatternDemo {
+export class KeyFilterCustomDemo {
   protected readonly uppercasePattern = /^[A-Z]*$/;
 }
 ```
@@ -416,7 +416,7 @@ Use validateOnly when you want to observe invalid attempts without blocking nati
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AerisInputText } from '@aeris-ui/core/input-text';
 import { AerisKeyFilter, type AerisKeyFilterRejectEvent } from '@aeris-ui/core/key-filter';
@@ -468,7 +468,9 @@ import { AerisKeyFilter, type AerisKeyFilterRejectEvent } from '@aeris-ui/core/k
     }
   `
 })
-export class KeyFilterValidateOnlyValidateOnlyDemo {
+export class KeyFilterValidateOnlyDemo {
+  protected readonly rejectedValue = signal('No rejected input yet.');
+
   protected validateOnlyValue = '';
 
   protected recordRejected(event: AerisKeyFilterRejectEvent): void {
@@ -532,7 +534,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
     }
   `
 })
-export class KeyFilterTextareaTextareaDemo {
+export class KeyFilterTextareaDemo {
 }
 ```
 
@@ -554,7 +556,7 @@ import { AerisKeyFilter } from '@aeris-ui/core/key-filter';
   templateUrl: './key-filter-forms.demo.html',
   styleUrl: './key-filter-forms.demo.scss'
 })
-export class KeyFilterFormsReactiveAndTemplateDrivenFormsDemo {
+export class KeyFilterFormsDemo {
   protected readonly reactiveCode = new FormControl('');
   protected templateCode = '';
 }
@@ -596,7 +598,7 @@ export class KeyFilterFormsReactiveAndTemplateDrivenFormsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 

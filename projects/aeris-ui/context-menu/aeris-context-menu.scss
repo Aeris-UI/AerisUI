@@ -1,3 +1,4 @@
+@use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 aeris-context-menu {
@@ -112,6 +113,8 @@ aeris-context-menu {
     color: var(--aeris-context-menu-item-hover-color, var(--aeris-text, #111111));
   }
 }
+
+@include aeris-icons.custom-icon;
 .aeris-context-menu__item:focus-visible {
   outline: var(--aeris-focus-ring-width, 3px) solid
     color-mix(
@@ -258,4 +261,10 @@ aeris-context-menu {
   .aeris-context-menu__item {
     transition: none;
   }
+}
+
+.aeris-context-menu__submenu-icon:not([data-aeris-custom-icon]) {
+  background: currentColor;
+  -webkit-mask: var(--aeris-icon-chevron-right) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-chevron-right) center / 100% 100% no-repeat;
 }

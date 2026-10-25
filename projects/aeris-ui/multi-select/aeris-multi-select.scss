@@ -1,10 +1,13 @@
+@use '../src/styles/icon-artwork' as artwork;
+@use '../src/styles/selection-icons' as selection-icons;
+@use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
   --_aeris-chevron-mask: var(
     --aeris-icon-chevron,
-    url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E')
+    url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpath d="m6 9 6 6 6-6"/%3E%3C/svg%3E')
   );
   display: inline-block;
   min-width: 14rem;
@@ -381,26 +384,14 @@
   background: var(--aeris-primary, #{aeris-fallbacks.$primary});
 }
 .aeris-multi-select__checkbox span {
-  position: relative;
-  top: -0.05rem;
-  width: 52%;
-  height: 30%;
-  border-inline-start: 2px solid currentColor;
-  border-block-end: 2px solid currentColor;
-  transform: rotate(-45deg) scale(0.7);
+  transform: scale(0.7);
   opacity: 0;
 }
 .aeris-multi-select__checkbox[data-checked] span {
   opacity: 1;
-  transform: rotate(-45deg) scale(1);
+  transform: scale(1);
 }
 .aeris-multi-select__checkbox[data-mixed] span {
-  top: 0;
-  width: 56%;
-  height: 2px;
-  border: 0;
-  border-radius: var(--aeris-radius-pill, 999px);
-  background: currentColor;
   transform: none;
   opacity: 1;
 }
@@ -428,9 +419,10 @@
   height: 1rem;
   display: inline-block;
   margin-right: 0.4rem;
-  border: 2px solid var(--aeris-border, #efefef);
-  border-top-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
-  border-radius: 50%;
+  color: var(--aeris-primary, #{aeris-fallbacks.$primary});
+  background: currentColor;
+  -webkit-mask: var(--aeris-icon-loader, #{artwork.$loader}) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-loader, #{artwork.$loader}) center / 100% 100% no-repeat;
   animation: aeris-ms-spin 0.7s linear infinite;
 }
 @keyframes aeris-ms-spin {
@@ -458,3 +450,9 @@
 }
 
 @include aeris-mobile.input-font('input');
+
+@include aeris-icons.custom-icon;
+@include aeris-icons.dropdown('.aeris-multi-select__chevron', '.aeris-multi-select[data-open]');
+
+@include selection-icons.mark('.aeris-multi-select__checkbox[data-checked] span', 'check');
+@include selection-icons.mark('.aeris-multi-select__checkbox[data-mixed] span', 'minus');

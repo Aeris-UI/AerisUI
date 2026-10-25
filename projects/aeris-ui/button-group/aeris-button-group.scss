@@ -4,6 +4,19 @@
   isolation: isolate;
 }
 
+.aeris-button-group[aria-invalid='true'] {
+  outline: var(--aeris-focus-ring-width, 3px) solid
+    var(--aeris-control-invalid-border, var(--aeris-danger));
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
+  border-radius: var(--aeris-radius-control);
+}
+
+.aeris-button-group[data-selection] > button {
+  min-inline-size: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 .aeris-button-group[data-orientation='vertical'] {
   flex-direction: column;
 }
@@ -37,12 +50,6 @@
 .aeris-button-group > .aeris-button:focus-visible,
 .aeris-button-group > aeris-button:has(.aeris-button:focus-visible) {
   z-index: 1;
-}
-@media (hover: hover) {
-  .aeris-button-group > .aeris-button:hover,
-  .aeris-button-group > aeris-button:has(.aeris-button:hover) {
-    z-index: 1;
-  }
 }
 .aeris-button-group[data-orientation='horizontal'] > :not(:first-child) {
   margin-inline-start: -1px;

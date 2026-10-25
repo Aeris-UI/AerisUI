@@ -38,6 +38,8 @@ import { ProjectedCode } from '../../../../shared/projected-code.directive';
     .preview ::ng-deep > [preview] {
       display: flex;
       gap: 9px;
+      flex-wrap: wrap;
+      align-items: center;
     }
     .preview ::ng-deep .wrap {
       display: flex;
@@ -81,7 +83,7 @@ export class ButtonDemoComponent {
       title: this.title(),
       template: this.code()?.text() ?? '',
       classCode: [DOC_EXAMPLE_CODE[this.anchor()], this.tsCode()].filter(Boolean).join('\n\n'),
-      cssCode: [DOC_EXAMPLE_STYLES[this.anchor()], this.cssCode()].filter(Boolean).join('\n\n'),
+      cssCode: DOC_EXAMPLE_STYLES[this.anchor()] ?? this.cssCode(),
     }),
   );
 }

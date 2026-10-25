@@ -19,6 +19,7 @@ import {
   viewChild,
 } from '@angular/core';
 import {
+  ɵAerisIcon,
   ɵlockAerisDocumentScroll,
   ɵunlockAerisDocumentScroll,
   ɵregisterAerisOverlay,
@@ -159,7 +160,7 @@ let nextGalleriaId = 0;
 
 @Component({
   selector: 'aeris-galleria',
-  imports: [NgTemplateOutlet],
+  imports: [ɵAerisIcon, NgTemplateOutlet],
   template: `
     <section
       class="aeris-galleria"
@@ -297,10 +298,19 @@ let nextGalleriaId = 0;
                         [title]="rotateLeftAriaLabel()"
                         (click)="rotate(-rotationStep())"
                       >
-                        <span
-                          class="aeris-galleria__tool-icon aeris-galleria__tool-icon--rotate-left"
-                          aria-hidden="true"
-                        ></span>
+                        @if (rotateLeftIconTemplate(); as customIcon) {
+                          <span
+                            class="aeris-galleria__tool-icon aeris-galleria__tool-icon--rotate-left"
+                            aria-hidden="true"
+                            data-aeris-custom-icon
+                            ><ng-container [ngTemplateOutlet]="customIcon"
+                          /></span>
+                        } @else {
+                          <span
+                            class="aeris-galleria__tool-icon aeris-galleria__tool-icon--rotate-left"
+                            aria-hidden="true"
+                          ></span>
+                        }
                       </button>
                       <button
                         type="button"
@@ -308,10 +318,19 @@ let nextGalleriaId = 0;
                         [title]="rotateRightAriaLabel()"
                         (click)="rotate(rotationStep())"
                       >
-                        <span
-                          class="aeris-galleria__tool-icon aeris-galleria__tool-icon--rotate-right"
-                          aria-hidden="true"
-                        ></span>
+                        @if (rotateRightIconTemplate(); as customIcon) {
+                          <span
+                            class="aeris-galleria__tool-icon aeris-galleria__tool-icon--rotate-right"
+                            aria-hidden="true"
+                            data-aeris-custom-icon
+                            ><ng-container [ngTemplateOutlet]="customIcon"
+                          /></span>
+                        } @else {
+                          <span
+                            class="aeris-galleria__tool-icon aeris-galleria__tool-icon--rotate-right"
+                            aria-hidden="true"
+                          ></span>
+                        }
                       </button>
                     }
                     @if (showFlipControls()) {
@@ -322,10 +341,19 @@ let nextGalleriaId = 0;
                         [attr.aria-pressed]="horizontalFlip()"
                         (click)="toggleHorizontalFlip()"
                       >
-                        <span
-                          class="aeris-galleria__tool-icon aeris-galleria__tool-icon--flip-horizontal"
-                          aria-hidden="true"
-                        ></span>
+                        @if (flipHorizontalIconTemplate(); as customIcon) {
+                          <span
+                            class="aeris-galleria__tool-icon aeris-galleria__tool-icon--flip-horizontal"
+                            aria-hidden="true"
+                            data-aeris-custom-icon
+                            ><ng-container [ngTemplateOutlet]="customIcon"
+                          /></span>
+                        } @else {
+                          <span
+                            class="aeris-galleria__tool-icon aeris-galleria__tool-icon--flip-horizontal"
+                            aria-hidden="true"
+                          ></span>
+                        }
                       </button>
                       <button
                         type="button"
@@ -334,10 +362,19 @@ let nextGalleriaId = 0;
                         [attr.aria-pressed]="verticalFlip()"
                         (click)="toggleVerticalFlip()"
                       >
-                        <span
-                          class="aeris-galleria__tool-icon aeris-galleria__tool-icon--flip-vertical"
-                          aria-hidden="true"
-                        ></span>
+                        @if (flipVerticalIconTemplate(); as customIcon) {
+                          <span
+                            class="aeris-galleria__tool-icon aeris-galleria__tool-icon--flip-vertical"
+                            aria-hidden="true"
+                            data-aeris-custom-icon
+                            ><ng-container [ngTemplateOutlet]="customIcon"
+                          /></span>
+                        } @else {
+                          <span
+                            class="aeris-galleria__tool-icon aeris-galleria__tool-icon--flip-vertical"
+                            aria-hidden="true"
+                          ></span>
+                        }
                       </button>
                     }
                     @if (showZoomControls()) {
@@ -348,10 +385,19 @@ let nextGalleriaId = 0;
                         [disabled]="resolvedZoom() <= resolvedMinZoom()"
                         (click)="zoomOut()"
                       >
-                        <span
-                          class="aeris-galleria__tool-icon aeris-galleria__tool-icon--zoom-out"
-                          aria-hidden="true"
-                        ></span>
+                        @if (zoomOutIconTemplate(); as customIcon) {
+                          <span
+                            class="aeris-galleria__tool-icon aeris-galleria__tool-icon--zoom-out"
+                            aria-hidden="true"
+                            data-aeris-custom-icon
+                            ><ng-container [ngTemplateOutlet]="customIcon"
+                          /></span>
+                        } @else {
+                          <span
+                            class="aeris-galleria__tool-icon aeris-galleria__tool-icon--zoom-out"
+                            aria-hidden="true"
+                          ></span>
+                        }
                       </button>
                       <output
                         class="aeris-galleria__zoom-value"
@@ -365,10 +411,19 @@ let nextGalleriaId = 0;
                         [disabled]="resolvedZoom() >= resolvedMaxZoom()"
                         (click)="zoomIn()"
                       >
-                        <span
-                          class="aeris-galleria__tool-icon aeris-galleria__tool-icon--zoom-in"
-                          aria-hidden="true"
-                        ></span>
+                        @if (zoomInIconTemplate(); as customIcon) {
+                          <span
+                            class="aeris-galleria__tool-icon aeris-galleria__tool-icon--zoom-in"
+                            aria-hidden="true"
+                            data-aeris-custom-icon
+                            ><ng-container [ngTemplateOutlet]="customIcon"
+                          /></span>
+                        } @else {
+                          <span
+                            class="aeris-galleria__tool-icon aeris-galleria__tool-icon--zoom-in"
+                            aria-hidden="true"
+                          ></span>
+                        }
                       </button>
                     }
                     @if (showResetControl()) {
@@ -379,10 +434,19 @@ let nextGalleriaId = 0;
                         [disabled]="transformIsDefault()"
                         (click)="resetTransform()"
                       >
-                        <span
-                          class="aeris-galleria__tool-icon aeris-galleria__tool-icon--reset"
-                          aria-hidden="true"
-                        ></span>
+                        @if (resetIconTemplate(); as customIcon) {
+                          <span
+                            class="aeris-galleria__tool-icon aeris-galleria__tool-icon--reset"
+                            aria-hidden="true"
+                            data-aeris-custom-icon
+                            ><ng-container [ngTemplateOutlet]="customIcon"
+                          /></span>
+                        } @else {
+                          <span
+                            class="aeris-galleria__tool-icon aeris-galleria__tool-icon--reset"
+                            aria-hidden="true"
+                          ></span>
+                        }
                       </button>
                     }
                     @if (showDownloadControl() && downloadAvailable()) {
@@ -392,10 +456,19 @@ let nextGalleriaId = 0;
                         [title]="downloadAriaLabel()"
                         (click)="download()"
                       >
-                        <span
-                          class="aeris-galleria__tool-icon aeris-galleria__tool-icon--download"
-                          aria-hidden="true"
-                        ></span>
+                        @if (downloadIconTemplate(); as customIcon) {
+                          <span
+                            class="aeris-galleria__tool-icon aeris-galleria__tool-icon--download"
+                            aria-hidden="true"
+                            data-aeris-custom-icon
+                            ><ng-container [ngTemplateOutlet]="customIcon"
+                          /></span>
+                        } @else {
+                          <span
+                            class="aeris-galleria__tool-icon aeris-galleria__tool-icon--download"
+                            aria-hidden="true"
+                          ></span>
+                        }
                       </button>
                     }
                     @if (allowFullscreen()) {
@@ -410,7 +483,18 @@ let nextGalleriaId = 0;
                         [attr.aria-pressed]="fullscreen()"
                         (click)="toggleFullscreen()"
                       >
-                        <span class="aeris-galleria__fullscreen-icon" aria-hidden="true"></span>
+                        @if (fullscreenIconTemplate(); as icon) {
+                          <span aria-hidden="true" data-aeris-custom-icon
+                            ><ng-container
+                              [ngTemplateOutlet]="icon.template"
+                              [ngTemplateOutletContext]="{
+                                $implicit: fullscreen(),
+                                fullscreen: fullscreen(),
+                              }"
+                          /></span>
+                        } @else {
+                          <span class="aeris-galleria__fullscreen-icon" aria-hidden="true"></span>
+                        }
                       </button>
                     }
                   </div>
@@ -426,9 +510,15 @@ let nextGalleriaId = 0;
                   (click)="previous('previous')"
                 >
                   @if (previousIconTemplate(); as icon) {
-                    <ng-container [ngTemplateOutlet]="icon.template" />
+                    <span aria-hidden="true" data-aeris-custom-icon
+                      ><ng-container [ngTemplateOutlet]="icon.template"
+                    /></span>
                   } @else {
-                    <span class="aeris-galleria__chevron" aria-hidden="true"></span>
+                    <span
+                      aerisInternalIcon="chevron"
+                      class="aeris-galleria__chevron"
+                      aria-hidden="true"
+                    ></span>
                   }
                 </button>
                 <button
@@ -439,9 +529,15 @@ let nextGalleriaId = 0;
                   (click)="next('next')"
                 >
                   @if (nextIconTemplate(); as icon) {
-                    <ng-container [ngTemplateOutlet]="icon.template" />
+                    <span aria-hidden="true" data-aeris-custom-icon
+                      ><ng-container [ngTemplateOutlet]="icon.template"
+                    /></span>
                   } @else {
-                    <span class="aeris-galleria__chevron" aria-hidden="true"></span>
+                    <span
+                      aerisInternalIcon="chevron"
+                      class="aeris-galleria__chevron"
+                      aria-hidden="true"
+                    ></span>
                   }
                 </button>
               }
@@ -457,13 +553,14 @@ let nextGalleriaId = 0;
                   (click)="toggleFullscreen()"
                 >
                   @if (fullscreenIconTemplate(); as icon) {
-                    <ng-container
-                      [ngTemplateOutlet]="icon.template"
-                      [ngTemplateOutletContext]="{
-                        $implicit: fullscreen(),
-                        fullscreen: fullscreen(),
-                      }"
-                    />
+                    <span aria-hidden="true" data-aeris-custom-icon
+                      ><ng-container
+                        [ngTemplateOutlet]="icon.template"
+                        [ngTemplateOutletContext]="{
+                          $implicit: fullscreen(),
+                          fullscreen: fullscreen(),
+                        }"
+                    /></span>
                   } @else {
                     <span class="aeris-galleria__fullscreen-icon" aria-hidden="true"></span>
                   }
@@ -510,7 +607,13 @@ let nextGalleriaId = 0;
                     [disabled]="thumbnailAtStart()"
                     (click)="shiftThumbnails(-1)"
                   >
-                    <span aria-hidden="true"></span>
+                    @if (previousIconTemplate(); as icon) {
+                      <span aria-hidden="true" data-aeris-custom-icon
+                        ><ng-container [ngTemplateOutlet]="icon.template"
+                      /></span>
+                    } @else {
+                      <span aerisInternalIcon="chevron" aria-hidden="true"></span>
+                    }
                   </button>
                 }
 
@@ -564,7 +667,13 @@ let nextGalleriaId = 0;
                     [disabled]="thumbnailAtEnd()"
                     (click)="shiftThumbnails(1)"
                   >
-                    <span aria-hidden="true"></span>
+                    @if (nextIconTemplate(); as icon) {
+                      <span aria-hidden="true" data-aeris-custom-icon
+                        ><ng-container [ngTemplateOutlet]="icon.template"
+                      /></span>
+                    } @else {
+                      <span aerisInternalIcon="chevron" aria-hidden="true"></span>
+                    }
                   </button>
                 }
               </div>
@@ -589,6 +698,15 @@ let nextGalleriaId = 0;
   },
 })
 export class AerisGalleria<T = AerisGalleriaImage> {
+  readonly rotateLeftIconTemplate = input<TemplateRef<void>>();
+  readonly rotateRightIconTemplate = input<TemplateRef<void>>();
+  readonly flipHorizontalIconTemplate = input<TemplateRef<void>>();
+  readonly flipVerticalIconTemplate = input<TemplateRef<void>>();
+  readonly zoomOutIconTemplate = input<TemplateRef<void>>();
+  readonly zoomInIconTemplate = input<TemplateRef<void>>();
+  readonly resetIconTemplate = input<TemplateRef<void>>();
+  readonly downloadIconTemplate = input<TemplateRef<void>>();
+
   private readonly host: ElementRef<HTMLElement> = inject(ElementRef);
   private readonly document = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);

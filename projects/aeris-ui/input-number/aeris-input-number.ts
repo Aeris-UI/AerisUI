@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -10,9 +11,10 @@ import {
   output,
   signal,
   viewChild,
+  TemplateRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
+import { ɵAerisIcon, ɵaerisDisplayInvalid } from '@aeris-ui/core';
 
 export type AerisInputNumberSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisInputNumberAppearance = 'outline' | 'filled';
@@ -30,6 +32,7 @@ interface AerisInputNumberSymbols {
 let inputNumberId = 0;
 
 @Component({
+  imports: [ɵAerisIcon, NgTemplateOutlet],
   selector: 'aeris-input-number',
   template: `
     <div
@@ -50,7 +53,17 @@ let inputNumberId = 0;
           [attr.tabindex]="buttonTabIndex()"
           (click)="stepBy(-1)"
         >
-          <span class="aeris-input-number__minus-mark" aria-hidden="true"></span>
+          @if (decrementIconTemplate(); as customIcon) {
+            <span class="aeris-input-number__minus-mark" aria-hidden="true" data-aeris-custom-icon
+              ><ng-container [ngTemplateOutlet]="customIcon"
+            /></span>
+          } @else {
+            <span
+              aerisInternalIcon="minus"
+              class="aeris-input-number__minus-mark"
+              aria-hidden="true"
+            ></span>
+          }
         </button>
       }
 
@@ -96,7 +109,17 @@ let inputNumberId = 0;
             [attr.aria-label]="clearButtonAriaLabel()"
             (click)="clear()"
           >
-            <span class="aeris-input-number__clear-mark" aria-hidden="true"></span>
+            @if (clearIconTemplate(); as customIcon) {
+              <span class="aeris-input-number__clear-mark" aria-hidden="true" data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <span
+                aerisInternalIcon="close"
+                class="aeris-input-number__clear-mark"
+                aria-hidden="true"
+              ></span>
+            }
           </button>
         }
       </div>
@@ -111,10 +134,20 @@ let inputNumberId = 0;
             [attr.tabindex]="buttonTabIndex()"
             (click)="stepBy(1)"
           >
-            <span
-              class="aeris-input-number__chevron aeris-input-number__chevron--up"
-              aria-hidden="true"
-            ></span>
+            @if (incrementIconTemplate(); as customIcon) {
+              <span
+                class="aeris-input-number__chevron aeris-input-number__chevron--up"
+                aria-hidden="true"
+                data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <span
+                aerisInternalIcon="chevron"
+                class="aeris-input-number__chevron aeris-input-number__chevron--up"
+                aria-hidden="true"
+              ></span>
+            }
           </button>
           <button
             type="button"
@@ -124,10 +157,19 @@ let inputNumberId = 0;
             [attr.tabindex]="buttonTabIndex()"
             (click)="stepBy(-1)"
           >
-            <span
-              class="aeris-input-number__chevron aeris-input-number__chevron--down"
-              aria-hidden="true"
-            ></span>
+            @if (decrementIconTemplate(); as customIcon) {
+              <span
+                class="aeris-input-number__chevron aeris-input-number__chevron--down"
+                aria-hidden="true"
+                data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <span
+                class="aeris-input-number__chevron aeris-input-number__chevron--down"
+                aria-hidden="true"
+              ></span>
+            }
           </button>
         </span>
       } @else if (showButtons()) {
@@ -139,7 +181,17 @@ let inputNumberId = 0;
           [attr.tabindex]="buttonTabIndex()"
           (click)="stepBy(1)"
         >
-          <span class="aeris-input-number__plus-mark" aria-hidden="true"></span>
+          @if (incrementIconTemplate(); as customIcon) {
+            <span class="aeris-input-number__plus-mark" aria-hidden="true" data-aeris-custom-icon
+              ><ng-container [ngTemplateOutlet]="customIcon"
+            /></span>
+          } @else {
+            <span
+              aerisInternalIcon="plus"
+              class="aeris-input-number__plus-mark"
+              aria-hidden="true"
+            ></span>
+          }
         </button>
       }
     </div>
@@ -157,6 +209,10 @@ let inputNumberId = 0;
   },
 })
 export class AerisInputNumber implements ControlValueAccessor {
+  readonly clearIconTemplate = input<TemplateRef<void>>();
+  readonly incrementIconTemplate = input<TemplateRef<void>>();
+  readonly decrementIconTemplate = input<TemplateRef<void>>();
+
   private readonly inputElement = viewChild<ElementRef<HTMLInputElement>>('numberInput');
   private readonly generatedId = `aeris-input-number-${++inputNumberId}`;
   private readonly editing = signal(false);

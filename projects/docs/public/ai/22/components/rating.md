@@ -2,7 +2,7 @@
 
 > Accessible star rating input with half values, clearing, keyboard support, and forms integration.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/rating`
 - Human-readable documentation: [https://aeris-ui.dev/components/rating](https://aeris-ui.dev/components/rating)
@@ -151,7 +151,7 @@ import { AerisRating } from '@aeris-ui/core/rating';
     }
   `
 })
-export class RatingBasicBasicDemo {
+export class RatingBasicDemo {
   protected readonly quality = signal(3);
 }
 ```
@@ -208,7 +208,7 @@ import { AerisRating } from '@aeris-ui/core/rating';
     }
   `
 })
-export class RatingHalfHalfValuesDemo {
+export class RatingHalfDemo {
   protected readonly halfRating = signal(3.5);
 }
 ```
@@ -226,72 +226,59 @@ import { AerisRating } from '@aeris-ui/core/rating';
 @Component({
   selector: 'app-rating-clear-demo',
   imports: [AerisRating],
-  templateUrl: './rating-clear.demo.html',
-  styleUrl: './rating-clear.demo.scss'
-})
-export class RatingClearClearBehaviorDemo {
-}
-```
-
-#### HTML
-
-```html
-<div class="rating-grid">
-  <div class="rating-card">
-    <span>Can clear</span>
-    <aeris-rating [value]="3" ariaLabel="Clearable rating" />
-  </div>
-  <div class="rating-card">
-    <span>Required choice</span>
-    <aeris-rating
-      [value]="3"
-      [allowClear]="false"
-      required
-      ariaLabel="Required rating"
-    />
-  </div>
-</div>
-```
-
-#### CSS
-
-```css
-.rating-row,
-.rating-grid {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 1.25rem;
-}
-
-.rating-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.rating-card {
-  min-width: 0;
-  display: grid;
-  justify-items: center;
-  gap: 0.75rem;
-  padding: 1rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: 0.875rem;
-  background: var(--aeris-surface-2);
-}
-
-.rating-card span {
-  color: var(--aeris-text);
-  font-size: 0.875rem;
-  font-weight: 650;
-}
-
-@media (max-width: 42rem) {
-  .rating-grid {
-      grid-template-columns: 1fr;
+  template: `
+    <div class="rating-grid">
+      <div class="rating-card">
+        <span>Can clear</span>
+        <aeris-rating [value]="3" ariaLabel="Clearable rating" />
+      </div>
+      <div class="rating-card">
+        <span>Required choice</span>
+        <aeris-rating [value]="3" [allowClear]="false" required ariaLabel="Required rating" />
+      </div>
+    </div>
+  `,
+  styles: `
+    .rating-row,
+    .rating-grid {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
     }
+
+    .rating-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .rating-card {
+      min-width: 0;
+      display: grid;
+      justify-items: center;
+      gap: 0.75rem;
+      padding: 1rem;
+      border: 1px solid var(--aeris-border);
+      border-radius: 0.875rem;
+      background: var(--aeris-surface-2);
+    }
+
+    .rating-card span {
+      color: var(--aeris-text);
+      font-size: 0.875rem;
+      font-weight: 650;
+    }
+
+    @media (max-width: 42rem) {
+      .rating-grid {
+          grid-template-columns: 1fr;
+        }
+    }
+  `
+})
+export class RatingClearDemo {
 }
 ```
 
@@ -311,7 +298,7 @@ import { AerisRating } from '@aeris-ui/core/rating';
   templateUrl: './rating-sizes.demo.html',
   styleUrl: './rating-sizes.demo.scss'
 })
-export class RatingSizesSizesDemo {
+export class RatingSizesDemo {
 }
 ```
 
@@ -324,14 +311,16 @@ export class RatingSizesSizesDemo {
     <aeris-rating size="xs" [value]="3" ariaLabel="Extra small rating" />
   </div>
   <div class="rating-card">
-    <span>Small</span><aeris-rating size="sm" [value]="3" ariaLabel="Small rating" />
+    <span>Small</span>
+    <aeris-rating size="sm" [value]="3" ariaLabel="Small rating" />
   </div>
   <div class="rating-card">
     <span>Medium</span>
     <aeris-rating size="md" [value]="3" ariaLabel="Medium rating" />
   </div>
   <div class="rating-card">
-    <span>Large</span><aeris-rating size="lg" [value]="3" ariaLabel="Large rating" />
+    <span>Large</span>
+    <aeris-rating size="lg" [value]="3" ariaLabel="Large rating" />
   </div>
 </div>
 ```
@@ -384,7 +373,7 @@ import { LucideDynamicIcon, LucideHeart } from '@lucide/angular';
   templateUrl: './rating-icons.demo.html',
   styleUrl: './rating-icons.demo.scss'
 })
-export class RatingIconsCustomIconsDemo {
+export class RatingIconsDemo {
 
   protected readonly icons = { Heart: LucideHeart };
 }
@@ -447,6 +436,13 @@ export class RatingIconsCustomIconsDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .rating-row,
 .rating-grid {
   width: 100%;
@@ -484,10 +480,12 @@ export class RatingIconsCustomIconsDemo {
   height: 1em;
 }
 
-@media (max-width: 42rem) {
-  .rating-grid {
-      grid-template-columns: 1fr;
-    }
+.rating-template-icon--inactive {
+  color: #9aa09a;
+}
+
+.rating-template-icon--active {
+  color: #f6c343;
 }
 
 .mood-rating {
@@ -495,12 +493,10 @@ export class RatingIconsCustomIconsDemo {
   --aeris-rating-active: #f6c343;
 }
 
-.rating-template-icon--inactive {
-  color: #9aa09a;
-}
-
-.rating-template-icon--active {
-  color: #f6c343;
+@media (max-width: 42rem) {
+  .rating-grid {
+      grid-template-columns: 1fr;
+    }
 }
 ```
 
@@ -557,7 +553,7 @@ import { AerisRating } from '@aeris-ui/core/rating';
     }
   `
 })
-export class RatingFormattingFormattedValueDemo {
+export class RatingFormattingDemo {
   protected readonly formatScore = (
     value: number,
     max: number,
@@ -612,7 +608,7 @@ import { AerisRating } from '@aeris-ui/core/rating';
     }
   `
 })
-export class RatingDisabledDisabledStateDemo {
+export class RatingDisabledDemo {
 }
 ```
 
@@ -623,7 +619,7 @@ Use changed when a pointer or keyboard interaction commits a new rating.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisRating, type AerisRatingChangeEvent } from '@aeris-ui/core/rating';
 
 @Component({
@@ -667,7 +663,11 @@ import { AerisRating, type AerisRatingChangeEvent } from '@aeris-ui/core/rating'
     }
   `
 })
-export class RatingEventsEventsDemo {
+export class RatingEventsDemo {
+  protected readonly eventRating = signal(2);
+
+  protected readonly lastEvent = signal('No rating change yet.');
+
   protected handleChanged(
     event: AerisRatingChangeEvent,
   ): void {
@@ -693,7 +693,7 @@ import { AerisRating } from '@aeris-ui/core/rating';
   templateUrl: './rating-forms.demo.html',
   styleUrl: './rating-forms.demo.scss'
 })
-export class RatingFormsReactiveAndTemplateDrivenFormsDemo {
+export class RatingFormsDemo {
   protected readonly reactiveValue =
     new FormControl(4);
 
@@ -707,10 +707,7 @@ export class RatingFormsReactiveAndTemplateDrivenFormsDemo {
 <div class="rating-grid">
   <div class="rating-card">
     <span id="rating-reactive-label">Reactive Forms</span>
-    <aeris-rating
-      ariaLabelledBy="rating-reactive-label"
-      [formControl]="reactiveValue"
-    />
+    <aeris-rating ariaLabelledBy="rating-reactive-label" [formControl]="reactiveValue" />
     <small>Value: {{ reactiveValue.value }}</small>
   </div>
   <div class="rating-card">

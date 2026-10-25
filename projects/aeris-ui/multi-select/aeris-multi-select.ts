@@ -17,7 +17,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
+import { ɵAerisIcon, ɵaerisDisplayInvalid } from '@aeris-ui/core';
 import {
   boundarySelectValue,
   filterSelectOptions,
@@ -96,7 +96,7 @@ let multiSelectId = 0;
 
 @Component({
   selector: 'aeris-multi-select',
-  imports: [NgTemplateOutlet, ɵAerisAppendTo],
+  imports: [ɵAerisIcon, NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     <div
       class="aeris-multi-select"
@@ -158,7 +158,13 @@ let multiSelectId = 0;
                     [disabled]="effectiveDisabled()"
                     (click)="removeChip(option, $event)"
                   >
-                    <span aria-hidden="true"></span>
+                    @if (removeIconTemplate(); as customIcon) {
+                      <span aria-hidden="true" data-aeris-custom-icon
+                        ><ng-container [ngTemplateOutlet]="customIcon"
+                      /></span>
+                    } @else {
+                      <span aria-hidden="true"></span>
+                    }
                   </button>
                 </span>
               }
@@ -180,10 +186,26 @@ let multiSelectId = 0;
             [attr.aria-label]="clearButtonAriaLabel()"
             (click)="handleClearClick($event)"
           >
-            <span aria-hidden="true"></span>
+            @if (clearIconTemplate(); as customIcon) {
+              <span aria-hidden="true" data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <span aerisInternalIcon="close" aria-hidden="true"></span>
+            }
           </button>
         }
-        <span class="aeris-multi-select__chevron" aria-hidden="true"></span>
+        @if (dropdownIconTemplate(); as customIcon) {
+          <span class="aeris-multi-select__chevron" aria-hidden="true" data-aeris-custom-icon
+            ><ng-container [ngTemplateOutlet]="customIcon"
+          /></span>
+        } @else {
+          <span
+            aerisInternalIcon="chevron"
+            class="aeris-multi-select__chevron"
+            aria-hidden="true"
+          ></span>
+        }
       </div>
 
       @if (open()) {
@@ -221,7 +243,15 @@ let multiSelectId = 0;
                 [attr.data-checked]="allFilteredSelected() || null"
                 [attr.data-mixed]="someFilteredSelected() || null"
                 aria-hidden="true"
-                ><span></span
+                ><span
+                  [aerisInternalIcon]="
+                    someFilteredSelected() || null
+                      ? 'minus'
+                      : allFilteredSelected() || null
+                        ? 'check'
+                        : null
+                  "
+                ></span
               ></span>
               <span>{{ selectAllLabel() }}</span>
               <small>{{ selectedOptions().length }}/{{ selectableOptions().length }}</small>
@@ -230,7 +260,20 @@ let multiSelectId = 0;
 
           @if (filter()) {
             <div class="aeris-multi-select__filter-wrap">
-              <span class="aeris-multi-select__search-mark" aria-hidden="true"></span>
+              @if (filterIconTemplate(); as customIcon) {
+                <span
+                  class="aeris-multi-select__search-mark"
+                  aria-hidden="true"
+                  data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <span
+                  aerisInternalIcon="search"
+                  class="aeris-multi-select__search-mark"
+                  aria-hidden="true"
+                ></span>
+              }
               <input
                 #filterInput
                 class="aeris-multi-select__filter"
@@ -252,7 +295,13 @@ let multiSelectId = 0;
                   [attr.aria-label]="filterClearAriaLabel()"
                   (click)="clearFilter()"
                 >
-                  <span aria-hidden="true"></span>
+                  @if (clearIconTemplate(); as customIcon) {
+                    <span aria-hidden="true" data-aeris-custom-icon
+                      ><ng-container [ngTemplateOutlet]="customIcon"
+                    /></span>
+                  } @else {
+                    <span aerisInternalIcon="close" aria-hidden="true"></span>
+                  }
                 </button>
               }
             </div>
@@ -269,7 +318,16 @@ let multiSelectId = 0;
           >
             @if (loading()) {
               <div class="aeris-multi-select__message" role="status">
-                <span class="aeris-multi-select__spinner" aria-hidden="true"></span>
+                @if (loadingIconTemplate(); as customIcon) {
+                  <span
+                    class="aeris-multi-select__spinner"
+                    aria-hidden="true"
+                    data-aeris-custom-icon
+                    ><ng-container [ngTemplateOutlet]="customIcon"
+                  /></span>
+                } @else {
+                  <span class="aeris-multi-select__spinner" aria-hidden="true"></span>
+                }
                 {{ loadingMessage() }}
               </div>
             } @else if (!filteredOptions().length) {
@@ -307,7 +365,11 @@ let multiSelectId = 0;
                         class="aeris-multi-select__checkbox"
                         [attr.data-checked]="isSelected(option) || null"
                         aria-hidden="true"
-                        ><span></span
+                        ><span
+                          [aerisInternalIcon]="
+                            false ? 'minus' : isSelected(option) || null ? 'check' : null
+                          "
+                        ></span
                       ></span>
                       <span class="aeris-multi-select__option-content">
                         @if (optionTemplate(); as customOption) {
@@ -363,6 +425,12 @@ let multiSelectId = 0;
   },
 })
 export class AerisMultiSelectComponent implements ControlValueAccessor {
+  readonly clearIconTemplate = input<TemplateRef<void>>();
+  readonly removeIconTemplate = input<TemplateRef<void>>();
+  readonly dropdownIconTemplate = input<TemplateRef<void>>();
+  readonly filterIconTemplate = input<TemplateRef<void>>();
+  readonly loadingIconTemplate = input<TemplateRef<void>>();
+
   private panelPointerInteraction = false;
   protected readonly dismissOverlay = (): boolean => {
     this.closePanel(true);
@@ -675,6 +743,7 @@ export class AerisMultiSelectComponent implements ControlValueAccessor {
 
   protected removeCallback(option: AerisSelectOption): () => void {
     return () => {
+      if (this.effectiveDisabled() || option.disabled) return;
       if (this.isSelected(option)) {
         const next = this.value().filter((value) => value !== option.value);
         this.setValue(next);

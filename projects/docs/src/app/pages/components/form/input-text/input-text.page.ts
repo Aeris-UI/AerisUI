@@ -2,6 +2,7 @@ import { Component, computed, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AerisInputText } from '@aeris-ui/core/input-text';
+import { AerisIconField } from '@aeris-ui/core/icon-field';
 import { LucideDynamicIcon } from '@lucide/angular';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
@@ -25,6 +26,7 @@ interface ApiRow {
 @Component({
   selector: 'app-input-text-page',
   imports: [
+    AerisIconField,
     AerisButton,
     AerisInputText,
     LucideDynamicIcon,
@@ -41,6 +43,10 @@ interface ApiRow {
   styleUrl: './input-text.page.scss',
 })
 export class InputTextPage {
+  protected readonly searchQuery = signal('');
+  protected readonly submittedSearch = signal('No search submitted');
+  protected readonly componentText = signal('');
+  protected readonly componentCode = `protected readonly componentText = signal('');`;
   protected readonly icons = DOC_ICONS;
   protected readonly name = signal('');
   protected readonly search = signal('Aeris components');
@@ -54,15 +60,17 @@ export class InputTextPage {
 
   protected readonly featureLinks: readonly PageTocLink[] = [
     { id: 'input-basic', label: 'Basic' },
+    { id: 'input-component', label: 'Component value' },
     { id: 'input-types', label: 'Input types' },
     { id: 'input-sizes', label: 'Sizes' },
     { id: 'input-appearances', label: 'Appearances' },
     { id: 'input-states', label: 'States' },
     { id: 'input-validation', label: 'Validation' },
     { id: 'input-fluid', label: 'Fluid layout' },
-    { id: 'input-affixes', label: 'Icons and affixes' },
+    { id: 'input-affixes', label: 'Icon composition' },
     { id: 'input-signals', label: 'Signal state' },
     { id: 'input-clearable', label: 'Clear button' },
+    { id: 'input-search', label: 'Search form' },
     { id: 'input-angular-forms', label: 'Angular Forms' },
   ];
   protected readonly apiLinks: readonly PageTocLink[] = [
@@ -89,25 +97,6 @@ protected readonly emailInvalid = computed(
     this.emailTouched() &&
     !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(this.email()),
 );`;
-  protected readonly affixCssCode = `.input-affix {
-  display: flex;
-  align-items: center;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-sm);
-}
-
-.input-affix:focus-within {
-  border-color: var(--aeris-focus);
-  box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--aeris-focus) 18%, transparent);
-}
-
-.input-affix input {
-  width: 100%;
-  border: 0;
-  background: transparent;
-  box-shadow: none;
-}`;
   protected readonly interfacesCode = `type AerisInputTextSize = 'xs' | 'sm' | 'md' | 'lg';
 
 type AerisInputTextAppearance = 'outline' | 'filled';
@@ -116,6 +105,13 @@ type AerisInputTextAppearance = 'outline' | 'filled';
 type AerisControlSize = AerisInputTextSize;`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    {
+      name: 'clearIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
     {
       name: 'size',
       type: 'AerisInputTextSize',
@@ -235,8 +231,8 @@ type AerisControlSize = AerisInputTextSize;`;
     this.email.set((event.target as HTMLInputElement).value);
   }
 
-  protected clearSearch(input: HTMLInputElement): void {
-    input.value = '';
-    input.focus();
+  protected submitSearch(event: Event): void {
+    event.preventDefault();
+    this.submittedSearch.set(this.searchQuery() || 'Empty search');
   }
 }

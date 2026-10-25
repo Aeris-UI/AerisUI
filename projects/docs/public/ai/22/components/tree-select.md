@@ -2,7 +2,7 @@
 
 > Hierarchical selection with filtering, templates, checkbox mode, and forms integration.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/tree-select`
 - Human-readable documentation: [https://aeris-ui.dev/components/tree-select](https://aeris-ui.dev/components/tree-select)
@@ -29,6 +29,11 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `dropdownIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the dropdown icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `filterIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the filter icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `filterClearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the filter clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `toggleIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the toggle icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the tree panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `nodes` | `readonly AerisTreeNode[]` | `required` | Tree data rendered recursively in source order. Nesting depth is not limited by the component API. |
@@ -148,7 +153,7 @@ Bind a single node value. Expandable parent categories can be selected the same 
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select';
+import { AerisTreeSelect, type AerisTreeNode, type AerisTreeSelectChangeEvent } from '@aeris-ui/core/tree-select';
 
 @Component({
   selector: 'app-tree-select-basic-demo',
@@ -164,8 +169,7 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
         fluid
         (changed)="recordChange($event)"
       />
-      <small aria-live="polite"
-        >{{ lastChange() }}. Value: {{ workspace() || 'None' }}</small>
+      <small aria-live="polite">{{ lastChange() }}. Value: {{ workspace() || 'None' }}</small>
     </div>
   `,
   styles: `
@@ -194,9 +198,35 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .tree-size-grid label,
+    .tree-state-grid .field {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+      gap: 0.5rem;
+    }
+
+    .tree-size-grid label > span,
+    .tree-state-grid .field > span,
+    .tree-state-grid .field > label {
+      color: var(--aeris-text);
+      font-size: 0.875rem;
+      font-weight: 650;
+    }
   `
 })
-export class TreeSelectBasicBasicDemo {
+export class TreeSelectBasicDemo {
+  protected readonly lastChange = signal('No selection yet.');
+
+  protected recordChange(event: AerisTreeSelectChangeEvent): void {
+      this.lastChange.set(
+        event.node
+          ? `${event.selected ? 'Selected' : 'Removed'} ${event.node.label}`
+          : 'Selection changed',
+      );
+    }
+
   protected readonly workspace =
     signal<string | null>('product');
 
@@ -236,7 +266,7 @@ Checkbox mode stores an array of values. Parent selection can cascade to enabled
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
+import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select';
 
 @Component({
   selector: 'app-tree-select-checkbox-demo',
@@ -281,9 +311,71 @@ import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .tree-size-grid label,
+    .tree-state-grid .field {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+      gap: 0.5rem;
+    }
+
+    .tree-size-grid label > span,
+    .tree-state-grid .field > span,
+    .tree-state-grid .field > label {
+      color: var(--aeris-text);
+      font-size: 0.875rem;
+      font-weight: 650;
+    }
   `
 })
-export class TreeSelectCheckboxCheckboxSelectionDemo {
+export class TreeSelectCheckboxDemo {
+  protected readonly workspace = signal<string | null>('product');
+
+  protected readonly nodes: readonly AerisTreeNode[] = [
+      {
+        label: 'Product',
+        value: 'product',
+        expanded: true,
+        children: [
+          { label: 'Roadmap', value: 'roadmap' },
+          { label: 'Research', value: 'research' },
+        ],
+      },
+      {
+        label: 'Workspaces',
+        value: 'workspaces',
+        expanded: true,
+        children: [
+          {
+            label: 'Design system',
+            value: 'workspace-design',
+            children: [
+              {
+                label: 'Foundations',
+                value: 'workspace-design-foundations',
+                children: [
+                  { label: 'Tokens', value: 'workspace-design-tokens' },
+                  { label: 'Accessibility', value: 'workspace-design-a11y' },
+                ],
+              },
+              { label: 'Components', value: 'workspace-design-components' },
+            ],
+          },
+          { label: 'Web platform', value: 'workspace-web' },
+          { label: 'Mobile app', value: 'workspace-mobile', disabled: true },
+        ],
+      },
+      {
+        label: 'Knowledge base',
+        value: 'knowledge',
+        children: [
+          { label: 'Documentation', value: 'docs' },
+          { label: 'Release notes', value: 'releases' },
+        ],
+      },
+    ];
+
   protected readonly checkboxValues =
     signal<readonly string[]>(['docs', 'roadmap']);
 }
@@ -296,9 +388,9 @@ Filtering keeps matching branches visible and can focus the search field when th
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
+import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select';
 
 @Component({
   selector: 'app-tree-select-filter-demo',
@@ -343,9 +435,72 @@ import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .tree-size-grid label,
+    .tree-state-grid .field {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+      gap: 0.5rem;
+    }
+
+    .tree-size-grid label > span,
+    .tree-state-grid .field > span,
+    .tree-state-grid .field > label {
+      color: var(--aeris-text);
+      font-size: 0.875rem;
+      font-weight: 650;
+    }
   `
 })
-export class TreeSelectFilterFilteringDemo {
+export class TreeSelectFilterDemo {
+  protected readonly workspace = signal<string | null>('product');
+
+  protected readonly filteredValue = signal<string | null>(null);
+
+  protected readonly nodes: readonly AerisTreeNode[] = [
+      {
+        label: 'Product',
+        value: 'product',
+        expanded: true,
+        children: [
+          { label: 'Roadmap', value: 'roadmap' },
+          { label: 'Research', value: 'research' },
+        ],
+      },
+      {
+        label: 'Workspaces',
+        value: 'workspaces',
+        expanded: true,
+        children: [
+          {
+            label: 'Design system',
+            value: 'workspace-design',
+            children: [
+              {
+                label: 'Foundations',
+                value: 'workspace-design-foundations',
+                children: [
+                  { label: 'Tokens', value: 'workspace-design-tokens' },
+                  { label: 'Accessibility', value: 'workspace-design-a11y' },
+                ],
+              },
+              { label: 'Components', value: 'workspace-design-components' },
+            ],
+          },
+          { label: 'Web platform', value: 'workspace-web' },
+          { label: 'Mobile app', value: 'workspace-mobile', disabled: true },
+        ],
+      },
+      {
+        label: 'Knowledge base',
+        value: 'knowledge',
+        children: [
+          { label: 'Documentation', value: 'docs' },
+          { label: 'Release notes', value: 'releases' },
+        ],
+      },
+    ];
 }
 ```
 
@@ -366,7 +521,9 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
   templateUrl: './tree-select-templates.demo.html',
   styleUrl: './tree-select-templates.demo.scss'
 })
-export class TreeSelectTemplatesTemplatesDemo {
+export class TreeSelectTemplatesDemo {
+  protected readonly templateValue = signal<string | null>('workspace-web');
+
   protected readonly workspace =
     signal<string | null>('product');
 
@@ -421,10 +578,10 @@ export class TreeSelectTemplatesTemplatesDemo {
         {{ nodes[0]?.label }}
       </span>
     </ng-template>
-    <ng-template aerisTreeSelectHeader
-      ><strong>Choose destination</strong></ng-template>
-    <ng-template aerisTreeSelectFooter
-      ><small>Disabled nodes remain visible but unavailable.</small></ng-template>
+    <ng-template aerisTreeSelectHeader><strong>Choose destination</strong></ng-template>
+    <ng-template aerisTreeSelectFooter>
+      <small>Disabled nodes remain visible but unavailable.</small>
+    </ng-template>
   </aeris-tree-select>
 </div>
 ```
@@ -458,14 +615,24 @@ export class TreeSelectTemplatesTemplatesDemo {
   color: var(--aeris-danger);
 }
 
-.tree-node-template,
-.tree-value-template {
-  display: inline-flex;
-  align-items: center;
+.tree-size-grid label,
+.tree-state-grid .field {
+  min-width: 0;
+  display: grid;
+  align-content: start;
   gap: 0.5rem;
 }
 
-.tree-node-template {
+.tree-size-grid label > span,
+.tree-state-grid .field > span,
+.tree-state-grid .field > label {
+  color: var(--aeris-text);
+  font-size: 0.875rem;
+  font-weight: 650;
+}
+
+.tree-node-template,
+.tree-value-template {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -475,7 +642,7 @@ export class TreeSelectTemplatesTemplatesDemo {
   width: 0.625rem;
   height: 0.625rem;
   border-radius: 999px;
-  background: var(--primary);
+  background: var(--aeris-primary);
 }
 ```
 
@@ -486,9 +653,9 @@ Four sizes match the Aeris control density scale.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
+import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select';
 
 @Component({
   selector: 'app-tree-select-sizes-demo',
@@ -496,7 +663,52 @@ import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
   templateUrl: './tree-select-sizes.demo.html',
   styleUrl: './tree-select-sizes.demo.scss'
 })
-export class TreeSelectSizesSizesDemo {
+export class TreeSelectSizesDemo {
+  protected readonly workspace = signal<string | null>('product');
+
+  protected readonly nodes: readonly AerisTreeNode[] = [
+      {
+        label: 'Product',
+        value: 'product',
+        expanded: true,
+        children: [
+          { label: 'Roadmap', value: 'roadmap' },
+          { label: 'Research', value: 'research' },
+        ],
+      },
+      {
+        label: 'Workspaces',
+        value: 'workspaces',
+        expanded: true,
+        children: [
+          {
+            label: 'Design system',
+            value: 'workspace-design',
+            children: [
+              {
+                label: 'Foundations',
+                value: 'workspace-design-foundations',
+                children: [
+                  { label: 'Tokens', value: 'workspace-design-tokens' },
+                  { label: 'Accessibility', value: 'workspace-design-a11y' },
+                ],
+              },
+              { label: 'Components', value: 'workspace-design-components' },
+            ],
+          },
+          { label: 'Web platform', value: 'workspace-web' },
+          { label: 'Mobile app', value: 'workspace-mobile', disabled: true },
+        ],
+      },
+      {
+        label: 'Knowledge base',
+        value: 'knowledge',
+        children: [
+          { label: 'Documentation', value: 'docs' },
+          { label: 'Release notes', value: 'releases' },
+        ],
+      },
+    ];
 }
 ```
 
@@ -504,37 +716,41 @@ export class TreeSelectSizesSizesDemo {
 
 ```html
 <div class="tree-size-grid">
-  <label
-    ><span>Extra small</span>
+  <label>
+    <span>Extra small</span>
     <aeris-tree-select
       ariaLabel="Extra small tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
       size="xs"
-  /></label>
-  <label
-    ><span>Small</span>
+    />
+  </label>
+  <label>
+    <span>Small</span>
     <aeris-tree-select
       ariaLabel="Small tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
       size="sm"
-  /></label>
-  <label
-    ><span>Medium</span>
+    />
+  </label>
+  <label>
+    <span>Medium</span>
     <aeris-tree-select
       ariaLabel="Medium tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
-  /></label>
-  <label
-    ><span>Large</span>
+    />
+  </label>
+  <label>
+    <span>Large</span>
     <aeris-tree-select
       ariaLabel="Large tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
       size="lg"
-  /></label>
+    />
+  </label>
 </div>
 ```
 
@@ -580,9 +796,9 @@ Outlined, filled, required, invalid, and disabled states preserve layout and ARI
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
+import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select';
 
 @Component({
   selector: 'app-tree-select-states-demo',
@@ -590,7 +806,54 @@ import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
   templateUrl: './tree-select-states.demo.html',
   styleUrl: './tree-select-states.demo.scss'
 })
-export class TreeSelectStatesAppearancesAndStatesDemo {
+export class TreeSelectStatesDemo {
+  protected readonly workspace = signal<string | null>('product');
+
+  protected readonly invalidValue = signal<string | null>(null);
+
+  protected readonly nodes: readonly AerisTreeNode[] = [
+      {
+        label: 'Product',
+        value: 'product',
+        expanded: true,
+        children: [
+          { label: 'Roadmap', value: 'roadmap' },
+          { label: 'Research', value: 'research' },
+        ],
+      },
+      {
+        label: 'Workspaces',
+        value: 'workspaces',
+        expanded: true,
+        children: [
+          {
+            label: 'Design system',
+            value: 'workspace-design',
+            children: [
+              {
+                label: 'Foundations',
+                value: 'workspace-design-foundations',
+                children: [
+                  { label: 'Tokens', value: 'workspace-design-tokens' },
+                  { label: 'Accessibility', value: 'workspace-design-a11y' },
+                ],
+              },
+              { label: 'Components', value: 'workspace-design-components' },
+            ],
+          },
+          { label: 'Web platform', value: 'workspace-web' },
+          { label: 'Mobile app', value: 'workspace-mobile', disabled: true },
+        ],
+      },
+      {
+        label: 'Knowledge base',
+        value: 'knowledge',
+        children: [
+          { label: 'Documentation', value: 'docs' },
+          { label: 'Release notes', value: 'releases' },
+        ],
+      },
+    ];
 }
 ```
 
@@ -606,7 +869,8 @@ export class TreeSelectStatesAppearancesAndStatesDemo {
       [value]="'workspace-design'"
       appearance="filled"
       fluid
-    /><small class="state-message" aria-hidden="true">&nbsp;</small>
+    />
+    <small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
   <div class="field">
     <label for="tree-invalid">Required</label>
@@ -633,7 +897,8 @@ export class TreeSelectStatesAppearancesAndStatesDemo {
       [value]="'workspace-design'"
       disabled
       fluid
-    /><small class="state-message" aria-hidden="true">&nbsp;</small>
+    />
+    <small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
   <div class="field">
     <span>Empty</span>
@@ -642,7 +907,8 @@ export class TreeSelectStatesAppearancesAndStatesDemo {
       [nodes]="[]"
       emptyMessage="No destinations yet"
       fluid
-    /><small class="state-message" aria-hidden="true">&nbsp;</small>
+    />
+    <small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
 </div>
 ```
@@ -670,10 +936,6 @@ export class TreeSelectStatesAppearancesAndStatesDemo {
   color: var(--aeris-text-2);
   font-size: 0.8125rem;
   line-height: 1.5;
-}
-
-.field small.error {
-  color: var(--aeris-danger);
 }
 
 .field small.error {
@@ -723,10 +985,10 @@ TreeSelect implements ControlValueAccessor while retaining its signal model API.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
+import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select';
 
 @Component({
   selector: 'app-tree-select-forms-demo',
@@ -734,7 +996,53 @@ import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
   templateUrl: './tree-select-forms.demo.html',
   styleUrl: './tree-select-forms.demo.scss'
 })
-export class TreeSelectFormsReactiveAndTemplateDrivenFormsDemo {
+export class TreeSelectFormsDemo {
+  protected readonly workspace = signal<string | null>('product');
+
+  protected readonly nodes: readonly AerisTreeNode[] = [
+      {
+        label: 'Product',
+        value: 'product',
+        expanded: true,
+        children: [
+          { label: 'Roadmap', value: 'roadmap' },
+          { label: 'Research', value: 'research' },
+        ],
+      },
+      {
+        label: 'Workspaces',
+        value: 'workspaces',
+        expanded: true,
+        children: [
+          {
+            label: 'Design system',
+            value: 'workspace-design',
+            children: [
+              {
+                label: 'Foundations',
+                value: 'workspace-design-foundations',
+                children: [
+                  { label: 'Tokens', value: 'workspace-design-tokens' },
+                  { label: 'Accessibility', value: 'workspace-design-a11y' },
+                ],
+              },
+              { label: 'Components', value: 'workspace-design-components' },
+            ],
+          },
+          { label: 'Web platform', value: 'workspace-web' },
+          { label: 'Mobile app', value: 'workspace-mobile', disabled: true },
+        ],
+      },
+      {
+        label: 'Knowledge base',
+        value: 'knowledge',
+        children: [
+          { label: 'Documentation', value: 'docs' },
+          { label: 'Release notes', value: 'releases' },
+        ],
+      },
+    ];
+
   protected readonly reactiveValue =
     new FormControl<string | null>('workspace-design');
 

@@ -1,6 +1,84 @@
 @use '../../form/shared/form-docs';
 
 .chart-docs {
+  .chart-radial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    gap: 1.5rem;
+  }
+  .chart-radial-grid section {
+    min-inline-size: 0;
+  }
+  .chart-radial-grid h4 {
+    margin-block: 0 1rem;
+    text-align: start;
+  }
+  .chart-radial-grid aeris-chart {
+    --aeris-chart-border: transparent;
+    --aeris-chart-padding: 0.5rem;
+    --aeris-chart-background: transparent;
+    inline-size: 100%;
+    max-inline-size: 14rem;
+    margin-inline: auto;
+  }
+  .chart-ring {
+    position: relative;
+    inline-size: 100%;
+    max-inline-size: 14rem;
+    margin-inline: auto;
+  }
+  .chart-ring-value {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 700;
+    pointer-events: none;
+  }
+  .chart-ring-value span {
+    font-size: 1rem;
+    margin-inline-start: 0.125rem;
+  }
+  .chart-goals {
+    list-style: none;
+    padding: 0;
+    margin-block: 1rem 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .chart-goals li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .chart-goals strong {
+    margin-inline-start: auto;
+  }
+  .chart-goal-dot {
+    inline-size: 0.5rem;
+    block-size: 0.5rem;
+    border-radius: 50%;
+    flex: 0 0 auto;
+  }
+  .chart-kpi {
+    max-inline-size: 24rem;
+  }
+  .chart-kpi-value {
+    margin-block: 0 0.5rem;
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
+  .chart-sparkline {
+    --aeris-chart-min-height: 0;
+    --aeris-chart-padding: 0;
+    --aeris-chart-border: transparent;
+    --aeris-chart-background: transparent;
+  }
+  .chart-loading-region {
+    min-block-size: 14rem;
+  }
   .chart-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));

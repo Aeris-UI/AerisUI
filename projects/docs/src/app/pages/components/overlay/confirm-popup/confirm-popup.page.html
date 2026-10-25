@@ -48,12 +48,7 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="demo-actions"&gt;
-    &lt;button
-      aerisButton
-      severity="danger"
-      type="button"
-      (click)="confirmDelete($event)"
-    &gt;
+    &lt;button aerisButton severity="danger" type="button" (click)="confirmDelete($event)"&gt;
       Delete project
     &lt;/button&gt;
   &lt;/div&gt;
@@ -170,19 +165,13 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="placement-grid"&gt;
-    &lt;button aerisButton type="button" (click)="confirmAt($event, 'auto')"&gt;
-      Auto
-    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="confirmAt($event, 'auto')"&gt;Auto&lt;/button&gt;
     &lt;button aerisButton type="button" (click)="confirmAt($event, 'top')"&gt;Top&lt;/button&gt;
-    &lt;button aerisButton type="button" (click)="confirmAt($event, 'right')"&gt;
-      Right
-    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="confirmAt($event, 'right')"&gt;Right&lt;/button&gt;
     &lt;button aerisButton type="button" (click)="confirmAt($event, 'bottom')"&gt;
       Bottom
     &lt;/button&gt;
-    &lt;button aerisButton type="button" (click)="confirmAt($event, 'left')"&gt;
-      Left
-    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="confirmAt($event, 'left')"&gt;Left&lt;/button&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -283,9 +272,10 @@
     &lt;ng-template aerisConfirmPopupMessage let-data="data"&gt;
       &lt;span class="confirm-popup-message"&gt;
         &lt;strong&gt;&#123;&#123; data &#125;&#125;&lt;/strong&gt;
-        &lt;span
-          &gt;Confirm that release notes, accessibility checks, and package metadata are
-          ready.&lt;/span&gt;
+        &lt;span&gt;
+          Confirm that release notes, accessibility checks, and package metadata are
+          ready.
+        &lt;/span&gt;
       &lt;/span&gt;
     &lt;/ng-template&gt;
     &lt;ng-template aerisConfirmPopupFooter let-accept="accept" let-reject="reject"&gt;
@@ -589,7 +579,8 @@
           </div>
           <div role="row">
             <code role="cell">--aeris-confirm-popup-padding</code
-            ><span role="cell">Internal spacing.</span><code role="cell">--aeris-surface-padding</code>
+            ><span role="cell">Internal spacing.</span
+            ><code role="cell">--aeris-surface-padding</code>
           </div>
           <div role="row">
             <code role="cell">--aeris-confirm-popup-background</code

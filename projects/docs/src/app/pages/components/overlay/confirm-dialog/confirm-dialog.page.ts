@@ -108,7 +108,7 @@ export class ConfirmDialogPage {
   place-items: center;
   border-radius: 999px;
   background: color-mix(in srgb, var(--warning) 18%, transparent);
-  color: var(--warning-text);
+  color: var(--aeris-warning-text);
   font-weight: 900;
 }
 
@@ -289,6 +289,7 @@ type AerisDialogPosition =
   | 'bottom-right';
 
 interface AerisConfirmDialogConfig<TData = unknown> {
+  readonly closeIconTemplate?: TemplateRef<AerisDialogTemplateContext>;
   readonly key?: string;
   readonly appendTo?: AerisAppendTo;
   readonly header?: string;
@@ -348,6 +349,13 @@ interface AerisConfirmDialogTemplateContext<TData = unknown> {
   ];
 
   protected readonly inputs: readonly ApiRow[] = [
+    {
+      name: 'closeIconTemplate',
+      type: 'TemplateRef<AerisDialogTemplateContext> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Optional close-button artwork; the service forwards it to the underlying Dialog without replacing its behavior.',
+    },
     {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
@@ -671,6 +679,12 @@ interface AerisConfirmDialogTemplateContext<TData = unknown> {
   ];
 
   protected readonly configRows: readonly ApiRow[] = [
+    {
+      name: 'closeIconTemplate',
+      type: 'TemplateRef<AerisDialogTemplateContext> | undefined',
+      defaultValue: 'undefined',
+      description: 'Decorative close-button artwork forwarded to the underlying Dialog.',
+    },
     ...this.inputs,
     {
       name: 'accept',

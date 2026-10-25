@@ -80,6 +80,18 @@ describe('@aeris-ui/mcp server', () => {
     expect(result.isError).toBe(true);
     expect(textContent(result)).toContain('Unknown Aeris component');
   });
+  it('includes extracted signal state and icon declarations in copyable Sidebar examples', async () => {
+    const result = await client.callTool({
+      name: 'get_aeris_component',
+      arguments: { component: 'sidebar', includeExamples: true },
+    });
+    const text = textContent(result);
+    expect(result.isError).not.toBe(true);
+    expect(text).toContain('AerisSidebarModule');
+    expect(text).toContain("active = signal('Overview')");
+    expect(text).toContain('houseIcon = LucideHouse');
+    expect(text).toContain('collapsed = signal(false)');
+  });
 });
 
 function textContent(result: Awaited<ReturnType<Client['callTool']>>): string {

@@ -2,7 +2,7 @@
 
 > Switch between a compact display and lazily rendered content with controlled state and accessible focus management.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/inplace`
 - Human-readable documentation: [https://aeris-ui.dev/components/inplace](https://aeris-ui.dev/components/inplace)
@@ -35,6 +35,7 @@ import { AerisInplaceModule } from '@aeris-ui/core/inplace';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `closeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Replaces only the close icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `label` | `string` | `'Show content'` | Fallback display button text when no display template is provided. |
 | `disabled` | `boolean` | `false` | Disables activation from display mode. |
 | `closable` | `boolean` | `false` | Shows the Aeris-owned close button in content mode. |
@@ -105,6 +106,24 @@ interface AerisInplaceContentContext {
 }
 ```
 
+## Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-inplace-text` | `CSS custom property` | `--aeris-text` | Component foreground color. |
+| `--aeris-inplace-radius` | `CSS custom property` | `--aeris-radius-control` | Display and content corner radius. |
+| `--aeris-inplace-display-min-height` | `CSS custom property` | `--aeris-control-height` | Minimum display-button height. |
+| `--aeris-inplace-display-padding-block` | `CSS custom property` | `--aeris-item-padding-y` | Display-button block padding. |
+| `--aeris-inplace-display-padding-inline` | `CSS custom property` | `--aeris-item-padding-x` | Display-button inline padding. |
+| `--aeris-inplace-display-border` | `CSS custom property` | `--aeris-border` | Display-button hover border. |
+| `--aeris-inplace-display-hover` | `CSS custom property` | `--aeris-surface-2` | Interactive hover background. |
+| `--aeris-inplace-content-background` | `CSS custom property` | `--aeris-surface` | Active content background. |
+| `--aeris-inplace-content-border` | `CSS custom property` | `--aeris-border` | Active content border. |
+| `--aeris-inplace-content-padding` | `CSS custom property` | `1rem` | Active content padding. |
+| `--aeris-inplace-content-shadow` | `CSS custom property` | `--aeris-shadow-sm` | Active content shadow. |
+| `--aeris-inplace-close-size` | `CSS custom property` | `1.75rem` | Owned close-button size. |
+| `--aeris-inplace-close-icon-size` | `CSS custom property` | `0.75rem` | Owned close-icon size. |
+
 ## Examples
 
 ### Basic
@@ -123,7 +142,7 @@ import { AerisInplaceModule } from '@aeris-ui/core/inplace';
   templateUrl: './inplace-basic.demo.html',
   styleUrl: './inplace-basic.demo.scss'
 })
-export class InplaceBasicBasicDemo {
+export class InplaceBasicDemo {
 }
 ```
 
@@ -181,6 +200,13 @@ export class InplaceBasicBasicDemo {
   margin: 0;
   overflow-wrap: anywhere;
 }
+
+@media (max-width: 36rem) {
+  .inplace-details,
+    .inplace-photo {
+      grid-template-columns: 1fr;
+    }
+}
 ```
 
 ### Controlled
@@ -200,7 +226,7 @@ import { AerisInplaceModule } from '@aeris-ui/core/inplace';
   templateUrl: './inplace-controlled.demo.html',
   styleUrl: './inplace-controlled.demo.scss'
 })
-export class InplaceControlledControlledDemo {
+export class InplaceControlledDemo {
   protected readonly controlledActive = signal(false);
 
   protected activateControlled(): void {
@@ -223,9 +249,7 @@ export class InplaceControlledControlledDemo {
 <div>
   <div class="inplace-controlled">
     <div class="inplace-actions">
-      <button aerisButton type="button" (click)="activateControlled()">
-        Activate
-      </button>
+      <button aerisButton type="button" (click)="activateControlled()">Activate</button>
       <button
         aerisButton
         variant="solid"
@@ -235,19 +259,13 @@ export class InplaceControlledControlledDemo {
       >
         Deactivate
       </button>
-      <button
-        aerisButton
-        variant="outline"
-        type="button"
-        (click)="toggleControlled()"
-      >
+      <button aerisButton variant="outline" type="button" (click)="toggleControlled()">
         Toggle
       </button>
     </div>
     <aeris-inplace label="Show release notes" [(active)]="controlledActive">
       <p class="inplace-note">
-        Version 1.0 adds accessible components, responsive layouts, and theme
-        controls.
+        Version 1.0 adds accessible components, responsive layouts, and theme controls.
       </p>
     </aeris-inplace>
     <p class="inplace-note" aria-live="polite">
@@ -260,18 +278,23 @@ export class InplaceControlledControlledDemo {
 #### CSS
 
 ```css
-.inplace-controlled {
+.inplace-controlled,
+.inplace-editor,
+.inplace-activity {
   display: grid;
   gap: 1rem;
 }
 
-.inplace-actions {
+.inplace-actions,
+.inplace-editor__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.625rem;
 }
 
-.inplace-note {
+.inplace-note,
+.inplace-status,
+.inplace-activity p {
   margin: 0;
   color: var(--aeris-text-2);
 }
@@ -295,7 +318,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './inplace-input.demo.html',
   styleUrl: './inplace-input.demo.scss'
 })
-export class InplaceInputInlineEditingDemo {
+export class InplaceInputDemo {
   protected readonly savedName = signal('Maya Chen');
   protected readonly draftName = signal('Maya Chen');
   protected readonly editStatus = signal('Profile name is Maya Chen.');
@@ -326,8 +349,10 @@ export class InplaceInputInlineEditingDemo {
 <div>
   <aeris-inplace ariaLabel="Edit profile name">
     <ng-template aerisInplaceDisplay>
-      <span
-        >Name: <strong>{{ savedName() }}</strong></span>
+      <span>
+        Name:
+        <strong>{{ savedName() }}</strong>
+      </span>
     </ng-template>
     <ng-template aerisInplaceContent let-close="close">
       <div class="inplace-editor">
@@ -360,20 +385,33 @@ export class InplaceInputInlineEditingDemo {
 #### CSS
 
 ```css
-.inplace-editor {
+.inplace-controlled,
+.inplace-editor,
+.inplace-activity {
   display: grid;
-  gap: 0.875rem;
+  gap: 1rem;
 }
 
+.inplace-actions,
 .inplace-editor__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.625rem;
 }
 
-.inplace-status {
-  margin: 0.75rem 0 0;
+.inplace-note,
+.inplace-status,
+.inplace-activity p {
+  margin: 0;
   color: var(--aeris-text-2);
+}
+
+.inplace-editor {
+  gap: 0.875rem;
+}
+
+.inplace-status {
+  margin-top: 0.75rem;
 }
 ```
 
@@ -394,7 +432,7 @@ import { NgOptimizedImage } from '@angular/common';
   templateUrl: './inplace-media.demo.html',
   styleUrl: './inplace-media.demo.scss'
 })
-export class InplaceMediaArbitraryContentDemo {
+export class InplaceMediaDemo {
 }
 ```
 
@@ -471,9 +509,10 @@ export class InplaceMediaArbitraryContentDemo {
 }
 
 @media (max-width: 36rem) {
-  .inplace-photo {
-    grid-template-columns: 1fr;
-  }
+  .inplace-details,
+    .inplace-photo {
+      grid-template-columns: 1fr;
+    }
 }
 ```
 
@@ -493,7 +532,7 @@ import { AerisInplaceModule, type AerisInplaceStateEvent } from '@aeris-ui/core/
   templateUrl: './inplace-lazy.demo.html',
   styleUrl: './inplace-lazy.demo.scss'
 })
-export class InplaceLazyLazyContentDemo {
+export class InplaceLazyDemo {
   protected readonly lazyLoaded = signal(false);
   protected readonly lazyActivations = signal(0);
 
@@ -510,11 +549,7 @@ export class InplaceLazyLazyContentDemo {
 
 ```html
 <div>
-  <aeris-inplace
-    label="View recent activity"
-    closable
-    (activated)="loadActivity($event)"
-  >
+  <aeris-inplace label="View recent activity" closable (activated)="loadActivity($event)">
     <ng-template aerisInplaceContent>
       <div class="inplace-activity">
         @if (lazyLoaded()) {
@@ -534,8 +569,21 @@ export class InplaceLazyLazyContentDemo {
 #### CSS
 
 ```css
+.inplace-controlled,
+.inplace-editor,
 .inplace-activity {
   display: grid;
+  gap: 1rem;
+}
+
+.inplace-note,
+.inplace-status,
+.inplace-activity p {
+  margin: 0;
+  color: var(--aeris-text-2);
+}
+
+.inplace-activity {
   gap: 0.75rem;
 }
 
@@ -544,11 +592,6 @@ export class InplaceLazyLazyContentDemo {
   gap: 0.5rem;
   margin: 0;
   padding-inline-start: 1.25rem;
-}
-
-.inplace-activity p {
-  margin: 0;
-  color: var(--aeris-text-2);
 }
 ```
 
@@ -584,23 +627,15 @@ import { AerisInplaceModule } from '@aeris-ui/core/inplace';
 
     .custom-inplace {
       --aeris-inplace-radius: 1rem;
-      --aeris-inplace-display-hover: color-mix(
-        in srgb,
-        var(--aeris-primary) 14%,
-        var(--aeris-surface)
-      );
-      --aeris-inplace-content-border: color-mix(
-        in srgb,
-        var(--aeris-primary) 48%,
-        var(--aeris-border)
-      );
+      --aeris-inplace-display-hover: color-mix(in srgb, var(--aeris-primary) 14%, var(--aeris-surface));
+      --aeris-inplace-content-border: color-mix(in srgb, var(--aeris-primary) 48%, var(--aeris-border));
       --aeris-inplace-content-padding: 1.5rem;
       --aeris-inplace-content-shadow: 0 1rem 2.5rem
         color-mix(in srgb, var(--aeris-primary) 18%, transparent);
     }
   `
 })
-export class InplaceTokensTokenCustomizationDemo {
+export class InplaceTokensDemo {
 }
 ```
 

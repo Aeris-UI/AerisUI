@@ -2,7 +2,7 @@
 
 > Multiple selection with filtering, chips, groups, limits, and virtualization.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/multi-select`
 - Human-readable documentation: [https://aeris-ui.dev/components/multi-select](https://aeris-ui.dev/components/multi-select)
@@ -29,6 +29,11 @@ import { AerisMultiSelect, type AerisSelectOption } from '@aeris-ui/core/multi-s
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `removeIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the remove icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `dropdownIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the dropdown icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `filterIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the filter icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `loadingIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the loading icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `options` | `readonly AerisSelectOption[]` | `required` | Available options in display order. |
@@ -166,7 +171,7 @@ Bind an array of option values and associate the combobox with a visible label.
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisMultiSelect } from '@aeris-ui/core/multi-select';
+import { AerisMultiSelect, type AerisMultiSelectChangeEvent } from '@aeris-ui/core/multi-select';
 import { type AerisSelectOption } from '@aeris-ui/core/select';
 
 @Component({
@@ -183,8 +188,9 @@ import { type AerisSelectOption } from '@aeris-ui/core/select';
         fluid
         (changed)="recordChange($event)"
       />
-      <small aria-live="polite"
-        >{{ lastChange() }}. Values: {{ skills().join(', ') || 'None' }}</small>
+      <small aria-live="polite">
+        {{ lastChange() }}. Values: {{ skills().join(', ') || 'None' }}
+      </small>
     </div>
   `,
   styles: `
@@ -213,9 +219,23 @@ import { type AerisSelectOption } from '@aeris-ui/core/select';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 34rem);
+    }
   `
 })
-export class MultiSelectBasicBasicDemo {
+export class MultiSelectBasicDemo {
+  protected readonly lastChange = signal('No interaction');
+
+  protected recordChange(event: AerisMultiSelectChangeEvent): void {
+      this.lastChange.set(
+        event.option
+          ? `${event.selected ? 'Selected' : 'Removed'} ${event.option.label}`
+          : 'Selection changed',
+      );
+    }
+
   protected readonly skills =
     signal<readonly string[]>(['angular', 'typescript']);
 
@@ -236,8 +256,9 @@ Chip display keeps selected values visible. Each remove action is a labeled nati
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisMultiSelect } from '@aeris-ui/core/multi-select';
+import { type AerisSelectOption } from '@aeris-ui/core/select';
 
 @Component({
   selector: 'app-multi-select-chips-demo',
@@ -281,9 +302,23 @@ import { AerisMultiSelect } from '@aeris-ui/core/multi-select';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 34rem);
+    }
   `
 })
-export class MultiSelectChipsRemovableChipsDemo {
+export class MultiSelectChipsDemo {
+  protected readonly chipSkills = signal<readonly string[]>(['angular', 'accessibility']);
+
+  protected readonly skillOptions: readonly AerisSelectOption[] = [
+      { label: 'Angular', value: 'angular' },
+      { label: 'TypeScript', value: 'typescript' },
+      { label: 'Accessibility', value: 'accessibility' },
+      { label: 'Design systems', value: 'design-systems' },
+      { label: 'Performance', value: 'performance' },
+      { label: 'Legacy platform', value: 'legacy', disabled: true },
+    ];
 }
 ```
 
@@ -294,8 +329,9 @@ Search labels while retaining every selected value. Select all applies to the cu
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisMultiSelect } from '@aeris-ui/core/multi-select';
+import { type AerisSelectOption } from '@aeris-ui/core/select';
 
 @Component({
   selector: 'app-multi-select-filter-demo',
@@ -340,9 +376,23 @@ import { AerisMultiSelect } from '@aeris-ui/core/multi-select';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 34rem);
+    }
   `
 })
-export class MultiSelectFilterFilteringDemo {
+export class MultiSelectFilterDemo {
+  protected readonly skills = signal<readonly string[]>(['angular', 'typescript']);
+
+  protected readonly skillOptions: readonly AerisSelectOption[] = [
+      { label: 'Angular', value: 'angular' },
+      { label: 'TypeScript', value: 'typescript' },
+      { label: 'Accessibility', value: 'accessibility' },
+      { label: 'Design systems', value: 'design-systems' },
+      { label: 'Performance', value: 'performance' },
+      { label: 'Legacy platform', value: 'legacy', disabled: true },
+    ];
 }
 ```
 
@@ -399,9 +449,13 @@ import { type AerisSelectOption } from '@aeris-ui/core/select';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 34rem);
+    }
   `
 })
-export class MultiSelectGroupsGroupedOptionsDemo {
+export class MultiSelectGroupsDemo {
   protected readonly countries =
     signal<readonly string[]>(['rs', 'at']);
 
@@ -420,7 +474,7 @@ Descriptions are shown only when that optional metadata is present.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisMultiSelect } from '@aeris-ui/core/multi-select';
 import { type AerisSelectOption } from '@aeris-ui/core/select';
 
@@ -466,9 +520,15 @@ import { type AerisSelectOption } from '@aeris-ui/core/select';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 34rem);
+    }
   `
 })
-export class MultiSelectDescriptionsOptionDescriptionsDemo {
+export class MultiSelectDescriptionsDemo {
+  protected readonly teams = signal<readonly string[]>(['design']);
+
   protected readonly richOptions:
     readonly AerisSelectOption[] = [
       {
@@ -487,7 +547,7 @@ Customize consumer content without replacing Aeris selection and listbox behavio
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisMultiSelect } from '@aeris-ui/core/multi-select';
 import { type AerisSelectOption } from '@aeris-ui/core/select';
 
@@ -497,7 +557,9 @@ import { type AerisSelectOption } from '@aeris-ui/core/select';
   templateUrl: './multi-select-templates.demo.html',
   styleUrl: './multi-select-templates.demo.scss'
 })
-export class MultiSelectTemplatesOptionAndChipTemplatesDemo {
+export class MultiSelectTemplatesDemo {
+  protected readonly teams = signal<readonly string[]>(['design']);
+
   protected readonly richOptions:
     readonly AerisSelectOption[] = [
       {
@@ -522,15 +584,18 @@ export class MultiSelectTemplatesOptionAndChipTemplatesDemo {
     fluid
   >
     <ng-template aerisMultiSelectOption let-option>
-      <span class="team-option"
-        ><strong>{{ option.label }}</strong>
-        <small>{{ option.description }}</small></span>
+      <span class="team-option">
+        <strong>{{ option.label }}</strong>
+        <small>{{ option.description }}</small>
+      </span>
     </ng-template>
     <ng-template aerisMultiSelectChip let-option>{{ option.label }}</ng-template>
-    <ng-template aerisMultiSelectHeader
-      ><strong>Product organization</strong></ng-template>
-    <ng-template aerisMultiSelectFooter
-      ><small>Choose every team that should be notified.</small></ng-template>
+    <ng-template aerisMultiSelectHeader>
+      <strong>Product organization</strong>
+    </ng-template>
+    <ng-template aerisMultiSelectFooter>
+      <small>Choose every team that should be notified.</small>
+    </ng-template>
   </aeris-multi-select>
 </div>
 ```
@@ -564,13 +629,19 @@ export class MultiSelectTemplatesOptionAndChipTemplatesDemo {
   color: var(--aeris-danger);
 }
 
+.field {
+  width: min(100%, 34rem);
+}
+
 .team-option {
+  min-width: 0;
   display: grid;
   gap: 0.125rem;
 }
 
 .team-option small {
-  color: var(--text-2);
+  color: var(--aeris-text-2);
+  font-size: 0.75rem;
 }
 ```
 
@@ -581,8 +652,9 @@ The panel action selects or clears enabled options, including only matching opti
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisMultiSelect } from '@aeris-ui/core/multi-select';
+import { type AerisSelectOption } from '@aeris-ui/core/select';
 
 @Component({
   selector: 'app-multi-select-select-all-demo',
@@ -627,9 +699,23 @@ import { AerisMultiSelect } from '@aeris-ui/core/multi-select';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 34rem);
+    }
   `
 })
-export class MultiSelectSelectAllSelectAllDemo {
+export class MultiSelectSelectAllDemo {
+  protected readonly skills = signal<readonly string[]>(['angular', 'typescript']);
+
+  protected readonly skillOptions: readonly AerisSelectOption[] = [
+      { label: 'Angular', value: 'angular' },
+      { label: 'TypeScript', value: 'typescript' },
+      { label: 'Accessibility', value: 'accessibility' },
+      { label: 'Design systems', value: 'design-systems' },
+      { label: 'Performance', value: 'performance' },
+      { label: 'Legacy platform', value: 'legacy', disabled: true },
+    ];
 }
 ```
 
@@ -640,8 +726,9 @@ Prevent additional selections after a configurable maximum while keeping selecte
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisMultiSelect } from '@aeris-ui/core/multi-select';
+import { type AerisSelectOption } from '@aeris-ui/core/select';
 
 @Component({
   selector: 'app-multi-select-limit-demo',
@@ -686,9 +773,23 @@ import { AerisMultiSelect } from '@aeris-ui/core/multi-select';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 34rem);
+    }
   `
 })
-export class MultiSelectLimitSelectionLimitDemo {
+export class MultiSelectLimitDemo {
+  protected readonly limitedSkills = signal<readonly string[]>([]);
+
+  protected readonly skillOptions: readonly AerisSelectOption[] = [
+      { label: 'Angular', value: 'angular' },
+      { label: 'TypeScript', value: 'typescript' },
+      { label: 'Accessibility', value: 'accessibility' },
+      { label: 'Design systems', value: 'design-systems' },
+      { label: 'Performance', value: 'performance' },
+      { label: 'Legacy platform', value: 'legacy', disabled: true },
+    ];
 }
 ```
 
@@ -709,7 +810,9 @@ import { type AerisSelectOption } from '@aeris-ui/core/select';
   templateUrl: './multi-select-virtual.demo.html',
   styleUrl: './multi-select-virtual.demo.scss'
 })
-export class MultiSelectVirtualVirtualScrollingAndLazyRangesDemo {
+export class MultiSelectVirtualDemo {
+  protected readonly virtualRange = signal('No range requested');
+
   protected readonly virtualValues =
     signal<readonly string[]>([]);
 
@@ -774,6 +877,10 @@ export class MultiSelectVirtualVirtualScrollingAndLazyRangesDemo {
 .field small.error {
   color: var(--aeris-danger);
 }
+
+.field {
+  width: min(100%, 34rem);
+}
 ```
 
 ### Sizes
@@ -785,6 +892,7 @@ Four sizes align MultiSelect with the Aeris control density scale.
 ```ts
 import { Component } from '@angular/core';
 import { AerisMultiSelect } from '@aeris-ui/core/multi-select';
+import { type AerisSelectOption } from '@aeris-ui/core/select';
 
 @Component({
   selector: 'app-multi-select-sizes-demo',
@@ -792,7 +900,15 @@ import { AerisMultiSelect } from '@aeris-ui/core/multi-select';
   templateUrl: './multi-select-sizes.demo.html',
   styleUrl: './multi-select-sizes.demo.scss'
 })
-export class MultiSelectSizesSizesDemo {
+export class MultiSelectSizesDemo {
+  protected readonly skillOptions: readonly AerisSelectOption[] = [
+      { label: 'Angular', value: 'angular' },
+      { label: 'TypeScript', value: 'typescript' },
+      { label: 'Accessibility', value: 'accessibility' },
+      { label: 'Design systems', value: 'design-systems' },
+      { label: 'Performance', value: 'performance' },
+      { label: 'Legacy platform', value: 'legacy', disabled: true },
+    ];
 }
 ```
 
@@ -800,37 +916,41 @@ export class MultiSelectSizesSizesDemo {
 
 ```html
 <div class="multi-select-size-grid">
-  <label
-    ><span>Extra small</span>
+  <label>
+    <span>Extra small</span>
     <aeris-multi-select
       ariaLabel="Extra small skills"
       [options]="skillOptions"
       [value]="['angular']"
       size="xs"
-  /></label>
-  <label
-    ><span>Small</span>
+    />
+  </label>
+  <label>
+    <span>Small</span>
     <aeris-multi-select
       ariaLabel="Small skills"
       [options]="skillOptions"
       [value]="['angular']"
       size="sm"
-  /></label>
-  <label
-    ><span>Medium</span>
+    />
+  </label>
+  <label>
+    <span>Medium</span>
     <aeris-multi-select
       ariaLabel="Medium skills"
       [options]="skillOptions"
       [value]="['angular']"
-  /></label>
-  <label
-    ><span>Large</span>
+    />
+  </label>
+  <label>
+    <span>Large</span>
     <aeris-multi-select
       ariaLabel="Large skills"
       [options]="skillOptions"
       [value]="['angular']"
       size="lg"
-  /></label>
+    />
+  </label>
 </div>
 ```
 
@@ -869,8 +989,9 @@ Outlined, filled, required, invalid, disabled, loading, and empty states preserv
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisMultiSelect } from '@aeris-ui/core/multi-select';
+import { type AerisSelectOption } from '@aeris-ui/core/select';
 
 @Component({
   selector: 'app-multi-select-states-demo',
@@ -878,7 +999,17 @@ import { AerisMultiSelect } from '@aeris-ui/core/multi-select';
   templateUrl: './multi-select-states.demo.html',
   styleUrl: './multi-select-states.demo.scss'
 })
-export class MultiSelectStatesAppearancesAndStatesDemo {
+export class MultiSelectStatesDemo {
+  protected readonly invalidValues = signal<readonly string[]>([]);
+
+  protected readonly skillOptions: readonly AerisSelectOption[] = [
+      { label: 'Angular', value: 'angular' },
+      { label: 'TypeScript', value: 'typescript' },
+      { label: 'Accessibility', value: 'accessibility' },
+      { label: 'Design systems', value: 'design-systems' },
+      { label: 'Performance', value: 'performance' },
+      { label: 'Legacy platform', value: 'legacy', disabled: true },
+    ];
 }
 ```
 
@@ -894,7 +1025,8 @@ export class MultiSelectStatesAppearancesAndStatesDemo {
       [value]="['angular']"
       appearance="filled"
       fluid
-    /><small class="state-message" aria-hidden="true">&nbsp;</small>
+    />
+    <small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
   <div class="field">
     <label for="skills-invalid">Required</label>
@@ -908,8 +1040,9 @@ export class MultiSelectStatesAppearancesAndStatesDemo {
       fluid
     />
     @if (invalidValues().length === 0) {
-      <small id="skills-error" class="error state-message"
-        >Choose at least one skill.</small>
+      <small id="skills-error" class="error state-message">
+        Choose at least one skill.
+      </small>
     } @else {
       <small class="state-message" aria-hidden="true">&nbsp;</small>
     }
@@ -922,7 +1055,8 @@ export class MultiSelectStatesAppearancesAndStatesDemo {
       [value]="['angular']"
       disabled
       fluid
-    /><small class="state-message" aria-hidden="true">&nbsp;</small>
+    />
+    <small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
   <div class="field">
     <span>Loading</span>
@@ -931,7 +1065,8 @@ export class MultiSelectStatesAppearancesAndStatesDemo {
       [options]="skillOptions"
       loading
       fluid
-    /><small class="state-message" aria-hidden="true">&nbsp;</small>
+    />
+    <small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
 </div>
 ```
@@ -942,7 +1077,7 @@ export class MultiSelectStatesAppearancesAndStatesDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -978,8 +1113,8 @@ export class MultiSelectStatesAppearancesAndStatesDemo {
   }
 }
 
-.field small.error {
-  color: var(--aeris-danger);
+.field {
+  width: min(100%, 34rem);
 }
 
 .state-message {
@@ -997,6 +1132,7 @@ MultiSelect implements ControlValueAccessor while retaining its signal model API
 import { Component } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AerisMultiSelect } from '@aeris-ui/core/multi-select';
+import { type AerisSelectOption } from '@aeris-ui/core/select';
 
 @Component({
   selector: 'app-multi-select-forms-demo',
@@ -1004,7 +1140,16 @@ import { AerisMultiSelect } from '@aeris-ui/core/multi-select';
   templateUrl: './multi-select-forms.demo.html',
   styleUrl: './multi-select-forms.demo.scss'
 })
-export class MultiSelectFormsReactiveAndTemplateDrivenFormsDemo {
+export class MultiSelectFormsDemo {
+  protected readonly skillOptions: readonly AerisSelectOption[] = [
+      { label: 'Angular', value: 'angular' },
+      { label: 'TypeScript', value: 'typescript' },
+      { label: 'Accessibility', value: 'accessibility' },
+      { label: 'Design systems', value: 'design-systems' },
+      { label: 'Performance', value: 'performance' },
+      { label: 'Legacy platform', value: 'legacy', disabled: true },
+    ];
+
   protected readonly reactiveSkills =
     new FormControl<readonly string[]>(['angular']);
 
@@ -1046,7 +1191,7 @@ export class MultiSelectFormsReactiveAndTemplateDrivenFormsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -1080,6 +1225,10 @@ export class MultiSelectFormsReactiveAndTemplateDrivenFormsDemo {
   .field-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.field {
+  width: min(100%, 34rem);
 }
 ```
 

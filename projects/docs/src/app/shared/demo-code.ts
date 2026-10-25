@@ -34,6 +34,10 @@ interface AerisImportRule {
 const MAX_INLINE_TEMPLATE_LINES = 14;
 
 const AERIS_IMPORTS: readonly AerisImportRule[] = [
+  rule('AerisNativeSelect', 'select/native', /\saerisNativeSelect\b/),
+  rule('AerisKbdModule', 'kbd', /[\s[]aerisKbd(?:Key|Content)?\b/),
+  rule('AerisSidebarModule', 'sidebar', /<aeris-sidebar\b/, /[\s[]aerisSidebar[A-Z]\w*/),
+  rule('AerisNavbarModule', 'navbar', /<aeris-navbar\b/, /[\s[]aerisNavbar[A-Z]\w*/),
   rule(
     'AerisAccordionModule',
     'accordion',
@@ -78,7 +82,12 @@ const AERIS_IMPORTS: readonly AerisImportRule[] = [
     /\saerisCascadeSelect[A-Z]\w*/,
   ),
   rule('AerisChartModule', 'chart', /<aeris-chart\b/),
-  rule('AerisChipModule', 'chip', /<aeris-chip\b/, /\saerisChip(?:Leading|RemoveIcon)\b/),
+  rule(
+    'AerisChipModule',
+    'chip',
+    /<aeris-chip(?:-group)?(?=[\s/>])/,
+    /\saerisChip(?:Leading|RemoveIcon)\b/,
+  ),
   rule('AerisCheckbox', 'checkbox', /<aeris-checkbox\b/),
   rule('AerisColorPicker', 'color-picker', /<aeris-color-picker\b/),
   rule('AerisCodeBlockModule', 'code-block', /<aeris-code-block\b/),
@@ -187,6 +196,13 @@ const AERIS_IMPORTS: readonly AerisImportRule[] = [
   rule('AerisScrollTop', 'scroll-top', /<aeris-scroll-top\b/),
   rule('AerisSkeletonModule', 'skeleton', /<aeris-skeleton\b/),
   rule('AerisSelect', 'select', /<aeris-select\b/, /\saerisSelect[A-Z]\w*/),
+  rule('AerisListbox', 'listbox', /<aeris-listbox\b/, /\saerisListbox[A-Z]\w*/),
+  rule(
+    'AerisCommandPalette',
+    'command-palette',
+    /<aeris-command-palette\b/,
+    /\saerisCommandPalette[A-Z]\w*/,
+  ),
   rule('AerisSlider', 'slider', /<aeris-slider\b/),
   rule('AerisSplitterModule', 'splitter', /<aeris-splitter\b/, /<aeris-splitter-panel\b/),
   rule('AerisSpeedDial', 'speed-dial', /<aeris-speed-dial\b/),
@@ -206,7 +222,7 @@ const AERIS_IMPORTS: readonly AerisImportRule[] = [
     'AerisToolbarModule',
     'toolbar',
     /<aeris-toolbar\b/,
-    /\saerisToolbar(?:Start|Center|End|Group|Spacer)\b/,
+    /\saerisToolbar(?:Start|Center|End|Group|Spacer|Item|Separator)\b/,
   ),
   rule('AerisTooltipModule', 'tooltip', /[\s[]aerisTooltip\b/),
   rule('AerisToastModule', 'toast', /<aeris-toast\b/, /\saerisToast(?:Content|Icon)\b/),
@@ -217,10 +233,14 @@ const AERIS_IMPORTS: readonly AerisImportRule[] = [
 ];
 
 const AERIS_TYPE_PREFIXES: readonly [prefix: string, secondary: string][] = [
+  ['AerisSidebar', 'sidebar'],
+  ['AerisNavbar', 'navbar'],
   ['AerisAccordion', 'accordion'],
   ['AerisAnimateOnScroll', 'animate-on-scroll'],
   ['AerisAutoFocus', 'auto-focus'],
   ['AerisClassNames', 'class-names'],
+  ['AerisKbd', 'kbd'],
+  ['AerisNativeSelect', 'select/native'],
   ['AerisFilter', 'filter-service'],
   ['AerisStyleClass', 'style-class'],
   ['AerisAvatar', 'avatar'],
@@ -281,6 +301,8 @@ const AERIS_TYPE_PREFIXES: readonly [prefix: string, secondary: string][] = [
   ['AerisCodeSource', 'code-block'],
   ['AerisCodeCopyEvent', 'code-block'],
   ['AerisSelect', 'select'],
+  ['AerisListbox', 'listbox'],
+  ['AerisCommandPalette', 'command-palette'],
   ['AerisSlider', 'slider'],
   ['AerisSplitter', 'splitter'],
   ['AerisSpeedDial', 'speed-dial'],
@@ -304,11 +326,44 @@ export function buildAngularDemoSources(options: DemoCodeOptions): readonly Code
   const code = buildAngularDemoCode(options);
   if (!code.ts.trim()) return [];
 
-  return [
+  const sources: CodeSource[] = [
     { language: 'TypeScript', label: 'TS', code: code.ts },
     ...(code.html ? [{ language: 'HTML' as const, label: 'HTML' as const, code: code.html }] : []),
     ...(code.css ? [{ language: 'CSS' as const, label: 'CSS' as const, code: code.css }] : []),
   ];
+  return sources.map((source) => ({ ...source, code: portableExampleSource(source.code) }));
+}
+
+// Consumer examples use public tokens, not variables defined only by the docs shell.
+function portableExampleSource(source: string): string {
+  const aliases: Readonly<Record<string, string>> = {
+    '--primary': '--aeris-primary',
+    '--primary-hover': '--aeris-primary-hover',
+    '--primary-text': '--aeris-primary-text',
+    '--primary-soft': '--aeris-primary-soft',
+    '--accent': '--aeris-secondary',
+    '--warm': '--aeris-accent',
+    '--danger': '--aeris-danger',
+    '--success': '--aeris-success',
+    '--warning': '--aeris-warning',
+    '--page': '--aeris-page',
+    '--surface': '--aeris-surface',
+    '--surface-2': '--aeris-surface-2',
+    '--surface-3': '--aeris-surface-3',
+    '--text': '--aeris-text',
+    '--text-2': '--aeris-text-2',
+    '--text-3': '--aeris-text-3',
+    '--border': '--aeris-border',
+    '--focus': '--aeris-focus',
+    '--shadow-sm': '--aeris-shadow-sm',
+    '--radius-sm': '--aeris-radius-sm',
+    '--radius-md': '--aeris-radius-md',
+    '--radius-lg': '--aeris-radius-lg',
+    '--control-height': '--aeris-control-height',
+  };
+  return source.replace(/var\((--[\w-]+)(?=[,\s)])/g, (match, token: string) =>
+    aliases[token] ? `var(${aliases[token]}` : match,
+  );
 }
 
 function buildAngularDemoCode(options: DemoCodeOptions): BuiltDemoCode {
@@ -394,6 +449,9 @@ function rule(symbol: string, secondary: string, ...tests: readonly RegExp[]): A
 
 function addAngularCoreImports(core: Set<string>, body: string, cssCode: string): void {
   const checks: readonly [string, RegExp][] = [
+    ['DestroyRef', /\bDestroyRef\b/],
+    ['inject', /\binject\s*(?:<[^>]+>)?\s*\(/],
+    ['ElementRef', /\bElementRef\b/],
     ['computed', /\bcomputed\s*(?:<[^>]+>)?\s*\(/],
     ['effect', /\beffect\s*\(/],
     ['input', /\binput(?:\.\w+)?\s*\(/],
@@ -416,12 +474,20 @@ function addAerisImports(
   classCode: string,
 ): void {
   const usesTableContextMenu = /<aeris-table\b/.test(body) && /<aeris-context-menu\b/.test(body);
+  const usesButtonForms =
+    /\baerisButtonToggle\b/.test(body) &&
+    /\[(?:formControl|formControlName|\(ngModel\))\]|\b(?:formControlName|ngModel)\b/.test(body);
+  if (usesButtonForms) {
+    addGroup(groups, '@aeris-ui/core/button/forms').values.add('AerisButtonForms');
+    componentImports.add('AerisButtonForms');
+  }
   if (usesTableContextMenu) {
     addGroup(groups, '@aeris-ui/core/table').values.add('AerisTableContextMenuModule');
     componentImports.add('AerisTableContextMenuModule');
   }
 
   for (const item of AERIS_IMPORTS) {
+    if (usesButtonForms && item.symbol === 'AerisButton') continue;
     if (
       usesTableContextMenu &&
       (item.symbol === 'AerisTableModule' || item.symbol === 'AerisContextMenuModule')
@@ -431,6 +497,11 @@ function addAerisImports(
     if (!item.tests.some((test) => test.test(body))) continue;
     addGroup(groups, item.path).values.add(item.symbol);
     componentImports.add(item.symbol);
+  }
+
+  for (const helper of ['createAerisChartAreaFill', 'createAerisChartComparisonGuide']) {
+    if (new RegExp(`\\b${helper}\\b`).test(classCode))
+      addGroup(groups, '@aeris-ui/core/chart').values.add(helper);
   }
 
   for (const token of classCode.match(/\bAeris[A-Za-z0-9]+\b/g) ?? []) {
@@ -465,6 +536,14 @@ function addAngularFormsImports(
   classCode: string,
 ): void {
   const forms = addGroup(groups, '@angular/forms');
+  if (/\[formField\]/.test(body)) {
+    const signals = addGroup(groups, '@angular/forms/signals');
+    signals.values.add('FormField');
+    componentImports.add('FormField');
+    for (const name of ['form', 'required', 'submit', 'validate']) {
+      if (new RegExp(`\\b${name}\\s*\\(`).test(classCode)) signals.values.add(name);
+    }
+  }
   if (/\bngModel\b/.test(body)) {
     forms.values.add('FormsModule');
     componentImports.add('FormsModule');
@@ -563,6 +642,8 @@ function sharedLayoutCss(template: string): string {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
 }`);
     mediaRules.push(`.aeris-example-row {
     max-width: 100%;
@@ -592,7 +673,7 @@ function sharedLayoutCss(template: string): string {
     rules.push(`.field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }`);
     mediaRules.push(`.field-grid {
@@ -616,6 +697,10 @@ function sharedLayoutCss(template: string): string {
 }`);
     mediaRules.push(`.field-row {
     align-items: stretch;
+  }
+
+  .field-row > input {
+    width: 100%;
   }`);
   }
   if (hasClass(template, 'field')) {
@@ -655,10 +740,18 @@ function sharedLayoutCss(template: string): string {
   color: var(--aeris-text-2);
   font-size: 0.75rem;
 }`);
-    mediaRules.push(`.size-sample,
-  .field-row > input {
+    mediaRules.push(`.size-sample {
     width: 100%;
   }`);
+  }
+
+  if (/\blucideIcon\b/.test(template)) {
+    rules.push(`svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}`);
   }
 
   if (mediaRules.length) {
@@ -807,7 +900,7 @@ function declarationBlockComplete(
 }
 
 function componentClassName(anchor: string, title: string): string {
-  const raw = `${anchor}-${title}-demo`;
+  const raw = `${anchor.trim() || title}-demo`;
   const name = raw
     .replace(/^[^a-zA-Z]+/, '')
     .replace(/[^a-zA-Z0-9]+([a-zA-Z0-9])/g, (_match: string, char: string) => char.toUpperCase())

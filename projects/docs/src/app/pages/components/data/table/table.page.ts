@@ -1,14 +1,32 @@
-import { Component, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  computed,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
+import { AerisInputTextComponent } from '@aeris-ui/core/input-text';
+import { AerisInputNumber } from '@aeris-ui/core/input-number';
+import { AerisSelect } from '@aeris-ui/core/select';
+import { AerisDatePicker } from '@aeris-ui/core/date-picker';
+import { AerisMenuModule, type AerisMenuItem } from '@aeris-ui/core/menu';
+import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
 import {
   AerisTable,
   AerisTableContextMenuModule,
   type AerisTableCellEditEvent,
+  type AerisTableCellEditable,
+  type AerisTablePinnedRows,
   type AerisTableColumn,
   type AerisTableContextMenuEvent,
   type AerisTableData,
   type AerisTableSelectionEvent,
   type AerisTableSortEvent,
+  type AerisTableSort,
+  type AerisTableRowReorderEvent,
 } from '@aeris-ui/core/table';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 import { type AerisContextMenuItemEvent } from '@aeris-ui/core/context-menu';
@@ -29,10 +47,24 @@ interface ApiRow {
   readonly description: string;
 }
 
+const SELECTION_MEMBERS: readonly AerisTableData[] = [
+  { id: '1', name: 'Maya Chen', team: 'Design', status: 'Active' },
+  { id: '2', name: 'Noah Williams', team: 'Engineering', status: 'Invited' },
+  { id: '3', name: 'Sofia Rossi', team: 'Research', status: 'Offline' },
+  { id: '4', name: 'Liam Novak', team: 'Quality', status: 'Active' },
+  { id: '5', name: 'Ava Patel', team: 'Product', status: 'Active' },
+];
+
 @Component({
   selector: 'app-table-page',
   imports: [
     AerisButton,
+    AerisInputTextComponent,
+    AerisInputNumber,
+    AerisSelect,
+    AerisDatePicker,
+    AerisMenuModule,
+    AerisToolbarModule,
     AerisTableContextMenuModule,
     AerisTabsModule,
     CodeBlockComponent,
@@ -45,6 +77,114 @@ interface ApiRow {
   styleUrl: './table.page.scss',
 })
 export class TablePage {
+  protected readonly pinHeaders = signal(true);
+  protected readonly defaultPinRows: AerisTablePinnedRows = { top: ['pin-3'], bottom: ['pin-18'] };
+  protected readonly pinRows = signal<AerisTablePinnedRows>(this.defaultPinRows);
+  protected readonly pinningRows = signal<readonly AerisTableData[]>(
+    Array.from({ length: 24 }, (_, index) => ({
+      id: `pin-${index + 1}`,
+      name: `Record ${index + 1}`,
+      team: index % 2 ? 'Engineering' : 'Design',
+      details: `Milestone ${index + 1}: review the latest updates with the team.`,
+      status: index % 3 ? 'Active' : 'Review',
+    })),
+  );
+  protected readonly pinningPlainColumns: readonly AerisTableColumn[] = [
+    { field: 'name', header: 'Name', width: '45%', sortable: true },
+    { field: 'team', header: 'Team', width: '30%' },
+    { field: 'status', header: 'Status', width: '25%' },
+  ];
+  protected readonly pinnedColumns = signal<readonly AerisTableColumn[]>([
+    { field: 'name', header: 'Name', width: '12rem', pinned: 'start', sortable: true },
+    { field: 'team', header: 'Team', width: '12rem' },
+    { field: 'details', header: 'Details', width: '24rem' },
+    { field: 'status', header: 'Status', width: '10rem', pinned: 'end' },
+  ]);
+  protected savePinnedEdit(event: AerisTableCellEditEvent): void {
+    this.pinningRows.update((rows) =>
+      rows.map((row) => (row === event.row ? { ...row, [event.field]: event.value } : row)),
+    );
+  }
+  protected readonly permissionDefault = signal(true);
+  protected readonly permissionColumns: readonly AerisTableColumn[] = [
+    { field: 'name', header: 'Name', width: '40%' },
+    { field: 'team', header: 'Team', editable: true, width: '30%' },
+    { field: 'status', header: 'Status', editable: false, width: '30%' },
+  ];
+  protected readonly permissionRows = signal<readonly AerisTableData[]>([
+    { id: 'one', name: 'Maya', team: 'Design', status: 'Active' },
+    { id: 'two', name: 'Noah', team: 'Engineering', status: 'Archived' },
+    { id: 'three', name: 'Sofia', team: 'Research', status: 'Active' },
+  ]);
+  protected readonly canEditCell: AerisTableCellEditable = (row, column) =>
+    row['status'] === 'Archived' || (row['id'] === 'three' && column.field === 'team')
+      ? false
+      : undefined;
+  protected savePermissionEdit(event: AerisTableCellEditEvent): void {
+    this.permissionRows.update((rows) =>
+      rows.map((row) => (row === event.row ? { ...row, [event.field]: event.value } : row)),
+    );
+  }
+  protected readonly isDate = (value: unknown): value is Date => value instanceof Date;
+  protected readonly customEditorColumns: readonly AerisTableColumn[] = [
+    { field: 'name', header: 'Name', width: '30%' },
+    { field: 'quantity', header: 'Quantity', width: '20%' },
+    { field: 'status', header: 'Status', width: '25%' },
+    { field: 'date', header: 'Date', width: '25%' },
+  ];
+  protected readonly customEditorRows = signal<readonly AerisTableData[]>([
+    { id: 'one', name: 'Release notes', quantity: 3, status: 'draft', date: new Date(2026, 9, 21) },
+    {
+      id: 'two',
+      name: 'API reference',
+      quantity: 5,
+      status: 'published',
+      date: new Date(2026, 9, 22),
+    },
+  ]);
+  protected readonly editorStatuses = [
+    { label: 'Draft', value: 'draft' },
+    { label: 'Published', value: 'published' },
+  ];
+  protected readonly editorResult = signal('Double-click a cell or focus it and press F2 to edit.');
+  protected saveCustomEditor(event: AerisTableCellEditEvent): void {
+    this.customEditorRows.update((rows) =>
+      rows.map((row) => (row === event.row ? { ...row, [event.field]: event.value } : row)),
+    );
+    this.editorResult.set(`Saved ${event.field}.`);
+  }
+  protected readonly reorderColumns: readonly AerisTableColumn[] = [
+    { field: 'name', header: 'Name', width: '60%' },
+    { field: 'team', header: 'Team', width: '40%' },
+  ];
+  protected readonly reorderMembers = signal<readonly AerisTableData[]>([
+    { id: '1', name: 'Maya Chen', team: 'Design' },
+    { id: '2', name: 'Noah Williams', team: 'Engineering' },
+    { id: '3', name: 'Sofia Rossi', team: 'Research' },
+    { id: '4', name: 'Liam Novak', team: 'Quality' },
+  ]);
+  protected readonly pinnedMember = (row: AerisTableData): boolean => row['id'] === '4';
+  protected readonly reorderStatus = signal('Liam is fixed in the last position.');
+  protected readonly rowReorderCode = `protected readonly reorderMembers = signal<readonly AerisTableData[]>([
+  { id: '1', name: 'Maya Chen', team: 'Design' },
+  { id: '2', name: 'Noah Williams', team: 'Engineering' },
+  { id: '3', name: 'Sofia Rossi', team: 'Research' },
+  { id: '4', name: 'Liam Novak', team: 'Quality' },
+]);
+protected readonly reorderColumns: readonly AerisTableColumn[] = [
+  { field: 'name', header: 'Name', width: '60%' },
+  { field: 'team', header: 'Team', width: '40%' },
+];
+protected readonly pinnedMember = (row: AerisTableData): boolean => row['id'] === '4';
+protected readonly reorderStatus = signal('Liam is fixed in the last position.');
+protected handleRowReorder(event: AerisTableRowReorderEvent): void {
+  this.reorderStatus.set(\`\${event.row['name']} moved to position \${event.toIndex + 1}.\`);
+}`;
+
+  protected handleRowReorder(event: AerisTableRowReorderEvent): void {
+    this.reorderStatus.set(`${event.row['name']} moved to position ${event.toIndex + 1}.`);
+  }
+  private readonly destroyRef = inject(DestroyRef);
   protected readonly selectedMembers = signal<readonly string[]>(['1']);
   protected readonly singleSelectedMember = signal<readonly string[]>(['2']);
   protected readonly rowSelectedMembers = signal<readonly string[]>([]);
@@ -154,6 +294,95 @@ export class TablePage {
     { label: 'Archive member' },
   ];
 
+  protected readonly workflowMembers = signal(SELECTION_MEMBERS);
+  protected readonly workflowFocusTarget = viewChild('workflowColumnsButton', {
+    read: ElementRef<HTMLButtonElement>,
+  });
+  protected readonly workflowSelected = signal<readonly string[]>([]);
+  protected readonly workflowFirst = signal(0);
+  protected readonly workflowQuery = signal('');
+  protected readonly workflowBusy = signal(false);
+  protected readonly workflowStatus = signal('Select members on any page to remove them together.');
+  protected readonly workflowSort = signal<AerisTableSort | null>(null);
+  protected readonly workflowFilters = signal<Readonly<Record<string, string>>>({});
+  protected readonly workflowHidden = signal<readonly string[]>([]);
+  protected readonly workflowAllColumns = signal<readonly AerisTableColumn[]>([
+    { field: 'name', header: 'Name', sortable: true },
+    { field: 'team', header: 'Team', sortable: true },
+    { field: 'status', header: 'Status', sortable: true },
+  ]);
+  protected readonly workflowColumns = computed(() =>
+    this.workflowAllColumns().filter((column) => !this.workflowHidden().includes(column.field)),
+  );
+  protected readonly workflowColumnItems = computed<readonly AerisMenuItem[]>(() =>
+    this.workflowAllColumns().map((column) => ({
+      label:
+        column.field === 'name'
+          ? 'Name (required)'
+          : `${this.workflowHidden().includes(column.field) ? 'Show' : 'Hide'} ${column.header}`,
+      disabled: column.field === 'name' || this.workflowBusy(),
+      command: () => this.toggleWorkflowColumn(column.field),
+    })),
+  );
+
+  protected toggleWorkflowColumn(field: string): void {
+    if (field === 'name' || this.workflowBusy()) return;
+    this.workflowHidden.update((fields) =>
+      fields.includes(field) ? fields.filter((item) => item !== field) : [...fields, field],
+    );
+    this.workflowFilters.update((filters) =>
+      Object.fromEntries(Object.entries(filters).filter(([key]) => key !== field)),
+    );
+    if (this.workflowSort()?.field === field) this.workflowSort.set(null);
+    this.workflowFirst.set(0);
+  }
+
+  protected orderWorkflowColumns(columns: readonly AerisTableColumn[]): void {
+    let index = 0;
+    this.workflowAllColumns.update((all) =>
+      all.map((column) =>
+        this.workflowHidden().includes(column.field) ? column : (columns[index++] ?? column),
+      ),
+    );
+  }
+
+  protected clearWorkflowSelection(fallback?: HTMLButtonElement): void {
+    this.workflowSelected.set([]);
+    this.workflowStatus.set('Selection cleared on every page, including filtered-out members.');
+    fallback?.focus();
+  }
+
+  protected async removeWorkflowMembers(fallback?: HTMLButtonElement): Promise<void> {
+    if (this.workflowBusy() || !this.workflowSelected().length) return;
+    const keys = new Set(this.workflowSelected());
+    this.workflowBusy.set(true);
+    this.workflowStatus.set(`Removing ${keys.size} selected members…`);
+    // Replace this delay with your application's API request; update rows only on success.
+    await new Promise<void>((resolve) => setTimeout(resolve, 300));
+    if (this.destroyRef.destroyed) return;
+    this.workflowMembers.update((members) =>
+      members.filter((member) => !keys.has(String(member['id']))),
+    );
+    this.workflowSelected.set([]);
+    this.workflowFirst.set(0);
+    this.workflowBusy.set(false);
+    this.workflowStatus.set(
+      `Removed ${keys.size} members. Selection cleared; focus returned to Columns.`,
+    );
+    fallback?.focus();
+  }
+
+  protected restoreWorkflowMembers(): void {
+    if (this.workflowBusy()) return;
+    this.workflowMembers.set(SELECTION_MEMBERS);
+    this.workflowSelected.set([]);
+    this.workflowFirst.set(0);
+    this.workflowQuery.set('');
+    this.workflowFilters.set({});
+    this.workflowSort.set(null);
+    this.workflowStatus.set('Example members restored.');
+  }
+
   protected readonly featureLinks: readonly PageTocLink[] = [
     { id: 'table-basic', label: 'Basic' },
     { id: 'table-dynamic', label: 'Dynamic columns' },
@@ -162,11 +391,19 @@ export class TablePage {
     { id: 'table-column-filter', label: 'Column filtering' },
     { id: 'table-pagination', label: 'Pagination' },
     { id: 'table-selection', label: 'Selection' },
+    { id: 'table-selection-workflow', label: 'Selection workflow' },
     { id: 'table-context-menu', label: 'Context menu' },
     { id: 'table-appearance', label: 'Appearance' },
     { id: 'table-resizing', label: 'Column controls' },
+    { id: 'table-row-reordering', label: 'Row reordering' },
     { id: 'table-expansion', label: 'Row expansion' },
     { id: 'table-editing', label: 'Cell editing' },
+    { id: 'table-editing-permissions', label: 'Editing permissions' },
+    { id: 'table-custom-editors', label: 'Custom editors' },
+    { id: 'table-sticky-headers', label: 'Sticky headers' },
+    { id: 'table-pinned-columns', label: 'Pinned columns' },
+    { id: 'table-pinned-rows', label: 'Pinned rows' },
+    { id: 'table-combined-pinning', label: 'Combined pinning' },
     { id: 'table-scrolling', label: 'Scrolling' },
     { id: 'table-templates', label: 'Templates' },
     { id: 'table-responsive', label: 'Responsive' },
@@ -282,11 +519,38 @@ protected handleSelection(event: AerisTableSelectionEvent): void {
   });
 }`;
 
+  protected readonly editorInterfacesCode = `import type { WritableSignal } from '@angular/core';
+
+interface AerisCellEditor {
+  readonly value: WritableSignal<unknown>;
+  readonly valid: WritableSignal<boolean>;
+  readonly originalValue: unknown;
+  readonly ariaLabel: string;
+  readonly commit: (event?: Event) => void;
+  readonly cancel: (event?: Event) => void;
+}
+
+interface AerisTableEditorContext {
+  readonly $implicit: AerisCellEditor;
+  readonly editor: AerisCellEditor;
+  readonly row: AerisTableData;
+  readonly column: AerisTableColumn;
+  readonly rowIndex: number;
+}`;
+
   protected readonly interfacesCode = `type AerisTableSize = 'sm' | 'md' | 'lg';
 type AerisTableSortDirection = 'asc' | 'desc';
 type AerisTableSelectionMode = 'single' | 'multiple';
 type AerisTableResponsiveMode = 'scroll' | 'stack';
 type AerisTableData = Record<string, unknown>;
+type AerisTableColumnPin = 'start' | 'end';
+interface AerisTablePinnedRows {
+  readonly top: readonly string[];
+  readonly bottom: readonly string[];
+}
+type AerisTableCellEditable = (
+  row: AerisTableData, column: AerisTableColumn,
+) => boolean | undefined;
 type AerisTableContextMenuDisabled =
   | boolean
   | ((row: AerisTableData, rowIndex: number) => boolean);
@@ -296,8 +560,15 @@ interface AerisTableColumn {
   readonly header: string;
   readonly sortable?: boolean;
   readonly filterable?: boolean;
+  readonly editable?: boolean;
+  readonly pinned?: AerisTableColumnPin;
   readonly width?: string;
   readonly align?: 'start' | 'center' | 'end';
+}
+
+interface AerisTableSortIconContext {
+  readonly $implicit: AerisTableColumn;
+  readonly direction: AerisTableSortDirection | null;
 }
 
 interface AerisTableSort {
@@ -341,7 +612,7 @@ interface AerisTableCellEditEvent {
   readonly originalEvent: Event;
   readonly row: AerisTableData;
   readonly field: string;
-  readonly value: string;
+  readonly value: unknown;
 }
 
 interface AerisTableColumnResizeEvent {
@@ -359,6 +630,17 @@ interface AerisTableColumnReorderEvent {
   readonly columns: readonly AerisTableColumn[];
 }
 
+type AerisTableRowReorderDisabled = boolean | ((row: AerisTableData, rowIndex: number) => boolean);
+
+interface AerisTableRowReorderEvent {
+  readonly originalEvent: Event | null;
+  readonly row: AerisTableData;
+  readonly key: string;
+  readonly fromIndex: number;
+  readonly toIndex: number;
+  readonly data: readonly AerisTableData[];
+}
+
 interface AerisTableCsvExportOptions {
   readonly filename?: string;
   readonly separator?: string;
@@ -369,6 +651,80 @@ interface AerisTableCsvExportOptions {
 
   protected readonly inputs: readonly ApiRow[] = [
     {
+      name: 'stickyHeader',
+      type: 'boolean',
+      defaultValue: 'true',
+      description:
+        'Keeps header and filter rows at measured offsets while the table viewport scrolls vertically. False disables vertical header pinning. Oversized headers scroll normally to keep data accessible.',
+    },
+    {
+      name: 'pinnedRows',
+      type: 'AerisTablePinnedRows (model)',
+      defaultValue: '{ top: [], bottom: [] }',
+      description:
+        'Stable unique row keys to pin at top/bottom of the current filtered page. Top wins duplicates; missing keys are ignored. Sorting order within each group is preserved. Oversized pinned regions revert to normal scrolling. Consumer-owned; not serialized by saveState(). Row reordering is disabled while rows are pinned.',
+    },
+    {
+      name: 'reorderableRows',
+      type: 'boolean',
+      defaultValue: 'false',
+      description:
+        'Enables local row reordering with stable unique rowKeyField values. Disabled during sorting, active filters, pagination, lazy loading, loading, or cell editing.',
+    },
+    {
+      name: 'showRowReorderHandle',
+      type: 'boolean',
+      defaultValue: 'true',
+      description:
+        'Shows dedicated drag/keyboard handles when reorderableRows is enabled. Hide when providing external controls through moveRow().',
+    },
+    {
+      name: 'rowReorderDisabled',
+      type: 'boolean | ((row: AerisTableData, rowIndex: number) => boolean)',
+      defaultValue: 'false',
+      description: 'Fixes rows in place. Other rows cannot move across a disabled row.',
+    },
+    {
+      name: 'rowReorderAriaLabel',
+      type: 'string',
+      defaultValue: "'Reorder row'",
+      description: 'Handle name prefix, followed by the one-based row position.',
+    },
+    {
+      name: 'rowReorderInstructions',
+      type: 'string',
+      defaultValue:
+        "'Drag, or activate this handle and then a destination handle. Alt plus Arrow Up or Arrow Down also moves the row. Escape cancels.'",
+      description: 'Accessible instructions associated with each handle.',
+    },
+    {
+      name: 'rowReorderIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description: 'Decorative replacement for the default six-dot drag handle icon.',
+    },
+    {
+      name: 'toggleIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Decorative row-expander artwork. Supply a down-pointing icon; Aeris rotates it for the collapsed state.',
+    },
+    {
+      name: 'sortIconTemplate',
+      type: 'TemplateRef<AerisTableSortIconContext> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Artwork for sortable headers. Context: $implicit is the column; direction is asc, desc, or null. Header buttons retain sorting and aria-sort.',
+    },
+    {
+      name: 'loadingIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the loading icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
       name: 'paginatorDropdownAppendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
       defaultValue: "global config or 'self'",
@@ -376,9 +732,10 @@ interface AerisTableCsvExportOptions {
     },
     {
       name: 'data',
-      type: 'readonly AerisTableData[]',
+      type: 'readonly AerisTableData[] (model)',
       defaultValue: '[]',
-      description: 'Rows rendered by the table.',
+      description:
+        'Rows rendered by the table. Bind [(data)] to retain row reorder changes in the parent.',
     },
     {
       name: 'columns',
@@ -466,6 +823,19 @@ interface AerisTableCsvExportOptions {
       description: 'Shows the built-in global search field.',
     },
     {
+      name: 'filterLabel',
+      type: 'string',
+      defaultValue: "'Search'",
+      description: 'Visible and accessible label of the built-in global search input.',
+    },
+    {
+      name: 'filterPlaceholder',
+      type: 'string',
+      defaultValue: "'Search records'",
+      description:
+        'Placeholder of the built-in global search input; not a replacement for its label.',
+    },
+    {
       name: 'filterValue',
       type: 'string (model)',
       defaultValue: "''",
@@ -512,7 +882,8 @@ interface AerisTableCsvExportOptions {
       name: 'lazy',
       type: 'boolean',
       defaultValue: 'false',
-      description: 'Emits lazyLoad metadata instead of assuming all data changes are local.',
+      description:
+        'Emits lazyLoad request state on sort, filter, and page actions. Local processing of supplied data still applies; it does not select or represent unloaded server records.',
     },
     {
       name: 'pageLinkSize',
@@ -539,10 +910,48 @@ interface AerisTableCsvExportOptions {
       description: 'Uses row clicks or rendered checkbox/radio controls.',
     },
     {
+      name: 'rowNavigation',
+      type: 'boolean',
+      defaultValue: 'true',
+      description:
+        'Makes data rows keyboard-focusable. Embedded controls retain their own focus behavior.',
+    },
+    {
+      name: 'selectAllAriaLabel',
+      type: 'string',
+      defaultValue: "'Select all visible rows'",
+      description: 'Accessible name of the header selection checkbox.',
+    },
+    {
+      name: 'rowSelectionAriaLabel',
+      type: 'string',
+      defaultValue: "'Select row'",
+      description: 'Accessible name of each row selection control and its selection column.',
+    },
+    {
+      name: 'expandRowAriaLabel',
+      type: 'string',
+      defaultValue: "'Expand row'",
+      description: 'Accessible name of a collapsed row expansion button and its expansion column.',
+    },
+    {
+      name: 'collapseRowAriaLabel',
+      type: 'string',
+      defaultValue: "'Collapse row'",
+      description: 'Accessible name of an expanded row expansion button.',
+    },
+    {
+      name: 'paginatorAriaLabel',
+      type: 'string',
+      defaultValue: "'Table pagination'",
+      description: 'Accessible name of the built-in paginator navigation.',
+    },
+    {
       name: 'selectedKeys',
       type: 'readonly string[] (model)',
       defaultValue: '[]',
-      description: 'Controlled selected row keys.',
+      description:
+        'Controlled selected row keys, retained across filters and pages. The header checkbox changes only the current filtered page; the key count can include off-page or unloaded records.',
     },
     {
       name: 'contextMenu',
@@ -584,7 +993,15 @@ interface AerisTableCsvExportOptions {
       name: 'editable',
       type: 'boolean',
       defaultValue: 'false',
-      description: 'Enables double-click in-cell editing.',
+      description:
+        'Default editing permission. Columns override it; cellEditable has final priority. Not a master switch.',
+    },
+    {
+      name: 'cellEditable',
+      type: 'AerisTableCellEditable | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Pure (row, column) callback: true allows editing, false prevents it, undefined inherits column.editable then table editable. Supports row-wide and individual-cell rules. Permission revocation cancels the draft.',
     },
     {
       name: 'resizableColumns',
@@ -639,6 +1056,13 @@ interface AerisTableCsvExportOptions {
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
+    {
+      name: 'pinnedRowsChange',
+      type: 'AerisTablePinnedRows',
+      defaultValue: '—',
+      description:
+        'Emits when the component model is changed programmatically. Bind [(pinnedRows)] for controlled pin state; normal view reordering never mutates it.',
+    },
     {
       name: 'sorted',
       type: 'AerisTableSortEvent',
@@ -721,7 +1145,8 @@ interface AerisTableCsvExportOptions {
       name: 'cellEdited',
       type: 'AerisTableCellEditEvent',
       defaultValue: '-',
-      description: 'Emitted when an editable cell commits a new string value.',
+      description:
+        'Emitted when an editable cell commits. Built-in editors produce strings; custom editors preserve the draft value type.',
     },
     {
       name: 'editCompleted',
@@ -742,6 +1167,19 @@ interface AerisTableCsvExportOptions {
       defaultValue: '-',
       description:
         'Emitted after pointer or keyboard column reordering updates the controlled columns model.',
+    },
+    {
+      name: 'dataChange',
+      type: 'readonly AerisTableData[]',
+      defaultValue: '-',
+      description: 'Emitted with a new immutable row array when a reorder updates the data model.',
+    },
+    {
+      name: 'rowReordered',
+      type: 'AerisTableRowReorderEvent',
+      defaultValue: '-',
+      description:
+        'Emitted after an accepted pointer, keyboard, or moveRow request, with the stable key, zero-based indices, and updated data.',
     },
     {
       name: 'stateSaved',

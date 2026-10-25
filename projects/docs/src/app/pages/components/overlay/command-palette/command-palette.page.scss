@@ -1,0 +1,36 @@
+@use '../../form/shared/form-docs';
+.command-demo {
+  display: grid;
+  gap: 1rem;
+  inline-size: 100%;
+  max-inline-size: 32rem;
+  min-inline-size: 0;
+}
+.command-demo > button {
+  justify-self: start;
+}
+.command-demo p {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: var(--aeris-text-2);
+}
+.command-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.command-item {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-inline-size: 0;
+  inline-size: 100%;
+}
+.command-item svg {
+  inline-size: var(--aeris-icon-size, 1rem);
+  block-size: var(--aeris-icon-size, 1rem);
+  flex: 0 0 auto;
+}
+.command-item small {
+  margin-inline-start: auto;
+}

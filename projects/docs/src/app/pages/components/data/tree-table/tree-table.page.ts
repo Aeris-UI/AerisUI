@@ -1,9 +1,25 @@
-import { Component, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  computed,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { AerisBadgeModule, type AerisBadgeSeverity } from '@aeris-ui/core/badge';
 import { AerisButton } from '@aeris-ui/core/button';
+import { AerisInputTextComponent } from '@aeris-ui/core/input-text';
+import { AerisInputNumber } from '@aeris-ui/core/input-number';
+import { AerisSelect } from '@aeris-ui/core/select';
+import { AerisDatePicker } from '@aeris-ui/core/date-picker';
+import { AerisMenuModule, type AerisMenuItem } from '@aeris-ui/core/menu';
+import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
 import {
   AerisTreeTableModule,
   type AerisTreeTableCellEditEvent,
+  type AerisTreeTableCellEditable,
+  type AerisTablePinnedRows,
   type AerisTreeTableColumn,
   type AerisTreeTableColumnReorderEvent,
   type AerisTreeTableColumnResizeEvent,
@@ -42,13 +58,19 @@ type FileRecord = AerisTreeTableData & {
 };
 
 const FILE_COLUMNS: readonly AerisTreeTableColumn[] = [
-  { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
+  {
+    field: 'name',
+    header: 'Name',
+    sortable: true,
+    filterable: true,
+    pinned: 'start',
+    width: '15rem',
+  },
   {
     field: 'size',
     header: 'Size (KB)',
     sortable: true,
     filterable: true,
-    editable: true,
     align: 'end',
     width: '8rem',
   },
@@ -56,11 +78,51 @@ const FILE_COLUMNS: readonly AerisTreeTableColumn[] = [
   { field: 'modified', header: 'Modified', sortable: true, filterable: true, width: '10rem' },
 ];
 
+const SELECTION_FILES: readonly AerisTreeTableNode[] = [
+  {
+    key: 'design-files',
+    data: { name: 'Design', type: 'Folder', owner: 'Maya' },
+    selectable: false,
+    children: [
+      { key: 'brief', data: { name: 'Brief.md', type: 'Document', owner: 'Maya' }, leaf: true },
+      { key: 'palette', data: { name: 'Palette.json', type: 'JSON', owner: 'Ava' }, leaf: true },
+    ],
+  },
+  {
+    key: 'engineering-files',
+    data: { name: 'Engineering', type: 'Folder', owner: 'Noah' },
+    selectable: false,
+    children: [
+      {
+        key: 'component',
+        data: { name: 'Component.ts', type: 'TypeScript', owner: 'Noah' },
+        leaf: true,
+      },
+      {
+        key: 'spec',
+        data: { name: 'Component.spec.ts', type: 'TypeScript', owner: 'Liam' },
+        leaf: true,
+      },
+    ],
+  },
+  {
+    key: 'release-notes',
+    data: { name: 'Release notes.md', type: 'Document', owner: 'Sofia' },
+    leaf: true,
+  },
+];
+
 @Component({
   selector: 'app-tree-table-page',
   imports: [
     AerisBadgeModule,
     AerisButton,
+    AerisInputTextComponent,
+    AerisInputNumber,
+    AerisSelect,
+    AerisDatePicker,
+    AerisMenuModule,
+    AerisToolbarModule,
     AerisTreeTableModule,
     AerisTabsModule,
     CodeBlockComponent,
@@ -73,8 +135,110 @@ const FILE_COLUMNS: readonly AerisTreeTableColumn[] = [
   styleUrl: './tree-table.page.scss',
 })
 export class TreeTablePage {
+  protected readonly pinHeaders = signal(true);
+  protected readonly defaultPinRows: AerisTablePinnedRows = { top: ['pin-3'], bottom: ['pin-18'] };
+  protected readonly pinRows = signal<AerisTablePinnedRows>(this.defaultPinRows);
+  protected readonly pinningNodes = signal<readonly AerisTreeTableNode[]>(
+    Array.from({ length: 24 }, (_, index) => ({
+      key: `pin-${index + 1}`,
+      data: {
+        name: `Record ${index + 1}`,
+        team: index % 2 ? 'Engineering' : 'Design',
+        details: `Milestone ${index + 1}: review the latest updates with the team.`,
+        status: index % 3 ? 'Active' : 'Review',
+      },
+      ...(index === 2
+        ? {
+            children: [
+              {
+                key: 'pin-3-a',
+                data: {
+                  name: 'Draft',
+                  team: 'Design',
+                  details: 'Prepare the milestone.',
+                  status: 'Review',
+                },
+              },
+              {
+                key: 'pin-3-b',
+                data: {
+                  name: 'Approval',
+                  team: 'Engineering',
+                  details: 'Confirm the milestone.',
+                  status: 'Active',
+                },
+              },
+            ],
+          }
+        : {}),
+    })),
+  );
+  protected readonly pinningExpanded = signal<readonly string[]>(['pin-3']);
+  protected readonly pinningPlainColumns: readonly AerisTreeTableColumn[] = [
+    { field: 'name', header: 'Name', width: '45%', sortable: true },
+    { field: 'team', header: 'Team', width: '30%' },
+    { field: 'status', header: 'Status', width: '25%' },
+  ];
+  protected readonly pinnedColumns = signal<readonly AerisTreeTableColumn[]>([
+    { field: 'name', header: 'Name', width: '12rem', pinned: 'start', sortable: true },
+    { field: 'team', header: 'Team', width: '12rem' },
+    { field: 'details', header: 'Details', width: '24rem' },
+    { field: 'status', header: 'Status', width: '10rem', pinned: 'end' },
+  ]);
+  protected readonly permissionDefault = signal(true);
+  protected readonly permissionColumns: readonly AerisTreeTableColumn[] = [
+    { field: 'name', header: 'Name', width: '40%' },
+    { field: 'team', header: 'Team', editable: true, width: '30%' },
+    { field: 'status', header: 'Status', editable: false, width: '30%' },
+  ];
+  protected readonly permissionNodes = signal<readonly AerisTreeTableNode[]>([
+    { key: 'one', data: { name: 'Maya', team: 'Design', status: 'Active' } },
+    { key: 'two', data: { name: 'Noah', team: 'Engineering', status: 'Archived' } },
+    { key: 'three', data: { name: 'Sofia', team: 'Research', status: 'Active' } },
+  ]);
+  protected readonly canEditCell: AerisTreeTableCellEditable = (data, column, node) =>
+    data['status'] === 'Archived' || (node.key === 'three' && column.field === 'team')
+      ? false
+      : undefined;
+  protected readonly isDate = (value: unknown): value is Date => value instanceof Date;
+  protected readonly customEditorColumns: readonly AerisTreeTableColumn[] = [
+    { field: 'name', header: 'Name', editable: true, width: '30%' },
+    { field: 'quantity', header: 'Quantity', editable: true, width: '20%' },
+    { field: 'status', header: 'Status', editable: true, width: '25%' },
+    { field: 'date', header: 'Date', editable: true, width: '25%' },
+  ];
+  protected readonly customEditorNodes = signal<readonly AerisTreeTableNode[]>([
+    {
+      key: 'docs',
+      data: { name: 'Documentation', quantity: 2, status: 'draft', date: new Date(2026, 9, 21) },
+      children: [
+        {
+          key: 'api',
+          data: {
+            name: 'API reference',
+            quantity: 5,
+            status: 'published',
+            date: new Date(2026, 9, 22),
+          },
+        },
+      ],
+    },
+  ]);
+  protected readonly editorStatuses = [
+    { label: 'Draft', value: 'draft' },
+    { label: 'Published', value: 'published' },
+  ];
+  protected readonly editorResult = signal('Double-click a cell or focus it and press F2 to edit.');
+  protected readonly editorExpanded = ['docs'];
+  private readonly destroyRef = inject(DestroyRef);
   protected readonly files = this.createFiles();
   protected readonly columns = FILE_COLUMNS;
+  protected readonly editingColumns: readonly AerisTreeTableColumn[] = FILE_COLUMNS.map(
+    (column) => ({
+      ...column,
+      editable: column.field === 'size',
+    }),
+  );
   protected readonly statusSeverities: Readonly<Record<FileRecord['status'], AerisBadgeSeverity>> =
     {
       active: 'success',
@@ -106,6 +270,111 @@ export class TreeTablePage {
   protected readonly lazyPageRows = signal(5);
   protected readonly eventText = signal('No TreeTable event yet.');
 
+  protected readonly workflowFiles = signal(SELECTION_FILES);
+  protected readonly workflowFocusTarget = viewChild('workflowColumnsButton', {
+    read: ElementRef<HTMLButtonElement>,
+  });
+  protected readonly workflowSelection = signal<readonly string[]>([]);
+  protected readonly workflowExpanded = signal<readonly string[]>([
+    'design-files',
+    'engineering-files',
+  ]);
+  protected readonly workflowFirst = signal(0);
+  protected readonly workflowQuery = signal('');
+  protected readonly workflowBusy = signal(false);
+  protected readonly workflowStatus = signal(
+    'Select files across root pages. Folders are not selectable.',
+  );
+  protected readonly workflowSorts = signal<readonly AerisTreeTableSort[]>([]);
+  protected readonly workflowFilters = signal<Readonly<Record<string, string>>>({});
+  protected readonly workflowHidden = signal<readonly string[]>([]);
+  protected readonly workflowAllColumns = signal<readonly AerisTreeTableColumn[]>([
+    { field: 'name', header: 'Name', sortable: true },
+    { field: 'type', header: 'Type', sortable: true },
+    { field: 'owner', header: 'Owner', sortable: true },
+  ]);
+  protected readonly workflowColumns = computed(() =>
+    this.workflowAllColumns().filter((column) => !this.workflowHidden().includes(column.field)),
+  );
+  protected readonly workflowColumnItems = computed<readonly AerisMenuItem[]>(() =>
+    this.workflowAllColumns().map((column) => ({
+      label:
+        column.field === 'name'
+          ? 'Name (required)'
+          : `${this.workflowHidden().includes(column.field) ? 'Show' : 'Hide'} ${column.header}`,
+      disabled: column.field === 'name' || this.workflowBusy(),
+      command: () => this.toggleWorkflowColumn(column.field),
+    })),
+  );
+
+  protected toggleWorkflowColumn(field: string): void {
+    if (field === 'name' || this.workflowBusy()) return;
+    this.workflowHidden.update((fields) =>
+      fields.includes(field) ? fields.filter((item) => item !== field) : [...fields, field],
+    );
+    this.workflowFilters.update((filters) =>
+      Object.fromEntries(Object.entries(filters).filter(([key]) => key !== field)),
+    );
+    this.workflowSorts.update((sorts) => sorts.filter((sort) => sort.field !== field));
+    this.workflowFirst.set(0);
+  }
+
+  protected orderWorkflowColumns(columns: readonly AerisTreeTableColumn[]): void {
+    let index = 0;
+    this.workflowAllColumns.update((all) =>
+      all.map((column) =>
+        this.workflowHidden().includes(column.field) ? column : (columns[index++] ?? column),
+      ),
+    );
+  }
+
+  protected clearWorkflowSelection(fallback?: HTMLButtonElement): void {
+    this.workflowSelection.set([]);
+    this.workflowStatus.set('Selection cleared across every root page and collapsed branch.');
+    fallback?.focus();
+  }
+
+  protected async removeWorkflowFiles(fallback?: HTMLButtonElement): Promise<void> {
+    if (this.workflowBusy() || !this.workflowSelection().length) return;
+    const keys = new Set(this.workflowSelection());
+    this.workflowBusy.set(true);
+    this.workflowStatus.set(`Removing ${keys.size} selected files…`);
+    // Replace this delay with your application's API request; update nodes only on success.
+    await new Promise<void>((resolve) => setTimeout(resolve, 300));
+    if (this.destroyRef.destroyed) return;
+    this.workflowFiles.update((nodes) => this.removeWorkflowNodes(nodes, keys));
+    this.workflowSelection.set([]);
+    this.workflowFirst.set(0);
+    this.workflowBusy.set(false);
+    this.workflowStatus.set(
+      `Removed ${keys.size} files. Selection cleared; focus returned to Columns.`,
+    );
+    fallback?.focus();
+  }
+
+  private removeWorkflowNodes(
+    nodes: readonly AerisTreeTableNode[],
+    keys: ReadonlySet<string>,
+  ): readonly AerisTreeTableNode[] {
+    return nodes
+      .filter((node) => !keys.has(node.key))
+      .map((node) =>
+        node.children ? { ...node, children: this.removeWorkflowNodes(node.children, keys) } : node,
+      );
+  }
+
+  protected restoreWorkflowFiles(): void {
+    if (this.workflowBusy()) return;
+    this.workflowFiles.set(SELECTION_FILES);
+    this.workflowSelection.set([]);
+    this.workflowFirst.set(0);
+    this.workflowQuery.set('');
+    this.workflowFilters.set({});
+    this.workflowSorts.set([]);
+    this.workflowExpanded.set(['design-files', 'engineering-files']);
+    this.workflowStatus.set('Example files restored.');
+  }
+
   protected readonly featureLinks: readonly PageTocLink[] = [
     { id: 'tree-table-basic', label: 'Basic' },
     { id: 'tree-table-controlled', label: 'Controlled expansion' },
@@ -114,9 +383,16 @@ export class TreeTablePage {
     { id: 'tree-table-single-selection', label: 'Single selection' },
     { id: 'tree-table-multiple-selection', label: 'Multiple selection' },
     { id: 'tree-table-checkbox-selection', label: 'Checkbox selection' },
+    { id: 'tree-table-selection-workflow', label: 'Selection workflow' },
     { id: 'tree-table-pagination', label: 'Pagination' },
     { id: 'tree-table-editing', label: 'Editing' },
+    { id: 'tree-table-editing-permissions', label: 'Editing permissions' },
+    { id: 'tree-table-custom-editors', label: 'Custom editors' },
     { id: 'tree-table-columns', label: 'Column controls' },
+    { id: 'tree-table-sticky-headers', label: 'Sticky headers' },
+    { id: 'tree-table-pinned-columns', label: 'Pinned columns' },
+    { id: 'tree-table-pinned-rows', label: 'Pinned rows' },
+    { id: 'tree-table-combined-pinning', label: 'Combined pinning' },
     { id: 'tree-table-scrolling', label: 'Scrolling and responsive' },
     { id: 'tree-table-lazy', label: 'Lazy loading' },
     { id: 'tree-table-templates', label: 'Templates' },
@@ -142,8 +418,8 @@ export class TreeTablePage {
 };
 
 protected readonly columns: readonly AerisTreeTableColumn[] = [
-  { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
-  { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },
+  { field: 'name', header: 'Name', sortable: true, filterable: true, pinned: 'start', width: '15rem' },
+  { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
   { field: 'type', header: 'Type', sortable: true, filterable: true, width: '9rem' },
   { field: 'modified', header: 'Modified', sortable: true, filterable: true, width: '10rem' },
 ];
@@ -306,13 +582,42 @@ protected readonly statusSeverities: Readonly<
   protected readonly templateCssCode = `.column-heading[data-sorted] { color: var(--primary-text); }
 `;
 
+  protected readonly editorInterfacesCode = `import type { WritableSignal } from '@angular/core';
+
+interface AerisCellEditor {
+  readonly value: WritableSignal<unknown>;
+  readonly valid: WritableSignal<boolean>;
+  readonly originalValue: unknown;
+  readonly ariaLabel: string;
+  readonly commit: (event?: Event) => void;
+  readonly cancel: (event?: Event) => void;
+}
+
+interface AerisTreeTableEditorContext<TData extends AerisTreeTableData> {
+  readonly $implicit: AerisCellEditor;
+  readonly editor: AerisCellEditor;
+  readonly node: AerisTreeTableNode<TData>;
+  readonly data: TData;
+  readonly key: string;
+  readonly column: AerisTreeTableColumn;
+  readonly rowIndex: number;
+}`;
+
   protected readonly interfacesCode = `type AerisTreeTableData = Readonly<Record<string, unknown>>;
+type AerisTableColumnPin = 'start' | 'end';
+interface AerisTablePinnedRows {
+  readonly top: readonly string[];
+  readonly bottom: readonly string[];
+}
 type AerisTreeTableSize = 'sm' | 'md' | 'lg';
 type AerisTreeTableSelectionMode = 'single' | 'multiple' | 'checkbox';
 type AerisTreeTableSortDirection = 'asc' | 'desc';
 type AerisTreeTableSortMode = 'single' | 'multiple';
 type AerisTreeTableFilterStrategy = 'subtree' | 'path';
 type AerisTreeTableResponsiveMode = 'scroll' | 'stack';
+type AerisTreeTableCellEditable<TData extends AerisTreeTableData = AerisTreeTableData> = (
+  data: TData, column: AerisTreeTableColumn, node: AerisTreeTableNode<TData>,
+) => boolean | undefined;
 
 interface AerisTreeTableNode<TData extends AerisTreeTableData = AerisTreeTableData> {
   readonly key: string;
@@ -329,9 +634,14 @@ interface AerisTreeTableColumn {
   readonly sortable?: boolean;
   readonly filterable?: boolean;
   readonly editable?: boolean;
-  readonly frozen?: boolean;
+  readonly pinned?: AerisTableColumnPin;
   readonly width?: string;
   readonly align?: 'start' | 'center' | 'end';
+}
+
+interface AerisTreeTableSortIconContext {
+  readonly $implicit: AerisTreeTableColumn;
+  readonly direction: AerisTreeTableSortDirection | null;
 }
 
 interface AerisTreeTableSort {
@@ -421,6 +731,41 @@ interface AerisTreeTableCellContext<TData extends AerisTreeTableData = AerisTree
 
   protected readonly inputs: readonly ApiRow[] = [
     {
+      name: 'stickyHeader',
+      type: 'boolean',
+      defaultValue: 'true',
+      description:
+        'Keeps header and filter rows at measured offsets while the table viewport scrolls vertically. False disables vertical header pinning. Oversized headers scroll normally to keep data accessible.',
+    },
+    {
+      name: 'pinnedRows',
+      type: 'AerisTablePinnedRows (model)',
+      defaultValue: '{ top: [], bottom: [] }',
+      description:
+        'Loaded root keys to pin at top/bottom of the current filtered root page. Expanded descendants stay with their pinned root. Child and missing keys are ignored; top wins duplicates. Sorting order within groups is preserved. Oversized pinned regions revert to normal scrolling. Pinning never fetches unloaded data.',
+    },
+    {
+      name: 'sortIconTemplate',
+      type: 'TemplateRef<AerisTreeTableSortIconContext> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Artwork for sortable headers. Context: $implicit is the column; direction is asc, desc, or null. Header buttons retain sorting and aria-sort.',
+    },
+    {
+      name: 'loadingIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the loading icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'toggleIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the toggle icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
       name: 'paginatorDropdownAppendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
       defaultValue: "global config or 'self'",
@@ -504,7 +849,8 @@ interface AerisTreeTableCellContext<TData extends AerisTreeTableData = AerisTree
       name: 'propagateSelection',
       type: 'boolean',
       defaultValue: 'true',
-      description: 'Cascades checkbox state through selectable descendants.',
+      description:
+        'Cascades checkbox state through loaded selectable nodes in the rendered branch, including the parent. Path filtering can restrict that branch to matching descendants; unloaded children cannot be selected.',
     },
     {
       name: 'sortMode',
@@ -619,7 +965,15 @@ interface AerisTreeTableCellContext<TData extends AerisTreeTableData = AerisTree
       name: 'editable',
       type: 'boolean',
       defaultValue: 'false',
-      description: 'Marks editable cells and enables double-click editing for editable columns.',
+      description:
+        'Default editing permission. Columns override it; cellEditable has final priority. Disabled nodes remain non-editable.',
+    },
+    {
+      name: 'cellEditable',
+      type: 'AerisTreeTableCellEditable<TData> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Pure (data, column, node) callback: true allows editing, false prevents it, undefined inherits column.editable then table editable. Supports row-wide and cell rules. Disabled nodes cannot be overridden. Permission revocation cancels the draft.',
     },
     {
       name: 'resizableColumns',
@@ -695,7 +1049,8 @@ interface AerisTreeTableCellContext<TData extends AerisTreeTableData = AerisTree
       name: 'selectionKeys',
       type: 'readonly string[]',
       defaultValue: '[]',
-      description: 'Selected node keys.',
+      description:
+        'Controlled selected node keys, retained across filters, collapsed branches, and root pages. With checkbox propagation, keys can include both parent folders and descendants; the length is not necessarily a leaf-file count.',
     },
     {
       name: 'sorts',
@@ -720,6 +1075,13 @@ interface AerisTreeTableCellContext<TData extends AerisTreeTableData = AerisTree
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
+    {
+      name: 'pinnedRowsChange',
+      type: 'AerisTablePinnedRows',
+      defaultValue: '—',
+      description:
+        'Emits when the component model is changed programmatically. Bind [(pinnedRows)] for controlled pin state; normal view reordering never mutates it.',
+    },
     {
       name: 'nodeExpanded',
       type: 'AerisTreeTableNodeEvent<TData>',
@@ -817,7 +1179,15 @@ interface AerisTreeTableCellContext<TData extends AerisTreeTableData = AerisTree
       name: 'aerisTreeTableCell',
       type: 'AerisTreeTableCellContext<TData>',
       defaultValue: 'Formatted field value',
-      description: 'Custom content for every body cell.',
+      description:
+        'Custom body content outside editing. Use aerisTreeTableEditor to replace the editing view.',
+    },
+    {
+      name: 'aerisTreeTableEditor',
+      type: 'AerisTreeTableEditorContext<TData>',
+      defaultValue: 'Named text input',
+      description:
+        'Custom editing view with editor ($implicit), node, data, key, column and rowIndex. Included in AerisTreeTableModule.',
     },
     {
       name: 'aerisTreeTableEmpty',

@@ -2,7 +2,7 @@
 
 > Immersive media gallery with image tools, responsive grid and single modes, compact thumbnails, fullscreen viewing, and touch gestures.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/galleria`
 - Human-readable documentation: [https://aeris-ui.dev/components/galleria](https://aeris-ui.dev/components/galleria)
@@ -29,6 +29,14 @@ import { AerisGalleriaModule } from '@aeris-ui/core/galleria';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `rotateLeftIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the rotate left icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `rotateRightIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the rotate right icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `flipHorizontalIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the flip horizontal icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `flipVerticalIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the flip vertical icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `zoomOutIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the zoom out icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `zoomInIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the zoom in icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `resetIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the reset icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `downloadIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the download icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `value` | `readonly T[]` | `[]` | Gallery items. AerisGalleriaImage values receive a complete built-in image presentation. |
 | `mode` | `AerisGalleriaMode` | `'gallery'` | Selects the gallery, responsive grid, or focused single-item presentation. Options: 'gallery', 'grid', 'single'. |
 | `numVisible` | `number &#124; 'auto'` | `'auto'` | Maximum thumbnails visible in the thumbnail window; auto fills the available width. |
@@ -115,9 +123,9 @@ import { AerisGalleriaModule } from '@aeris-ui/core/galleria';
 | `aerisGalleriaCaption` | `AerisGalleriaItemContext&lt;T&gt;` | `Image title and description` | Renders the active caption overlay. |
 | `aerisGalleriaEmpty` | `none` | `emptyMessage` | Renders custom empty content. |
 | `aerisGalleriaGridItem` | `AerisGalleriaItemContext&lt;T&gt;` | `Built-in image tile` | Renders each item in grid mode. |
-| `aerisGalleriaPreviousIcon` | `none` | `Aeris chevron` | Replaces the previous-item icon. |
-| `aerisGalleriaNextIcon` | `none` | `Aeris chevron` | Replaces the next-item icon. |
-| `aerisGalleriaFullscreenIcon` | `{ $implicit: boolean; fullscreen: boolean }` | `Aeris fullscreen icon` | Replaces the fullscreen icon and exposes current fullscreen state. |
+| `aerisGalleriaPreviousIcon` | `none` | `Aeris chevron` | Replaces previous-item and previous-thumbnail artwork. Supply a left-pointing icon; thumbnail controls adapt its direction for vertical layouts. |
+| `aerisGalleriaNextIcon` | `none` | `Aeris chevron` | Replaces next-item and next-thumbnail artwork. Supply a right-pointing icon; thumbnail controls adapt its direction for vertical layouts. |
+| `aerisGalleriaFullscreenIcon` | `{ $implicit: boolean; fullscreen: boolean }` | `Aeris fullscreen icon` | Replaces fullscreen artwork in the stage or toolbar and exposes current fullscreen state. |
 
 ### Methods
 
@@ -249,7 +257,7 @@ import { AerisGalleriaModule, type AerisGalleriaImage } from '@aeris-ui/core/gal
     </div>
   `
 })
-export class GalleriaBasicBasicDemo {
+export class GalleriaBasicDemo {
   protected readonly puppyNames: readonly string[] = [
     'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',
     'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',
@@ -285,7 +293,7 @@ import { AerisGalleriaModule, type AerisGalleriaImage, type AerisGalleriaThumbna
   templateUrl: './galleria-positions.demo.html',
   styleUrl: './galleria-positions.demo.scss'
 })
-export class GalleriaPositionsThumbnailPositionsDemo {
+export class GalleriaPositionsDemo {
   protected readonly puppyNames: readonly string[] = [
     'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',
     'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',
@@ -377,8 +385,16 @@ export class GalleriaPositionsThumbnailPositionsDemo {
 }
 
 .galleria-demo-status {
-  color: var(--text-2);
+  color: var(--aeris-text-2);
   font-size: 0.875rem;
+}
+
+.galleria-demo-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.625rem;
+  margin-bottom: 1rem;
 }
 ```
 
@@ -389,8 +405,8 @@ Container-based options move side thumbnails below the stage and hide them in es
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisGalleriaModule, type AerisGalleriaImage, type AerisGalleriaResponsiveOption } from '@aeris-ui/core/galleria';
+import { Component, signal } from '@angular/core';
+import { AerisGalleriaModule, type AerisGalleriaImage, type AerisGalleriaResponsiveOption, type AerisGalleriaThumbnailPosition } from '@aeris-ui/core/galleria';
 
 @Component({
   selector: 'app-galleria-responsive-demo',
@@ -406,7 +422,10 @@ import { AerisGalleriaModule, type AerisGalleriaImage, type AerisGalleriaRespons
     </div>
   `
 })
-export class GalleriaResponsiveResponsiveDemo {
+export class GalleriaResponsiveDemo {
+  protected readonly thumbnailPosition = signal<AerisGalleriaThumbnailPosition>('bottom');
+
+
   protected readonly puppyNames: readonly string[] = [
     'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',
     'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',
@@ -455,22 +474,20 @@ import { AerisGalleriaModule, type AerisGalleriaDownloadEvent, type AerisGalleri
         (downloadRequested)="handleDownload($event)"
         ariaLabel="Puppy gallery with image tools"
       />
-      <span class="galleria-toolbar-status" aria-live="polite">{{
-        toolbarStatus()
-      }}</span>
+      <span class="galleria-toolbar-status" aria-live="polite">{{ toolbarStatus() }}</span>
     </div>
   `,
   styles: `
     .galleria-toolbar-status {
       display: block;
       margin-top: 0.75rem;
-      color: var(--text-2);
+      color: var(--aeris-text-2);
       font-size: 0.875rem;
       text-align: center;
     }
   `
 })
-export class GalleriaToolbarImageToolbarDemo {
+export class GalleriaToolbarDemo {
   protected readonly puppyNames: readonly string[] = [
     'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',
     'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',
@@ -528,7 +545,7 @@ import { AerisGalleriaModule, type AerisGalleriaImage } from '@aeris-ui/core/gal
     </div>
   `
 })
-export class GalleriaGridGridDemo {
+export class GalleriaGridDemo {
   protected readonly puppyNames: readonly string[] = [
     'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',
     'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',
@@ -573,7 +590,7 @@ import { AerisGalleriaModule, type AerisGalleriaImage } from '@aeris-ui/core/gal
     </div>
   `
 })
-export class GalleriaSingleSingleDemo {
+export class GalleriaSingleDemo {
   protected readonly puppyNames: readonly string[] = [
     'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',
     'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',
@@ -619,7 +636,7 @@ import { AerisGalleriaModule, type AerisGalleriaImage } from '@aeris-ui/core/gal
     </div>
   `
 })
-export class GalleriaHoverNavigationHoverNavigationDemo {
+export class GalleriaHoverNavigationDemo {
   protected readonly puppyNames: readonly string[] = [
     'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',
     'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',
@@ -655,7 +672,7 @@ import { AerisGalleria, AerisGalleriaModule, type AerisGalleriaImage, type Aeris
   templateUrl: './galleria-controlled.demo.html',
   styleUrl: './galleria-controlled.demo.scss'
 })
-export class GalleriaControlledControlledDemo {
+export class GalleriaControlledDemo {
   protected readonly puppyNames: readonly string[] = [
     'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',
     'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',
@@ -703,9 +720,7 @@ export class GalleriaControlledControlledDemo {
       First item
     </button>
     <button aerisButton type="button" (click)="showNext()">Next</button>
-    <span class="galleria-demo-status" aria-live="polite">{{
-      controlledStatus()
-    }}</span>
+    <span class="galleria-demo-status" aria-live="polite">{{ controlledStatus() }}</span>
   </div>
   <aeris-galleria
     #controlledGallery
@@ -729,7 +744,7 @@ export class GalleriaControlledControlledDemo {
 }
 
 .galleria-demo-status {
-  color: var(--text-2);
+  color: var(--aeris-text-2);
   font-size: 0.875rem;
 }
 ```
@@ -758,7 +773,7 @@ import { AerisGalleriaModule, type AerisGalleriaImage } from '@aeris-ui/core/gal
     </div>
   `
 })
-export class GalleriaAutoplayCircularAutoplayDemo {
+export class GalleriaAutoplayDemo {
   protected readonly puppyNames: readonly string[] = [
     'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',
     'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',
@@ -793,7 +808,7 @@ import { AerisGalleriaModule, type AerisGalleriaImage } from '@aeris-ui/core/gal
   templateUrl: './galleria-templates.demo.html',
   styleUrl: './galleria-templates.demo.scss'
 })
-export class GalleriaTemplatesCustomMediaTemplatesDemo {
+export class GalleriaTemplatesDemo {
   protected readonly puppyNames: readonly string[] = [
     'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',
     'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',
@@ -823,9 +838,9 @@ export class GalleriaTemplatesCustomMediaTemplatesDemo {
       </figure>
     </ng-template>
     <ng-template aerisGalleriaThumbnail let-photo>
-      <span class="galleria-custom-thumbnail"
-        ><img [src]="$any(photo).thumbnailSrc" [alt]="$any(photo).alt"
-      /></span>
+      <span class="galleria-custom-thumbnail">
+        <img [src]="$any(photo).thumbnailSrc" [alt]="$any(photo).alt" />
+      </span>
     </ng-template>
     <ng-template aerisGalleriaCaption let-photo let-index="index">
       <div class="galleria-custom-caption">
@@ -869,7 +884,7 @@ export class GalleriaTemplatesCustomMediaTemplatesDemo {
 }
 
 .galleria-custom-caption span {
-  color: rgb(255 255 255 / 76%);
+  color: rgba(255, 255, 255, 0.76);
   font-size: 0.875rem;
 }
 ```

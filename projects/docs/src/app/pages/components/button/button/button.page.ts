@@ -1,5 +1,8 @@
 import { Component, signal } from '@angular/core';
-import { AerisButton, type AerisButtonSeverity } from '@aeris-ui/core/button';
+import { FormField, form } from '@angular/forms/signals';
+import type { AerisButtonSeverity } from '@aeris-ui/core/button';
+import { AerisButtonForms } from '@aeris-ui/core/button/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { LucideDynamicIcon } from '@lucide/angular';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
@@ -22,7 +25,9 @@ interface ApiRow {
 @Component({
   selector: 'app-button-page',
   imports: [
-    AerisButton,
+    AerisButtonForms,
+    ReactiveFormsModule,
+    FormField,
     LucideDynamicIcon,
     AerisTabsModule,
     ButtonDemoComponent,
@@ -35,9 +40,63 @@ interface ApiRow {
   styleUrl: '../shared/button-docs.scss',
 })
 export class ButtonPage {
+  protected readonly toggled = signal(false);
+  protected readonly toggleData = signal({ enabled: false });
+  protected readonly toggleForm = form(this.toggleData);
+  protected readonly toggleControl = new FormControl(false, { nonNullable: true });
+  protected readonly toggleFormsImport = `import { AerisButtonForms } from '@aeris-ui/core/button/forms';`;
+  protected readonly toggleApi: readonly ApiRow[] = [
+    {
+      name: 'aerisButtonToggle',
+      type: 'directive',
+      defaultValue: 'not applied',
+      description:
+        'Opt-in behavior on button[aerisButton] only. Sets type=button. Not supported on anchors or aeris-button wrappers; do not combine with aerisButtonGroupItem.',
+    },
+    {
+      name: 'checked',
+      type: 'model<boolean>',
+      defaultValue: 'false',
+      description: 'Controlled pressed state; Signal Forms discovers this model automatically.',
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables activation; also respects Button loading and forms-disabled state.',
+    },
+    {
+      name: 'invalid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Invalid presentation, gated by touched when supplied.',
+    },
+    {
+      name: 'touched',
+      type: 'boolean | null',
+      defaultValue: 'null',
+      description:
+        'false delays invalid presentation; true shows errors; null preserves explicit invalid behavior.',
+    },
+    {
+      name: 'checkedChange',
+      type: 'output<boolean>',
+      defaultValue: '—',
+      description: 'Emits when the checked model changes.',
+    },
+    {
+      name: 'touch',
+      type: 'output<void>',
+      defaultValue: '—',
+      description: 'Emits on blur; Signal Forms uses it to mark the field touched.',
+    },
+  ];
   protected readonly icons = DOC_ICONS;
   protected readonly featureLinks: readonly PageTocLink[] = [
     { id: 'feature-basic', label: 'Basic' },
+    { id: 'feature-toggle', label: 'Toggle state' },
+    { id: 'feature-toggle-forms', label: 'Toggle forms' },
+    { id: 'feature-toggle-reactive', label: 'Reactive toggle' },
     { id: 'feature-wrapper', label: 'Wrapper component' },
     { id: 'feature-variants', label: 'Variants' },
     { id: 'feature-severity', label: 'Severity' },
@@ -53,6 +112,7 @@ export class ButtonPage {
     { id: 'api-directive-inputs', label: 'Directive inputs' },
     { id: 'api-component-inputs', label: 'Component inputs' },
     { id: 'api-emitters', label: 'Emitters' },
+    { id: 'api-toggle', label: 'Toggle directive' },
     { id: 'api-templates', label: 'Templates' },
   ];
   protected readonly importCode = `import { AerisButton } from '@aeris-ui/core/button';`;
@@ -219,13 +279,7 @@ interface AerisButtonContentTemplateContext {
       defaultValue: 'false',
       description: 'Requests focus when rendered.',
     },
-    {
-      name: 'disabled',
-      type: 'boolean',
-      defaultValue: 'false',
-      description: 'Disables interaction.',
-    },
-    ...this.directiveInputs.filter((row) => row.name !== 'disabled'),
+    ...this.directiveInputs,
     {
       name: 'contentTemplate',
       type: 'TemplateRef<AerisButtonContentTemplateContext>',

@@ -14,7 +14,7 @@ import {
   output,
   viewChildren,
 } from '@angular/core';
-import { ɵregisterAerisOverlay, ɵunregisterAerisOverlay } from '@aeris-ui/core';
+import { ɵAerisIcon, ɵregisterAerisOverlay, ɵunregisterAerisOverlay } from '@aeris-ui/core';
 
 export type AerisSpeedDialDirection =
   'up' | 'down' | 'left' | 'right' | 'up-left' | 'up-right' | 'down-left' | 'down-right';
@@ -85,7 +85,7 @@ let speedDialId = 0;
 
 @Component({
   selector: 'aeris-speed-dial',
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, ɵAerisIcon],
   template: `
     @if (mask() && visible()) {
       <button
@@ -222,9 +222,17 @@ let speedDialId = 0;
             >
               @let icon = visible() && hideIcon() ? hideIcon() : showIcon();
               @if (icon === '+') {
-                <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
-                  <path d="M12 5v14M5 12h14" />
-                </svg>
+                <ng-template #plusArtwork>
+                  <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                    <path d="M5 12h14" />
+                    <path d="M12 5v14" />
+                  </svg>
+                </ng-template>
+                <span
+                  aerisInternalIcon="plus"
+                  [aerisInternalIconFallback]="plusArtwork"
+                  class="aeris-speed-dial__plus"
+                ></span>
               } @else {
                 {{ icon }}
               }

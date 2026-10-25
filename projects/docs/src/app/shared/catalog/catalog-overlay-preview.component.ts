@@ -16,6 +16,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
 import { AerisTooltipModule, AerisTooltip } from '@aeris-ui/core/tooltip';
 import { AerisDynamicDialogService } from '@aeris-ui/core/dynamic-dialog';
 import { AerisButton } from '@aeris-ui/core/button';
+import { AerisCommandPalette } from '@aeris-ui/core/command-palette';
 
 @Component({
   selector: 'app-catalog-dialog-content',
@@ -36,6 +37,7 @@ class CatalogDialogContentComponent {}
   host: { '[attr.data-kind]': 'kind()', '[attr.data-active]': 'active()' },
   encapsulation: ViewEncapsulation.None,
   imports: [
+    AerisCommandPalette,
     AerisDialogModule,
     AerisDrawerModule,
     AerisConfirmDialogModule,
@@ -47,6 +49,15 @@ class CatalogDialogContentComponent {}
   providers: [AerisDynamicDialogService],
   template: `
     @switch (kind()) {
+      @case ('command-palette') {
+        <aeris-command-palette
+          inline
+          [commands]="paletteCommands"
+          [query]="active() ? 'theme' : ''"
+          helpText=""
+          style="--aeris-command-palette-list-height: 10rem"
+        />
+      }
       @case ('dialog') {
         <aeris-dialog
           header="Project details"
@@ -177,6 +188,11 @@ class CatalogDialogContentComponent {}
   styleUrl: './catalog-overlay-preview.component.scss',
 })
 export class CatalogOverlayPreviewComponent {
+  protected readonly paletteCommands = [
+    { id: 'search', label: 'Search documents' },
+    { id: 'theme', label: 'Change theme' },
+    { id: 'settings', label: 'Open settings' },
+  ];
   readonly kind = input.required<string>();
   readonly active = input(false);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);

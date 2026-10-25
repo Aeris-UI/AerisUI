@@ -13,14 +13,7 @@ import {
 
 export type AerisProgressSpinnerSize = 'sm' | 'md' | 'lg';
 export type AerisProgressSpinnerTone =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'info'
-  | 'warning'
-  | 'danger'
-  | 'neutral'
-  | 'contrast';
+  'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'neutral' | 'contrast';
 
 export interface AerisProgressSpinnerValueContext {
   readonly $implicit: number;
@@ -97,6 +90,7 @@ function nullableNumberAttribute(value: unknown): number | null {
     '[attr.aria-valuetext]': 'resolvedAriaValueText()',
     '[attr.aria-label]': 'ariaLabel() || null',
     '[attr.aria-labelledby]': 'ariaLabelledBy() || null',
+    '[attr.aria-describedby]': 'ariaDescribedBy() || null',
     '[attr.data-mode]': 'determinate() ? "determinate" : "indeterminate"',
     '[attr.data-size]': 'size()',
     '[attr.data-tone]': 'tone()',
@@ -119,6 +113,7 @@ export class AerisProgressSpinner {
   readonly rounded = input(true, { transform: booleanAttribute });
   readonly ariaLabel = input('Loading');
   readonly ariaLabelledBy = input('');
+  readonly ariaDescribedBy = input('');
   readonly ariaValueText = input('');
   readonly valueFormatter = input<((context: AerisProgressSpinnerValueContext) => string) | null>(
     null,

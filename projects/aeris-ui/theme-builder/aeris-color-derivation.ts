@@ -5,6 +5,6 @@
  * increment this value. Build-time configurations can pin the version to make
  * an intentional regeneration step explicit during upgrades.
  */
-export const AERIS_COLOR_DERIVATION_VERSION = 1 as const;
+export const AERIS_COLOR_DERIVATION_VERSION = 2 as const;
 
 export type AerisColorDerivationVersion = typeof AERIS_COLOR_DERIVATION_VERSION;

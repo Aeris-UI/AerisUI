@@ -1,0 +1,93 @@
+// Shared presentation only: selection and keyboard behavior stay with the native inputs.
+@mixin styles {
+  :host([data-appearance='card']) {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .aeris-choice-card {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    inline-size: 100%;
+    min-inline-size: 0;
+    padding: var(--aeris-choice-card-padding, var(--aeris-surface-padding, 1rem));
+    gap: var(--aeris-choice-card-gap, var(--aeris-content-gap, 0.75rem));
+    border: 1px solid var(--aeris-choice-card-border, var(--aeris-border));
+    border-radius: var(--aeris-choice-card-radius, var(--aeris-radius-surface, 0.75rem));
+    background: var(--aeris-choice-card-background, var(--aeris-surface));
+    color: var(--aeris-text);
+    transition:
+      background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+      border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
+  }
+
+  .aeris-choice-card > span:last-child {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-inline-size: 0;
+    gap: var(--aeris-choice-card-gap, var(--aeris-content-gap, 0.75rem));
+  }
+
+  .aeris-choice-card__body {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .aeris-choice-card__description {
+    display: block;
+    margin-block-start: 0.25rem;
+    color: var(--aeris-text-2);
+    font-size: var(--aeris-font-size-md, 0.8125rem);
+    font-weight: 400;
+  }
+
+  .aeris-choice-card .aeris-choice-card__body > span:first-child {
+    font-weight: var(--aeris-font-weight-semibold, 600);
+  }
+
+  .aeris-choice-card__icon {
+    display: inline-flex;
+    flex: 0 0 auto;
+    inline-size: var(--aeris-icon-size, 1rem);
+    block-size: var(--aeris-icon-size, 1rem);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .aeris-choice-card[data-selected='true'] {
+    border-color: var(--aeris-choice-card-selected-border, var(--aeris-primary));
+    background: var(--aeris-choice-card-selected-background, var(--aeris-primary-soft));
+  }
+
+  // Native radio arrow navigation does not retain :focus-visible in every engine.
+  .aeris-choice-card:focus-within {
+    outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus-ring-color);
+    outline-offset: var(--aeris-focus-ring-offset, 2px);
+  }
+
+  .aeris-choice-card input:focus + [aria-hidden='true'] {
+    outline: none;
+  }
+
+  .aeris-choice-card:is([data-invalid='true'], :has(input:user-invalid)) {
+    border-color: var(--aeris-control-invalid-border, var(--aeris-danger));
+  }
+
+  .aeris-choice-card:is([data-invalid='true'], :has(input:user-invalid)):focus-within {
+    outline-color: var(--aeris-control-invalid-focus-ring-color);
+  }
+
+  @media (hover: hover) {
+    .aeris-choice-card:has(input:enabled):hover {
+      border-color: var(--aeris-choice-card-selected-border, var(--aeris-primary));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .aeris-choice-card {
+      transition: none;
+    }
+  }
+}

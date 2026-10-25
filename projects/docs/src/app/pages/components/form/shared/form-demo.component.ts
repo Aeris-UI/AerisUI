@@ -30,7 +30,7 @@ import { ProjectedCode } from '../../../../shared/projected-code.directive';
       <div class="preview"><ng-content select="[preview]" /></div>
       <div class="source" [id]="anchor() + '-code'" [hidden]="!codeVisible()">
         <div class="projected-code"><ng-content select="[code]" /></div>
-        <app-code-block [sources]="sources()" />
+        <app-code-block [sources]="sources()" [ariaLabel]="title() + ' example code'" />
       </div>
     </aeris-card>
   `,
@@ -56,7 +56,7 @@ export class FormDemoComponent {
       title: this.title(),
       template: this.htmlCode() || this.code()?.text() || '',
       classCode: [DOC_EXAMPLE_CODE[this.anchor()], this.tsCode()].filter(Boolean).join('\n\n'),
-      cssCode: [DOC_EXAMPLE_STYLES[this.anchor()], this.cssCode()].filter(Boolean).join('\n\n'),
+      cssCode: DOC_EXAMPLE_STYLES[this.anchor()] ?? this.cssCode(),
     }),
   );
 }

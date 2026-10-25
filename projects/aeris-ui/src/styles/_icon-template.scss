@@ -1,0 +1,42 @@
+// Keep component-owned geometry and transforms, replacing only the artwork.
+@mixin custom-icon {
+  :host [data-aeris-custom-icon]:not([data-aeris-global-icon]) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--aeris-icon-size, 1rem);
+    block-size: var(--aeris-icon-size, 1rem);
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    -webkit-mask: none;
+    mask: none;
+    line-height: 1;
+  }
+
+  :host [data-aeris-custom-icon]::before,
+  :host [data-aeris-custom-icon]::after {
+    display: none;
+  }
+}
+
+// Rotate application artwork without disturbing positioned wrappers' transforms.
+@mixin rotate($selector, $angle) {
+  #{$selector}[data-aeris-custom-icon] {
+    rotate: $angle;
+  }
+}
+
+@mixin dropdown($selector, $expanded) {
+  #{$selector}[data-aeris-custom-icon] {
+    transition: rotate var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
+  }
+  #{$expanded} #{$selector}[data-aeris-custom-icon] {
+    rotate: 180deg;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #{$selector}[data-aeris-custom-icon] {
+      transition: none;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import { mixAerisColor } from './aeris-color';
-import type { AerisTheme } from './aeris-theme';
+import { resolveAerisThemeScheme, type AerisTheme } from './aeris-theme';
 
 export interface AerisResolvedFoundation {
   readonly page: string;
@@ -27,7 +27,7 @@ export function resolveAerisFoundation(
   theme: AerisTheme,
   mode: 'light' | 'dark',
 ): AerisResolvedFoundation {
-  const scheme = theme[mode];
+  const scheme = resolveAerisThemeScheme(theme, mode);
   const surfaceSeed = theme.palette.surface;
   const borderSeed = theme.palette.secondary;
 
@@ -35,12 +35,7 @@ export function resolveAerisFoundation(
     const surface2 = scheme.surface2 ?? mixAerisColor('#f7f6f2', surfaceSeed, 0.24);
     const surface = scheme.surface ?? '#ffffff';
     const border =
-      scheme.border ??
-      mixAerisColor(
-        surface,
-        mixAerisColor('#5f625d', borderSeed, 0.42),
-        0.12,
-      );
+      scheme.border ?? mixAerisColor(surface, mixAerisColor('#5f625d', borderSeed, 0.42), 0.12);
     return {
       page: scheme.page ?? mixAerisColor('#faf9f7', surfaceSeed, 0.18),
       surface,
@@ -57,20 +52,15 @@ export function resolveAerisFoundation(
     };
   }
 
-  const surface2 = scheme.surface2 ?? mixAerisColor('#171b22', surfaceSeed, 0.008);
-  const surface = scheme.surface ?? mixAerisColor('#101318', surfaceSeed, 0.006);
+  const surface2 = scheme.surface2 ?? mixAerisColor('#191919', surfaceSeed, 0.008);
+  const surface = scheme.surface ?? mixAerisColor('#121212', surfaceSeed, 0.006);
   const border =
-    scheme.border ??
-    mixAerisColor(
-      surface,
-      mixAerisColor('#70746d', borderSeed, 0.35),
-      0.16,
-    );
+    scheme.border ?? mixAerisColor(surface, mixAerisColor('#70746d', borderSeed, 0.35), 0.16);
   return {
-    page: scheme.page ?? mixAerisColor('#090b0f', surfaceSeed, 0.004),
+    page: scheme.page ?? mixAerisColor('#0c0c0c', surfaceSeed, 0.004),
     surface,
     surface2,
-    surface3: scheme.surface3 ?? mixAerisColor('#202632', surfaceSeed, 0.01),
+    surface3: scheme.surface3 ?? mixAerisColor('#232323', surfaceSeed, 0.01),
     interactiveHover:
       scheme.interactiveHover ?? mixAerisColor(surface2, theme.palette.primary, 0.12),
     text: scheme.text ?? DARK_TEXT,

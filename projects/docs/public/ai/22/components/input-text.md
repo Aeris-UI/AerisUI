@@ -2,7 +2,7 @@
 
 > Single-line text input with validation, adornments, and Signal Forms support.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/input-text`
 - Human-readable documentation: [https://aeris-ui.dev/components/input-text](https://aeris-ui.dev/components/input-text)
@@ -29,6 +29,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `size` | `AerisInputTextSize` | `'md'` | Sets the input height, padding, and font size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `appearance` | `AerisInputTextAppearance` | `'outline'` | Selects an outlined or filled surface treatment. Options: 'outline', 'filled'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
@@ -48,6 +49,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name when no visible label is associated. |
 | `ariaLabelledBy` | `string &#124; undefined` | `undefined` | IDs of elements that label the input. |
 | `ariaDescribedBy` | `string &#124; undefined` | `undefined` | IDs of help or validation messages. |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `size` | `AerisInputTextSize` | `'md'` | Sets the input height, padding, and font size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `appearance` | `AerisInputTextAppearance` | `'outline'` | Selects an outlined or filled surface treatment. Options: 'outline', 'filled'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
@@ -148,7 +150,60 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
     }
   `
 })
-export class InputBasicBasicDemo {
+export class InputBasicDemo {
+}
+```
+
+### Component value
+
+Use the component's value model for two-way string binding. Unfinished IME input stays visible in the field, while the bound value updates once composition finishes.
+
+#### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisInputText } from '@aeris-ui/core/input-text';
+
+@Component({
+  selector: 'app-input-component-demo',
+  imports: [AerisInputText],
+  template: `
+    <div class="field">
+      <label for="component-text">Text</label>
+      <aeris-input-text inputId="component-text" [(value)]="componentText" fluid />
+      <small aria-live="polite">Committed value: {{ componentText() || 'Empty' }}</small>
+    </div>
+  `,
+  styles: `
+    .field {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+      grid-auto-rows: max-content;
+      gap: 0.45rem;
+    }
+
+    .field > label,
+    .field > span:first-child {
+      color: var(--aeris-text);
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .field small {
+      color: var(--aeris-text-2);
+      font-size: 0.8125rem;
+      line-height: 1.5;
+    }
+
+    .field small.error {
+      color: var(--aeris-danger);
+    }
+  `
+})
+export class InputComponentDemo {
+  protected readonly componentText = signal('');
 }
 ```
 
@@ -168,7 +223,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './input-types.demo.html',
   styleUrl: './input-types.demo.scss'
 })
-export class InputTypesInputTypesDemo {
+export class InputTypesDemo {
 }
 ```
 
@@ -178,12 +233,7 @@ export class InputTypesInputTypesDemo {
 <div class="field-grid">
   <div class="field">
     <label for="input-text-type">Text</label>
-    <input
-      id="input-text-type"
-      aerisInputText
-      type="text"
-      placeholder="Project name"
-    />
+    <input id="input-text-type" aerisInputText type="text" placeholder="Project name" />
   </div>
   <div class="field">
     <label for="input-email-type">Email</label>
@@ -221,7 +271,7 @@ export class InputTypesInputTypesDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -274,7 +324,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './input-sizes.demo.html',
   styleUrl: './input-sizes.demo.scss'
 })
-export class InputSizesSizesDemo {
+export class InputSizesDemo {
 }
 ```
 
@@ -327,8 +377,11 @@ export class InputSizesSizesDemo {
     align-items: stretch;
   }
 
-  .size-sample,
   .field-row > input {
+    width: 100%;
+  }
+
+  .size-sample {
     width: 100%;
   }
 }
@@ -350,7 +403,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './input-appearances.demo.html',
   styleUrl: './input-appearances.demo.scss'
 })
-export class InputAppearancesAppearancesDemo {
+export class InputAppearancesDemo {
 }
 ```
 
@@ -381,7 +434,7 @@ export class InputAppearancesAppearancesDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -447,7 +500,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
     .field-grid {
       width: 100%;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
       gap: 1.25rem;
     }
 
@@ -484,7 +537,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
     }
   `
 })
-export class InputStatesDisabledAndReadOnlyDemo {
+export class InputStatesDemo {
 }
 ```
 
@@ -504,7 +557,11 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './input-validation.demo.html',
   styleUrl: './input-validation.demo.scss'
 })
-export class InputValidationValidationDemo {
+export class InputValidationDemo {
+  protected updateEmail(event: Event): void {
+      this.email.set((event.target as HTMLInputElement).value);
+    }
+
   protected readonly email = signal('alex@');
   protected readonly emailTouched = signal(false);
   protected readonly emailInvalid = computed(
@@ -569,10 +626,6 @@ export class InputValidationValidationDemo {
 .field small.error {
   color: var(--aeris-danger);
 }
-
-.field small.error {
-  color: var(--aeris-danger);
-}
 ```
 
 ### Fluid layout
@@ -622,110 +675,79 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
     }
   `
 })
-export class InputFluidFluidLayoutDemo {
+export class InputFluidDemo {
 }
 ```
 
-### Icons and affixes
+### Icon composition
 
-Compose decorative icons and actions around the native input. Focus-within keeps the group visually unified.
+Use IconField for the shared shell and InputText's built-in clear action. No custom field styling is needed.
 
 #### TS
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisButton } from '@aeris-ui/core/button';
+import { AerisIconField } from '@aeris-ui/core/icon-field';
 import { AerisInputText } from '@aeris-ui/core/input-text';
-import { LucideDynamicIcon, LucideSearch, LucideX } from '@lucide/angular';
+import { LucideDynamicIcon, LucideSearch } from '@lucide/angular';
 
 @Component({
   selector: 'app-input-affixes-demo',
-  imports: [AerisButton, AerisInputText, LucideDynamicIcon],
-  templateUrl: './input-affixes.demo.html',
-  styleUrl: './input-affixes.demo.scss'
+  imports: [AerisIconField, AerisInputText, LucideDynamicIcon],
+  template: `
+    <div class="field">
+      <label for="project-search">Search projects</label>
+      <aeris-icon-field fluid>
+        <svg aerisIcon [lucideIcon]="icons.Search"></svg>
+        <aeris-input-text
+          inputId="project-search"
+          type="search"
+          placeholder="Search by name"
+          clearable
+          clearButtonAriaLabel="Clear search"
+          fluid
+        />
+      </aeris-icon-field>
+    </div>
+  `,
+  styles: `
+    .field {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+      grid-auto-rows: max-content;
+      gap: 0.45rem;
+    }
+
+    .field > label,
+    .field > span:first-child {
+      color: var(--aeris-text);
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .field small {
+      color: var(--aeris-text-2);
+      font-size: 0.8125rem;
+      line-height: 1.5;
+    }
+
+    .field small.error {
+      color: var(--aeris-danger);
+    }
+
+    svg:where([lucideIcon]) {
+      width: var(--aeris-icon-size, 1rem);
+      height: var(--aeris-icon-size, 1rem);
+      flex-shrink: 0;
+      stroke-width: 2;
+    }
+  `
 })
-export class InputAffixesIconsAndAffixesDemo {
+export class InputAffixesDemo {
 
-  protected readonly icons = { Search: LucideSearch, X: LucideX };
-}
-```
-
-#### HTML
-
-```html
-<div class="field">
-  <label for="project-search">Search projects</label>
-  <span class="input-affix">
-    <svg [lucideIcon]="icons.Search"></svg>
-    <input
-      #searchInput
-      id="project-search"
-      aerisInputText
-      type="search"
-      placeholder="Search by name"
-    />
-    <button
-      aerisButton
-      variant="ghost"
-      size="sm"
-      iconOnly
-      type="button"
-      aria-label="Clear search"
-      (click)="clearSearch(searchInput)"
-    >
-      <svg [lucideIcon]="icons.X"></svg>
-    </button>
-  </span>
-</div>
-```
-
-#### CSS
-
-```css
-.field {
-  min-width: 0;
-  display: grid;
-  align-content: start;
-  grid-auto-rows: max-content;
-  gap: 0.45rem;
-}
-
-.field > label,
-.field > span:first-child {
-  color: var(--aeris-text);
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1.4;
-}
-
-.field small {
-  color: var(--aeris-text-2);
-  font-size: 0.8125rem;
-  line-height: 1.5;
-}
-
-.field small.error {
-  color: var(--aeris-danger);
-}
-
-.input-affix {
-  display: flex;
-  align-items: center;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-sm);
-}
-
-.input-affix:focus-within {
-  border-color: var(--aeris-focus);
-  box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--aeris-focus) 18%, transparent);
-}
-
-.input-affix input {
-  width: 100%;
-  border: 0;
-  background: transparent;
-  box-shadow: none;
+  protected readonly icons = { Search: LucideSearch };
 }
 ```
 
@@ -783,7 +805,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
     }
   `
 })
-export class InputSignalsSignalStateDemo {
+export class InputSignalsDemo {
   protected readonly name = signal('');
 
   protected updateName(event: Event): void {
@@ -800,7 +822,7 @@ The wrapper component adds an accessible suffix button that clears the value and
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputText } from '@aeris-ui/core/input-text';
 
 @Component({
@@ -848,7 +870,78 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
     }
   `
 })
-export class InputClearableClearButtonDemo {
+export class InputClearableDemo {
+  protected readonly search = signal('Aeris components');
+}
+```
+
+### Search form
+
+Compose a normal search form with a clearable InputText. Enter and the submit button use native form submission; the application owns searching and timing. Text composition is buffered until it completes.
+
+#### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisInputText } from '@aeris-ui/core/input-text';
+
+@Component({
+  selector: 'app-input-search-demo',
+  imports: [AerisButton, AerisInputText],
+  template: `
+    <form class="field" role="search" (submit)="submitSearch($event)">
+      <label for="search-form-query">Search query</label>
+      <aeris-input-text
+        inputId="search-form-query"
+        type="search"
+        clearable
+        fluid
+        [(value)]="searchQuery"
+      />
+      <button aerisButton type="submit">Search</button>
+      <small role="status">Submitted: {{ submittedSearch() }}</small>
+    </form>
+  `,
+  styles: `
+    .field {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+      grid-auto-rows: max-content;
+      gap: 0.45rem;
+    }
+
+    .field > label,
+    .field > span:first-child {
+      color: var(--aeris-text);
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .field small {
+      color: var(--aeris-text-2);
+      font-size: 0.8125rem;
+      line-height: 1.5;
+    }
+
+    .field small.error {
+      color: var(--aeris-danger);
+    }
+  `
+})
+export class InputSearchDemo {
+  protected readonly searchQuery = signal('');
+
+  protected readonly submittedSearch = signal('No search submitted');
+
+  protected readonly search = signal('Aeris components');
+
+  protected submitSearch(event: Event): void {
+      event.preventDefault();
+      this.submittedSearch.set(this.searchQuery() || 'Empty search');
+    }
 }
 ```
 
@@ -869,7 +962,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './input-angular-forms.demo.html',
   styleUrl: './input-angular-forms.demo.scss'
 })
-export class InputAngularFormsReactiveAndTemplateDrivenFormsDemo {
+export class InputAngularFormsDemo {
   protected readonly reactiveText =
     new FormControl('Reactive value');
 
@@ -905,7 +998,7 @@ export class InputAngularFormsReactiveAndTemplateDrivenFormsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -944,6 +1037,7 @@ export class InputAngularFormsReactiveAndTemplateDrivenFormsDemo {
 
 ## Accessibility
 
+- The component buffers IME edits until composition ends, avoiding partial model and form updates. Applications that require intermediate updates can provide Angular's COMPOSITION_BUFFER_MODE token with false. The native directive keeps Angular's native value-accessor behavior. Aeris does not add an Enter-to-submit policy.
 - InputText preserves native input semantics, keyboard behavior, autofill, selection, and form submission.
 - Provide a visible label associated through matching for and id values.
 - Use aria-describedby to connect help or validation text. Avoid placeholder-only labels.

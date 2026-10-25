@@ -1,8 +1,8 @@
 # DatePicker
 
-> Locale-aware date, range, month, and year selection with complete keyboard support.
+> Locale-aware date and time selection with typed entry, ranges, month and year views, and forms support.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/date-picker`
 - Human-readable documentation: [https://aeris-ui.dev/components/date-picker](https://aeris-ui.dev/components/date-picker)
@@ -29,12 +29,19 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `calendarIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the calendar icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `dropdownIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the dropdown icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `previousIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the previous icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `nextIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the next icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the calendar inside the visual viewport. Use per-edge values to reserve fixed headers or bottom navigation. |
-| `value` | `AerisDatePickerValue (model)` | `null` | Selected Date, date array, or range according to selectionMode. |
+| `value` | `AerisDatePickerValue (model)` | `null` | Selected local Date, date array, or range according to selectionMode. Time-only mode still uses a Date as a clock-value carrier; it does not return a time string. Null clears the selection. |
 | `selectionMode` | `AerisDatePickerSelectionMode` | `'single'` | Selects one date, multiple independent dates, or a start/end range. Options: 'single', 'multiple', 'range'. |
-| `view` | `AerisDatePickerView` | `'day'` | Chooses day, month, or year selection granularity. |
-| `mode` | `AerisDatePickerMode` | `'date'` | Chooses date-only, date-and-time, or time-only entry. Options: 'date', 'dateTime', 'time'. |
+| `view` | `AerisDatePickerView` | `'day'` | Chooses day, month, or year selection granularity. The trigger matches that precision; month selections use day 1 and year selections use January 1. The model remains a local Date. |
+| `editable` | `boolean` | `false` | Enables locale-ordered typed date, date-time or time segments for non-inline single selection, including month/year views, 12/24-hour cycles and optional seconds. The popup remains available from its button or Alt+Down. Range and multiple modes retain their existing presentation. Incomplete drafts preserve the last valid Date but block submission. Hidden seconds are retained when editing. |
+| `readonly` | `boolean` | `false` | Prevents user editing, clearing and opening the calendar. Editable segments remain inspectable and copyable. |
+| `mode` | `AerisDatePickerMode` | `'date'` | Chooses date-only, date-and-time, or time-only entry. Use dateTime/time with selectionMode single; multiple and range are calendar-date workflows. Options: 'date', 'dateTime', 'time'. |
 | `inputId` | `string` | `generated` | ID assigned to the popup trigger. |
 | `name` | `string` | `''` | Native hidden field name. Values are serialized as local date, date-time, time, range, or list strings. |
 | `placeholder` | `string` | `'Choose a date'` | Text shown while no value is selected. |
@@ -45,14 +52,14 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 | `size` | `AerisDatePickerSize` | `'md'` | Control density from extra small through large. Options: 'xs', 'sm', 'md', 'lg'. |
 | `appearance` | `AerisDatePickerAppearance` | `'outline'` | Outlined or filled field treatment. Options: 'outline', 'filled'. |
 | `locale` | `string` | `'en-US'` | BCP 47 locale used for labels and formatted values. |
-| `dateStyle` | `AerisDatePickerDateStyle` | `'medium'` | Intl.DateTimeFormat date style used in the trigger. Options: 'short', 'medium', 'long', 'full'. |
-| `hourCycle` | `AerisDatePickerHourCycle` | `'24'` | Formats and edits time with 24-hour or 12-hour controls. Options: 12, 24. |
-| `showSeconds` | `boolean` | `false` | Adds a seconds field to date-time and time-only modes. |
-| `minuteStep` | `number` | `1` | Native step value for the minute input, clamped from 1 through 59. |
-| `secondStep` | `number` | `1` | Native step value for the seconds input, clamped from 1 through 59. |
+| `dateStyle` | `AerisDatePickerDateStyle` | `'medium'` | Intl.DateTimeFormat date style used in the trigger for day selection. Month and year views show only their selected precision. Options: 'short', 'medium', 'long', 'full'. |
+| `hourCycle` | `AerisDatePickerHourCycle` | `'24'` | Formats and edits time with 00–23 hours in 24-hour mode, or 1–12 hours and AM/PM in 12-hour mode, including midnight. Options: 12, 24. |
+| `showSeconds` | `boolean` | `false` | Adds a seconds field to date-time and time-only modes, including editable entry. Existing hidden seconds are retained when editable entry changes other parts. |
+| `minuteStep` | `number` | `1` | Minute increment for native popup stepping and editable Arrow Up/Down, clamped from 1 through 59. Valid typed values are not rounded. An empty intermediate edit does not overwrite the committed time. |
+| `secondStep` | `number` | `1` | Second increment for native popup stepping and editable Arrow Up/Down, clamped from 1 through 59. Valid typed values are not rounded. |
 | `firstDayOfWeek` | `number &#124; null` | `locale` | Overrides the locale week start with Sunday 0 through Saturday 6. |
-| `minDate` | `Date &#124; undefined` | `undefined` | Earliest selectable date. |
-| `maxDate` | `Date &#124; undefined` | `undefined` | Latest selectable date. |
+| `minDate` | `Date &#124; undefined` | `undefined` | Earliest selectable local calendar day, inclusive. The clock portion is ignored; this is not a minimum time constraint. |
+| `maxDate` | `Date &#124; undefined` | `undefined` | Latest selectable local calendar day, inclusive. The clock portion is ignored; this is not a maximum time constraint. |
 | `disabledDates` | `readonly Date[]` | `[]` | Specific dates that cannot be selected. |
 | `disabledDays` | `readonly number[]` | `[]` | Recurring disabled weekdays from Sunday 0 through Saturday 6. |
 | `dateDisabled` | `((date: Date) =&gt; boolean) &#124; null` | `null` | Predicate for application-specific disabled dates. |
@@ -230,7 +237,9 @@ import { AerisDatePicker, type AerisDatePickerChangeEvent, type AerisDatePickerV
     }
   `
 })
-export class DatePickerBasicBasicDemo {
+export class DatePickerBasicDemo {
+  protected readonly lastChange = signal('No selection change yet');
+
   protected readonly basicDate =
     signal<AerisDatePickerValue>(
       new Date(2026, 5, 18),
@@ -246,6 +255,152 @@ export class DatePickerBasicBasicDemo {
         : 'Selection updated',
     );
   }
+}
+```
+
+### Typed entry
+
+Type a date or paste a complete canonical or locale-formatted value. Use the calendar button or Alt+Down to choose from the calendar. Incomplete drafts remain visible and block form submission without overwriting the last valid Date.
+
+#### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-picker';
+
+@Component({
+  selector: 'app-date-picker-editable-demo',
+  imports: [AerisDatePicker],
+  template: `
+    <div class="field">
+      <label for="typed-date">Arrival date</label>
+      <aeris-date-picker
+        inputId="typed-date"
+        ariaLabel="Arrival date"
+        editable
+        clearable
+        [(value)]="typedDate"
+      />
+      <small>
+        Type the segments, use Up/Down to adjust them, or press Alt+Down for the calendar.
+      </small>
+    </div>
+  `,
+  styles: `
+    .field {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+      grid-auto-rows: max-content;
+      gap: 0.45rem;
+    }
+
+    .field > label,
+    .field > span:first-child {
+      color: var(--aeris-text);
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .field small {
+      color: var(--aeris-text-2);
+      font-size: 0.8125rem;
+      line-height: 1.5;
+    }
+
+    .field small.error {
+      color: var(--aeris-danger);
+    }
+  `
+})
+export class DatePickerEditableDemo {
+  protected readonly typedDate = signal<AerisDatePickerValue>(new Date(2026, 5, 11));
+}
+```
+
+### Signal Forms
+
+Signal Forms supplies invalid and touched automatically. Errors stay neutral until interaction or submission. Incomplete typed dates block submission while preserving the last valid Date value.
+
+#### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisDatePicker } from '@aeris-ui/core/date-picker';
+import { FormField, form, required, submit } from '@angular/forms/signals';
+
+@Component({
+  selector: 'app-date-picker-signal-forms-demo',
+  imports: [AerisButton, AerisDatePicker, FormField],
+  templateUrl: './date-picker-signal-forms.demo.html',
+  styleUrl: './date-picker-signal-forms.demo.scss'
+})
+export class DatePickerSignalFormsDemo {
+  protected readonly profile = signal<{ birthday: Date | null }>({ birthday: null });
+  protected readonly profileForm = form(this.profile, (path) => required(path.birthday));
+  protected readonly savedDate = signal('Not saved yet');
+  protected saveProfile(event: Event): void {
+    event.preventDefault();
+    void submit(this.profileForm, async () => {
+      this.savedDate.set(this.profile().birthday?.toLocaleDateString() || 'No date');
+    });
+  }
+}
+```
+
+#### HTML
+
+```html
+<form class="field" (submit)="saveProfile($event)">
+  <label for="profile-birthday">Birthday</label>
+  <aeris-date-picker
+    inputId="profile-birthday"
+    ariaLabel="Birthday"
+    ariaDescribedBy="profile-birthday-help"
+    editable
+    [formField]="profileForm.birthday"
+  />
+  <small id="profile-birthday-help">
+    @if (profileForm.birthday().touched() && profileForm.birthday().invalid()) {
+      Enter a complete, valid birthday.
+    } @else {
+      A birthday is required.
+    }
+  </small>
+  <button aerisButton type="submit">Save birthday</button>
+  <output aria-live="polite">{{ savedDate() }}</output>
+</form>
+```
+
+#### CSS
+
+```css
+.field {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  grid-auto-rows: max-content;
+  gap: 0.45rem;
+}
+
+.field > label,
+.field > span:first-child {
+  color: var(--aeris-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.field small {
+  color: var(--aeris-text-2);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.field small.error {
+  color: var(--aeris-danger);
 }
 ```
 
@@ -265,7 +420,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
   templateUrl: './date-picker-collision.demo.html',
   styleUrl: './date-picker-collision.demo.scss'
 })
-export class DatePickerCollisionConstrainedViewportDemo {
+export class DatePickerCollisionDemo {
   protected readonly overlayViewportMargin = {
     top: 16,
     right: 16,
@@ -338,7 +493,7 @@ export class DatePickerCollisionConstrainedViewportDemo {
 
 ### Date and time
 
-Use date-time mode when the calendar selection needs a time. Use time-only mode when the date section should be hidden.
+Enable editable for typed date-time or time-only entry. Type or paste a complete value, adjust segments with arrow keys, and change AM/PM explicitly in 12-hour mode. Minute steps affect arrow keys, not valid typed values.
 
 #### TS
 
@@ -352,7 +507,7 @@ import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-
   templateUrl: './date-picker-time.demo.html',
   styleUrl: './date-picker-time.demo.scss'
 })
-export class DatePickerTimeDateAndTimeDemo {
+export class DatePickerTimeDemo {
   protected readonly meetingDate =
     signal<AerisDatePickerValue>(
       new Date(2026, 5, 18, 14, 30),
@@ -373,6 +528,7 @@ export class DatePickerTimeDateAndTimeDemo {
     <label for="meeting-date">Meeting date and time</label>
     <aeris-date-picker
       inputId="meeting-date"
+      editable
       mode="dateTime"
       hourCycle="12"
       showSeconds
@@ -384,6 +540,7 @@ export class DatePickerTimeDateAndTimeDemo {
     <label for="reminder-time">Reminder time</label>
     <aeris-date-picker
       inputId="reminder-time"
+      editable
       mode="time"
       [minuteStep]="15"
       [(value)]="reminderTime"
@@ -399,7 +556,7 @@ export class DatePickerTimeDateAndTimeDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -452,7 +609,7 @@ import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-
   templateUrl: './date-picker-selection.demo.html',
   styleUrl: './date-picker-selection.demo.scss'
 })
-export class DatePickerSelectionSelectionModesDemo {
+export class DatePickerSelectionDemo {
   protected readonly range =
     signal<AerisDatePickerValue>({
       start: new Date(2026, 5, 8),
@@ -500,7 +657,7 @@ export class DatePickerSelectionSelectionModesDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -544,8 +701,8 @@ Combine minimum and maximum boundaries, recurring weekdays, explicit dates, and 
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisDatePicker } from '@aeris-ui/core/date-picker';
+import { Component, signal } from '@angular/core';
+import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-picker';
 
 @Component({
   selector: 'app-date-picker-constraints-demo',
@@ -553,7 +710,9 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
   templateUrl: './date-picker-constraints.demo.html',
   styleUrl: './date-picker-constraints.demo.scss'
 })
-export class DatePickerConstraintsConstraintsAndDisabledDatesDemo {
+export class DatePickerConstraintsDemo {
+  protected readonly constrainedDate = signal<AerisDatePickerValue>(null);
+
   protected readonly minDate =
     new Date(2026, 5, 5);
   protected readonly maxDate =
@@ -627,8 +786,8 @@ Show up to three months in one calendar. The layout collapses to one column on n
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisDatePicker } from '@aeris-ui/core/date-picker';
+import { Component, signal } from '@angular/core';
+import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-picker';
 
 @Component({
   selector: 'app-date-picker-multiple-months-demo',
@@ -657,13 +816,17 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
     }
   `
 })
-export class DatePickerMultipleMonthsMultipleMonthsAndWeekNumbersDemo {
+export class DatePickerMultipleMonthsDemo {
+  protected readonly range = signal<AerisDatePickerValue>({
+      start: new Date(2026, 5, 8),
+      end: new Date(2026, 5, 12),
+    });
 }
 ```
 
 ### Month and year views
 
-Use a coarser selection view when a precise day would add unnecessary input.
+Select a month or year without displaying an unnecessary day. Values remain Date objects; year view displays only the year, and month view displays the month and year.
 
 #### TS
 
@@ -677,7 +840,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
   templateUrl: './date-picker-views.demo.html',
   styleUrl: './date-picker-views.demo.scss'
 })
-export class DatePickerViewsMonthAndYearViewsDemo {
+export class DatePickerViewsDemo {
 }
 ```
 
@@ -690,6 +853,7 @@ export class DatePickerViewsMonthAndYearViewsDemo {
     <aeris-date-picker
       inputId="billing-month"
       view="month"
+      editable
       placeholder="Choose month"
     />
   </div>
@@ -698,6 +862,7 @@ export class DatePickerViewsMonthAndYearViewsDemo {
     <aeris-date-picker
       inputId="reporting-year"
       view="year"
+      editable
       placeholder="Choose year"
     />
   </div>
@@ -710,7 +875,7 @@ export class DatePickerViewsMonthAndYearViewsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -754,8 +919,8 @@ Inline mode keeps the calendar visible and removes popup-only focus and dismissa
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisDatePicker } from '@aeris-ui/core/date-picker';
+import { Component, signal } from '@angular/core';
+import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-picker';
 
 @Component({
   selector: 'app-date-picker-inline-demo',
@@ -777,7 +942,8 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
     }
   `
 })
-export class DatePickerInlineInlineCalendarDemo {
+export class DatePickerInlineDemo {
+  protected readonly basicDate = signal<AerisDatePickerValue>(new Date(2026, 5, 18));
 }
 ```
 
@@ -788,8 +954,8 @@ Locale controls formatted values, month names, weekday labels, and the default f
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisDatePicker } from '@aeris-ui/core/date-picker';
+import { Component, signal } from '@angular/core';
+import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-picker';
 
 @Component({
   selector: 'app-date-picker-localization-demo',
@@ -797,7 +963,8 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
   templateUrl: './date-picker-localization.demo.html',
   styleUrl: './date-picker-localization.demo.scss'
 })
-export class DatePickerLocalizationLocalizationDemo {
+export class DatePickerLocalizationDemo {
+  protected readonly basicDate = signal<AerisDatePickerValue>(new Date(2026, 5, 18));
 }
 ```
 
@@ -835,7 +1002,7 @@ export class DatePickerLocalizationLocalizationDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -906,10 +1073,20 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
       .field-row {
         align-items: stretch;
       }
+
+      .field-row > input {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 42rem) {
+      .field-row aeris-date-picker {
+          width: 100%;
+        }
     }
   `
 })
-export class DatePickerSizesSizesDemo {
+export class DatePickerSizesDemo {
 }
 ```
 
@@ -942,7 +1119,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
     .field-grid {
       width: 100%;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
       gap: 1.25rem;
     }
 
@@ -953,7 +1130,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
     }
   `
 })
-export class DatePickerStatesAppearancesAndStatesDemo {
+export class DatePickerStatesDemo {
 }
 ```
 
@@ -973,7 +1150,7 @@ import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-
   templateUrl: './date-picker-validation.demo.html',
   styleUrl: './date-picker-validation.demo.scss'
 })
-export class DatePickerValidationValidationDemo {
+export class DatePickerValidationDemo {
   protected readonly validationDate =
     signal<AerisDatePickerValue>(null);
   protected readonly validationTouched = signal(false);
@@ -1004,9 +1181,9 @@ export class DatePickerValidationValidationDemo {
     class="validation-message"
     [class.error]="validationInvalid()"
     aria-live="polite"
-    >{{
-      validationInvalid() ? 'Choose a milestone date.' : 'A date is required.'
-    }}</small>
+  >
+    {{ validationInvalid() ? 'Choose a milestone date.' : 'A date is required.' }}
+  </small>
 </div>
 ```
 
@@ -1061,7 +1238,7 @@ import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-
   templateUrl: './date-picker-forms.demo.html',
   styleUrl: './date-picker-forms.demo.scss'
 })
-export class DatePickerFormsReactiveAndTemplateDrivenFormsDemo {
+export class DatePickerFormsDemo {
   protected readonly reactiveDate =
     new FormControl<AerisDatePickerValue>(
       new Date(2026, 6, 3),
@@ -1099,7 +1276,7 @@ export class DatePickerFormsReactiveAndTemplateDrivenFormsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -1147,11 +1324,18 @@ export class DatePickerFormsReactiveAndTemplateDrivenFormsDemo {
 - Use ariaDescribedBy for help and validation messages. Required and invalid state are synchronized with ARIA.
 - Multiple-month layouts collapse on narrow screens and all pointer targets retain clear focus indicators.
 - DatePicker uses native Date values with Reactive Forms and template-driven forms.
+- With editable, date and time segments remain in the field. Click empty field space to focus its first segment, or click a specific segment to edit it. Date-time entry wraps between its date and clock groups on narrow screens. Paste a complete value in the displayed locale, or use YYYY-MM-DD, HH:mm (including seconds when shown), or YYYY-MM-DDTHH:mm:ss. These are local values, not UTC timestamps. A time-only Date retains its calendar date; the first complete entry into an empty field uses the current calendar date. Typed nonexistent local clocks during a daylight-saving change are rejected; ambiguous clocks use the earlier occurrence. Hidden seconds are retained.
 
 ### Keyboard support
 
 | Key | Function |
 | --- | --- |
+| `Arrow Up / Down in editable segments` | Adjusts the focused part without carrying into another segment. Minute and second steps follow their inputs. On AM/PM, toggles the period. |
+| `Arrow Left / Right in editable segments` | Moves between segments in visual order, including RTL. |
+| `Home / End in editable segments` | Sets the focused part to its minimum or maximum; AM or PM for the period. |
+| `Delete / Backspace in editable segments` | Clears the focused part. Incomplete input remains invalid until completed or fully cleared. |
+| `A / P or a localized period label` | Sets AM/PM when its segment is focused. Other numeric segments are unaffected. |
+| `Alt + Arrow Down in editable segments` | Opens the calendar or time popup. Escape returns focus to the invoking segment or button. |
 | `Enter` | Opens the popup trigger or selects the focused date. |
 | `Space` | Opens the popup trigger or selects the focused date. |
 | `Arrow Down` | Opens the popup from its trigger, or moves focus one week forward in the day grid. |

@@ -26,6 +26,7 @@ import {
   AerisDialogFooterTemplate,
   AerisDialogHeadlessTemplate,
   type AerisDialogCloseReason,
+  type AerisDialogTemplateContext,
   type AerisDialogPosition,
   type AerisDialogSize,
   type AerisDialogVisibilityChangeEvent,
@@ -74,6 +75,7 @@ export interface AerisConfirmDialogConfig<TData = unknown> {
   readonly width?: string;
   readonly maxWidth?: string;
   readonly mobileWidth?: string;
+  readonly closeIconTemplate?: TemplateRef<AerisDialogTemplateContext>;
   readonly closeAriaLabel?: string;
   readonly ariaLabel?: string;
   readonly ariaLabelledBy?: string;
@@ -116,6 +118,7 @@ export interface AerisConfirmDialogResolvedConfig<TData = unknown> {
   readonly width: string;
   readonly maxWidth: string;
   readonly mobileWidth: string;
+  readonly closeIconTemplate: TemplateRef<AerisDialogTemplateContext> | undefined;
   readonly closeAriaLabel: string;
   readonly ariaLabel: string;
   readonly ariaLabelledBy: string;
@@ -410,6 +413,7 @@ export class AerisConfirmDialogService {
       width: config.width ?? '',
       maxWidth: config.maxWidth ?? '',
       mobileWidth: config.mobileWidth ?? '',
+      closeIconTemplate: config.closeIconTemplate,
       closeAriaLabel: config.closeAriaLabel ?? 'Close confirmation dialog',
       ariaLabel: config.ariaLabel ?? '',
       ariaLabelledBy: config.ariaLabelledBy ?? '',
@@ -452,6 +456,7 @@ export class AerisConfirmDialogService {
       [width]="settings().width"
       [maxWidth]="settings().maxWidth"
       [mobileWidth]="settings().mobileWidth"
+      [closeIconTemplate]="settings().closeIconTemplate"
       [closeAriaLabel]="settings().closeAriaLabel"
       [ariaLabel]="settings().ariaLabel"
       [ariaLabelledBy]="settings().ariaLabelledBy"
@@ -485,27 +490,31 @@ export class AerisConfirmDialogService {
               <svg viewBox="0 0 24 24" focusable="false">
                 @switch (settings().icon) {
                   @case ('info') {
-                    <path d="M12 17v-6" />
-                    <path d="M12 7.5h.01" />
-                    <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" />
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 16v-4" />
+                    <path d="M12 8h.01" />
                   }
                   @case ('warning') {
-                    <path d="M12 4.5 21 19H3L12 4.5Z" />
-                    <path d="M12 10v4" />
+                    <path
+                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                    />
+                    <path d="M12 9v4" />
                     <path d="M12 17h.01" />
                   }
                   @case ('danger') {
-                    <path d="M12 4.5 21 19H3L12 4.5Z" />
-                    <path d="M12 10v4" />
+                    <path
+                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                    />
+                    <path d="M12 9v4" />
                     <path d="M12 17h.01" />
                   }
                   @case ('success') {
-                    <path d="M20 7 10 17l-5-5" />
+                    <path d="M20 6 9 17l-5-5" />
                   }
                   @default {
-                    <path d="M9.75 9a2.25 2.25 0 1 1 3.15 2.07c-.61.28-.9.82-.9 1.43v.5" />
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
                     <path d="M12 17h.01" />
-                    <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" />
                   }
                 }
               </svg>
@@ -610,6 +619,7 @@ export class AerisConfirmDialog {
     width: this.width(),
     maxWidth: this.maxWidth(),
     mobileWidth: this.mobileWidth(),
+    closeIconTemplate: this.closeIconTemplate(),
     closeAriaLabel: this.closeAriaLabel(),
     ariaLabel: this.ariaLabel(),
     ariaLabelledBy: this.ariaLabelledBy(),
@@ -701,6 +711,7 @@ export class AerisConfirmDialog {
   readonly width = input('');
   readonly maxWidth = input('');
   readonly mobileWidth = input('');
+  readonly closeIconTemplate = input<TemplateRef<AerisDialogTemplateContext>>();
   readonly closeAriaLabel = input('Close confirmation dialog');
   readonly ariaLabel = input('');
   readonly ariaLabelledBy = input('');

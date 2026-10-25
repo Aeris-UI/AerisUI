@@ -2,7 +2,7 @@
 
 > Accessible inputnumber component for Angular.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/input-number`
 - Human-readable documentation: [https://aeris-ui.dev/components/input-number](https://aeris-ui.dev/components/input-number)
@@ -29,6 +29,9 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `incrementIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the increment icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `decrementIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the decrement icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `value` | `number &#124; null (model)` | `null` | Numeric value with two-way binding and Signal Forms compatibility. |
 | `inputId` | `string` | `generated` | ID assigned to the internal native input. |
 | `name` | `string` | `''` | Native input name. |
@@ -124,7 +127,7 @@ Bind the numeric value through the signal model and associate a visible label wi
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputNumber } from '@aeris-ui/core/input-number';
 
 @Component({
@@ -134,8 +137,9 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
     <div class="field">
       <label for="quantity">Quantity</label>
       <aeris-input-number inputId="quantity" [(value)]="quantity" />
-      <small class="number-result" aria-live="polite"
-        >Value: {{ quantity() ?? 'Empty' }}</small>
+      <small class="number-result" aria-live="polite">
+        Value: {{ quantity() ?? 'Empty' }}
+      </small>
     </div>
   `,
   styles: `
@@ -165,13 +169,28 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
       color: var(--aeris-danger);
     }
 
+    .number-button-layouts .field {
+      justify-items: center;
+    }
+
+    .number-button-layouts .field > span {
+      justify-self: start;
+    }
+
     .number-result {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
     }
+
+    @media (max-width: 48rem) {
+      .number-button-layouts .field {
+          justify-items: stretch;
+        }
+    }
   `
 })
-export class NumberBasicBasicDemo {
+export class NumberBasicDemo {
+  protected readonly quantity = signal<number | null>(4);
 }
 ```
 
@@ -191,7 +210,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
   templateUrl: './number-decimals.demo.html',
   styleUrl: './number-decimals.demo.scss'
 })
-export class NumberDecimalsDecimalsDemo {
+export class NumberDecimalsDemo {
 }
 ```
 
@@ -228,7 +247,7 @@ export class NumberDecimalsDecimalsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -263,6 +282,20 @@ export class NumberDecimalsDecimalsDemo {
     grid-template-columns: 1fr;
   }
 }
+
+.number-button-layouts .field {
+  justify-items: center;
+}
+
+.number-button-layouts .field > span {
+  justify-self: start;
+}
+
+@media (max-width: 48rem) {
+  .number-button-layouts .field {
+      justify-items: stretch;
+    }
+}
 ```
 
 ### Currency
@@ -272,7 +305,7 @@ Currency mode uses Intl.NumberFormat and an ISO 4217 currency code.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputNumber } from '@aeris-ui/core/input-number';
 
 @Component({
@@ -281,7 +314,8 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
   templateUrl: './number-currency.demo.html',
   styleUrl: './number-currency.demo.scss'
 })
-export class NumberCurrencyCurrencyDemo {
+export class NumberCurrencyDemo {
+  protected readonly price = signal<number | null>(1299.5);
 }
 ```
 
@@ -319,7 +353,7 @@ export class NumberCurrencyCurrencyDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -353,6 +387,20 @@ export class NumberCurrencyCurrencyDemo {
   .field-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.number-button-layouts .field {
+  justify-items: center;
+}
+
+.number-button-layouts .field > span {
+  justify-self: start;
+}
+
+@media (max-width: 48rem) {
+  .number-button-layouts .field {
+      justify-items: stretch;
+    }
 }
 ```
 
@@ -372,7 +420,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
   templateUrl: './number-locale.demo.html',
   styleUrl: './number-locale.demo.scss'
 })
-export class NumberLocaleLocalesDemo {
+export class NumberLocaleDemo {
 }
 ```
 
@@ -382,39 +430,19 @@ export class NumberLocaleLocalesDemo {
 <div class="field-grid">
   <div class="field">
     <label for="locale-en">English, United States</label>
-    <aeris-input-number
-      inputId="locale-en"
-      locale="en-US"
-      [value]="9876543.21"
-      fluid
-    />
+    <aeris-input-number inputId="locale-en" locale="en-US" [value]="9876543.21" fluid />
   </div>
   <div class="field">
     <label for="locale-de">German, Germany</label>
-    <aeris-input-number
-      inputId="locale-de"
-      locale="de-DE"
-      [value]="9876543.21"
-      fluid
-    />
+    <aeris-input-number inputId="locale-de" locale="de-DE" [value]="9876543.21" fluid />
   </div>
   <div class="field">
     <label for="locale-fr">French, France</label>
-    <aeris-input-number
-      inputId="locale-fr"
-      locale="fr-FR"
-      [value]="9876543.21"
-      fluid
-    />
+    <aeris-input-number inputId="locale-fr" locale="fr-FR" [value]="9876543.21" fluid />
   </div>
   <div class="field">
     <label for="locale-sr">Serbian, Serbia</label>
-    <aeris-input-number
-      inputId="locale-sr"
-      locale="sr-RS"
-      [value]="9876543.21"
-      fluid
-    />
+    <aeris-input-number inputId="locale-sr" locale="sr-RS" [value]="9876543.21" fluid />
   </div>
 </div>
 ```
@@ -425,7 +453,7 @@ export class NumberLocaleLocalesDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -460,6 +488,20 @@ export class NumberLocaleLocalesDemo {
     grid-template-columns: 1fr;
   }
 }
+
+.number-button-layouts .field {
+  justify-items: center;
+}
+
+.number-button-layouts .field > span {
+  justify-self: start;
+}
+
+@media (max-width: 48rem) {
+  .number-button-layouts .field {
+      justify-items: stretch;
+    }
+}
 ```
 
 ### Prefix and suffix
@@ -469,7 +511,7 @@ Add visible context without including affix text in the numeric model.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputNumber } from '@aeris-ui/core/input-number';
 
 @Component({
@@ -478,7 +520,8 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
   templateUrl: './number-affixes.demo.html',
   styleUrl: './number-affixes.demo.scss'
 })
-export class NumberAffixesPrefixAndSuffixDemo {
+export class NumberAffixesDemo {
+  protected readonly percentage = signal<number | null>(72);
 }
 ```
 
@@ -516,7 +559,7 @@ export class NumberAffixesPrefixAndSuffixDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -551,6 +594,20 @@ export class NumberAffixesPrefixAndSuffixDemo {
     grid-template-columns: 1fr;
   }
 }
+
+.number-button-layouts .field {
+  justify-items: center;
+}
+
+.number-button-layouts .field > span {
+  justify-self: start;
+}
+
+@media (max-width: 48rem) {
+  .number-button-layouts .field {
+      justify-items: stretch;
+    }
+}
 ```
 
 ### Button layouts
@@ -569,7 +626,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
   templateUrl: './number-buttons.demo.html',
   styleUrl: './number-buttons.demo.scss'
 })
-export class NumberButtonsButtonLayoutsDemo {
+export class NumberButtonsDemo {
 }
 ```
 
@@ -665,7 +722,7 @@ An optional suffix button clears the numeric model to null and returns focus to 
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputNumber } from '@aeris-ui/core/input-number';
 
 @Component({
@@ -711,9 +768,24 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .number-button-layouts .field {
+      justify-items: center;
+    }
+
+    .number-button-layouts .field > span {
+      justify-self: start;
+    }
+
+    @media (max-width: 48rem) {
+      .number-button-layouts .field {
+          justify-items: stretch;
+        }
+    }
   `
 })
-export class NumberClearableClearButtonDemo {
+export class NumberClearableDemo {
+  protected readonly price = signal<number | null>(1299.5);
 }
 ```
 
@@ -771,9 +843,23 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .number-button-layouts .field {
+      justify-items: center;
+    }
+
+    .number-button-layouts .field > span {
+      justify-self: start;
+    }
+
+    @media (max-width: 48rem) {
+      .number-button-layouts .field {
+          justify-items: stretch;
+        }
+    }
   `
 })
-export class NumberBoundsMinMaxAndStepDemo {
+export class NumberBoundsDemo {
 }
 ```
 
@@ -793,7 +879,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
   templateUrl: './number-sizes.demo.html',
   styleUrl: './number-sizes.demo.scss'
 })
-export class NumberSizesSizesDemo {
+export class NumberSizesDemo {
 }
 ```
 
@@ -801,21 +887,22 @@ export class NumberSizesSizesDemo {
 
 ```html
 <div class="field-row">
-  <label class="size-sample"
-    ><span>Extra small</span>
-    <aeris-input-number ariaLabel="Extra small number" size="xs" [value]="12"
-  /></label>
-  <label class="size-sample"
-    ><span>Small</span>
-    <aeris-input-number ariaLabel="Small number" size="sm" [value]="12"
-  /></label>
-  <label class="size-sample"
-    ><span>Medium</span><aeris-input-number ariaLabel="Medium number" [value]="12"
-  /></label>
-  <label class="size-sample"
-    ><span>Large</span>
-    <aeris-input-number ariaLabel="Large number" size="lg" [value]="12"
-  /></label>
+  <label class="size-sample">
+    <span>Extra small</span>
+    <aeris-input-number ariaLabel="Extra small number" size="xs" [value]="12" />
+  </label>
+  <label class="size-sample">
+    <span>Small</span>
+    <aeris-input-number ariaLabel="Small number" size="sm" [value]="12" />
+  </label>
+  <label class="size-sample">
+    <span>Medium</span>
+    <aeris-input-number ariaLabel="Medium number" [value]="12" />
+  </label>
+  <label class="size-sample">
+    <span>Large</span>
+    <aeris-input-number ariaLabel="Large number" size="lg" [value]="12" />
+  </label>
 </div>
 ```
 
@@ -845,8 +932,11 @@ export class NumberSizesSizesDemo {
     align-items: stretch;
   }
 
-  .size-sample,
   .field-row > input {
+    width: 100%;
+  }
+
+  .size-sample {
     width: 100%;
   }
 }
@@ -868,7 +958,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
   templateUrl: './number-states.demo.html',
   styleUrl: './number-states.demo.scss'
 })
-export class NumberStatesAppearancesAndStatesDemo {
+export class NumberStatesDemo {
 }
 ```
 
@@ -878,12 +968,7 @@ export class NumberStatesAppearancesAndStatesDemo {
 <div class="field-grid">
   <div class="field">
     <label for="number-filled">Filled</label>
-    <aeris-input-number
-      inputId="number-filled"
-      appearance="filled"
-      [value]="42"
-      fluid
-    />
+    <aeris-input-number inputId="number-filled" appearance="filled" [value]="42" fluid />
   </div>
   <div class="field">
     <label for="number-invalid">Invalid</label>
@@ -893,7 +978,8 @@ export class NumberStatesAppearancesAndStatesDemo {
       invalid
       ariaDescribedBy="number-error"
       fluid
-    /><small id="number-error" class="error">Value must be 100 or less.</small>
+    />
+    <small id="number-error" class="error">Value must be 100 or less.</small>
   </div>
   <div class="field">
     <label for="number-readonly">Read-only</label>
@@ -918,7 +1004,7 @@ export class NumberStatesAppearancesAndStatesDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -954,8 +1040,18 @@ export class NumberStatesAppearancesAndStatesDemo {
   }
 }
 
-.field small.error {
-  color: var(--aeris-danger);
+.number-button-layouts .field {
+  justify-items: center;
+}
+
+.number-button-layouts .field > span {
+  justify-self: start;
+}
+
+@media (max-width: 48rem) {
+  .number-button-layouts .field {
+      justify-items: stretch;
+    }
 }
 ```
 
@@ -1010,30 +1106,53 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .number-button-layouts .field {
+      justify-items: center;
+    }
+
+    .number-button-layouts .field > span {
+      justify-self: start;
+    }
+
+    @media (max-width: 48rem) {
+      .number-button-layouts .field {
+          justify-items: stretch;
+        }
+    }
   `
 })
-export class NumberFluidFluidLayoutDemo {
+export class NumberFluidDemo {
 }
 ```
 
-### Signal Forms contract
+### Signal Forms
 
-The value model supports direct signal binding and structurally satisfies Angular 22 FormValueControl.
+Bind with FormField to synchronize the numeric model and interaction state. Define min and max in the form schema; Angular forwards those bounds to InputNumber automatically.
 
 #### TS
 
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisInputNumber } from '@aeris-ui/core/input-number';
+import { FormField, form, max, min } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-number-signals-demo',
-  imports: [AerisInputNumber],
+  imports: [AerisInputNumber, FormField],
   template: `
     <div class="field">
-      <label for="number-signal">Quantity</label>
-      <aeris-input-number inputId="number-signal" [(value)]="quantity" showButtons />
-      <small aria-live="polite">Current value: {{ quantity() ?? 'Empty' }}</small>
+      <label for="number-signal">Value (1–5)</label>
+      <aeris-input-number
+        inputId="number-signal"
+        [formField]="numberForm.amount"
+        [allowEmpty]="false"
+        [maxFractionDigits]="0"
+        showButtons
+        buttonLayout="horizontal"
+        [buttonTabIndex]="0"
+      />
+      <small aria-live="polite">Current value: {{ numberModel().amount ?? 'Empty' }}</small>
     </div>
   `,
   styles: `
@@ -1062,13 +1181,28 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .number-button-layouts .field {
+      justify-items: center;
+    }
+
+    .number-button-layouts .field > span {
+      justify-self: start;
+    }
+
+    @media (max-width: 48rem) {
+      .number-button-layouts .field {
+          justify-items: stretch;
+        }
+    }
   `
 })
-export class NumberSignalsSignalFormsContractDemo {
-  protected readonly quantity = signal<number | null>(4);
-
-  // The value model also satisfies Angular 22 Signal Forms'
-  // FormValueControl<number | null> contract.
+export class NumberSignalsDemo {
+  protected readonly numberModel = signal<{ amount: number | null }>({ amount: 3 });
+  protected readonly numberForm = form(this.numberModel, (path) => {
+    min(path.amount, 1);
+    max(path.amount, 5);
+  });
 }
 ```
 
@@ -1089,7 +1223,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
   templateUrl: './number-angular-forms.demo.html',
   styleUrl: './number-angular-forms.demo.scss'
 })
-export class NumberAngularFormsReactiveAndTemplateDrivenFormsDemo {
+export class NumberAngularFormsDemo {
   protected readonly reactiveNumber =
     new FormControl<number | null>(24);
 
@@ -1103,11 +1237,7 @@ export class NumberAngularFormsReactiveAndTemplateDrivenFormsDemo {
 <div class="field-grid">
   <div class="field">
     <label for="reactive-number">Reactive Forms</label>
-    <aeris-input-number
-      inputId="reactive-number"
-      [formControl]="reactiveNumber"
-      fluid
-    />
+    <aeris-input-number inputId="reactive-number" [formControl]="reactiveNumber" fluid />
     <small>Value: {{ reactiveNumber.value ?? 'Empty' }}</small>
   </div>
   <div class="field">
@@ -1129,7 +1259,7 @@ export class NumberAngularFormsReactiveAndTemplateDrivenFormsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -1164,6 +1294,20 @@ export class NumberAngularFormsReactiveAndTemplateDrivenFormsDemo {
     grid-template-columns: 1fr;
   }
 }
+
+.number-button-layouts .field {
+  justify-items: center;
+}
+
+.number-button-layouts .field > span {
+  justify-self: start;
+}
+
+@media (max-width: 48rem) {
+  .number-button-layouts .field {
+      justify-items: stretch;
+    }
+}
 ```
 
 ## Accessibility
@@ -1174,7 +1318,7 @@ export class NumberAngularFormsReactiveAndTemplateDrivenFormsDemo {
 - Associate a visible label through inputId, or provide ariaLabel when no visible label exists.
 - Connect help and error messages through ariaDescribedBy. The invalid input synchronizes aria-invalid.
 - Unsupported characters, duplicate decimal separators, and misplaced signs are removed consistently. A sign, the locale decimal separator, or their combination remains available while the user continues typing.
-- Increment and decrement controls use SVG icons with configurable accessible names and are excluded from the default tab order.
+- Increment and decrement controls use SVG icons with configurable accessible names and are excluded from the default tab order. Set buttonTabIndex="0" to include them. Horizontal and vertical steppers retain touch-sized buttons on coarse-pointer devices even with a compact size.
 - The clear button has a configurable accessible name, appears only when usable, and restores focus after clearing.
 - ControlValueAccessor support synchronizes values, touched state, and disabled state with Reactive Forms and template-driven forms.
 - Disabled and read-only behavior are exposed on the internal input; motion transitions respect reduced-motion preferences.
@@ -1183,9 +1327,9 @@ export class NumberAngularFormsReactiveAndTemplateDrivenFormsDemo {
 
 | Key | Function |
 | --- | --- |
-| `Tab / Shift + Tab` | Moves focus to or away from the numeric input and clear action. |
+| `Tab / Shift + Tab` | Moves focus to or away from the numeric input and clear action, plus stepper buttons when buttonTabIndex="0". |
 | `Arrow Up` | Increases the value by the configured step. |
 | `Arrow Down` | Decreases the value by the configured step. |
 | `Home` | Sets the configured minimum value when min is present. |
 | `End` | Sets the configured maximum value when max is present. |
-| `Enter / Space` | Activates the clear button when that button is focused. |
+| `Enter / Space` | Activates a focused clear or stepper button. |

@@ -13,7 +13,7 @@ import {
   numberAttribute,
   output,
 } from '@angular/core';
-import type { AerisSeverity } from '@aeris-ui/core';
+import { ɵAerisIcon, AerisSeverity } from '@aeris-ui/core';
 
 export type AerisMessageSeverity = AerisSeverity;
 
@@ -49,7 +49,7 @@ let nextMessageId = 0;
 
 @Component({
   selector: 'aeris-message',
-  imports: [NgTemplateOutlet],
+  imports: [ɵAerisIcon, NgTemplateOutlet],
   template: `
     @if (visible()) {
       @if (showIcon()) {
@@ -85,7 +85,13 @@ let nextMessageId = 0;
           [attr.aria-label]="closeAriaLabel()"
           (click)="close($event, 'close-button')"
         >
-          <span aria-hidden="true"></span>
+          @if (closeIconTemplate(); as customIcon) {
+            <span aria-hidden="true" data-aeris-custom-icon
+              ><ng-container [ngTemplateOutlet]="customIcon"
+            /></span>
+          } @else {
+            <span aerisInternalIcon="close" aria-hidden="true"></span>
+          }
         </button>
       }
     }
@@ -108,6 +114,8 @@ let nextMessageId = 0;
   },
 })
 export class AerisMessage {
+  readonly closeIconTemplate = input<TemplateRef<void>>();
+
   private readonly generatedId = `aeris-message-${++nextMessageId}`;
   protected readonly iconTemplate = contentChild(AerisMessageIconTemplate);
   protected readonly contentTemplate = contentChild(AerisMessageContentTemplate);

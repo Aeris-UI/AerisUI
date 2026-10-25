@@ -98,9 +98,7 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="accordion-controls" aria-label="Accordion controls"&gt;
-    &lt;button aerisButton type="button" (click)="expandAllSections()"&gt;
-      Expand all
-    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="expandAllSections()"&gt;Expand all&lt;/button&gt;
     &lt;button aerisButton type="button" (click)="closeAllSections()"&gt;Close all&lt;/button&gt;
     &lt;button aerisButton type="button" (click)="toggleControlledSection('profile')"&gt;
       Profile
@@ -656,7 +654,8 @@
           </li>
           <li>The disclosure icon is decorative and hidden from assistive technology.</li>
           <li>
-            Motion is limited to icon rotation and is disabled when reduced motion is requested.
+            Panel expansion, collapse, and icon rotation respect reduced motion. Collapsed bodies
+            remain hidden and inert, so their controls cannot receive keyboard focus.
           </li>
         </ul>
         <h3>Keyboard support</h3>

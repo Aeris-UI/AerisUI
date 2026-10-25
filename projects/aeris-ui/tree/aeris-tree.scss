@@ -1,10 +1,13 @@
+@use '../src/styles/icon-artwork' as artwork;
+@use '../src/styles/selection-icons' as selection-icons;
+@use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
   --_aeris-chevron-mask: var(
     --aeris-icon-chevron,
-    url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E')
+    url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpath d="m6 9 6 6 6-6"/%3E%3C/svg%3E')
   );
 
   display: block;
@@ -307,20 +310,6 @@
   color: var(--aeris-primary-contrast, #fff);
 }
 
-.aeris-tree__box[data-checked='true'] span {
-  width: 0.45rem;
-  height: 0.25rem;
-  border-bottom: 1.75px solid currentColor;
-  border-left: 1.75px solid currentColor;
-  transform: translateY(-0.05rem) rotate(-45deg);
-}
-
-.aeris-tree__box[data-mixed='true'] span {
-  width: 0.5rem;
-  height: 1.75px;
-  background: currentColor;
-}
-
 .aeris-tree__content {
   min-width: 0;
   flex: 1 1 auto;
@@ -332,10 +321,11 @@
   height: 0.875rem;
   display: inline-block;
   flex: 0 0 auto;
-  border: 2px solid color-mix(in srgb, currentColor 28%, transparent);
-  border-top-color: currentColor;
-  border-radius: 50%;
   animation: aeris-tree-spin 700ms linear infinite;
+
+  background: currentColor;
+  -webkit-mask: var(--aeris-icon-loader, #{artwork.$loader}) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-loader, #{artwork.$loader}) center / 100% 100% no-repeat;
 }
 
 .aeris-tree__message {
@@ -424,3 +414,23 @@
 }
 
 @include aeris-mobile.input-font('input:not([type="checkbox"]):not([type="radio"]), textarea');
+
+@include aeris-icons.custom-icon;
+
+.aeris-tree__chevron[data-aeris-custom-icon] {
+  transform: rotate(-90deg);
+  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
+}
+
+.aeris-tree__toggle[data-expanded='true'] .aeris-tree__chevron[data-aeris-custom-icon] {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-tree__chevron[data-aeris-custom-icon] {
+    transition: none;
+  }
+}
+
+@include selection-icons.mark(".aeris-tree__box[data-checked='true'] span", 'check');
+@include selection-icons.mark(".aeris-tree__box[data-mixed='true'] span", 'minus');

@@ -93,7 +93,8 @@
       strategy="absolute"
       position="bottom-right"
       ariaLabel="Bottom right scroll top"
-    /&gt;&lt;span&gt;Bottom right&lt;/span&gt;
+    /&gt;
+    &lt;span&gt;Bottom right&lt;/span&gt;
   &lt;/div&gt;
   &lt;div&gt;
     &lt;aeris-scroll-top
@@ -101,7 +102,8 @@
       strategy="absolute"
       position="bottom-left"
       ariaLabel="Bottom left scroll top"
-    /&gt;&lt;span&gt;Bottom left&lt;/span&gt;
+    /&gt;
+    &lt;span&gt;Bottom left&lt;/span&gt;
   &lt;/div&gt;
   &lt;div&gt;
     &lt;aeris-scroll-top
@@ -109,7 +111,8 @@
       strategy="absolute"
       position="top-right"
       ariaLabel="Top right scroll top"
-    /&gt;&lt;span&gt;Top right&lt;/span&gt;
+    /&gt;
+    &lt;span&gt;Top right&lt;/span&gt;
   &lt;/div&gt;
   &lt;div&gt;
     &lt;aeris-scroll-top
@@ -117,7 +120,8 @@
       strategy="absolute"
       position="top-left"
       ariaLabel="Top left scroll top"
-    /&gt;&lt;span&gt;Top left&lt;/span&gt;
+    /&gt;
+    &lt;span&gt;Top left&lt;/span&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -153,26 +157,28 @@
                 >
               </div>
               <pre code><code ngNonBindable>&lt;div class="scroll-top-size-row"&gt;
-  &lt;span
-    &gt;&lt;aeris-scroll-top
+  &lt;span&gt;
+    &lt;aeris-scroll-top
       alwaysVisible
       strategy="absolute"
       size="sm"
       ariaLabel="Small scroll top"
-    /&gt;Small&lt;/span&gt;
-  &lt;span
-    &gt;&lt;aeris-scroll-top
-      alwaysVisible
-      strategy="absolute"
-      ariaLabel="Medium scroll top"
-    /&gt;Medium&lt;/span&gt;
-  &lt;span
-    &gt;&lt;aeris-scroll-top
+    /&gt;
+    Small
+  &lt;/span&gt;
+  &lt;span&gt;
+    &lt;aeris-scroll-top alwaysVisible strategy="absolute" ariaLabel="Medium scroll top" /&gt;
+    Medium
+  &lt;/span&gt;
+  &lt;span&gt;
+    &lt;aeris-scroll-top
       alwaysVisible
       strategy="absolute"
       size="lg"
       ariaLabel="Large scroll top"
-    /&gt;Large&lt;/span&gt;
+    /&gt;
+    Large
+  &lt;/span&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 

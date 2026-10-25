@@ -1,6 +1,45 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from './fixtures';
 
+for (const width of [390, 1280]) {
+  test(`catalog media images keep surface corners with the pill preset at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/components');
+    const appearance = page.getByRole('button', { name: /^Customize appearance\./ });
+    await appearance.click();
+    await page
+      .getByRole('group', { name: 'Documentation corner style' })
+      .getByRole('button', { name: /^Pill\b/ })
+      .click();
+    await appearance.click();
+    await expect(page.locator('html')).toHaveAttribute('data-aeris-radius', 'pill');
+
+    for (const name of ['Carousel', 'Compare']) {
+      await page.getByRole('searchbox', { name: 'Filter components' }).fill(name);
+      const card = page
+        .locator('.catalog-preview-card')
+        .filter({ has: page.getByRole('link', { name, exact: true }) });
+      await card.scrollIntoViewIfNeeded();
+      const images = card.locator('app-catalog-media-preview img');
+      await expect(images.first()).toBeAttached();
+      for (const image of await images.all()) {
+        await expect(image).toHaveCSS('border-top-left-radius', '20px');
+        await expect(image).toHaveCSS('border-bottom-right-radius', '20px');
+      }
+      await page
+        .locator('html')
+        .evaluate((element) => element.style.setProperty('--aeris-radius-surface', '12px'));
+      await expect(images.first()).toHaveCSS('border-top-left-radius', '12px');
+      await page
+        .locator('html')
+        .evaluate((element) => element.style.removeProperty('--aeris-radius-surface'));
+      await expect(images.first()).toHaveCSS('border-top-left-radius', '20px');
+    }
+  });
+}
+
 test('catalog controls and inert preview scenes have accessible navigation', async ({
   page,
   browserName,
@@ -47,6 +86,7 @@ for (const width of [390, 768, 1280, 1920]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/components');
     await page.getByRole('button', { name: 'Button', exact: true }).click();
+    await expect(page.locator('.catalog-preview-card')).toHaveCount(4);
     for (const card of await page.locator('.catalog-preview-card').all()) {
       await card.scrollIntoViewIfNeeded();
       await expect(card.locator('app-catalog-preview')).toHaveCount(1);

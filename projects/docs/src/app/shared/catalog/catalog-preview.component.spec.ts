@@ -19,13 +19,23 @@ describe('CatalogPreviewComponent', () => {
 
   const families: readonly { kind: string; category: ComponentCategory; selector: string }[] = [
     { kind: 'select', category: 'Form', selector: 'aeris-select' },
+    { kind: 'date-picker', category: 'Form', selector: 'aeris-date-picker' },
+    { kind: 'color-picker', category: 'Form', selector: 'aeris-color-picker' },
+    { kind: 'listbox', category: 'Form', selector: 'aeris-listbox' },
+    { kind: 'command-palette', category: 'Overlay', selector: 'aeris-command-palette' },
     { kind: 'split-button', category: 'Button', selector: 'aeris-split-button' },
+    { kind: 'button-group', category: 'Button', selector: 'aeris-button-group' },
     { kind: 'table', category: 'Data', selector: 'aeris-table' },
+    { kind: 'tree-table', category: 'Data', selector: 'aeris-tree-table' },
     { kind: 'tabs', category: 'Panel', selector: 'aeris-tabs' },
     { kind: 'menu', category: 'Menu', selector: 'aeris-menu' },
+    { kind: 'sidebar', category: 'Menu', selector: 'aeris-sidebar' },
+    { kind: 'navbar', category: 'Menu', selector: 'aeris-navbar' },
     { kind: 'carousel', category: 'Media', selector: 'aeris-carousel' },
     { kind: 'avatar', category: 'Misc', selector: 'aeris-avatar' },
+    { kind: 'chip', category: 'Misc', selector: 'aeris-chip' },
     { kind: 'glass', category: 'Utilities', selector: 'aeris-card[aerisGlass]' },
+    { kind: 'kbd', category: 'Utilities', selector: 'kbd.aeris-kbd' },
     { kind: 'dialog', category: 'Overlay', selector: 'aeris-dialog' },
     { kind: 'message', category: 'Messages', selector: 'aeris-message' },
     { kind: 'editor', category: 'Form', selector: 'aeris-editor' },
@@ -55,6 +65,61 @@ describe('CatalogPreviewComponent', () => {
     expect(buttons).toHaveLength(2);
     expect(buttons[1]?.nativeElement.classList.contains('aeris-button--outline')).toBe(true);
     expect(buttons.every((button) => button.nativeElement.tabIndex === -1)).toBe(true);
+  });
+  it('expands the real Navbar preview only during playback', async () => {
+    const fixture = TestBed.createComponent(CatalogPreviewComponent);
+    fixture.componentRef.setInput('kind', 'navbar');
+    fixture.componentRef.setInput('category', 'Menu');
+    fixture.detectChanges();
+    await (await fixture.getDeferBlocks())[0].render(DeferBlockState.Complete);
+    fixture.detectChanges();
+    const navbar = (fixture.nativeElement as HTMLElement).querySelector('aeris-navbar');
+    expect(navbar?.querySelector('nav')?.hidden).toBe(true);
+    fixture.componentRef.setInput('active', true);
+    fixture.detectChanges();
+    expect(navbar?.querySelector('nav')?.hidden).toBe(false);
+    fixture.componentRef.setInput('active', false);
+    fixture.detectChanges();
+    expect(navbar?.querySelector('nav')?.hidden).toBe(true);
+  });
+  it('shows a real icon-only Sidebar and expands the same navigation when activated', async () => {
+    const fixture = TestBed.createComponent(CatalogPreviewComponent);
+    fixture.componentRef.setInput('kind', 'sidebar');
+    fixture.componentRef.setInput('category', 'Menu');
+    fixture.detectChanges();
+    await (await fixture.getDeferBlocks())[0].render(DeferBlockState.Complete);
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    const sidebar = element.querySelector('aeris-sidebar');
+    expect(sidebar?.hasAttribute('data-icon-only')).toBe(true);
+    expect(sidebar?.querySelector('.aeris-sidebar__collapse')?.getAttribute('aria-label')).toBe(
+      'Expand navigation',
+    );
+    expect(sidebar?.querySelectorAll('svg[aerisSidebarIcon]')).toHaveLength(4);
+    fixture.componentRef.setInput('active', true);
+    fixture.detectChanges();
+    expect(sidebar?.hasAttribute('data-icon-only')).toBe(false);
+    expect(sidebar?.querySelector('.aeris-sidebar__collapse')?.getAttribute('aria-label')).toBe(
+      'Collapse navigation',
+    );
+    expect(sidebar?.textContent).toContain('Workspace');
+    fixture.componentRef.setInput('active', false);
+    fixture.detectChanges();
+    expect(sidebar?.hasAttribute('data-icon-only')).toBe(true);
+  });
+
+  it('uses ButtonGroup selection semantics instead of manually coloring the active preview button', async () => {
+    const fixture = TestBed.createComponent(CatalogPreviewComponent);
+    fixture.componentRef.setInput('kind', 'button-group');
+    fixture.componentRef.setInput('category', 'Button');
+    fixture.detectChanges();
+    await (await fixture.getDeferBlocks())[0].render(DeferBlockState.Complete);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const element = fixture.nativeElement as HTMLElement;
+    expect(element.querySelector('[role="radiogroup"]')?.getAttribute('aria-label')).toBe('Period');
+    expect(element.querySelectorAll('[role="radio"]')).toHaveLength(3);
+    expect(element.querySelector('[aria-checked="true"]')?.textContent?.trim()).toBe('Week');
   });
 
   const hoverScenes: readonly { kind: string; category: ComponentCategory; selector: string }[] = [
@@ -171,7 +236,11 @@ describe('CatalogPreviewComponent', () => {
 
     fixture.componentRef.setInput('active', false);
     fixture.detectChanges();
-    expect(element.querySelector('[role="region"]')).toBeNull();
+    const bodies = Array.from(element.querySelectorAll('.aeris-accordion__body'));
+    expect(bodies.length).toBeGreaterThan(0);
+    expect(bodies.every((body) => body.hasAttribute('inert'))).toBe(true);
+    expect(bodies.every((body) => body.getAttribute('aria-hidden') === 'true')).toBe(true);
+    expect(element.querySelector('[aria-expanded="true"]')).toBeNull();
   });
 
   it('replays editor text formatting with the real toolbar state without taking focus', async () => {

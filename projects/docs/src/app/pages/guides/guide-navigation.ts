@@ -3,6 +3,7 @@ export type GuideId =
   | 'configuration'
   | 'forms'
   | 'theming'
+  | 'theme-reference'
   | 'design-system'
   | 'icons'
   | 'rtl'
@@ -80,8 +81,15 @@ export const GUIDE_SUMMARIES: readonly GuideSummary[] = [
     path: '/guides/theming',
     group: 'Design foundations',
     title: 'Theming',
+    description: 'Choose a theme, apply your brand color, and adjust the appearance.',
+  },
+  {
+    id: 'theme-reference',
+    path: '/guides/theme-reference',
+    group: 'Design foundations',
+    title: 'Theme reference',
     description:
-      'Build a cohesive light and dark theme with semantic tokens, density, and corner scales.',
+      'Look up inheritance, exact colors, tokens, custom scales, and build-time generation.',
   },
   {
     id: 'design-system',
@@ -189,7 +197,7 @@ export const GUIDE_GROUPS: readonly GuideGroup[] = [
   {
     title: 'Design foundations',
     description: 'Shape the visual system, icon strategy, and reading direction.',
-    guideIds: ['theming', 'design-system', 'icons', 'rtl'],
+    guideIds: ['theming', 'theme-reference', 'design-system', 'icons', 'rtl'],
   },
   {
     title: 'Integration and quality',

@@ -1,5 +1,25 @@
+@use '../src/styles/icon-artwork' as artwork;
 @use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
+
+// Selection is opt-in; ordinary action buttons do not receive these attributes.
+:host(.aeris-button[data-selected='true']),
+:host(
+  .aeris-button[data-selected='true']:is(:hover, :active):not(:disabled):not([aria-disabled='true'])
+) {
+  background: var(--aeris-button-selected-background, var(--_aeris-button-active-fill));
+  border-color: var(--aeris-button-selected-border, var(--_aeris-button-boundary));
+  color: var(--aeris-button-selected-color, var(--_aeris-button-on-active));
+}
+
+:host(.aeris-button[aria-invalid='true']) {
+  --_aeris-button-boundary: var(--aeris-control-invalid-border, var(--aeris-danger));
+  border-color: var(--_aeris-button-boundary);
+}
+
+:host(.aeris-button[aria-invalid='true']:focus-visible) {
+  outline-color: var(--aeris-control-invalid-focus-ring-color, var(--aeris-danger));
+}
 
 :host {
   --_height: var(--aeris-action-height, var(--aeris-control-height, 2.625rem));
@@ -72,43 +92,43 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  :host(:hover:not(:disabled)) {
+  :host(:hover:not(:disabled):not([aria-disabled='true'])) {
     transform: translateY(-1px);
   }
 
-  :host(.aeris-button--solid:hover:not(:disabled)) {
+  :host(.aeris-button--solid:hover:not(:disabled):not([aria-disabled='true'])) {
     background: var(--_aeris-button-hover-fill);
     color: var(--_aeris-button-on-hover);
   }
 
-  :host(.aeris-button--outline:hover:not(:disabled)) {
+  :host(.aeris-button--outline:hover:not(:disabled):not([aria-disabled='true'])) {
     border-color: var(--_aeris-button-boundary);
     background: var(--_aeris-button-hover-fill);
     color: var(--_aeris-button-on-hover);
   }
 
-  :host(.aeris-button--ghost:hover:not(:disabled)) {
+  :host(.aeris-button--ghost:hover:not(:disabled):not([aria-disabled='true'])) {
     background: var(--_aeris-button-soft);
     color: var(--_aeris-button-on-soft);
   }
 }
 
-:host(:active:not(:disabled)) {
+:host(:active:not(:disabled):not([aria-disabled='true'])) {
   transform: translateY(0);
 }
 
-:host(.aeris-button--solid:active:not(:disabled)) {
+:host(.aeris-button--solid:active:not(:disabled):not([aria-disabled='true'])) {
   background: var(--_aeris-button-active-fill);
   color: var(--_aeris-button-on-active);
 }
 
-:host(.aeris-button--outline:active:not(:disabled)) {
+:host(.aeris-button--outline:active:not(:disabled):not([aria-disabled='true'])) {
   border-color: var(--_aeris-button-boundary);
   background: var(--_aeris-button-active-fill);
   color: var(--_aeris-button-on-active);
 }
 
-:host(.aeris-button--ghost:active:not(:disabled)) {
+:host(.aeris-button--ghost:active:not(:disabled):not([aria-disabled='true'])) {
   background: color-mix(in srgb, var(--_aeris-button-fill) 22%, var(--aeris-surface, #fff));
   color: var(--_aeris-button-on-soft);
 }
@@ -298,10 +318,11 @@
 .aeris-button__spinner {
   width: 0.875rem;
   height: 0.875rem;
-  border: 2px solid color-mix(in srgb, currentColor 28%, transparent);
-  border-top-color: currentColor;
-  border-radius: 50%;
   animation: aeris-button-spin 700ms linear infinite;
+
+  background: currentColor;
+  -webkit-mask: var(--aeris-icon-loader, #{artwork.$loader}) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-loader, #{artwork.$loader}) center / 100% 100% no-repeat;
 }
 
 @keyframes aeris-button-spin {
@@ -313,6 +334,11 @@
 @media (prefers-reduced-motion: reduce) {
   :host {
     transition-duration: 0.01ms;
+  }
+
+  :host(:hover:not(:disabled):not([aria-disabled='true'])),
+  :host(:active:not(:disabled):not([aria-disabled='true'])) {
+    transform: none;
   }
 
   .aeris-button__spinner {

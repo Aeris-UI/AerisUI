@@ -92,20 +92,19 @@
     &lt;/button&gt;
     &#64;if (formVisible()) &#123;
       &lt;form class="conditional-form" (submit)="$event.preventDefault()"&gt;
-        &lt;label for="auto-focus-email"
-          &gt;Email address&lt;input
+        &lt;label for="auto-focus-email"&gt;
+          Email address
+          &lt;input
             id="auto-focus-email"
             aerisInputText
             aerisAutoFocus
             type="email"
             autocomplete="email"
-        /&gt;&lt;/label&gt;
-        &lt;label for="auto-focus-note"
-          &gt;Account note&lt;textarea
-            id="auto-focus-note"
-            aerisTextarea
-            rows="3"
-          &gt;&lt;/textarea&gt;
+          /&gt;
+        &lt;/label&gt;
+        &lt;label for="auto-focus-note"&gt;
+          Account note
+          &lt;textarea id="auto-focus-note" aerisTextarea rows="3"&gt;&lt;/textarea&gt;
         &lt;/label&gt;
         &lt;button aerisButton type="submit"&gt;Continue&lt;/button&gt;
       &lt;/form&gt;
@@ -159,13 +158,15 @@
         Disable automatic focus
       &lt;/button&gt;
     &lt;/div&gt;
-    &lt;label class="auto-focus-field" for="controlled-search"
-      &gt;Search documentation&lt;input
+    &lt;label class="auto-focus-field" for="controlled-search"&gt;
+      Search documentation
+      &lt;input
         id="controlled-search"
         aerisInputText
         [aerisAutoFocus]="controlledFocus()"
         (focus)="recordControlledFocus()"
-    /&gt;&lt;/label&gt;
+      /&gt;
+    &lt;/label&gt;
     &lt;p class="auto-focus-status" aria-live="polite"&gt;&#123;&#123; controlledStatus() &#125;&#125;&lt;/p&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>

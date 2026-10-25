@@ -15,6 +15,11 @@
     </div>
     <div class="code-example">
       <app-code-block code="npm install shiki" language="Shell" />
+      <p>
+        Shiki must be installed when importing CodeBlock, even with
+        <code>[highlight]="false"</code>. Disabling highlighting avoids loading it at runtime;
+        bundlers still resolve its lazy imports.
+      </p>
       <app-code-block [code]="importCode" language="TypeScript" />
     </div>
   </section>

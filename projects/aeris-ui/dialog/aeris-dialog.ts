@@ -17,6 +17,7 @@ import {
   viewChild,
 } from '@angular/core';
 import {
+  ɵAerisIcon,
   ɵAerisAppendTo,
   aerisInternalFocusInitialElement,
   aerisInternalTrapTabFocus,
@@ -83,7 +84,7 @@ const DIALOG_FOCUS_OPTIONS = {
 
 @Component({
   selector: 'aeris-dialog',
-  imports: [NgTemplateOutlet, ɵAerisAppendTo],
+  imports: [ɵAerisIcon, NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     @if (visible()) {
       <div
@@ -154,11 +155,23 @@ const DIALOG_FOCUS_OPTIONS = {
                         [attr.aria-pressed]="maximized()"
                         (click)="toggleMaximized()"
                       >
-                        <span
-                          class="aeris-dialog__maximize-icon"
-                          [attr.data-maximized]="maximized() || null"
-                          aria-hidden="true"
-                        ></span>
+                        @if (maximizeIconTemplate(); as customIcon) {
+                          <span
+                            class="aeris-dialog__maximize-icon"
+                            [attr.data-maximized]="maximized() || null"
+                            aria-hidden="true"
+                            data-aeris-custom-icon
+                            ><ng-container
+                              [ngTemplateOutlet]="customIcon"
+                              [ngTemplateOutletContext]="templateContext()"
+                          /></span>
+                        } @else {
+                          <span
+                            class="aeris-dialog__maximize-icon"
+                            [attr.data-maximized]="maximized() || null"
+                            aria-hidden="true"
+                          ></span>
+                        }
                       </button>
                     }
 
@@ -169,13 +182,21 @@ const DIALOG_FOCUS_OPTIONS = {
                         [attr.aria-label]="closeAriaLabel()"
                         (click)="hide($event, 'close-button')"
                       >
-                        @if (closeIconTemplate(); as closeIconTemplateRef) {
-                          <ng-container
-                            [ngTemplateOutlet]="closeIconTemplateRef.template"
-                            [ngTemplateOutletContext]="templateContext()"
-                          />
+                        @if (resolvedCloseIconTemplate(); as closeIconTemplateRef) {
+                          <span
+                            class="aeris-dialog__close-icon"
+                            aria-hidden="true"
+                            data-aeris-custom-icon
+                            ><ng-container
+                              [ngTemplateOutlet]="closeIconTemplateRef"
+                              [ngTemplateOutletContext]="templateContext()"
+                          /></span>
                         } @else {
-                          <span class="aeris-dialog__close-icon" aria-hidden="true"></span>
+                          <span
+                            aerisInternalIcon="close"
+                            class="aeris-dialog__close-icon"
+                            aria-hidden="true"
+                          ></span>
                         }
                       </button>
                     }
@@ -209,6 +230,12 @@ const DIALOG_FOCUS_OPTIONS = {
   },
 })
 export class AerisDialog {
+  readonly closeIconTemplate = input<TemplateRef<AerisDialogTemplateContext>>();
+  protected readonly resolvedCloseIconTemplate = computed(
+    () => this.closeIconTemplate() ?? this.projectedCloseIconTemplate()?.template,
+  );
+  readonly maximizeIconTemplate = input<TemplateRef<AerisDialogTemplateContext>>();
+
   private readonly document = inject(DOCUMENT);
   private readonly destroyRef = inject(DestroyRef);
   private readonly overlayToken = {};
@@ -228,7 +255,7 @@ export class AerisDialog {
   private readonly overlayPortal = viewChild(ɵAerisAppendTo);
   protected readonly headerTemplate = contentChild(AerisDialogHeaderTemplate);
   protected readonly footerTemplate = contentChild(AerisDialogFooterTemplate);
-  protected readonly closeIconTemplate = contentChild(AerisDialogCloseIconTemplate);
+  private readonly projectedCloseIconTemplate = contentChild(AerisDialogCloseIconTemplate);
   protected readonly headlessTemplate = contentChild(AerisDialogHeadlessTemplate);
   protected readonly dragOffset = signal({ x: 0, y: 0 });
   protected readonly templateContext = computed<AerisDialogTemplateContext>(() => ({

@@ -243,6 +243,13 @@ interface AerisMegaMenuItemEvent<T = unknown> {
 
   protected readonly inputs: readonly ApiRow[] = [
     {
+      name: 'submenuIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
       name: 'id',
       type: 'string',
       defaultValue: 'generated id',

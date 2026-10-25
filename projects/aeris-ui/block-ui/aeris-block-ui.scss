@@ -13,6 +13,7 @@
 }
 
 :host(.aeris-block-ui) {
+  border-radius: var(--aeris-block-ui-radius, 0);
   position: relative;
   min-inline-size: 0;
   display: block;

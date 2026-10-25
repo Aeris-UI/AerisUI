@@ -107,18 +107,14 @@
                 <fieldset class="checkbox-group">
                   <legend>Topics of interest</legend>
                   @for (interest of interests; track interest.value) {
-                    <div class="checkbox-option">
-                      <aeris-checkbox
-                        [value]="interest.value"
-                        [checked]="isInterestSelected(interest.value)"
-                        (checkedChange)="setInterest(interest.value, $event)"
-                      >
-                        <span class="checkbox-option__content">
-                          <strong>{{ interest.label }}</strong>
-                          <small>{{ interest.description }}</small>
-                        </span>
-                      </aeris-checkbox>
-                    </div>
+                    <aeris-checkbox
+                      appearance="card"
+                      [label]="interest.label"
+                      [description]="interest.description"
+                      [value]="interest.value"
+                      [checked]="isInterestSelected(interest.value)"
+                      (checkedChange)="setInterest(interest.value, $event)"
+                    />
                   }
                 </fieldset>
               </div>
@@ -126,20 +122,136 @@
   &lt;fieldset class="checkbox-group"&gt;
     &lt;legend&gt;Topics of interest&lt;/legend&gt;
     &#64;for (interest of interests; track interest.value) &#123;
-      &lt;div class="checkbox-option"&gt;
-        &lt;aeris-checkbox
-          [value]="interest.value"
-          [checked]="isInterestSelected(interest.value)"
-          (checkedChange)="setInterest(interest.value, $event)"
-        &gt;
-          &lt;span class="checkbox-option__content"&gt;
-            &lt;strong&gt;&#123;&#123; interest.label &#125;&#125;&lt;/strong&gt;
-            &lt;small&gt;&#123;&#123; interest.description &#125;&#125;&lt;/small&gt;
-          &lt;/span&gt;
-        &lt;/aeris-checkbox&gt;
-      &lt;/div&gt;
+      &lt;aeris-checkbox
+        appearance="card"
+        [label]="interest.label"
+        [description]="interest.description"
+        [value]="interest.value"
+        [checked]="isInterestSelected(interest.value)"
+        (checkedChange)="setInterest(interest.value, $event)"
+      /&gt;
     &#125;
   &lt;/fieldset&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="checkbox-cards"
+              title="Selectable cards"
+              description="The whole card activates the native checkbox. Use labelPosition to place the indicator at the trailing edge."
+            >
+              <div preview class="checkbox-stack">
+                <ng-template #updatesIcon><svg [lucideIcon]="bellIcon"></svg></ng-template>
+                <fieldset class="checkbox-group">
+                  <legend>Notification preferences</legend>
+                  <aeris-checkbox
+                    appearance="card"
+                    label="Product updates"
+                    description="Release notes and important changes to the tools your team uses."
+                    [iconTemplate]="updatesIcon"
+                    [(checked)]="cardUpdates"
+                    labelPosition="start"
+                  />
+                  <aeris-checkbox
+                    appearance="card"
+                    label="Weekly report"
+                    description="A summary of workspace activity, completed work, and upcoming deadlines."
+                    [(checked)]="cardReports"
+                    [invalid]="!cardReports()"
+                    [touched]="cardsSubmitted()"
+                    ariaDescribedBy="card-report-help"
+                  />
+                  <aeris-checkbox
+                    appearance="card"
+                    label="Managed alerts"
+                    description="Your workspace administrator manages this preference."
+                    disabled
+                    [checked]="true"
+                  />
+                </fieldset>
+                <small
+                  id="card-report-help"
+                  aria-live="polite"
+                  [class.error]="cardsSubmitted() && !cardReports()"
+                  >{{
+                    cardsSubmitted() && !cardReports()
+                      ? 'Select Weekly report to continue.'
+                      : cardsSubmitted()
+                        ? 'Selection is valid.'
+                        : 'Weekly report is required for this demonstration.'
+                  }}</small
+                >
+                <div class="field-row">
+                  <button aerisButton type="button" (click)="cardsSubmitted.set(true)">
+                    Validate selection
+                  </button>
+                  <button
+                    aerisButton
+                    variant="ghost"
+                    type="button"
+                    (click)="
+                      cardUpdates.set(true); cardReports.set(false); cardsSubmitted.set(false)
+                    "
+                  >
+                    Reset
+                  </button>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="checkbox-stack"&gt;
+  &lt;ng-template #updatesIcon&gt;&lt;svg [lucideIcon]="bellIcon"&gt;&lt;/svg&gt;&lt;/ng-template&gt;
+  &lt;fieldset class="checkbox-group"&gt;
+    &lt;legend&gt;Notification preferences&lt;/legend&gt;
+    &lt;aeris-checkbox
+      appearance="card"
+      label="Product updates"
+      description="Release notes and important changes to the tools your team uses."
+      [iconTemplate]="updatesIcon"
+      [(checked)]="cardUpdates"
+      labelPosition="start"
+    /&gt;
+    &lt;aeris-checkbox
+      appearance="card"
+      label="Weekly report"
+      description="A summary of workspace activity, completed work, and upcoming deadlines."
+      [(checked)]="cardReports"
+      [invalid]="!cardReports()"
+      [touched]="cardsSubmitted()"
+      ariaDescribedBy="card-report-help"
+    /&gt;
+    &lt;aeris-checkbox
+      appearance="card"
+      label="Managed alerts"
+      description="Your workspace administrator manages this preference."
+      disabled
+      [checked]="true"
+    /&gt;
+  &lt;/fieldset&gt;
+  &lt;small
+    id="card-report-help"
+    aria-live="polite"
+    [class.error]="cardsSubmitted() &amp;&amp; !cardReports()"
+  &gt;
+    &#123;&#123;
+      cardsSubmitted() &amp;&amp; !cardReports()
+        ? 'Select Weekly report to continue.'
+        : cardsSubmitted()
+          ? 'Selection is valid.'
+          : 'Weekly report is required for this demonstration.'
+    &#125;&#125;
+  &lt;/small&gt;
+  &lt;div class="field-row"&gt;
+    &lt;button aerisButton type="button" (click)="cardsSubmitted.set(true)"&gt;
+      Validate selection
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      variant="ghost"
+      type="button"
+      (click)="cardUpdates.set(true); cardReports.set(false); cardsSubmitted.set(false)"
+    &gt;
+      Reset
+    &lt;/button&gt;
+  &lt;/div&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -175,8 +287,7 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="field-row checkbox-label-position"&gt;
   &lt;aeris-checkbox [checked]="true"&gt;Label at end&lt;/aeris-checkbox&gt;
-  &lt;aeris-checkbox [checked]="true" labelPosition="start"
-    &gt;Label at start&lt;/aeris-checkbox&gt;
+  &lt;aeris-checkbox [checked]="true" labelPosition="start"&gt;Label at start&lt;/aeris-checkbox&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -232,8 +343,9 @@
   &gt;
     Accept terms
   &lt;/aeris-checkbox&gt;
-  &lt;small id="required-terms-error" class="error"
-    &gt;You must accept the terms to continue.&lt;/small&gt;
+  &lt;small id="required-terms-error" class="error"&gt;
+    You must accept the terms to continue.
+  &lt;/small&gt;
   &lt;aeris-checkbox disabled&gt;Unavailable option&lt;/aeris-checkbox&gt;
   &lt;aeris-checkbox [checked]="true" disabled&gt;Selected and unavailable&lt;/aeris-checkbox&gt;
 &lt;/div&gt;</code></pre>
@@ -254,7 +366,7 @@
   &lt;aeris-checkbox name="permissions" value="reports" [checked]="true"&gt;
     View reports
   &lt;/aeris-checkbox&gt;
-  &lt;aeris-checkbox name="permissions" value="exports"&gt; Export data &lt;/aeris-checkbox&gt;
+  &lt;aeris-checkbox name="permissions" value="exports"&gt;Export data&lt;/aeris-checkbox&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -400,6 +512,51 @@
     <aeris-tab-panel value="tokens" label="Tokens">
       <section class="doc-section">
         <h2>Design tokens</h2>
+        <p>Card appearance shares the following tokens across Checkbox and Radio Button.</p>
+        <div
+          class="api-table compact"
+          role="table"
+          aria-label="Selectable card tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-choice-card-padding</code
+            ><span role="cell">Card padding.</span><code role="cell">--aeris-surface-padding</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-choice-card-gap</code
+            ><span role="cell">Space between control, icon and content.</span
+            ><code role="cell">--aeris-content-gap</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-choice-card-radius</code
+            ><span role="cell">Card corner radius.</span
+            ><code role="cell">--aeris-radius-surface</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-choice-card-border</code
+            ><span role="cell">Unselected border color.</span
+            ><code role="cell">--aeris-border</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-choice-card-background</code
+            ><span role="cell">Unselected background.</span><code role="cell">--aeris-surface</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-choice-card-selected-border</code
+            ><span role="cell">Selected and hover border color.</span
+            ><code role="cell">--aeris-primary</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-choice-card-selected-background</code
+            ><span role="cell">Selected background.</span
+            ><code role="cell">--aeris-primary-soft</code>
+          </div>
+        </div>
         <div
           class="api-table compact"
           role="table"
@@ -447,6 +604,29 @@
     <aeris-tab-panel value="accessibility" label="Accessibility">
       <section class="doc-section">
         <h2>Accessibility</h2>
+        <p>
+          Group related checkboxes with a native <code>fieldset</code> and visible
+          <code>legend</code>. A disabled fieldset blocks its descendant controls; controls in its
+          first legend remain enabled according to native HTML rules. Individually disabled options
+          stay disabled when the fieldset is enabled again. No Aeris group wrapper is needed.
+        </p>
+        <p>
+          <code>required</code> means this specific checkbox must be checked. For “choose at least
+          one” or a minimum count, validate the collection in your form model and associate shared
+          help/error text using <code>ariaDescribedBy</code>. Signal Forms binds each checkbox to
+          its own boolean field with <code>[formField]</code>; do not also bind
+          <code>checked</code> or register the same state with another form control. A disabled
+          fieldset controls browser interaction, not programmatic model writes or the form model's
+          validation/disabled state.
+        </p>
+        <p>
+          Card appearance keeps one native input and one focus stop per option. Its entire label is
+          clickable. Keep projected content and icon templates decorative and non-interactive; place
+          links and extra actions outside the control. The description input is automatically
+          associated with the native input, alongside any ariaDescribedBy help or error IDs. Use a
+          layout grid or stack around the controls to arrange cards; no application layout is
+          imposed.
+        </p>
         <ul>
           <li>
             Checkbox uses a real native <code>input type="checkbox"</code>, preserving browser,

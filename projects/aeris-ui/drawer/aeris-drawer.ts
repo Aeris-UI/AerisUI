@@ -6,6 +6,7 @@ import {
   ElementRef,
   TemplateRef,
   booleanAttribute,
+  afterRenderEffect,
   computed,
   contentChild,
   effect,
@@ -14,12 +15,16 @@ import {
   model,
   output,
   signal,
+  untracked,
   viewChild,
 } from '@angular/core';
 import {
+  ɵAerisIcon,
   ɵAerisAppendTo,
   aerisInternalFocusInitialElement,
   aerisInternalTrapTabFocus,
+  aerisInternalCreateFrameScheduler,
+  aerisInternalViewportBounds,
   ɵisTopmostAerisOverlay,
   ɵlockAerisDocumentScroll,
   ɵregisterAerisOverlay,
@@ -27,8 +32,16 @@ import {
   ɵunlockAerisDocumentScroll,
   type AerisAppendTo,
 } from '@aeris-ui/core';
+import { AerisDrawerSwipe } from './aeris-drawer-swipe';
+import {
+  drawerSnapIndex,
+  normalizeDrawerSnapPoints,
+  type AerisDrawerSnapPoint,
+} from './aeris-drawer-snap';
 
-export type AerisDrawerCloseReason = 'api' | 'close-button' | 'escape' | 'mask';
+export type { AerisDrawerSnapPoint } from './aeris-drawer-snap';
+
+export type AerisDrawerCloseReason = 'api' | 'close-button' | 'escape' | 'mask' | 'swipe';
 export type AerisDrawerPosition = 'left' | 'right' | 'top' | 'bottom';
 export type AerisDrawerSize = 'sm' | 'md' | 'lg' | 'full';
 export type AerisDrawerFooterLayout = 'responsive' | 'wrap' | 'stack' | 'inline';
@@ -75,7 +88,7 @@ const DRAWER_FOCUS_OPTIONS = {
 
 @Component({
   selector: 'aeris-drawer',
-  imports: [NgTemplateOutlet, ɵAerisAppendTo],
+  imports: [ɵAerisIcon, NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     @if (rendered()) {
       <div
@@ -89,11 +102,14 @@ const DRAWER_FOCUS_OPTIONS = {
         [attr.data-position]="position()"
         [attr.data-maximized]="maximized() || null"
         [attr.data-state]="animationState()"
+        [attr.data-swipe-enabled]="(swipeToClose() && !maximized()) || null"
+        [attr.data-swiping]="swiping() || null"
+        [style.--_aeris-drawer-swipe-progress]="swipeProgress()"
         [attr.aria-hidden]="visible() ? null : 'true'"
         [attr.inert]="visible() ? null : ''"
         (click)="handleOverlayClick($event)"
       >
-        <aside
+        <section
           #drawerPanel
           class="aeris-drawer__panel"
           role="dialog"
@@ -108,14 +124,53 @@ const DRAWER_FOCUS_OPTIONS = {
           [attr.data-headless]="headlessTemplate() ? true : null"
           [attr.data-mobile-fullscreen]="mobileFullScreen() || null"
           [attr.data-maximized]="maximized() || null"
+          [attr.data-swipe-enabled]="((swipeToClose() || snapEnabled()) && !maximized()) || null"
+          [attr.data-swipe-handle]="
+            ((swipeToClose() || snapEnabled()) && swipeHandle() && !maximized()) || null
+          "
+          [attr.data-snap-points]="snapEnabled() || null"
+          [attr.data-swiping]="swiping() || null"
+          [style.transform]="swipeTransform()"
           [style.--aeris-drawer-width]="width() || null"
           [style.--aeris-drawer-height]="height() || null"
           [style.--aeris-drawer-max-width]="maxWidth() || null"
           [style.--aeris-drawer-max-height]="maxHeight() || null"
           [style.--aeris-drawer-mobile-width]="mobileWidth() || null"
           [style.--aeris-drawer-mobile-height]="mobileHeight() || null"
+          [style.height.px]="snapEnabled() ? (snapDragHeight() ?? currentSnapHeight()) : null"
+          [style.max-height.px]="snapEnabled() ? availableSnapHeight() : null"
           (keydown)="handlePanelKeydown($event)"
+          (pointerdown)="startSwipe($event)"
+          (pointermove)="swipe.move($event)"
+          (pointerup)="swipe.end($event, swipeThreshold())"
+          (pointercancel)="swipe.end($event, swipeThreshold())"
+          (lostpointercapture)="swipe.end($event, swipeThreshold())"
         >
+          @if (snapEnabled() && swipeHandle()) {
+            <div
+              class="aeris-drawer__swipe-handle"
+              role="slider"
+              tabindex="0"
+              aria-orientation="vertical"
+              [attr.aria-label]="snapAriaLabel()"
+              [attr.aria-valuemin]="minimumSnapHeight()"
+              [attr.aria-valuemax]="maximumSnapHeight()"
+              [attr.aria-valuenow]="currentSnapHeight()"
+              [attr.aria-valuetext]="snapValueText()"
+              (keydown)="handleSnapKeydown($event)"
+            >
+              <span aria-hidden="true"></span>
+            </div>
+          } @else if (swipeToClose() && swipeHandle() && !maximized()) {
+            <button
+              type="button"
+              class="aeris-drawer__swipe-handle"
+              [attr.aria-label]="closeAriaLabel()"
+              (click)="hide($event, 'close-button')"
+            >
+              <span aria-hidden="true"></span>
+            </button>
+          }
           @if (headlessTemplate(); as headlessTemplateRef) {
             <ng-container
               [ngTemplateOutlet]="headlessTemplateRef.template"
@@ -145,11 +200,23 @@ const DRAWER_FOCUS_OPTIONS = {
                         [attr.aria-pressed]="maximized()"
                         (click)="toggleMaximized()"
                       >
-                        <span
-                          class="aeris-drawer__maximize-icon"
-                          [attr.data-maximized]="maximized() || null"
-                          aria-hidden="true"
-                        ></span>
+                        @if (maximizeIconTemplate(); as customIcon) {
+                          <span
+                            class="aeris-drawer__maximize-icon"
+                            [attr.data-maximized]="maximized() || null"
+                            aria-hidden="true"
+                            data-aeris-custom-icon
+                            ><ng-container
+                              [ngTemplateOutlet]="customIcon"
+                              [ngTemplateOutletContext]="templateContext()"
+                          /></span>
+                        } @else {
+                          <span
+                            class="aeris-drawer__maximize-icon"
+                            [attr.data-maximized]="maximized() || null"
+                            aria-hidden="true"
+                          ></span>
+                        }
                       </button>
                     }
 
@@ -160,13 +227,21 @@ const DRAWER_FOCUS_OPTIONS = {
                         [attr.aria-label]="closeAriaLabel()"
                         (click)="hide($event, 'close-button')"
                       >
-                        @if (closeIconTemplate(); as closeIconTemplateRef) {
-                          <ng-container
-                            [ngTemplateOutlet]="closeIconTemplateRef.template"
-                            [ngTemplateOutletContext]="templateContext()"
-                          />
+                        @if (resolvedCloseIconTemplate(); as closeIconTemplateRef) {
+                          <span
+                            class="aeris-drawer__close-icon"
+                            aria-hidden="true"
+                            data-aeris-custom-icon
+                            ><ng-container
+                              [ngTemplateOutlet]="closeIconTemplateRef"
+                              [ngTemplateOutletContext]="templateContext()"
+                          /></span>
                         } @else {
-                          <span class="aeris-drawer__close-icon" aria-hidden="true"></span>
+                          <span
+                            aerisInternalIcon="close"
+                            class="aeris-drawer__close-icon"
+                            aria-hidden="true"
+                          ></span>
                         }
                       </button>
                     }
@@ -188,7 +263,7 @@ const DRAWER_FOCUS_OPTIONS = {
               </footer>
             }
           }
-        </aside>
+        </section>
       </div>
     }
   `,
@@ -200,6 +275,12 @@ const DRAWER_FOCUS_OPTIONS = {
   },
 })
 export class AerisDrawer {
+  readonly closeIconTemplate = input<TemplateRef<AerisDrawerTemplateContext>>();
+  protected readonly resolvedCloseIconTemplate = computed(
+    () => this.closeIconTemplate() ?? this.projectedCloseIconTemplate()?.template,
+  );
+  readonly maximizeIconTemplate = input<TemplateRef<AerisDrawerTemplateContext>>();
+
   private readonly document = inject(DOCUMENT);
   private readonly destroyRef = inject(DestroyRef);
   private readonly overlayToken = {};
@@ -209,6 +290,89 @@ export class AerisDrawer {
   private pendingOriginalEvent: Event | null = null;
   private pendingCloseReason: AerisDrawerCloseReason = 'api';
   private closeRenderTimer: ReturnType<typeof setTimeout> | undefined;
+  protected readonly availableSnapHeight = signal(0);
+  protected readonly snapDragHeight = signal<number | null>(null);
+  private snapStartHeight = 0;
+  private readonly normalizedSnapPoints = computed(() =>
+    normalizeDrawerSnapPoints(this.snapPoints(), this.availableSnapHeight()),
+  );
+  protected readonly snapEnabled = computed(
+    () =>
+      this.position() === 'bottom' &&
+      !this.maximized() &&
+      this.size() !== 'full' &&
+      !this.mobileFullScreen() &&
+      this.normalizedSnapPoints().length > 0,
+  );
+  private readonly snapIndex = computed(() =>
+    drawerSnapIndex(
+      this.normalizedSnapPoints(),
+      this.activeSnapPoint(),
+      this.availableSnapHeight(),
+    ),
+  );
+  protected readonly currentSnapHeight = computed(
+    () => this.normalizedSnapPoints()[this.snapIndex()]?.height ?? 0,
+  );
+  protected readonly minimumSnapHeight = computed(
+    () => this.normalizedSnapPoints()[0]?.height ?? 0,
+  );
+  protected readonly maximumSnapHeight = computed(
+    () => this.normalizedSnapPoints().at(-1)?.height ?? 0,
+  );
+  protected readonly snapValueText = computed(
+    () =>
+      `${Math.round((this.currentSnapHeight() / Math.max(1, this.availableSnapHeight())) * 100)}% of available height`,
+  );
+  protected readonly swiping = signal(false);
+  private readonly swipeOffset = signal(0);
+  protected readonly swipeProgress = signal(0);
+  protected readonly swipeTransform = computed(() => {
+    const offset = this.swipeOffset();
+    if (!this.visible() || !offset) return null;
+    return this.position() === 'left' || this.position() === 'right'
+      ? `translate3d(${offset}px, 0, 0)`
+      : `translate3d(0, ${offset}px, 0)`;
+  });
+  protected readonly swipe = new AerisDrawerSwipe(
+    this.document,
+    (offset, progress, dragging) => {
+      if (!dragging) this.snapDragHeight.set(null);
+      if (this.snapEnabled()) {
+        this.swipeOffset.set(0);
+        this.snapDragHeight.set(dragging ? Math.max(1, this.snapStartHeight - offset) : null);
+        this.swiping.set(dragging);
+        this.swipeProgress.set(
+          dragging && this.swipeToClose()
+            ? Math.max(
+                0,
+                (this.minimumSnapHeight() - (this.snapStartHeight - offset)) /
+                  Math.max(1, this.minimumSnapHeight()),
+              )
+            : 0,
+        );
+        return;
+      }
+      this.swipeOffset.set(offset);
+      this.swiping.set(dragging);
+      if (this.visible()) this.swipeProgress.set(progress);
+    },
+    (event) => this.hide(event, 'swipe'),
+    () => {
+      if (!this.snapEnabled()) return null;
+      this.snapStartHeight =
+        this.drawerPanel()?.nativeElement.getBoundingClientRect().height ||
+        this.currentSnapHeight();
+      return {
+        heights: this.normalizedSnapPoints().map((point) => point.height),
+        dismissible: this.swipeToClose(),
+        settled: (index: number) => {
+          const point = this.normalizedSnapPoints()[index];
+          if (point) this.activeSnapPoint.set(point.value);
+        },
+      };
+    },
+  );
 
   protected readonly drawerPanel = viewChild<ElementRef<HTMLElement>>('drawerPanel');
   private readonly overlayPortal = viewChild(ɵAerisAppendTo);
@@ -216,7 +380,7 @@ export class AerisDrawer {
   protected readonly animationState = computed(() => (this.visible() ? 'open' : 'closed'));
   protected readonly headerTemplate = contentChild(AerisDrawerHeaderTemplate);
   protected readonly footerTemplate = contentChild(AerisDrawerFooterTemplate);
-  protected readonly closeIconTemplate = contentChild(AerisDrawerCloseIconTemplate);
+  private readonly projectedCloseIconTemplate = contentChild(AerisDrawerCloseIconTemplate);
   protected readonly headlessTemplate = contentChild(AerisDrawerHeadlessTemplate);
   protected readonly templateContext = computed<AerisDrawerTemplateContext>(() => ({
     $implicit: this,
@@ -236,6 +400,9 @@ export class AerisDrawer {
 
   readonly visible = model(false);
   readonly maximized = model(false);
+  readonly activeSnapPoint = model<AerisDrawerSnapPoint | null>(null);
+  readonly snapPoints = input<readonly AerisDrawerSnapPoint[]>([]);
+  readonly snapAriaLabel = input('Resize drawer');
 
   readonly header = input('');
   readonly appendTo = input<AerisAppendTo>();
@@ -247,6 +414,9 @@ export class AerisDrawer {
   readonly backdropBlurAmount = input('');
   readonly closeOnBackdropClick = input(false, { transform: booleanAttribute });
   readonly closeOnEscape = input(true, { transform: booleanAttribute });
+  readonly swipeToClose = input(false, { transform: booleanAttribute });
+  readonly swipeHandle = input(false, { transform: booleanAttribute });
+  readonly swipeThreshold = input(0.35);
   readonly closable = input(true, { transform: booleanAttribute });
   readonly maximizable = input(false, { transform: booleanAttribute });
   readonly blockScroll = input(true, { transform: booleanAttribute });
@@ -274,7 +444,20 @@ export class AerisDrawer {
   readonly titleId = `${this.id}-title`;
 
   constructor() {
+    afterRenderEffect(() => {
+      if (!this.visible() || !this.snapEnabled() || this.swiping()) return;
+      this.availableSnapHeight();
+      this.currentSnapHeight();
+      const active = this.document.activeElement;
+      if (
+        active instanceof HTMLElement &&
+        this.drawerPanel()?.nativeElement.contains(active) &&
+        active.matches('input, textarea, select, [contenteditable="true"]')
+      )
+        active.scrollIntoView?.({ block: 'nearest', inline: 'nearest' });
+    });
     this.destroyRef.onDestroy(() => {
+      this.swipe.cancel();
       this.clearRenderTimer();
       ɵunregisterAerisOverlay(this.document, this.overlayToken);
       this.unlockScroll();
@@ -301,6 +484,96 @@ export class AerisDrawer {
       this.document.addEventListener('keydown', keydown);
       onCleanup(() => this.document.removeEventListener('keydown', keydown));
     });
+
+    effect((onCleanup) => {
+      if (!this.visible() || this.position() !== 'bottom' || !this.snapPoints().length) return;
+      const panel = this.drawerPanel()?.nativeElement;
+      const view = this.document.defaultView;
+      if (!panel || !view) return;
+      let previousWidth = 0;
+      const measure = () => {
+        const viewport = aerisInternalViewportBounds(view);
+        const container = panel.parentElement?.getBoundingClientRect();
+        const height = Math.min(viewport.height, container?.height || viewport.height);
+        const width = container?.width || viewport.width;
+        if (height !== untracked(this.availableSnapHeight) || width !== previousWidth) {
+          untracked(() => this.swipe.cancel());
+          this.availableSnapHeight.set(height);
+          previousWidth = width;
+        }
+      };
+      const frame = aerisInternalCreateFrameScheduler(measure);
+      measure();
+      const observer =
+        typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(frame.schedule);
+      if (panel.parentElement) observer?.observe(panel.parentElement);
+      view.addEventListener('resize', frame.schedule);
+      view.visualViewport?.addEventListener('resize', frame.schedule);
+      onCleanup(() => {
+        frame.cancel();
+        observer?.disconnect();
+        view.removeEventListener('resize', frame.schedule);
+        view.visualViewport?.removeEventListener('resize', frame.schedule);
+      });
+    });
+
+    effect((onCleanup) => {
+      const snapping = this.snapEnabled();
+      // Changes to controlled point/configuration cancel an in-flight gesture.
+      this.activeSnapPoint();
+      this.snapPoints();
+      const enabled = this.visible() && (this.swipeToClose() || snapping) && !this.maximized();
+      const position = this.position();
+      const panel = this.drawerPanel()?.nativeElement;
+      if (!enabled || !panel) return;
+      const view = this.document.defaultView;
+      const cancel = () => this.swipe.cancel();
+      const visibility = () => {
+        if (this.document.hidden) cancel();
+      };
+      const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(cancel);
+      const stopTouch = this.swipe.listenForTouch(
+        panel,
+        position,
+        () => this.swipeThreshold(),
+        () =>
+          this.visible() &&
+          (this.swipeToClose() || this.snapEnabled()) &&
+          !this.maximized() &&
+          ɵisTopmostAerisOverlay(this.document, this.overlayToken),
+      );
+      if (!snapping) observer?.observe(panel);
+      view?.addEventListener('resize', cancel);
+      view?.addEventListener('blur', cancel);
+      view?.visualViewport?.addEventListener('resize', cancel);
+      this.document.addEventListener('visibilitychange', visibility);
+      onCleanup(() => {
+        this.swipe.cancel();
+        stopTouch();
+        observer?.disconnect();
+        view?.removeEventListener('resize', cancel);
+        view?.removeEventListener('blur', cancel);
+        view?.visualViewport?.removeEventListener('resize', cancel);
+        this.document.removeEventListener('visibilitychange', visibility);
+      });
+    });
+  }
+
+  protected startSwipe(event: PointerEvent): void {
+    if (
+      !this.visible() ||
+      !(this.swipeToClose() || this.snapEnabled()) ||
+      this.maximized() ||
+      !ɵisTopmostAerisOverlay(this.document, this.overlayToken)
+    )
+      return;
+    const bounds = this.drawerPanel()?.nativeElement.getBoundingClientRect();
+    if (!bounds) return;
+    this.swipe.start(
+      event,
+      this.position(),
+      this.position() === 'left' || this.position() === 'right' ? bounds.width : bounds.height,
+    );
   }
 
   show(originalEvent: Event | null = null): void {
@@ -341,6 +614,47 @@ export class AerisDrawer {
     this.maximized.set(false);
   }
 
+  /** Select a configured point. Invalid or unavailable requests leave the current point unchanged. */
+  snapTo(point: AerisDrawerSnapPoint): void {
+    if (!this.snapEnabled()) return;
+    const requested = normalizeDrawerSnapPoints([point], this.availableSnapHeight())[0];
+    const match =
+      requested &&
+      this.normalizedSnapPoints().find(
+        (candidate) => Math.abs(candidate.height - requested.height) < 0.5,
+      );
+    if (!match) return;
+    this.swipe.cancel();
+    this.activeSnapPoint.set(match.value);
+  }
+
+  protected handleSnapKeydown(event: KeyboardEvent): void {
+    if (!this.snapEnabled() || !ɵisTopmostAerisOverlay(this.document, this.overlayToken)) return;
+    const points = this.normalizedSnapPoints();
+    let index = this.snapIndex();
+    switch (event.key) {
+      case 'ArrowUp':
+      case 'PageUp':
+        index++;
+        break;
+      case 'ArrowDown':
+      case 'PageDown':
+        index--;
+        break;
+      case 'Home':
+        index = 0;
+        break;
+      case 'End':
+        index = points.length - 1;
+        break;
+      default:
+        return;
+    }
+    event.preventDefault();
+    const point = points[Math.max(0, Math.min(points.length - 1, index))];
+    if (point) this.snapTo(point.value);
+  }
+
   protected handlePanelKeydown(event: KeyboardEvent): void {
     if (!this.visible()) return;
     if (event.key !== 'Tab' || !this.focusTrap()) return;
@@ -372,6 +686,7 @@ export class AerisDrawer {
     this.clearRenderTimer();
     this.closeRenderTimer = globalThis.setTimeout(() => {
       if (!this.visible()) {
+        this.swipeProgress.set(0);
         this.overlayPortal()?.restore();
         this.rendered.set(false);
       }
@@ -386,6 +701,7 @@ export class AerisDrawer {
   }
 
   private handleShown(): void {
+    this.swipe.cancel();
     this.previouslyFocused.set(this.activeHtmlElement());
     ɵregisterAerisOverlay(this.document, this.overlayToken, () => {
       if (!this.visible() || !this.closeOnEscape()) return false;
@@ -401,6 +717,7 @@ export class AerisDrawer {
   }
 
   private handleHidden(): void {
+    this.swipe.cancel();
     const restoreFocus = ɵisTopmostAerisOverlay(this.document, this.overlayToken);
     ɵunregisterAerisOverlay(this.document, this.overlayToken);
     this.unlockScroll();
@@ -409,7 +726,9 @@ export class AerisDrawer {
     this.pendingCloseReason = 'api';
     this.closed.emit(event);
     if (!this.restoreFocus() || !restoreFocus) return;
-    queueMicrotask(() => this.previouslyFocused()?.focus());
+    queueMicrotask(() => {
+      if (!this.visible()) this.previouslyFocused()?.focus();
+    });
   }
 
   private lockScroll(): void {
@@ -425,6 +744,7 @@ export class AerisDrawer {
   }
 
   private focusInitial(options?: FocusOptions): void {
+    if (!this.visible()) return;
     const panel = this.drawerPanel()?.nativeElement;
     if (!panel) return;
     aerisInternalFocusInitialElement(panel, this.initialFocus(), options, DRAWER_FOCUS_OPTIONS);

@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -6,13 +7,15 @@ import {
   computed,
   forwardRef,
   input,
+  inject,
   model,
   output,
   signal,
   viewChild,
+  TemplateRef,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
+import { COMPOSITION_BUFFER_MODE, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵAerisIcon, ɵaerisDisplayInvalid } from '@aeris-ui/core';
 
 export type AerisInputTextSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisInputTextAppearance = 'outline' | 'filled';
@@ -49,7 +52,7 @@ let inputTextId = 0;
 
 @Component({
   selector: 'aeris-input-text',
-  imports: [AerisInputTextDirective],
+  imports: [ɵAerisIcon, NgTemplateOutlet, AerisInputTextDirective],
   template: `
     <span class="aeris-input-text-component__field">
       <input
@@ -73,6 +76,8 @@ let inputTextId = 0;
         [attr.aria-labelledby]="ariaLabelledBy()"
         [attr.aria-describedby]="ariaDescribedBy()"
         (input)="handleInput($event)"
+        (compositionstart)="composing = true"
+        (compositionend)="handleCompositionEnd($event)"
         (focus)="focused.emit($event)"
         (blur)="handleBlur($event)"
       />
@@ -83,7 +88,20 @@ let inputTextId = 0;
           [attr.aria-label]="clearButtonAriaLabel()"
           (click)="clear()"
         >
-          <span class="aeris-input-text-component__clear-mark" aria-hidden="true"></span>
+          @if (clearIconTemplate(); as customIcon) {
+            <span
+              class="aeris-input-text-component__clear-mark"
+              aria-hidden="true"
+              data-aeris-custom-icon
+              ><ng-container [ngTemplateOutlet]="customIcon"
+            /></span>
+          } @else {
+            <span
+              aerisInternalIcon="close"
+              class="aeris-input-text-component__clear-mark"
+              aria-hidden="true"
+            ></span>
+          }
         </button>
       }
     </span>
@@ -101,6 +119,10 @@ let inputTextId = 0;
   },
 })
 export class AerisInputTextComponent implements ControlValueAccessor {
+  private readonly bufferComposition = inject(COMPOSITION_BUFFER_MODE, { optional: true }) ?? true;
+  protected composing = false;
+  readonly clearIconTemplate = input<TemplateRef<void>>();
+
   private readonly inputElement = viewChild<ElementRef<HTMLInputElement>>('textInput');
   private readonly generatedId = `aeris-input-text-${++inputTextId}`;
   private readonly formDisabled = signal(false);
@@ -169,7 +191,13 @@ export class AerisInputTextComponent implements ControlValueAccessor {
   }
 
   protected handleInput(event: Event): void {
+    if (this.bufferComposition && (this.composing || (event as InputEvent).isComposing)) return;
     this.setValue((event.target as HTMLInputElement).value);
+  }
+
+  protected handleCompositionEnd(event: CompositionEvent): void {
+    this.composing = false;
+    if (this.bufferComposition) this.handleInput(event);
   }
 
   protected handleBlur(event: FocusEvent): void {

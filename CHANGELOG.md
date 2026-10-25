@@ -7,6 +7,81 @@ release line.
 
 ## [Unreleased]
 
+## [22.0.0-alpha.11] - 2026-10-25
+
+### Added
+
+- Listbox with single and multiple selection, filtering, groups, and custom templates.
+- CommandPalette with searchable commands, keyboard navigation, and inline or dialog presentation.
+- Sidebar and Navbar with responsive navigation, nested groups, active states, and compact layouts.
+- Kbd with accessible key symbols and composed shortcut hints.
+- Application-wide and per-component default-icon customization, with icon-library-independent APIs.
+- Optional Button toggle and ButtonGroup selection, including Signal Forms integration through
+  `@aeris-ui/core/button/forms`.
+- Native Select styling through `@aeris-ui/core/select/native`.
+- Checkbox and RadioButton card appearances, Chip selection groups, and cancellable Chip removal.
+- DatePicker localized typed date, month, year, time, and date-time entry.
+- ColorPicker opacity, named presets, inline palettes, color areas, and channel sliders.
+- Drawer swipe dismissal and bottom-drawer snap points; Popover hover and focus triggering.
+- Chart presentation helpers, gradient area fills, shared multi-series tooltips, radial charts,
+  and gauges. Rendering resolution remains consumer-configurable.
+- Table row reordering, plus Table and TreeTable custom cell editors, editing permissions, and
+  consistent row and column pinning APIs.
+- Toolbar actions, selection groups, separators, vertical and attached layouts, overflow dragging,
+  automatic item reveal, and nonmodal floating action bars scoped to the viewport or a container.
+- Reviewed bundle baselines, isolated consumer measurements, and CI performance reports.
+
+### Changed
+
+- Simplify custom-theme setup and the Design Lab with starter controls, advanced scheme editing,
+  saved drafts, actionable contrast reports, and generated configuration.
+- Use CommandPalette for documentation search and Sidebar for documentation navigation.
+- Polish product showcases, component examples, copyable code, and quick-link navigation.
+- Update compatible Angular tooling and development dependencies, including security patches.
+- Make theme inheritance consistent: empty and geometry-only configurations retain Monochrome.
+  Presets retain their identity separately from explicit light/dark overrides. Seed and tone-base
+  changes regenerate inherited interaction colors without discarding explicit overrides.
+- Add `theme.preset`, `resolveAerisThemeScheme()`, and serializable `null` resets for whole semantic
+  tones or individual tone properties. Switching presets resets colors while retaining geometry.
+- **Breaking:** Advance the color derivation contract to v2 for the new custom-theme inheritance
+  behavior. Official preset colors are unchanged. Review custom themes before regenerating CSS
+  with `derivationVersion: 2`.
+- **Breaking:** `theme().light` and `theme().dark` now contain explicit overrides, not flattened
+  preset defaults. Use `resolveAerisThemeScheme()` for the effective scheme.
+
+### Removed
+
+- **Breaking:** Remove the legacy palette names `mist`, `sage`, `cloud`, `sand`, and `umber` and
+  their `--aeris-palette-*` aliases. Use `surface`, `primary`, `secondary`, `accent`, and `contrast`.
+
+### Fixed
+
+- Apply runtime theme attributes in Angular's server DOM without requiring the browser `dataset` API.
+- Keep mobile Navbar outside dismissal from moving another control before its click completes.
+- Remove unintended inherited-text transitions when reduced motion is enabled in the documentation.
+- Normalize default SVG icons, focus treatment, touch targets, corners, and disabled behavior.
+- Preserve unfinished IME text composition and improve native disabled-fieldset handling.
+- Animate Accordion content correctly and align Checkbox labels and Timeline markers.
+- Match BlockUI corners to the blocked element and stabilize ButtonGroup shared borders.
+- Keep chart area fills behind every series instead of covering other lines.
+- Improve mobile and RTL table containment, editable DatePicker sizing, and active navigation contrast.
+- Correct Toolbar wrapping geometry and overflow interactions, Sidebar pill spacing, catalog image
+  corners, and Editor formatting-action visibility.
+
+### Updating from alpha.10
+
+- Review custom-theme inheritance and the derivation-v2 changes above before regenerating theme CSS.
+- Replace removed palette aliases with semantic palette names.
+- **Breaking:** Splitter replaces `divider` with `showHandle`; its divider is always visible.
+  Compare also supports `showHandle`. Review custom divider/handle styling against the updated APIs.
+- **Breaking:** Toolbar has a redesigned action and grouping API. Review projected actions and
+  custom Toolbar styles against the current documentation.
+- Use `AerisChipModule` for Chip and ChipGroup together; review existing Chip imports.
+- Install Shiki when importing `@aeris-ui/core/code-block`, including when highlighting is disabled.
+  It remains optional for applications that do not import CodeBlock; highlighting loads lazily.
+
+Aeris remains alpha software and is not yet recommended for production.
+
 ## [22.0.0-alpha.10] - 2026-10-13
 
 This release adds CodeBlock, refreshes the visual foundation and documentation, and improves
@@ -63,7 +138,8 @@ motion, mobile interactions, and overlay behavior.
 
 - Remove any Galleria indicator bindings or token overrides. Use thumbnails or previous/next
   navigation instead.
-- Install Shiki if you use CodeBlock syntax highlighting; plain code rendering does not require it.
+- Install Shiki when importing CodeBlock, including for plain code rendering. Highlighting is loaded
+  lazily; unrelated Aeris components do not require Shiki.
 - Explicitly configure Earth, Coastal, or Orchid if you want to retain a colored preset rather than
   the new Monochrome default.
 - Review custom component styling against the updated geometry and visual tokens.

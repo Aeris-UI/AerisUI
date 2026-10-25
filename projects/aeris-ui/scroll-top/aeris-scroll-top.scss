@@ -1,3 +1,4 @@
+@use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
@@ -129,3 +130,5 @@
 }
 
 @include aeris-mobile.targets('.aeris-scroll-top');
+
+@include aeris-icons.custom-icon;

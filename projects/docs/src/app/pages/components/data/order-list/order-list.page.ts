@@ -69,8 +69,7 @@ export class OrderListPage {
     { id: 'order-list-api-methods', label: 'Methods' },
   ];
 
-  protected readonly importCode =
-    `import { AerisOrderListModule } from '@aeris-ui/core/order-list';`;
+  protected readonly importCode = `import { AerisOrderListModule } from '@aeris-ui/core/order-list';`;
 
   protected readonly basicTsCode = `interface Product {
   readonly id: string;
@@ -144,41 +143,184 @@ interface AerisOrderListSelectionEvent<TItem = AerisOrderListItem> {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'optionLabel', type: 'string', defaultValue: "'label'", description: 'Property used as the default visible item label.' },
-    { name: 'dataKey', type: 'string', defaultValue: "'id'", description: 'Property used as the stable item identity.' },
-    { name: 'header', type: 'string', defaultValue: "''", description: 'Optional list header text.' },
-    { name: 'emptyMessage', type: 'string', defaultValue: "'No items available'", description: 'Message shown when the list has no items.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "'Ordered list'", description: 'Accessible name for the listbox.' },
-    { name: 'multiple', type: 'boolean', defaultValue: 'false', description: 'Allows selecting and moving more than one item.' },
-    { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Disables selection and reordering.' },
-    { name: 'fluid', type: 'boolean', defaultValue: 'true', description: 'Makes the component fill the available width.' },
-    { name: 'showControls', type: 'boolean', defaultValue: 'true', description: 'Shows or hides the reorder controls.' },
-    { name: 'moveTopAriaLabel', type: 'string', defaultValue: "'Move selected items to top'", description: 'Accessible label for the move-to-top button.' },
-    { name: 'moveUpAriaLabel', type: 'string', defaultValue: "'Move selected items up'", description: 'Accessible label for the move-up button.' },
-    { name: 'moveDownAriaLabel', type: 'string', defaultValue: "'Move selected items down'", description: 'Accessible label for the move-down button.' },
-    { name: 'moveBottomAriaLabel', type: 'string', defaultValue: "'Move selected items to bottom'", description: 'Accessible label for the move-to-bottom button.' },
+    {
+      name: 'moveTopIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the move top icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'moveUpIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the move up icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'moveDownIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the move down icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'moveBottomIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the move bottom icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'optionLabel',
+      type: 'string',
+      defaultValue: "'label'",
+      description: 'Property used as the default visible item label.',
+    },
+    {
+      name: 'dataKey',
+      type: 'string',
+      defaultValue: "'id'",
+      description: 'Property used as the stable item identity.',
+    },
+    {
+      name: 'header',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Optional list header text.',
+    },
+    {
+      name: 'emptyMessage',
+      type: 'string',
+      defaultValue: "'No items available'",
+      description: 'Message shown when the list has no items.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "'Ordered list'",
+      description: 'Accessible name for the listbox.',
+    },
+    {
+      name: 'multiple',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Allows selecting and moving more than one item.',
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables selection and reordering.',
+    },
+    {
+      name: 'fluid',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Makes the component fill the available width.',
+    },
+    {
+      name: 'showControls',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Shows or hides the reorder controls.',
+    },
+    {
+      name: 'moveTopAriaLabel',
+      type: 'string',
+      defaultValue: "'Move selected items to top'",
+      description: 'Accessible label for the move-to-top button.',
+    },
+    {
+      name: 'moveUpAriaLabel',
+      type: 'string',
+      defaultValue: "'Move selected items up'",
+      description: 'Accessible label for the move-up button.',
+    },
+    {
+      name: 'moveDownAriaLabel',
+      type: 'string',
+      defaultValue: "'Move selected items down'",
+      description: 'Accessible label for the move-down button.',
+    },
+    {
+      name: 'moveBottomAriaLabel',
+      type: 'string',
+      defaultValue: "'Move selected items to bottom'",
+      description: 'Accessible label for the move-to-bottom button.',
+    },
   ];
 
   protected readonly models: readonly ApiRow[] = [
-    { name: 'items', type: 'readonly TItem[]', defaultValue: '[]', description: 'Ordered item collection. Reorder operations update this model.' },
-    { name: 'selectedKeys', type: 'readonly string[]', defaultValue: '[]', description: 'Selected item keys.' },
+    {
+      name: 'items',
+      type: 'readonly TItem[]',
+      defaultValue: '[]',
+      description: 'Ordered item collection. Reorder operations update this model.',
+    },
+    {
+      name: 'selectedKeys',
+      type: 'readonly string[]',
+      defaultValue: '[]',
+      description: 'Selected item keys.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'selectionChanged', type: 'AerisOrderListSelectionEvent<TItem>', defaultValue: '-', description: 'Emitted when item selection changes.' },
-    { name: 'reordered', type: 'AerisOrderListReorderEvent<TItem>', defaultValue: '-', description: 'Emitted after selected items are moved.' },
+    {
+      name: 'selectionChanged',
+      type: 'AerisOrderListSelectionEvent<TItem>',
+      defaultValue: '-',
+      description: 'Emitted when item selection changes.',
+    },
+    {
+      name: 'reordered',
+      type: 'AerisOrderListReorderEvent<TItem>',
+      defaultValue: '-',
+      description: 'Emitted after selected items are moved.',
+    },
   ];
 
   protected readonly templates: readonly ApiRow[] = [
-    { name: 'aerisOrderListItem', type: '{ $implicit, item, selected, index }', defaultValue: '-', description: 'Custom item content.' },
-    { name: 'aerisOrderListEmpty', type: 'none', defaultValue: '-', description: 'Custom empty state.' },
+    {
+      name: 'aerisOrderListItem',
+      type: '{ $implicit, item, selected, index }',
+      defaultValue: '-',
+      description: 'Custom item content.',
+    },
+    {
+      name: 'aerisOrderListEmpty',
+      type: 'none',
+      defaultValue: '-',
+      description: 'Custom empty state.',
+    },
   ];
 
   protected readonly methods: readonly ApiRow[] = [
-    { name: 'moveSelectedUp()', type: 'void', defaultValue: '-', description: 'Moves selected items one position up.' },
-    { name: 'moveSelectedDown()', type: 'void', defaultValue: '-', description: 'Moves selected items one position down.' },
-    { name: 'moveSelectedToTop()', type: 'void', defaultValue: '-', description: 'Moves selected items to the beginning.' },
-    { name: 'moveSelectedToBottom()', type: 'void', defaultValue: '-', description: 'Moves selected items to the end.' },
+    {
+      name: 'moveSelectedUp()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Moves selected items one position up.',
+    },
+    {
+      name: 'moveSelectedDown()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Moves selected items one position down.',
+    },
+    {
+      name: 'moveSelectedToTop()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Moves selected items to the beginning.',
+    },
+    {
+      name: 'moveSelectedToBottom()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Moves selected items to the end.',
+    },
   ];
 
   protected handleReorder(event: AerisOrderListReorderEvent): void {

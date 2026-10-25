@@ -2,7 +2,7 @@
 
 > Transfer and reorder items across two collections with filtering and drag-and-drop.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/pick-list`
 - Human-readable documentation: [https://aeris-ui.dev/components/pick-list](https://aeris-ui.dev/components/pick-list)
@@ -29,6 +29,15 @@ import { AerisPickListModule } from '@aeris-ui/core/pick-list';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `moveTopIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move top icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveUpIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move up icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveDownIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move down icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveBottomIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move bottom icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveToTargetIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move to target icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveAllToTargetIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move all to target icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveToSourceIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move to source icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveAllToSourceIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move all to source icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `filterIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the filter icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `optionLabel` | `string` | `'label'` | Property rendered by the default item template. |
 | `dataKey` | `string` | `'id'` | Property used as the stable item identity. |
 | `filterBy` | `string` | `'label'` | Comma-separated properties searched by both filters. |
@@ -214,7 +223,7 @@ interface Product {
     }
   `
 })
-export class PickListBasicBasicTransferAndReorderingDemo {
+export class PickListBasicDemo {
   protected readonly basicSource = signal<readonly Product[]>([
     { id: 'monitor', label: 'Monitor', category: 'Hardware', status: 'Ready' },
     { id: 'keyboard', label: 'Keyboard', category: 'Hardware', status: 'Ready' },
@@ -242,6 +251,13 @@ Each pane can filter across one or more item properties with independently contr
 import { Component } from '@angular/core';
 import { AerisPickListModule } from '@aeris-ui/core/pick-list';
 
+interface Product {
+  readonly id: string;
+  readonly label: string;
+  readonly category: string;
+  readonly status: string;
+}
+
 @Component({
   selector: 'app-pick-list-filtering-demo',
   imports: [AerisPickListModule],
@@ -268,7 +284,7 @@ import { AerisPickListModule } from '@aeris-ui/core/pick-list';
     }
   `
 })
-export class PickListFilteringFilteringDemo {
+export class PickListFilteringDemo {
 }
 ```
 
@@ -281,6 +297,13 @@ Drag one selected item or an existing selection between panes. Drop within the s
 ```ts
 import { Component } from '@angular/core';
 import { AerisPickListModule } from '@aeris-ui/core/pick-list';
+
+interface Product {
+  readonly id: string;
+  readonly label: string;
+  readonly category: string;
+  readonly status: string;
+}
 
 @Component({
   selector: 'app-pick-list-drag-drop-demo',
@@ -308,7 +331,7 @@ import { AerisPickListModule } from '@aeris-ui/core/pick-list';
     }
   `
 })
-export class PickListDragDropDragAndDropDemo {
+export class PickListDragDropDemo {
 }
 ```
 
@@ -328,7 +351,7 @@ import { AerisPickListModule } from '@aeris-ui/core/pick-list';
   templateUrl: './pick-list-template.demo.html',
   styleUrl: './pick-list-template.demo.scss'
 })
-export class PickListTemplateItemTemplateDemo {
+export class PickListTemplateDemo {
 }
 ```
 
@@ -384,6 +407,13 @@ Limit target capacity while keeping source transfer controls and drag-and-drop b
 import { Component } from '@angular/core';
 import { AerisPickListModule } from '@aeris-ui/core/pick-list';
 
+interface Product {
+  readonly id: string;
+  readonly label: string;
+  readonly category: string;
+  readonly status: string;
+}
+
 @Component({
   selector: 'app-pick-list-limit-demo',
   imports: [AerisPickListModule],
@@ -409,7 +439,7 @@ import { AerisPickListModule } from '@aeris-ui/core/pick-list';
     }
   `
 })
-export class PickListLimitTargetLimitDemo {
+export class PickListLimitDemo {
 }
 ```
 
@@ -422,6 +452,13 @@ Long collections scroll inside each pane while headers, filters, and controls re
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisPickListModule } from '@aeris-ui/core/pick-list';
+
+interface Product {
+  readonly id: string;
+  readonly label: string;
+  readonly category: string;
+  readonly status: string;
+}
 
 @Component({
   selector: 'app-pick-list-scrolling-demo',
@@ -453,7 +490,7 @@ import { AerisPickListModule } from '@aeris-ui/core/pick-list';
     }
   `
 })
-export class PickListScrollingScrollingDemo {
+export class PickListScrollingDemo {
   protected readonly manySource = signal<readonly Product[]>(
     Array.from({ length: 24 }, (_, index) => ({
       id: `product-${index + 1}`,
@@ -489,7 +526,7 @@ interface Product {
   templateUrl: './pick-list-states.demo.html',
   styleUrl: './pick-list-states.demo.scss'
 })
-export class PickListStatesStatesDemo {
+export class PickListStatesDemo {
   protected readonly basicSource = signal<readonly Product[]>([
     { id: 'monitor', label: 'Monitor', category: 'Hardware', status: 'Ready' },
     { id: 'keyboard', label: 'Keyboard', category: 'Hardware', status: 'Ready' },
@@ -547,6 +584,13 @@ Typed outputs cover selection, filtering, transfer, reordering, and drag lifecyc
 import { Component } from '@angular/core';
 import { AerisPickListModule } from '@aeris-ui/core/pick-list';
 
+interface Product {
+  readonly id: string;
+  readonly label: string;
+  readonly category: string;
+  readonly status: string;
+}
+
 @Component({
   selector: 'app-pick-list-events-demo',
   imports: [AerisPickListModule],
@@ -580,7 +624,7 @@ import { AerisPickListModule } from '@aeris-ui/core/pick-list';
     }
   `
 })
-export class PickListEventsEventsDemo {
+export class PickListEventsDemo {
 }
 ```
 

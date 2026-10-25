@@ -5,6 +5,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
 import {
   AerisDrawerModule,
   type AerisDrawerPosition,
+  type AerisDrawerSnapPoint,
   type AerisDrawerVisibilityChangeEvent,
 } from '@aeris-ui/core/drawer';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
@@ -43,6 +44,34 @@ interface ApiRow {
   styleUrl: './drawer.page.scss',
 })
 export class DrawerPage {
+  protected readonly snapOpen = signal(false);
+  protected readonly snapPoint = signal<AerisDrawerSnapPoint | null>(0.6);
+  protected readonly snapPoints = [0.35, 0.6, 0.9] as const;
+  protected readonly snapNotes = [
+    'Review the workspace details and choose a height that leaves enough room for the task.',
+    'At a smaller height, the drawer body scrolls independently while the header and actions stay available.',
+    'Drag the header or resize handle upward to expand. At the largest height, upward gestures in the body scroll the content.',
+    'Scrolling content keeps downward gestures until it reaches its top. Start a new gesture there to collapse the drawer.',
+    'Form controls, links and buttons keep their usual interaction and do not initiate a drag.',
+    'The selected point is retained when the drawer closes. Fractional points adapt to the available viewport height.',
+  ];
+  protected readonly swipeOpen = signal(false);
+  protected readonly swipePosition = signal<AerisDrawerPosition>('bottom');
+  protected readonly swipeStatus = signal(
+    'Open a drawer and swipe its content toward the screen edge.',
+  );
+  protected readonly swipePositions: readonly AerisDrawerPosition[] = [
+    'left',
+    'right',
+    'top',
+    'bottom',
+  ];
+  protected readonly swipeItems = [
+    'Release notes describe the new workflow, including the changes that team members will notice first.',
+    'Owners review access, delivery dates, and dependencies before the project moves into the next stage.',
+    'The activity feed keeps decisions visible so collaborators can pick up work without losing context.',
+    'After the final review, the team can publish the project and follow its progress from the workspace.',
+  ];
   protected readonly basicOpen = signal(false);
   protected readonly controlledOpen = signal(false);
   protected readonly dismissibleOpen = signal(false);
@@ -83,6 +112,8 @@ export class DrawerPage {
     { id: 'drawer-positions', label: 'Positions' },
     { id: 'drawer-dismissal', label: 'Dismissal' },
     { id: 'drawer-templates', label: 'Templates' },
+    { id: 'drawer-snap', label: 'Snap points' },
+    { id: 'drawer-swipe', label: 'Swipe dismissal' },
     { id: 'drawer-responsive', label: 'Responsive' },
     { id: 'drawer-fullscreen', label: 'Full screen' },
     { id: 'drawer-long-content', label: 'Long content' },
@@ -298,10 +329,11 @@ protected readonly filterGroups = [
   );
 }`;
 
-  protected readonly interfacesCode = `type AerisDrawerCloseReason = 'api' | 'close-button' | 'escape' | 'mask';
+  protected readonly interfacesCode = `type AerisDrawerCloseReason = 'api' | 'close-button' | 'escape' | 'mask' | 'swipe';
 type AerisDrawerPosition = 'left' | 'right' | 'top' | 'bottom';
 type AerisDrawerSize = 'sm' | 'md' | 'lg' | 'full';
 type AerisDrawerFooterLayout = 'responsive' | 'wrap' | 'stack' | 'inline';
+type AerisDrawerSnapPoint = number | \`\${number}px\`;
 
 interface AerisDrawerVisibilityChangeEvent {
   readonly originalEvent: Event | null;
@@ -317,6 +349,54 @@ interface AerisDrawerTemplateContext {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    {
+      name: 'snapPoints',
+      type: 'readonly AerisDrawerSnapPoint[]',
+      defaultValue: '[]',
+      description:
+        'Bottom-drawer heights: numbers in (0, 1] are fractions of available height; strings such as 320px are pixels. Sorted by resolved height, duplicates removed, invalid values ignored, pixels capped to the available viewport/container. Ignored for other edges, size full, maximized or mobileFullScreen. Snap sizing replaces height, mobileHeight and maxHeight; express the maximum through the largest point instead. An empty valid set retains ordinary sizing.',
+    },
+    {
+      name: 'snapAriaLabel',
+      type: 'string',
+      defaultValue: "'Resize drawer'",
+      description: 'Accessible name for the optional snap-point slider shown by swipeHandle.',
+    },
+    {
+      name: 'swipeToClose',
+      type: 'boolean',
+      defaultValue: 'false',
+      description:
+        'Allows swiping non-interactive drawer content toward its physical screen edge. Scrollable content keeps the gesture when it can scroll in that direction. Inputs, buttons, links and nested interactive controls do not start dismissal. Disabled while maximized.',
+    },
+    {
+      name: 'swipeHandle',
+      type: 'boolean',
+      defaultValue: 'false',
+      description:
+        'Shows an optional handle with no reserved space when false. With snap points it is a keyboard-operable height slider, not a close button. Otherwise swipeToClose makes it a draggable close button that closes on tap, Enter or Space. Hidden while maximized.',
+    },
+    {
+      name: 'swipeThreshold',
+      type: 'number',
+      defaultValue: '0.35',
+      description:
+        'Without snap points, the fraction of drawer width/height required to dismiss (clamped to 0.1–1); a recent flick of at least 32px at 0.5px/ms also dismisses. With snap points, this threshold is replaced by settling: projected release height below half the smallest point dismisses only when swipeToClose is true. Both use physical edges, including in RTL.',
+    },
+    {
+      name: 'closeIconTemplate',
+      type: 'TemplateRef<AerisDrawerTemplateContext> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Optional close artwork. Takes precedence over the projected close-icon template; Aeris keeps the close button and its accessible name.',
+    },
+    {
+      name: 'maximizeIconTemplate',
+      type: 'TemplateRef<AerisDrawerTemplateContext> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the maximize icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
     {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
@@ -494,6 +574,13 @@ interface AerisDrawerTemplateContext {
 
   protected readonly models: readonly ApiRow[] = [
     {
+      name: 'activeSnapPoint',
+      type: 'AerisDrawerSnapPoint | null',
+      defaultValue: 'null',
+      description:
+        'Requested configured point. Null or unavailable values display the smallest valid point without rewriting consumer state. Bind an initial point to select the opening height. Drag, keyboard and snapTo update the model; closing retains it.',
+    },
+    {
       name: 'visible',
       type: 'boolean',
       defaultValue: 'false',
@@ -508,6 +595,13 @@ interface AerisDrawerTemplateContext {
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
+    {
+      name: 'activeSnapPointChange',
+      type: 'AerisDrawerSnapPoint | null',
+      defaultValue: '-',
+      description:
+        'Model output emitted when a user gesture, slider key or snapTo selects a different point. Viewport resizing and fallback resolution do not emit.',
+    },
     {
       name: 'opened',
       type: 'AerisDrawerVisibilityChangeEvent',
@@ -551,6 +645,13 @@ interface AerisDrawerTemplateContext {
   ];
 
   protected readonly methods: readonly ApiRow[] = [
+    {
+      name: 'snapTo(point)',
+      type: 'void',
+      defaultValue: 'point: AerisDrawerSnapPoint',
+      description:
+        'Selects a configured bottom-drawer point and cancels any active drag. Equivalent pixel/fraction heights resolve to the normalized point. Invalid requests or unsupported drawer configurations do nothing.',
+    },
     {
       name: 'show(originalEvent)',
       type: 'void',
@@ -598,6 +699,15 @@ interface AerisDrawerTemplateContext {
   protected openDrawerAt(position: AerisDrawerPosition): void {
     this.currentPosition.set(position);
     this.positionOpen.set(true);
+  }
+
+  protected openSwipeDrawer(position: AerisDrawerPosition): void {
+    this.swipePosition.set(position);
+    this.swipeOpen.set(true);
+  }
+
+  protected recordSwipeClose(event: AerisDrawerVisibilityChangeEvent): void {
+    this.swipeStatus.set(`Drawer closed by ${event.reason}.`);
   }
 
   protected recordDrawerEvent(event: AerisDrawerVisibilityChangeEvent): void {

@@ -1,8 +1,8 @@
 # Button
 
-> Trigger actions with clear hierarchy, sizes, loading states, and icon support.
+> Trigger actions or opt into accessible toggles, with sizes, loading states, and icon support.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/button`
 - Human-readable documentation: [https://aeris-ui.dev/components/button](https://aeris-ui.dev/components/button)
@@ -25,6 +25,18 @@ import { AerisButton } from '@aeris-ui/core/button';
 
 ## API
 
+### Toggle Api
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `aerisButtonToggle` | `directive` | `not applied` | Opt-in behavior on button[aerisButton] only. Sets type=button. Not supported on anchors or aeris-button wrappers; do not combine with aerisButtonGroupItem. |
+| `checked` | `model&lt;boolean&gt;` | `false` | Controlled pressed state; Signal Forms discovers this model automatically. |
+| `disabled` | `boolean` | `false` | Disables activation; also respects Button loading and forms-disabled state. |
+| `invalid` | `boolean` | `false` | Invalid presentation, gated by touched when supplied. |
+| `touched` | `boolean &#124; null` | `null` | false delays invalid presentation; true shows errors; null preserves explicit invalid behavior. |
+| `checkedChange` | `output&lt;boolean&gt;` | `—` | Emits when the checked model changes. |
+| `touch` | `output&lt;void&gt;` | `—` | Emits on blur; Signal Forms uses it to mark the field touched. |
+
 ### Directive Inputs
 
 | Name | Type | Default | Description |
@@ -40,6 +52,32 @@ import { AerisButton } from '@aeris-ui/core/button';
 | `raised` | `boolean` | `false` | Adds elevation. |
 | `rounded` | `boolean` | `false` | Uses a pill-shaped radius. |
 | `fluid` | `boolean` | `false` | Fills the available inline width. |
+
+### Component Inputs
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `type` | `'button' &#124; 'submit' &#124; 'reset'` | `'button'` | Native button type. |
+| `label` | `string` | `''` | Text rendered inside the button. |
+| `badge` | `string &#124; undefined` | `undefined` | Optional badge value. |
+| `badgeSeverity` | `AerisButtonSeverity` | `'secondary'` | Semantic badge color. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
+| `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name, required for icon-only wrapper buttons. |
+| `tabIndex` | `number &#124; undefined` | `undefined` | Native tabindex override. |
+| `autofocus` | `boolean` | `false` | Requests focus when rendered. |
+| `variant` | `AerisButtonVariant` | `'solid'` | Presentation treatment independent of color. Options: 'solid', 'outline', 'ghost', 'link'. |
+| `severity` | `AerisButtonSeverity` | `'primary'` | Semantic color applied to the selected variant. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
+| `size` | `AerisButtonSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `iconPosition` | `AerisButtonIconPosition` | `'left'` | Sets icon layout direction. Native projected content follows DOM order; wrapper icon templates are positioned automatically. Options: 'left', 'right', 'top', 'bottom'. |
+| `loading` | `boolean` | `false` | Displays progress and exposes aria-busy. |
+| `disabled` | `boolean` | `false` | Disables native button activation or marks an anchor as unavailable. |
+| `showSpinner` | `boolean` | `true` | Controls the built-in loading spinner. |
+| `iconOnly` | `boolean` | `false` | Creates a square icon button. Requires an accessible name. |
+| `raised` | `boolean` | `false` | Adds elevation. |
+| `rounded` | `boolean` | `false` | Uses a pill-shaped radius. |
+| `fluid` | `boolean` | `false` | Fills the available inline width. |
+| `contentTemplate` | `TemplateRef&lt;AerisButtonContentTemplateContext&gt;` | `undefined` | Replaces all default content and receives effective loading and disabled state. |
+| `iconTemplate` | `TemplateRef&lt;AerisButtonIconTemplateContext&gt;` | `undefined` | Custom idle icon. |
+| `loadingIconTemplate` | `TemplateRef&lt;AerisButtonIconTemplateContext&gt;` | `undefined` | Custom loading indicator. |
 
 ### Button emitters
 
@@ -86,6 +124,9 @@ interface AerisButtonContentTemplateContext {
 
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
+| `--aeris-button-selected-background` | `CSS custom property` | — | Selected toggle/group item background. |
+| `--aeris-button-selected-color` | `CSS custom property` | — | Selected toggle/group item foreground. |
+| `--aeris-button-selected-border` | `CSS custom property` | — | Selected toggle/group item boundary. |
 | `--aeris-primary` | `CSS custom property` | — | Primary button background. |
 | `--aeris-primary-boundary` | `CSS custom property` | — | Solid and outline button boundary, independently configurable for inverse treatments. |
 | `--aeris-primary-hover` | `CSS custom property` | — | Primary hover background, derived from the primary base. |
@@ -127,6 +168,8 @@ import { AerisButton } from '@aeris-ui/core/button';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     @media (max-width: 42rem) {
@@ -137,7 +180,146 @@ import { AerisButton } from '@aeris-ui/core/button';
     }
   `
 })
-export class FeatureBasicBasicDemo {
+export class FeatureBasicDemo {
+}
+```
+
+### Toggle state
+
+Opt a native Aeris button into controlled pressed behavior. Keep its accessible label stable.
+
+#### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+
+@Component({
+  selector: 'app-feature-toggle-demo',
+  imports: [AerisButton],
+  template: `
+    <div class="aeris-example-row">
+      <button aerisButton aerisButtonToggle variant="outline" [(checked)]="toggled">
+        Bold
+      </button>
+      <button aerisButton aerisButtonToggle variant="outline" [checked]="true" disabled>
+        Disabled toggle
+      </button>
+    </div>
+  `,
+  styles: `
+    .aeris-example-row {
+      display: flex;
+      gap: 0.5625rem;
+      min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    @media (max-width: 42rem) {
+      .aeris-example-row {
+        max-width: 100%;
+        flex-wrap: wrap;
+      }
+    }
+  `
+})
+export class FeatureToggleDemo {
+  protected readonly toggled = signal(false);
+}
+```
+
+### Toggle forms
+
+Signal Forms receives checked changes and touch events automatically using the normal AerisButton import.
+
+#### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { FormField, form } from '@angular/forms/signals';
+
+@Component({
+  selector: 'app-feature-toggle-forms-demo',
+  imports: [AerisButton, FormField],
+  template: `
+    <div class="aeris-example-row">
+      <button
+        aerisButton
+        aerisButtonToggle
+        variant="outline"
+        [formField]="toggleForm.enabled"
+      >
+        Enabled
+      </button>
+      <output>Checked: {{ toggleData().enabled }}</output>
+    </div>
+  `,
+  styles: `
+    .aeris-example-row {
+      display: flex;
+      gap: 0.5625rem;
+      min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    @media (max-width: 42rem) {
+      .aeris-example-row {
+        max-width: 100%;
+        flex-wrap: wrap;
+      }
+    }
+  `
+})
+export class FeatureToggleFormsDemo {
+  protected readonly toggleData = signal({ enabled: false });
+
+  protected readonly toggleForm = form(this.toggleData);
+}
+```
+
+### Reactive toggle
+
+Use the optional AerisButtonForms import for classic forms. It includes Button and the toggle value accessor; no second Aeris import is needed.
+
+#### TS
+
+```ts
+import { Component } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { AerisButtonForms } from '@aeris-ui/core/button/forms';
+
+@Component({
+  selector: 'app-feature-toggle-reactive-demo',
+  imports: [AerisButtonForms, ReactiveFormsModule],
+  template: `
+    <div class="aeris-example-row">
+      <button aerisButton aerisButtonToggle variant="outline" [formControl]="toggleControl">
+        Enabled
+      </button>
+    </div>
+  `,
+  styles: `
+    .aeris-example-row {
+      display: flex;
+      gap: 0.5625rem;
+      min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    @media (max-width: 42rem) {
+      .aeris-example-row {
+        max-width: 100%;
+        flex-wrap: wrap;
+      }
+    }
+  `
+})
+export class FeatureToggleReactiveDemo {
+  protected readonly toggleControl = new FormControl(false, { nonNullable: true });
 }
 ```
 
@@ -156,9 +338,8 @@ import { AerisButton } from '@aeris-ui/core/button';
   imports: [AerisButton],
   template: `
     <div class="aeris-example-row">
-      <aeris-button label="Create project" (clicked)="createProject($event)" /><span
-        class="result"
-        >Clicked {{ clickCount() }} times</span>
+      <aeris-button label="Create project" (clicked)="createProject($event)" />
+      <span class="result">Clicked {{ clickCount() }} times</span>
     </div>
   `,
   styles: `
@@ -166,6 +347,8 @@ import { AerisButton } from '@aeris-ui/core/button';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     @media (max-width: 42rem) {
@@ -182,7 +365,7 @@ import { AerisButton } from '@aeris-ui/core/button';
     }
   `
 })
-export class FeatureWrapperWrapperComponentDemo {
+export class FeatureWrapperDemo {
   protected readonly clickCount = signal(0);
 
   protected createProject(event: MouseEvent): void {
@@ -220,6 +403,8 @@ import { AerisButton } from '@aeris-ui/core/button';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     .wrap {
@@ -236,7 +421,7 @@ import { AerisButton } from '@aeris-ui/core/button';
     }
   `
 })
-export class FeatureVariantsVariantsDemo {
+export class FeatureVariantsDemo {
 }
 ```
 
@@ -265,6 +450,8 @@ import { AerisButton, type AerisButtonSeverity } from '@aeris-ui/core/button';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     .wrap {
@@ -281,7 +468,7 @@ import { AerisButton, type AerisButtonSeverity } from '@aeris-ui/core/button';
     }
   `
 })
-export class FeatureSeveritySeverityDemo {
+export class FeatureSeverityDemo {
   protected readonly severities: readonly AerisButtonSeverity[] = [
     'primary',
     'secondary',
@@ -310,7 +497,8 @@ import { AerisButton } from '@aeris-ui/core/button';
   template: `
     <div class="wrap align aeris-example-row">
       <button aerisButton size="xs">Extra small</button>
-      <button aerisButton size="sm">Small</button><button aerisButton>Medium</button>
+      <button aerisButton size="sm">Small</button>
+      <button aerisButton>Medium</button>
       <button aerisButton size="lg">Large</button>
     </div>
   `,
@@ -319,6 +507,8 @@ import { AerisButton } from '@aeris-ui/core/button';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     .wrap {
@@ -339,7 +529,7 @@ import { AerisButton } from '@aeris-ui/core/button';
     }
   `
 })
-export class FeatureSizesSizesDemo {
+export class FeatureSizesDemo {
 }
 ```
 
@@ -359,9 +549,13 @@ import { LucideChevronRight, LucideDynamicIcon, LucidePlus } from '@lucide/angul
   imports: [AerisButton, LucideDynamicIcon],
   template: `
     <div class="wrap align aeris-example-row">
-      <button aerisButton><svg [lucideIcon]="icons.Plus"></svg>Add item</button>
+      <button aerisButton>
+        <svg [lucideIcon]="icons.Plus"></svg>
+        Add item
+      </button>
       <button aerisButton iconPosition="right">
-        Continue<svg [lucideIcon]="icons.ChevronRight"></svg>
+        Continue
+        <svg [lucideIcon]="icons.ChevronRight"></svg>
       </button>
       <button aerisButton iconOnly aria-label="Add item">
         <svg [lucideIcon]="icons.Plus"></svg>
@@ -373,6 +567,8 @@ import { LucideChevronRight, LucideDynamicIcon, LucidePlus } from '@lucide/angul
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     .wrap {
@@ -385,6 +581,13 @@ import { LucideChevronRight, LucideDynamicIcon, LucidePlus } from '@lucide/angul
       align-items: center;
     }
 
+    svg:where([lucideIcon]) {
+      width: var(--aeris-icon-size, 1rem);
+      height: var(--aeris-icon-size, 1rem);
+      flex-shrink: 0;
+      stroke-width: 2;
+    }
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -393,7 +596,7 @@ import { LucideChevronRight, LucideDynamicIcon, LucidePlus } from '@lucide/angul
     }
   `
 })
-export class FeatureIconsIconsAndPositionsDemo {
+export class FeatureIconsDemo {
 
   protected readonly icons = { ChevronRight: LucideChevronRight, Plus: LucidePlus };
 }
@@ -422,8 +625,9 @@ import { AerisButton } from '@aeris-ui/core/button';
         [disabled]="loading()"
         (click)="toggleLoading()"
       >
-        Save asynchronously</button>
-        <aeris-button label="Processing" loading />
+        Save asynchronously
+      </button>
+      <aeris-button label="Processing" loading />
     </div>
   `,
   styles: `
@@ -431,6 +635,8 @@ import { AerisButton } from '@aeris-ui/core/button';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     .wrap {
@@ -447,7 +653,7 @@ import { AerisButton } from '@aeris-ui/core/button';
     }
   `
 })
-export class FeatureLoadingLoadingDemo {
+export class FeatureLoadingDemo {
   protected readonly loading = signal(false);
 
   protected toggleLoading(): void {
@@ -485,6 +691,8 @@ import { AerisButton } from '@aeris-ui/core/button';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     .wrap {
@@ -507,7 +715,7 @@ import { AerisButton } from '@aeris-ui/core/button';
     }
   `
 })
-export class FeatureShapeRaisedRoundedAndFluidDemo {
+export class FeatureShapeDemo {
 }
 ```
 
@@ -526,7 +734,8 @@ import { AerisButton } from '@aeris-ui/core/button';
   imports: [AerisButton],
   template: `
     <div class="wrap aeris-example-row">
-      <aeris-button label="Messages" badge="8" /><aeris-button
+      <aeris-button label="Messages" badge="8" />
+      <aeris-button
         label="Tasks"
         badge="3"
         badgeSeverity="success"
@@ -540,6 +749,8 @@ import { AerisButton } from '@aeris-ui/core/button';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     .wrap {
@@ -556,7 +767,7 @@ import { AerisButton } from '@aeris-ui/core/button';
     }
   `
 })
-export class FeatureBadgeBadgeDemo {
+export class FeatureBadgeDemo {
 }
 ```
 
@@ -567,7 +778,7 @@ Typed TemplateRef inputs customize content, idle icons, and loading indicators.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
 
 @Component({
@@ -575,8 +786,9 @@ import { AerisButton } from '@aeris-ui/core/button';
   imports: [AerisButton],
   template: `
     <div class="aeris-example-row">
-      <ng-template #rocket let-loading="loading"
-        ><span aria-hidden="true">{{ loading ? '…' : '↑' }}</span></ng-template>
+      <ng-template #rocket let-loading="loading">
+        <span aria-hidden="true">{{ loading ? '…' : '↑' }}</span>
+      </ng-template>
       <aeris-button label="Deploy" [iconTemplate]="rocket" iconPosition="right" />
     </div>
   `,
@@ -585,6 +797,8 @@ import { AerisButton } from '@aeris-ui/core/button';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     @media (max-width: 42rem) {
@@ -595,7 +809,8 @@ import { AerisButton } from '@aeris-ui/core/button';
     }
   `
 })
-export class FeatureTemplatesCustomTemplatesDemo {
+export class FeatureTemplatesDemo {
+  protected readonly loading = signal(false);
 }
 ```
 
@@ -620,7 +835,9 @@ import { AerisButton } from '@aeris-ui/core/button';
         href="https://github.com"
         target="_blank"
         rel="noopener noreferrer"
-        >Open GitHub</a>
+      >
+        Open GitHub
+      </a>
     </div>
   `,
   styles: `
@@ -628,6 +845,8 @@ import { AerisButton } from '@aeris-ui/core/button';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     @media (max-width: 42rem) {
@@ -638,12 +857,14 @@ import { AerisButton } from '@aeris-ui/core/button';
     }
   `
 })
-export class FeatureLinksNativeLinksDemo {
+export class FeatureLinksDemo {
 }
 ```
 
 ## Accessibility
 
+- With aerisButtonToggle, Enter or Space changes checked and aria-pressed. Disabled/loading toggles do not change state. Signal Forms receives invalid and touched automatically; pristine invalid fields remain neutral. A manual invalid=true remains immediate unless touched=false is supplied.
+- Pressed colors follow the button's severity. Disabled and loading links keep their resting appearance and do not activate. Reduced motion removes hover displacement without suppressing pressed colors or keyboard focus.
 - Native buttons activate with Enter and Space; anchors preserve link keyboard behavior.
 - Icon-only buttons require aria-label or equivalent visible text.
 - Loading sets aria-busy="true". The wrapper disables repeated activation while loading.

@@ -90,6 +90,19 @@ export function greet(name: string): Greeting {
   ];
   protected readonly inputs: readonly ApiRow[] = [
     {
+      name: 'copyIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Optional copy-button artwork; the native button retains its clipboard action and accessible name.',
+    },
+    {
+      name: 'copiedIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description: 'Optional artwork displayed after a successful copy.',
+    },
+    {
       name: 'code',
       type: 'string',
       defaultValue: "''",

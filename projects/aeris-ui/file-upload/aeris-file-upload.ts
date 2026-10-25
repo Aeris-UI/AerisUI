@@ -1,3 +1,4 @@
+import { ɵAerisIcon } from '@aeris-ui/core';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
@@ -143,7 +144,7 @@ let nextFileUploadId = 0;
 
 @Component({
   selector: 'aeris-file-upload',
-  imports: [AerisButtonDirective, NgTemplateOutlet],
+  imports: [ɵAerisIcon, AerisButtonDirective, NgTemplateOutlet],
   template: `
     <input
       #fileInput
@@ -174,7 +175,10 @@ let nextFileUploadId = 0;
                 [ngTemplateOutletContext]="templateContext()"
               />
             } @else {
-              <span class="aeris-file-upload__icon aeris-file-upload__icon--choose"></span>
+              <span
+                aerisInternalIcon="plus"
+                class="aeris-file-upload__icon aeris-file-upload__icon--choose"
+              ></span>
             }
           </span>
           {{ chooseLabel() }}
@@ -222,7 +226,10 @@ let nextFileUploadId = 0;
                       [ngTemplateOutletContext]="templateContext()"
                     />
                   } @else {
-                    <span class="aeris-file-upload__icon aeris-file-upload__icon--choose"></span>
+                    <span
+                      aerisInternalIcon="plus"
+                      class="aeris-file-upload__icon aeris-file-upload__icon--choose"
+                    ></span>
                   }
                 </span>
                 {{ chooseLabel() }}
@@ -245,7 +252,10 @@ let nextFileUploadId = 0;
                         [ngTemplateOutletContext]="templateContext()"
                       />
                     } @else {
-                      <span class="aeris-file-upload__icon aeris-file-upload__icon--upload"></span>
+                      <span
+                        aerisInternalIcon="upload"
+                        class="aeris-file-upload__icon aeris-file-upload__icon--upload"
+                      ></span>
                     }
                   </span>
                   {{ uploadLabel() }}
@@ -269,7 +279,10 @@ let nextFileUploadId = 0;
                         [ngTemplateOutletContext]="templateContext()"
                       />
                     } @else {
-                      <span class="aeris-file-upload__icon aeris-file-upload__icon--clear"></span>
+                      <span
+                        aerisInternalIcon="close"
+                        class="aeris-file-upload__icon aeris-file-upload__icon--clear"
+                      ></span>
                     }
                   </span>
                   {{ clearLabel() }}
@@ -300,7 +313,17 @@ let nextFileUploadId = 0;
             (dragleave)="handleDragLeave($event)"
             (drop)="handleDrop($event)"
           >
-            <span class="aeris-file-upload__drop-icon" aria-hidden="true"></span>
+            @if (dropIconTemplate(); as customIcon) {
+              <span class="aeris-file-upload__drop-icon" aria-hidden="true" data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <span
+                aerisInternalIcon="upload"
+                class="aeris-file-upload__drop-icon"
+                aria-hidden="true"
+              ></span>
+            }
             <span [id]="labelId()" class="aeris-file-upload__drop-title">{{ dropLabel() }}</span>
             <span [id]="helpId()" class="aeris-file-upload__drop-help">{{
               resolvedHelpText()
@@ -334,7 +357,16 @@ let nextFileUploadId = 0;
                         [alt]="'Preview of ' + item.name"
                       />
                     } @else {
-                      <span class="aeris-file-upload__file-icon" aria-hidden="true"></span>
+                      @if (fileIconTemplate(); as customIcon) {
+                        <span
+                          class="aeris-file-upload__file-icon"
+                          aria-hidden="true"
+                          data-aeris-custom-icon
+                          ><ng-container [ngTemplateOutlet]="customIcon"
+                        /></span>
+                      } @else {
+                        <span class="aeris-file-upload__file-icon" aria-hidden="true"></span>
+                      }
                     }
 
                     <div class="aeris-file-upload__file-body">
@@ -368,7 +400,13 @@ let nextFileUploadId = 0;
                       [disabled]="disabled() || item.status === 'uploading'"
                       (click)="remove(item.file, $event)"
                     >
-                      <span aria-hidden="true"></span>
+                      @if (removeIconTemplate(); as customIcon) {
+                        <span aria-hidden="true" data-aeris-custom-icon
+                          ><ng-container [ngTemplateOutlet]="customIcon"
+                        /></span>
+                      } @else {
+                        <span aerisInternalIcon="close" aria-hidden="true"></span>
+                      }
                     </button>
                   </article>
                 }
@@ -407,6 +445,10 @@ let nextFileUploadId = 0;
   },
 })
 export class AerisFileUpload {
+  readonly removeIconTemplate = input<TemplateRef<void>>();
+  readonly dropIconTemplate = input<TemplateRef<void>>();
+  readonly fileIconTemplate = input<TemplateRef<void>>();
+
   private readonly fileInput = viewChild<ElementRef<HTMLInputElement>>('fileInput');
   private readonly destroyRef = inject(DestroyRef);
   protected readonly toolbarTemplate = contentChild(AerisFileUploadToolbarTemplate);

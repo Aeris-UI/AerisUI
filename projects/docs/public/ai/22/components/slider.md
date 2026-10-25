@@ -2,7 +2,7 @@
 
 > Single and range value selection with pointer, touch, and complete keyboard support.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/slider`
 - Human-readable documentation: [https://aeris-ui.dev/components/slider](https://aeris-ui.dev/components/slider)
@@ -175,9 +175,13 @@ import { AerisSlider, type AerisSliderValue } from '@aeris-ui/core/slider';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .vertical-sliders .field {
+      justify-items: center;
+    }
   `
 })
-export class SliderBasicBasicDemo {
+export class SliderBasicDemo {
   protected readonly volume =
     signal<AerisSliderValue>(42);
 }
@@ -199,7 +203,7 @@ import { AerisSlider, type AerisSliderValue } from '@aeris-ui/core/slider';
   templateUrl: './slider-range.demo.html',
   styleUrl: './slider-range.demo.scss'
 })
-export class SliderRangeRangeDemo {
+export class SliderRangeDemo {
   protected readonly priceRange =
     signal<AerisSliderValue>([25, 75]);
 }
@@ -253,6 +257,10 @@ export class SliderRangeRangeDemo {
 
 .field small.error {
   color: var(--aeris-danger);
+}
+
+.vertical-sliders .field {
+  justify-items: center;
 }
 ```
 
@@ -310,9 +318,13 @@ import { AerisSlider } from '@aeris-ui/core/slider';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .vertical-sliders .field {
+      justify-items: center;
+    }
   `
 })
-export class SliderStepStepAndTicksDemo {
+export class SliderStepDemo {
 }
 ```
 
@@ -332,7 +344,7 @@ import { AerisSlider } from '@aeris-ui/core/slider';
   templateUrl: './slider-values.demo.html',
   styleUrl: './slider-values.demo.scss'
 })
-export class SliderValuesFormattedValuesAndTooltipsDemo {
+export class SliderValuesDemo {
   protected readonly formatCurrency = (
     value: number,
   ): string => `$${value}`;
@@ -387,6 +399,10 @@ export class SliderValuesFormattedValuesAndTooltipsDemo {
 .field small.error {
   color: var(--aeris-danger);
 }
+
+.vertical-sliders .field {
+  justify-items: center;
+}
 ```
 
 ### Orientation
@@ -396,8 +412,8 @@ Vertical sliders retain the same pointer, keyboard, value, and range API.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisSlider } from '@aeris-ui/core/slider';
+import { Component, signal } from '@angular/core';
+import { AerisSlider, type AerisSliderValue } from '@aeris-ui/core/slider';
 
 @Component({
   selector: 'app-slider-orientation-demo',
@@ -405,7 +421,8 @@ import { AerisSlider } from '@aeris-ui/core/slider';
   templateUrl: './slider-orientation.demo.html',
   styleUrl: './slider-orientation.demo.scss'
 })
-export class SliderOrientationOrientationDemo {
+export class SliderOrientationDemo {
+  protected readonly temperature = signal<AerisSliderValue>(20);
 }
 ```
 
@@ -539,9 +556,13 @@ import { AerisSlider } from '@aeris-ui/core/slider';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .vertical-sliders .field {
+      justify-items: center;
+    }
   `
 })
-export class SliderReversedReversedDirectionDemo {
+export class SliderReversedDemo {
 }
 ```
 
@@ -574,7 +595,7 @@ import { AerisSlider } from '@aeris-ui/core/slider';
     }
   `
 })
-export class SliderSizesSizesDemo {
+export class SliderSizesDemo {
 }
 ```
 
@@ -594,7 +615,7 @@ import { AerisSlider } from '@aeris-ui/core/slider';
   templateUrl: './slider-states.demo.html',
   styleUrl: './slider-states.demo.scss'
 })
-export class SliderStatesStatesDemo {
+export class SliderStatesDemo {
 }
 ```
 
@@ -604,21 +625,11 @@ export class SliderStatesStatesDemo {
 <div class="field-stack">
   <div class="field">
     <span id="readonly-slider-label">Read-only</span>
-    <aeris-slider
-      ariaLabelledBy="readonly-slider-label"
-      [value]="35"
-      readonly
-      fluid
-    />
+    <aeris-slider ariaLabelledBy="readonly-slider-label" [value]="35" readonly fluid />
   </div>
   <div class="field">
     <span id="disabled-slider-label">Disabled</span>
-    <aeris-slider
-      ariaLabelledBy="disabled-slider-label"
-      [value]="50"
-      disabled
-      fluid
-    />
+    <aeris-slider ariaLabelledBy="disabled-slider-label" [value]="50" disabled fluid />
   </div>
   <div class="field">
     <span id="invalid-slider-label">Invalid</span>
@@ -669,8 +680,8 @@ export class SliderStatesStatesDemo {
   color: var(--aeris-danger);
 }
 
-.field small.error {
-  color: var(--aeris-danger);
+.vertical-sliders .field {
+  justify-items: center;
 }
 ```
 
@@ -681,8 +692,8 @@ sliding reports continuous updates. changed fires for each keyboard update and o
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisSlider, type AerisSliderChangeEvent, type AerisSliderInputEvent } from '@aeris-ui/core/slider';
+import { Component, signal } from '@angular/core';
+import { AerisSlider, type AerisSliderChangeEvent, type AerisSliderInputEvent, type AerisSliderValue } from '@aeris-ui/core/slider';
 
 @Component({
   selector: 'app-slider-events-demo',
@@ -708,7 +719,13 @@ import { AerisSlider, type AerisSliderChangeEvent, type AerisSliderInputEvent } 
     }
   `
 })
-export class SliderEventsInputAndCommittedEventsDemo {
+export class SliderEventsDemo {
+  protected readonly eventValue = signal<AerisSliderValue>(35);
+
+  protected readonly liveEvent = signal('No interaction');
+
+  protected readonly changeEvent = signal('No committed change');
+
   protected handleSliding(
     event: AerisSliderInputEvent,
   ): void {
@@ -744,7 +761,7 @@ import { AerisSlider, type AerisSliderValue } from '@aeris-ui/core/slider';
   templateUrl: './slider-forms.demo.html',
   styleUrl: './slider-forms.demo.scss'
 })
-export class SliderFormsReactiveAndTemplateDrivenFormsDemo {
+export class SliderFormsDemo {
   protected readonly reactiveValue =
     new FormControl<AerisSliderValue>(55);
 
@@ -787,7 +804,7 @@ export class SliderFormsReactiveAndTemplateDrivenFormsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -821,6 +838,10 @@ export class SliderFormsReactiveAndTemplateDrivenFormsDemo {
   .field-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.vertical-sliders .field {
+  justify-items: center;
 }
 ```
 

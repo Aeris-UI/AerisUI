@@ -2,7 +2,7 @@
 
 > Temporarily block a content region or the full viewport with a dark interaction-blocking layer.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/block-ui`
 - Human-readable documentation: [https://aeris-ui.dev/components/block-ui](https://aeris-ui.dev/components/block-ui)
@@ -56,6 +56,7 @@ import { AerisBlockUIModule } from '@aeris-ui/core/block-ui';
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-block-ui-backdrop` | `CSS custom property` | — | Dark blocking-layer color. |
+| `--aeris-block-ui-radius` | `CSS custom property` | — | Explicit target radius. Otherwise the overlay follows a single wrapped surface. |
 | `--aeris-block-ui-backdrop-blur` | `CSS custom property` | — | Blocking-layer blur radius. |
 | `--aeris-backdrop-blur` | `CSS custom property` | — | Shared backdrop blur radius. |
 | `--aeris-block-ui-z-index` | `CSS custom property` | — | Element overlay stacking level. |
@@ -66,7 +67,7 @@ import { AerisBlockUIModule } from '@aeris-ui/core/block-ui';
 
 ### Element
 
-Project an element into BlockUI and control the dark blocking layer with the blocked model.
+Project an element into BlockUI and control the dark blocking layer with the blocked model. The overlay follows the rounded corners of a single wrapped surface, or an explicit radius on BlockUI.
 
 #### TS
 
@@ -81,7 +82,7 @@ import { AerisButton } from '@aeris-ui/core/button';
   templateUrl: './block-ui-element.demo.html',
   styleUrl: './block-ui-element.demo.scss'
 })
-export class BlockUiElementElementDemo {
+export class BlockUiElementDemo {
   protected readonly elementBlocked = signal(false);
 }
 ```
@@ -91,9 +92,7 @@ export class BlockUiElementElementDemo {
 ```html
 <div>
   <div class="block-ui-actions">
-    <button aerisButton type="button" (click)="elementBlocked.set(true)">
-      Block
-    </button>
+    <button aerisButton type="button" (click)="elementBlocked.set(true)">Block</button>
     <button
       aerisButton
       variant="solid"
@@ -143,6 +142,13 @@ export class BlockUiElementElementDemo {
   color: var(--aeris-text-2);
   line-height: 1.65;
 }
+
+@media (max-width: 30rem) {
+  .block-ui-actions {
+      align-items: stretch;
+      flex-direction: column;
+    }
+}
 ```
 
 ### Full screen
@@ -166,7 +172,7 @@ import { AerisButton } from '@aeris-ui/core/button';
     </div>
   `
 })
-export class BlockUiScreenFullScreenDemo {
+export class BlockUiScreenDemo {
   private readonly destroyRef = inject(DestroyRef);
   private screenTimer: ReturnType<typeof setTimeout> | undefined;
   protected readonly screenBlocked = signal(false);

@@ -34,6 +34,7 @@
       "type": "object",
       "description": "An AerisThemeOverride merged over the selected preset.",
       "properties": {
+        "preset": { "enum": ["earth", "coastal", "orchid", "monochrome"] },
         "palette": { "$ref": "#/$defs/palette" },
         "light": { "$ref": "#/$defs/scheme" },
         "dark": { "$ref": "#/$defs/scheme" },
@@ -66,21 +67,22 @@
       }
     },
     "tone": {
-      "type": "object",
+      "type": ["object", "null"],
       "additionalProperties": false,
       "properties": {
-        "base": { "$ref": "#/$defs/cssValue" },
-        "boundary": { "$ref": "#/$defs/cssValue" },
-        "hover": { "$ref": "#/$defs/cssValue" },
-        "active": { "$ref": "#/$defs/cssValue" },
-        "onBase": { "$ref": "#/$defs/cssValue" },
-        "onHover": { "$ref": "#/$defs/cssValue" },
-        "onActive": { "$ref": "#/$defs/cssValue" },
-        "text": { "$ref": "#/$defs/cssValue" },
-        "soft": { "$ref": "#/$defs/cssValue" },
-        "onSoft": { "$ref": "#/$defs/cssValue" }
+        "base": { "$ref": "#/$defs/toneValue" },
+        "boundary": { "$ref": "#/$defs/toneValue" },
+        "hover": { "$ref": "#/$defs/toneValue" },
+        "active": { "$ref": "#/$defs/toneValue" },
+        "onBase": { "$ref": "#/$defs/toneValue" },
+        "onHover": { "$ref": "#/$defs/toneValue" },
+        "onActive": { "$ref": "#/$defs/toneValue" },
+        "text": { "$ref": "#/$defs/toneValue" },
+        "soft": { "$ref": "#/$defs/toneValue" },
+        "onSoft": { "$ref": "#/$defs/toneValue" }
       }
     },
+    "toneValue": { "anyOf": [{ "$ref": "#/$defs/cssValue" }, { "type": "null" }] },
     "tones": {
       "type": "object",
       "additionalProperties": false,

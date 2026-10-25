@@ -49,13 +49,18 @@ jobs:
         run: npm run check:package
 
       - name: Check library bundle size
-        run: npm run check:bundle-size
+        run: npm run test:performance-budgets && npm run check:bundle-size
 
       - name: Check production consumer bundles
         run: npm run check:consumer-performance
 
       - name: Test packed library installation
-        run: npm run check:packed-install
+        run: |
+          npx playwright install --with-deps chromium
+          npm run check:packed-install
+
+      - name: Verify minimum supported Angular
+        run: npm run check:minimum-angular
 
       - name: Build MCP server
         run: npm run build:mcp
@@ -79,15 +84,63 @@ jobs:
         run: npm run test:mcp
 
       - name: Build documentation
-        run: npm run test:doc-performance && npm run build:docs
+        run: npm run build:docs
 
-  browser:
-    name: browser
+      - name: Upload performance reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: performance-reports
+          path: |
+            .angular/performance-reports/
+            .angular/consumer-performance/report.json
+          if-no-files-found: ignore
+
+  browser-build:
+    name: browser build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24.15.0
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build library
+        run: npm run build:lib
+
+      - name: Build browser applications
+        run: npm run test:browser-server && npm run build:browser-apps
+
+      - name: Upload browser applications
+        uses: actions/upload-artifact@v7
+        with:
+          name: browser-apps
+          path: |
+            dist/browser-tests/browser/
+            dist/docs/browser/
+          if-no-files-found: error
+          retention-days: 7
+
+  browser-tests:
+    name: browser shard (${{ matrix.shard }}/8)
+    needs: browser-build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6, 7, 8]
     env:
       AERIS_E2E_BUILT_APPS: 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
@@ -104,23 +157,43 @@ jobs:
       - name: Install browser engines
         run: npx playwright install --with-deps chromium firefox webkit
 
-      - name: Build library
-        run: npm run build:lib
+      - name: Download browser applications
+        uses: actions/download-artifact@v7
+        with:
+          name: browser-apps
+          path: dist
 
-      - name: Run browser regression tests
-        # Build once; individual tests must not race dev-server compilation or HMR.
-        run: npm run test:browser-server && npm run build:browser-apps && npm run test:e2e:critical
+      - name: Run browser regression shard
+        # End gracefully before the job deadline so traces and reports can be uploaded.
+        run: npm run test:e2e:critical -- --shard=${{ matrix.shard }}/8 --workers=2 --global-timeout=900000
 
-      - name: Upload browser failure artifacts
-        if: failure()
+      - name: Upload browser reports
+        if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: playwright-report
+          name: browser-report-${{ matrix.shard }}
           path: |
             playwright-report/
             test-results/
           if-no-files-found: ignore
           retention-days: 7
+
+  browser:
+    name: browser
+    if: always()
+    needs: [browser-build, browser-tests]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require the build and every browser shard to pass
+        env:
+          BUILD_RESULT: ${{ needs.browser-build.result }}
+          TEST_RESULT: ${{ needs.browser-tests.result }}
+        run: |
+          if [[ "$BUILD_RESULT" != "success" || "$TEST_RESULT" != "success" ]]; then
+            echo "::error::Browser verification failed: build=$BUILD_RESULT, shards=$TEST_RESULT."
+            exit 1
+          fi
 
   visual:
     name: visual

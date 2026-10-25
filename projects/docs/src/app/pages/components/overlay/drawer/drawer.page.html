@@ -41,8 +41,8 @@
   &lt;button aerisButton type="button" (click)="basicOpen.set(true)"&gt;Open drawer&lt;/button&gt;
   &lt;aeris-drawer header="Navigation" [(visible)]="basicOpen"&gt;
     &lt;p&gt;
-      Use a drawer for navigation, filters, settings, and supporting workflows that
-      should stay attached to a viewport edge.
+      Use a drawer for navigation, filters, settings, and supporting workflows that should
+      stay attached to a viewport edge.
     &lt;/p&gt;
   &lt;/aeris-drawer&gt;
 &lt;/div&gt;</code></pre>
@@ -86,35 +86,34 @@ Shared component planning and release notes.</textarea>
                 <p class="drawer-status" aria-live="polite">{{ lastEvent() }}</p>
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
-                &lt;button aerisButton type="button" (click)="controlledOpen.set(true)"&gt;
-                  Edit settings
-                &lt;/button&gt;
-                &lt;aeris-drawer
-                  header="Workspace settings"
-                  [(visible)]="controlledOpen"
-                  (opened)="recordDrawerEvent($event)"
-                  (closed)="recordDrawerEvent($event)"
-                &gt;
-                  &lt;form class="drawer-form"&gt;
-                    &lt;label&gt;
-                      Workspace name
-                      &lt;input aerisInputText type="text" value="Design System" /&gt;
-                    &lt;/label&gt;
-                    &lt;label&gt;
-                      Notes
-                      &lt;textarea aerisTextarea&gt;
-Shared component planning and release notes.&lt;/textarea&gt;
-                    &lt;/label&gt;
-                  &lt;/form&gt;
-                  &lt;ng-template aerisDrawerFooter let-close="close"&gt;
-                    &lt;div class="drawer-actions"&gt;
-                      &lt;button aerisButton type="button" (click)="close($event)"&gt;Cancel&lt;/button&gt;
-                      &lt;button aerisButton type="button" (click)="close($event)"&gt;Save&lt;/button&gt;
-                    &lt;/div&gt;
-                  &lt;/ng-template&gt;
-                &lt;/aeris-drawer&gt;
-                &lt;p class="drawer-status" aria-live="polite"&gt;&#123;&#123; lastEvent() &#125;&#125;&lt;/p&gt;
-              &lt;/div&gt;</code></pre>
+  &lt;button aerisButton type="button" (click)="controlledOpen.set(true)"&gt;
+    Edit settings
+  &lt;/button&gt;
+  &lt;aeris-drawer
+    header="Workspace settings"
+    [(visible)]="controlledOpen"
+    (opened)="recordDrawerEvent($event)"
+    (closed)="recordDrawerEvent($event)"
+  &gt;
+    &lt;form class="drawer-form"&gt;
+      &lt;label&gt;
+        Workspace name
+        &lt;input aerisInputText type="text" value="Design System" /&gt;
+      &lt;/label&gt;
+      &lt;label&gt;
+        Notes
+        &lt;textarea aerisTextarea&gt;Shared component planning and release notes.&lt;/textarea&gt;
+      &lt;/label&gt;
+    &lt;/form&gt;
+    &lt;ng-template aerisDrawerFooter let-close="close"&gt;
+      &lt;div class="drawer-actions"&gt;
+        &lt;button aerisButton type="button" (click)="close($event)"&gt;Cancel&lt;/button&gt;
+        &lt;button aerisButton type="button" (click)="close($event)"&gt;Save&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-drawer&gt;
+  &lt;p class="drawer-status" aria-live="polite"&gt;&#123;&#123; lastEvent() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
             </app-form-demo>
 
             <app-form-demo
@@ -279,6 +278,167 @@ Shared component planning and release notes.&lt;/textarea&gt;
             </app-form-demo>
 
             <app-form-demo
+              id="drawer-snap"
+              title="Snap points"
+              description="Bottom drawers can settle at configured heights. Drag the header or optional resize handle, use its arrow keys, or choose a height with the buttons. Resizing does not dismiss unless swipeToClose is explicitly enabled."
+            >
+              <div preview>
+                <button aerisButton (click)="snapOpen.set(true)">Open snap drawer</button>
+                <aeris-drawer
+                  #snapDrawer
+                  header="Project details"
+                  position="bottom"
+                  [snapPoints]="snapPoints"
+                  [(activeSnapPoint)]="snapPoint"
+                  [(visible)]="snapOpen"
+                  swipeHandle
+                >
+                  <div class="drawer-form">
+                    <label>Project name <input aerisInputText value="Workspace refresh" /></label>
+                    @for (note of snapNotes; track note) {
+                      <p>{{ note }}</p>
+                    }
+                  </div>
+                  <ng-template aerisDrawerFooter>
+                    <div class="drawer-controls">
+                      @for (point of snapPoints; track point) {
+                        <button
+                          aerisButton
+                          [variant]="snapPoint() === point ? 'solid' : 'outline'"
+                          [attr.aria-pressed]="snapPoint() === point"
+                          (click)="snapDrawer.snapTo(point)"
+                        >
+                          {{ point * 100 }}%
+                        </button>
+                      }
+                    </div>
+                  </ng-template>
+                </aeris-drawer>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton (click)="snapOpen.set(true)"&gt;Open snap drawer&lt;/button&gt;
+  &lt;aeris-drawer
+    #snapDrawer
+    header="Project details"
+    position="bottom"
+    [snapPoints]="snapPoints"
+    [(activeSnapPoint)]="snapPoint"
+    [(visible)]="snapOpen"
+    swipeHandle
+  &gt;
+    &lt;div class="drawer-form"&gt;
+      &lt;label&gt;
+        Project name
+        &lt;input aerisInputText value="Workspace refresh" /&gt;
+      &lt;/label&gt;
+      &#64;for (note of snapNotes; track note) &#123;
+        &lt;p&gt;&#123;&#123; note &#125;&#125;&lt;/p&gt;
+      &#125;
+    &lt;/div&gt;
+    &lt;ng-template aerisDrawerFooter&gt;
+      &lt;div class="drawer-controls"&gt;
+        &#64;for (point of snapPoints; track point) &#123;
+          &lt;button
+            aerisButton
+            [variant]="snapPoint() === point ? 'solid' : 'outline'"
+            [attr.aria-pressed]="snapPoint() === point"
+            (click)="snapDrawer.snapTo(point)"
+          &gt;
+            &#123;&#123; point * 100 &#125;&#125;%
+          &lt;/button&gt;
+        &#125;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-drawer&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="drawer-swipe"
+              title="Swipe dismissal"
+              description="Swipe non-interactive content toward the drawer's screen edge. Scrolling and form controls keep their normal behavior. Short and cancelled drags return to the resting position."
+            >
+              <div preview>
+                <div class="drawer-controls">
+                  @for (edge of swipePositions; track edge) {
+                    <button
+                      aerisButton
+                      variant="outline"
+                      type="button"
+                      (click)="openSwipeDrawer(edge)"
+                    >
+                      {{ edge }} drawer
+                    </button>
+                  }
+                </div>
+                <p class="drawer-status" role="status">{{ swipeStatus() }}</p>
+                <aeris-drawer
+                  header="Swipe to close"
+                  [(visible)]="swipeOpen"
+                  [position]="swipePosition()"
+                  height="28rem"
+                  swipeToClose
+                  (closed)="recordSwipeClose($event)"
+                >
+                  <p>
+                    Swipe this content toward the screen edge to close. Scrollable content must be
+                    at its dismissal boundary first. The close button is always available.
+                  </p>
+                  <div class="drawer-form">
+                    <label
+                      ><span>Project name</span><input aerisInputText value="Summer launch"
+                    /></label>
+                    <label
+                      ><span>Notes</span
+                      ><textarea aerisTextarea rows="3">
+Form controls keep their normal interaction.</textarea>
+                    </label>
+                  </div>
+                  @for (item of swipeItems; track item) {
+                    <p>{{ item }}</p>
+                  }
+                </aeris-drawer>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="drawer-controls"&gt;
+    &#64;for (edge of swipePositions; track edge) &#123;
+      &lt;button aerisButton variant="outline" type="button" (click)="openSwipeDrawer(edge)"&gt;
+        &#123;&#123; edge &#125;&#125; drawer
+      &lt;/button&gt;
+    &#125;
+  &lt;/div&gt;
+  &lt;p class="drawer-status" role="status"&gt;&#123;&#123; swipeStatus() &#125;&#125;&lt;/p&gt;
+  &lt;aeris-drawer
+    header="Swipe to close"
+    [(visible)]="swipeOpen"
+    [position]="swipePosition()"
+    height="28rem"
+    swipeToClose
+    (closed)="recordSwipeClose($event)"
+  &gt;
+    &lt;p&gt;
+      Swipe this content toward the screen edge to close. Scrollable content must be at
+      its dismissal boundary first. The close button is always available.
+    &lt;/p&gt;
+    &lt;div class="drawer-form"&gt;
+      &lt;label&gt;
+        &lt;span&gt;Project name&lt;/span&gt;
+        &lt;input aerisInputText value="Summer launch" /&gt;
+      &lt;/label&gt;
+      &lt;label&gt;
+        &lt;span&gt;Notes&lt;/span&gt;
+        &lt;textarea aerisTextarea rows="3"&gt;
+Form controls keep their normal interaction.&lt;/textarea&gt;
+      &lt;/label&gt;
+    &lt;/div&gt;
+    &#64;for (item of swipeItems; track item) &#123;
+      &lt;p&gt;&#123;&#123; item &#125;&#125;&lt;/p&gt;
+    &#125;
+  &lt;/aeris-drawer&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
               id="drawer-responsive"
               title="Responsive sizing"
               description="Set desktop dimensions and opt into full-screen mobile layout for dense workflows."
@@ -316,8 +476,8 @@ Shared component planning and release notes.&lt;/textarea&gt;
     [(visible)]="responsiveOpen"
   &gt;
     &lt;p&gt;
-      The drawer uses a desktop width until the built-in narrow viewport query applies
-      the full-screen mobile layout.
+      The drawer uses a desktop width until the built-in narrow viewport query applies the
+      full-screen mobile layout.
     &lt;/p&gt;
   &lt;/aeris-drawer&gt;
 &lt;/div&gt;</code></pre>
@@ -422,15 +582,14 @@ Shared component planning and release notes.&lt;/textarea&gt;
       &lt;section class="drawer-card"&gt;
         &lt;strong&gt;Opened full screen&lt;/strong&gt;
         &lt;p&gt;
-          This drawer starts in full-screen layout without requiring a maximize
-          action.
+          This drawer starts in full-screen layout without requiring a maximize action.
         &lt;/p&gt;
       &lt;/section&gt;
       &lt;section class="drawer-card"&gt;
         &lt;strong&gt;Use case&lt;/strong&gt;
         &lt;p&gt;
-          Full-screen drawers work well for detailed mobile workflows, large forms,
-          and focused review tasks.
+          Full-screen drawers work well for detailed mobile workflows, large forms, and
+          focused review tasks.
         &lt;/p&gt;
       &lt;/section&gt;
     &lt;/div&gt;
@@ -482,9 +641,7 @@ Shared component planning and release notes.&lt;/textarea&gt;
     &lt;/div&gt;
     &lt;ng-template aerisDrawerFooter let-close="close"&gt;
       &lt;div class="drawer-actions"&gt;
-        &lt;button aerisButton type="button" (click)="close($event)"&gt;
-          Apply filters
-        &lt;/button&gt;
+        &lt;button aerisButton type="button" (click)="close($event)"&gt;Apply filters&lt;/button&gt;
       &lt;/div&gt;
     &lt;/ng-template&gt;
   &lt;/aeris-drawer&gt;
@@ -649,6 +806,7 @@ Shared component planning and release notes.&lt;/textarea&gt;
     <aeris-tab-panel value="tokens" label="Tokens">
       <section class="doc-section">
         <h2>Design tokens</h2>
+        <p>When customizing the swipe handle, keep its target at least 24px wide and tall.</p>
         <div
           class="api-table token-table"
           role="table"
@@ -658,6 +816,15 @@ Shared component planning and release notes.&lt;/textarea&gt;
           <div class="api-head" role="row">
             <b role="columnheader">Token</b><b role="columnheader">Purpose</b
             ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-drawer-swipe-handle-color</code
+            ><span role="cell">Swipe handle color.</span><code role="cell">--aeris-text-3</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-drawer-swipe-handle-space</code
+            ><span role="cell">Reserved space at the draggable edge.</span
+            ><code role="cell">2rem</code>
           </div>
           <div role="row">
             <code role="cell">--aeris-drawer-width</code><span role="cell">Side drawer width.</span
@@ -746,6 +913,18 @@ Shared component planning and release notes.&lt;/textarea&gt;
     <aeris-tab-panel value="accessibility" label="Accessibility">
       <section class="doc-section">
         <h2>Accessibility</h2>
+        <p>
+          With swipeToClose, non-interactive content can start dismissal. A scroll container keeps
+          the gesture when it can scroll in that direction; start a new gesture at the boundary to
+          dismiss. Inputs, buttons, links, editable content and nested interactive controls are
+          excluded. Add data-aeris-swipe-ignore to a custom gesture surface to exclude it too.
+          Selected text is preserved. The standard close button and Escape remain available. The
+          optional swipeHandle is a native button named by closeAriaLabel; tap, Enter or Space
+          closes it. A swipe closes toward the physical left, right, top or bottom edge; RTL does
+          not swap these positions. The handle is hidden while maximized. Short, perpendicular,
+          interrupted or cancelled drags do not dismiss. Reduced motion removes the return and exit
+          animation, not direct pointer tracking.
+        </p>
         <ul>
           <li>
             Drawer renders a <code>role="dialog"</code> panel and sets <code>aria-modal</code> from
@@ -780,6 +959,15 @@ Shared component planning and release notes.&lt;/textarea&gt;
         </ul>
 
         <h3>Keyboard support</h3>
+        <p>
+          For snap points, enable <code>swipeHandle</code> to expose the height slider, or provide
+          buttons that call <code>snapTo(point)</code>. The example provides both. Points use the
+          available visual viewport, so the sheet stays above an on-screen keyboard; its body
+          scrolls to keep a focused form field visible. The largest snap point defines the maximum
+          height instead of <code>maxHeight</code>. Choose points that leave room for your header
+          and footer. Nested overlays retain their own gestures; only the topmost drawer can be
+          dragged.
+        </p>
         <div
           class="api-table keyboard-table"
           role="table"
@@ -788,6 +976,18 @@ Shared component planning and release notes.&lt;/textarea&gt;
         >
           <div class="api-head" role="row">
             <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
+          </div>
+          <div role="row">
+            <span role="cell">Arrow Up / Page Up on resize handle</span>
+            <span role="cell">Selects the next larger snap point without closing.</span>
+          </div>
+          <div role="row">
+            <span role="cell">Arrow Down / Page Down on resize handle</span>
+            <span role="cell">Selects the next smaller snap point without closing.</span>
+          </div>
+          <div role="row">
+            <span role="cell">Home / End on resize handle</span>
+            <span role="cell">Selects the smallest / largest snap point.</span>
           </div>
           <div role="row">
             <span role="cell">Tab</span
@@ -806,6 +1006,13 @@ Shared component planning and release notes.&lt;/textarea&gt;
           <div role="row">
             <span role="cell">Escape</span
             ><span role="cell">Closes the drawer when closeOnEscape is true.</span>
+          </div>
+          <div role="row">
+            <span role="cell">Enter / Space on swipe handle</span
+            ><span role="cell"
+              >Closes without dragging, when swipeToClose and swipeHandle are enabled and snap
+              points are not active.</span
+            >
           </div>
           <div role="row">
             <span role="cell">Enter / Space</span

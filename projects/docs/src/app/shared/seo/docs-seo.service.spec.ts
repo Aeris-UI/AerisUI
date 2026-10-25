@@ -5,6 +5,13 @@ import { provideRouter } from '@angular/router';
 import { DocsSeoService, resolveDocsSeo } from './docs-seo.service';
 
 describe('docs SEO metadata', () => {
+  it('keeps isolated responsive previews out of search indexes', () => {
+    expect(resolveDocsSeo('/components/sidebar?preview=responsive-sidebar')).toMatchObject({
+      noIndex: true,
+      path: '/components/sidebar',
+    });
+    expect(resolveDocsSeo('/components/sidebar').noIndex).toBeUndefined();
+  });
   it('describes the landing page as an indexable Angular library page', () => {
     const seo = resolveDocsSeo('/');
 

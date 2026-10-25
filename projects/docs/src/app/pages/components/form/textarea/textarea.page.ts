@@ -150,6 +150,13 @@ type AerisTextareaResize =
 
   protected readonly wrapperInputs: readonly ApiRow[] = [
     {
+      name: 'clearIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
       name: 'value',
       type: 'string (model)',
       defaultValue: "''",

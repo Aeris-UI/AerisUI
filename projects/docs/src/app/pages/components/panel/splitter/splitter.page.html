@@ -91,17 +91,20 @@
     &lt;aeris-splitter-panel ariaLabel="Charts" [size]="58"&gt;
       &lt;div class="dashboard-pane"&gt;
         &lt;div class="dashboard-card"&gt;
-          &lt;strong&gt;Revenue&lt;/strong&gt;&lt;span&gt;$42.8k this month&lt;/span&gt;
+          &lt;strong&gt;Revenue&lt;/strong&gt;
+          &lt;span&gt;$42.8k this month&lt;/span&gt;
         &lt;/div&gt;
         &lt;div class="dashboard-card"&gt;
-          &lt;strong&gt;Conversion&lt;/strong&gt;&lt;span&gt;7.4% from active campaigns&lt;/span&gt;
+          &lt;strong&gt;Conversion&lt;/strong&gt;
+          &lt;span&gt;7.4% from active campaigns&lt;/span&gt;
         &lt;/div&gt;
       &lt;/div&gt;
     &lt;/aeris-splitter-panel&gt;
     &lt;aeris-splitter-panel ariaLabel="Activity" [size]="42"&gt;
       &lt;div class="dashboard-pane"&gt;
         &lt;div class="dashboard-card"&gt;
-          &lt;strong&gt;Activity&lt;/strong&gt;&lt;span&gt;12 reviews waiting for approval.&lt;/span&gt;
+          &lt;strong&gt;Activity&lt;/strong&gt;
+          &lt;span&gt;12 reviews waiting for approval.&lt;/span&gt;
         &lt;/div&gt;
       &lt;/div&gt;
     &lt;/aeris-splitter-panel&gt;
@@ -112,15 +115,15 @@
             <app-form-demo
               id="splitter-divider"
               title="Divider"
-              description="Use handle-only separators for minimal layouts or full divider lines when stronger separation is needed."
+              description="The thin divider is always visible. Hide its grip without losing pointer or keyboard resizing."
               [cssCode]="variantCssCode + '\n\n' + paneCssCode"
             >
               <div preview>
                 <div class="splitter-grid">
-                  <aeris-splitter height="10rem" ariaLabel="Handle-only splitter">
+                  <aeris-splitter height="10rem" ariaLabel="Splitter with handle">
                     <aeris-splitter-panel
                       ><div class="splitter-pane">
-                        <strong>Handle only</strong><span>Default minimal divider.</span>
+                        <strong>Line and handle</strong><span>Default centered grip.</span>
                       </div></aeris-splitter-panel
                     >
                     <aeris-splitter-panel
@@ -129,10 +132,10 @@
                       </div></aeris-splitter-panel
                     >
                   </aeris-splitter>
-                  <aeris-splitter height="10rem" divider="line" ariaLabel="Line splitter">
+                  <aeris-splitter height="10rem" [showHandle]="false" ariaLabel="Line splitter">
                     <aeris-splitter-panel
                       ><div class="splitter-pane">
-                        <strong>Full line</strong><span>Divider line with centered handle.</span>
+                        <strong>Line only</strong><span>Resize anywhere along the divider.</span>
                       </div></aeris-splitter-panel
                     >
                     <aeris-splitter-panel
@@ -145,25 +148,33 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="splitter-grid"&gt;
-    &lt;aeris-splitter height="10rem" ariaLabel="Handle-only splitter"&gt;
-      &lt;aeris-splitter-panel
-        &gt;&lt;div class="splitter-pane"&gt;
-          &lt;strong&gt;Handle only&lt;/strong&gt;&lt;span&gt;Default minimal divider.&lt;/span&gt;
-        &lt;/div&gt;&lt;/aeris-splitter-panel&gt;
-      &lt;aeris-splitter-panel
-        &gt;&lt;div class="splitter-pane"&gt;
-          &lt;strong&gt;Panel&lt;/strong&gt;&lt;span&gt;Resize from the handle.&lt;/span&gt;
-        &lt;/div&gt;&lt;/aeris-splitter-panel&gt;
+    &lt;aeris-splitter height="10rem" ariaLabel="Splitter with handle"&gt;
+      &lt;aeris-splitter-panel&gt;
+        &lt;div class="splitter-pane"&gt;
+          &lt;strong&gt;Line and handle&lt;/strong&gt;
+          &lt;span&gt;Default centered grip.&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/aeris-splitter-panel&gt;
+      &lt;aeris-splitter-panel&gt;
+        &lt;div class="splitter-pane"&gt;
+          &lt;strong&gt;Panel&lt;/strong&gt;
+          &lt;span&gt;Resize from the handle.&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/aeris-splitter-panel&gt;
     &lt;/aeris-splitter&gt;
-    &lt;aeris-splitter height="10rem" divider="line" ariaLabel="Line splitter"&gt;
-      &lt;aeris-splitter-panel
-        &gt;&lt;div class="splitter-pane"&gt;
-          &lt;strong&gt;Full line&lt;/strong&gt;&lt;span&gt;Divider line with centered handle.&lt;/span&gt;
-        &lt;/div&gt;&lt;/aeris-splitter-panel&gt;
-      &lt;aeris-splitter-panel
-        &gt;&lt;div class="splitter-pane"&gt;
-          &lt;strong&gt;Panel&lt;/strong&gt;&lt;span&gt;Useful for dense surfaces.&lt;/span&gt;
-        &lt;/div&gt;&lt;/aeris-splitter-panel&gt;
+    &lt;aeris-splitter height="10rem" [showHandle]="false" ariaLabel="Line splitter"&gt;
+      &lt;aeris-splitter-panel&gt;
+        &lt;div class="splitter-pane"&gt;
+          &lt;strong&gt;Line only&lt;/strong&gt;
+          &lt;span&gt;Resize anywhere along the divider.&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/aeris-splitter-panel&gt;
+      &lt;aeris-splitter-panel&gt;
+        &lt;div class="splitter-pane"&gt;
+          &lt;strong&gt;Panel&lt;/strong&gt;
+          &lt;span&gt;Useful for dense surfaces.&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/aeris-splitter-panel&gt;
     &lt;/aeris-splitter&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
@@ -242,23 +253,24 @@
   &gt;
     &lt;aeris-splitter-panel ariaLabel="Folders"&gt;
       &lt;div class="splitter-pane"&gt;
-        &lt;strong&gt;Folders&lt;/strong&gt;&lt;span&gt;Inbox, review, archive.&lt;/span&gt;
+        &lt;strong&gt;Folders&lt;/strong&gt;
+        &lt;span&gt;Inbox, review, archive.&lt;/span&gt;
       &lt;/div&gt;
     &lt;/aeris-splitter-panel&gt;
     &lt;aeris-splitter-panel ariaLabel="Message"&gt;
       &lt;div class="splitter-pane"&gt;
-        &lt;strong&gt;Message&lt;/strong&gt;&lt;span&gt;Resize events update the signal.&lt;/span&gt;
+        &lt;strong&gt;Message&lt;/strong&gt;
+        &lt;span&gt;Resize events update the signal.&lt;/span&gt;
       &lt;/div&gt;
     &lt;/aeris-splitter-panel&gt;
     &lt;aeris-splitter-panel ariaLabel="Inspector"&gt;
       &lt;div class="splitter-pane"&gt;
-        &lt;strong&gt;Inspector&lt;/strong&gt;&lt;span&gt;Metadata and actions.&lt;/span&gt;
+        &lt;strong&gt;Inspector&lt;/strong&gt;
+        &lt;span&gt;Metadata and actions.&lt;/span&gt;
       &lt;/div&gt;
     &lt;/aeris-splitter-panel&gt;
   &lt;/aeris-splitter&gt;
-  &lt;p class="splitter-status" role="status" aria-live="polite"&gt;
-    Sizes: &#123;&#123; lastResize &#125;&#125;
-  &lt;/p&gt;
+  &lt;p class="splitter-status" role="status" aria-live="polite"&gt;Sizes: &#123;&#123; lastResize &#125;&#125;&lt;/p&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -296,12 +308,14 @@
       [maxSize]="35"
     &gt;
       &lt;div class="splitter-pane"&gt;
-        &lt;strong&gt;20-35%&lt;/strong&gt;&lt;span&gt;Navigation cannot collapse too far.&lt;/span&gt;
+        &lt;strong&gt;20-35%&lt;/strong&gt;
+        &lt;span&gt;Navigation cannot collapse too far.&lt;/span&gt;
       &lt;/div&gt;
     &lt;/aeris-splitter-panel&gt;
     &lt;aeris-splitter-panel ariaLabel="Main area" [size]="75" [minSize]="45"&gt;
       &lt;div class="splitter-pane"&gt;
-        &lt;strong&gt;Minimum 45%&lt;/strong&gt;&lt;span&gt;Main content keeps readable width.&lt;/span&gt;
+        &lt;strong&gt;Minimum 45%&lt;/strong&gt;
+        &lt;span&gt;Main content keeps readable width.&lt;/span&gt;
       &lt;/div&gt;
     &lt;/aeris-splitter-panel&gt;
   &lt;/aeris-splitter&gt;
@@ -334,18 +348,16 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;aeris-splitter height="13rem" ariaLabel="Locked workspace"&gt;
-    &lt;aeris-splitter-panel
-      ariaLabel="Locked navigation"
-      [size]="35"
-      [resizable]="false"
-    &gt;
+    &lt;aeris-splitter-panel ariaLabel="Locked navigation" [size]="35" [resizable]="false"&gt;
       &lt;div class="splitter-pane"&gt;
-        &lt;strong&gt;Locked&lt;/strong&gt;&lt;span&gt;This panel disables the adjacent handle.&lt;/span&gt;
+        &lt;strong&gt;Locked&lt;/strong&gt;
+        &lt;span&gt;This panel disables the adjacent handle.&lt;/span&gt;
       &lt;/div&gt;
     &lt;/aeris-splitter-panel&gt;
     &lt;aeris-splitter-panel ariaLabel="Content" [size]="65"&gt;
       &lt;div class="splitter-pane"&gt;
-        &lt;strong&gt;Content&lt;/strong&gt;&lt;span&gt;The handle is exposed as disabled.&lt;/span&gt;
+        &lt;strong&gt;Content&lt;/strong&gt;
+        &lt;span&gt;The handle is exposed as disabled.&lt;/span&gt;
       &lt;/div&gt;
     &lt;/aeris-splitter-panel&gt;
   &lt;/aeris-splitter&gt;
@@ -402,13 +414,16 @@
     &lt;aeris-splitter-panel ariaLabel="Message list" [size]="32"&gt;
       &lt;div class="mail-pane"&gt;
         &lt;div class="mail-row"&gt;
-          &lt;strong&gt;Design review&lt;/strong&gt;&lt;span&gt;Today at 10:30&lt;/span&gt;
+          &lt;strong&gt;Design review&lt;/strong&gt;
+          &lt;span&gt;Today at 10:30&lt;/span&gt;
         &lt;/div&gt;
         &lt;div class="mail-row"&gt;
-          &lt;strong&gt;Release notes&lt;/strong&gt;&lt;span&gt;Yesterday at 16:20&lt;/span&gt;
+          &lt;strong&gt;Release notes&lt;/strong&gt;
+          &lt;span&gt;Yesterday at 16:20&lt;/span&gt;
         &lt;/div&gt;
         &lt;div class="mail-row"&gt;
-          &lt;strong&gt;QA report&lt;/strong&gt;&lt;span&gt;Monday at 09:15&lt;/span&gt;
+          &lt;strong&gt;QA report&lt;/strong&gt;
+          &lt;span&gt;Monday at 09:15&lt;/span&gt;
         &lt;/div&gt;
       &lt;/div&gt;
     &lt;/aeris-splitter-panel&gt;
@@ -487,34 +502,46 @@
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="splitter-grid"&gt;
     &lt;aeris-splitter height="9rem" ariaLabel="Outlined splitter"&gt;
-      &lt;aeris-splitter-panel
-        &gt;&lt;div class="splitter-pane"&gt;
-          &lt;strong&gt;Outlined&lt;/strong&gt;&lt;span&gt;Default border.&lt;/span&gt;
-        &lt;/div&gt;&lt;/aeris-splitter-panel&gt;
-      &lt;aeris-splitter-panel
-        &gt;&lt;div class="splitter-pane"&gt;
-          &lt;strong&gt;Panel&lt;/strong&gt;&lt;span&gt;Resizable.&lt;/span&gt;
-        &lt;/div&gt;&lt;/aeris-splitter-panel&gt;
+      &lt;aeris-splitter-panel&gt;
+        &lt;div class="splitter-pane"&gt;
+          &lt;strong&gt;Outlined&lt;/strong&gt;
+          &lt;span&gt;Default border.&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/aeris-splitter-panel&gt;
+      &lt;aeris-splitter-panel&gt;
+        &lt;div class="splitter-pane"&gt;
+          &lt;strong&gt;Panel&lt;/strong&gt;
+          &lt;span&gt;Resizable.&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/aeris-splitter-panel&gt;
     &lt;/aeris-splitter&gt;
     &lt;aeris-splitter height="9rem" variant="filled" ariaLabel="Filled splitter"&gt;
-      &lt;aeris-splitter-panel
-        &gt;&lt;div class="splitter-pane"&gt;
-          &lt;strong&gt;Filled&lt;/strong&gt;&lt;span&gt;Soft surface.&lt;/span&gt;
-        &lt;/div&gt;&lt;/aeris-splitter-panel&gt;
-      &lt;aeris-splitter-panel
-        &gt;&lt;div class="splitter-pane"&gt;
-          &lt;strong&gt;Panel&lt;/strong&gt;&lt;span&gt;Resizable.&lt;/span&gt;
-        &lt;/div&gt;&lt;/aeris-splitter-panel&gt;
+      &lt;aeris-splitter-panel&gt;
+        &lt;div class="splitter-pane"&gt;
+          &lt;strong&gt;Filled&lt;/strong&gt;
+          &lt;span&gt;Soft surface.&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/aeris-splitter-panel&gt;
+      &lt;aeris-splitter-panel&gt;
+        &lt;div class="splitter-pane"&gt;
+          &lt;strong&gt;Panel&lt;/strong&gt;
+          &lt;span&gt;Resizable.&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/aeris-splitter-panel&gt;
     &lt;/aeris-splitter&gt;
     &lt;aeris-splitter height="9rem" variant="plain" ariaLabel="Plain splitter"&gt;
-      &lt;aeris-splitter-panel
-        &gt;&lt;div class="splitter-pane"&gt;
-          &lt;strong&gt;Plain&lt;/strong&gt;&lt;span&gt;No outer border.&lt;/span&gt;
-        &lt;/div&gt;&lt;/aeris-splitter-panel&gt;
-      &lt;aeris-splitter-panel
-        &gt;&lt;div class="splitter-pane"&gt;
-          &lt;strong&gt;Panel&lt;/strong&gt;&lt;span&gt;Resizable.&lt;/span&gt;
-        &lt;/div&gt;&lt;/aeris-splitter-panel&gt;
+      &lt;aeris-splitter-panel&gt;
+        &lt;div class="splitter-pane"&gt;
+          &lt;strong&gt;Plain&lt;/strong&gt;
+          &lt;span&gt;No outer border.&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/aeris-splitter-panel&gt;
+      &lt;aeris-splitter-panel&gt;
+        &lt;div class="splitter-pane"&gt;
+          &lt;strong&gt;Panel&lt;/strong&gt;
+          &lt;span&gt;Resizable.&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/aeris-splitter-panel&gt;
     &lt;/aeris-splitter&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
@@ -530,7 +557,6 @@
                 <aeris-splitter
                   class="brand-splitter"
                   height="14rem"
-                  divider="line"
                   ariaLabel="Custom themed splitter"
                 >
                   <aeris-splitter-panel ariaLabel="Primary panel" [size]="38">
@@ -551,7 +577,6 @@
   &lt;aeris-splitter
     class="brand-splitter"
     height="14rem"
-    divider="line"
     ariaLabel="Custom themed splitter"
   &gt;
     &lt;aeris-splitter-panel ariaLabel="Primary panel" [size]="38"&gt;

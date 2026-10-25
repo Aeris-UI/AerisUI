@@ -502,6 +502,8 @@ protected openTwoDialogs(): void {
 }`;
 
   protected readonly interfacesCode = `interface AerisDynamicDialogConfig<TData = unknown> {
+  readonly closeIconTemplate?: TemplateRef<AerisDialogTemplateContext>;
+  readonly maximizeIconTemplate?: TemplateRef<AerisDialogTemplateContext>;
   readonly header?: string;
   readonly appendTo?: AerisAppendTo;
   readonly data?: TData;
@@ -573,6 +575,20 @@ interface AerisDynamicDialogSubscribable<T> {
   ];
 
   protected readonly configRows: readonly ApiRow[] = [
+    {
+      name: 'maximizeIconTemplate',
+      type: 'TemplateRef<AerisDialogTemplateContext> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Decorative artwork for the maximize and restore button; the Dialog retains its accessible name and action.',
+    },
+    {
+      name: 'closeIconTemplate',
+      type: 'TemplateRef<AerisDialogTemplateContext> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Optional close-button artwork; the service forwards it to the underlying Dialog without replacing its behavior.',
+    },
     {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",

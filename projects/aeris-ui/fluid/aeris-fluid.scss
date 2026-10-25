@@ -29,6 +29,7 @@ aeris-fluid.aeris-fluid[data-enabled='true']
     button[aerisButton],
     a[aerisButton],
     input[aerisInputText],
+    select[aerisNativeSelect],
     textarea[aerisTextarea]
   ) {
   min-inline-size: var(--aeris-fluid-min-inline-size, 0);

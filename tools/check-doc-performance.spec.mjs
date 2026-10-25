@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { test } from 'node:test';
 import { gzipSync } from 'node:zlib';
+import { budgetRows } from './performance-budget.mjs';
 
 const checker = readFileSync(new URL('./check-doc-performance.mjs', import.meta.url), 'utf8');
 
@@ -36,10 +37,16 @@ function runCheck(change = () => {}) {
         'styles.css': { entryPoint: 'angular:styles/global:styles' },
       },
     };
-    const size = (...names) => ({
-      raw: names.reduce((sum, name) => sum + Buffer.byteLength(sources[name]), 0),
-      gzip: names.reduce((sum, name) => sum + gzipSync(sources[name], { level: 9 }).byteLength, 0),
-    });
+    const size = (...names) => {
+      const measured = {
+        raw: names.reduce((sum, name) => sum + Buffer.byteLength(sources[name]), 0),
+        gzip: names.reduce(
+          (sum, name) => sum + gzipSync(sources[name], { level: 9 }).byteLength,
+          0,
+        ),
+      };
+      return { ...measured, baseline: { ...measured } };
+    };
     const budgets = {
       initialJavaScript: size('main.js', 'shared.js'),
       globalStyles: size('styles.css'),
@@ -48,6 +55,10 @@ function runCheck(change = () => {}) {
     };
     change(stats, budgets);
     writeFileSync(join(directory, 'tools/check-doc-performance.mjs'), checker);
+    writeFileSync(
+      join(directory, 'tools/performance-budget.mjs'),
+      readFileSync(new URL('./performance-budget.mjs', import.meta.url), 'utf8'),
+    );
     writeFileSync(join(directory, 'tools/doc-performance-budgets.json'), JSON.stringify(budgets));
     writeFileSync(join(directory, 'dist/docs/browser-stats.json'), JSON.stringify(stats));
     for (const [name, source] of Object.entries(sources))
@@ -71,6 +82,7 @@ test('catalog budgets exclude initial assets and count shared preview imports on
 test('catalog preview growth fails the build budget', () => {
   const result = runCheck((_stats, budgets) => {
     budgets.catalogPreviews.raw = 0;
+    budgets.catalogPreviews.baseline.raw = 0;
   });
   assert.equal(result.status, 1);
   assert.match(result.stderr, /Catalog with every deferred preview.*above/);
@@ -84,4 +96,17 @@ test('a missing catalog or preview graph fails instead of bypassing its budget',
     assert.equal(result.status, 1);
     assert.match(result.stderr, /catalog output is missing|Catalog preview outputs are missing/);
   }
+});
+
+test('Angular initial budgets match the reviewed combined JavaScript and CSS budget', () => {
+  const angular = JSON.parse(readFileSync(new URL('../angular.json', import.meta.url), 'utf8'));
+  const budgets = JSON.parse(
+    readFileSync(new URL('./doc-performance-budgets.json', import.meta.url), 'utf8'),
+  );
+  const initial = angular.projects.docs.architect.build.configurations.production.budgets.find(
+    (budget) => budget.type === 'initial',
+  );
+  const [row] = budgetRows('Initial', budgets.initialTotal.baseline, budgets.initialTotal);
+  assert.equal(initial.maximumError, `${row.limit}b`);
+  assert.equal(initial.maximumWarning, `${row.warning}b`);
 });

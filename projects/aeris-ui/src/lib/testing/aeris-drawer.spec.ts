@@ -18,6 +18,8 @@ const DRAWER_EXIT_DURATION_MS = 220;
       header="Navigation"
       ariaDescribedBy="drawer-description"
       [backdropBlur]="blur()"
+      [swipeToClose]="swipe()"
+      [swipeHandle]="handle()"
       backdropBlurAmount="1rem"
       [(visible)]="open"
       (opened)="shownCount.update((count) => count + 1)"
@@ -30,6 +32,8 @@ const DRAWER_EXIT_DURATION_MS = 220;
   `,
 })
 class BasicDrawerHost {
+  readonly swipe = signal(false);
+  readonly handle = signal(true);
   readonly open = signal(false);
   readonly blur = signal(true);
   readonly shownCount = signal(0);
@@ -120,6 +124,101 @@ class BackdroplessDrawerHost {}
 class HeadlessDrawerHost {}
 
 describe('AerisDrawer', () => {
+  it('keeps swipe dismissal opt-in and provides a native close alternative when enabled', async () => {
+    const fixture = TestBed.createComponent(BasicDrawerHost);
+    fixture.componentInstance.open.set(true);
+    await fixture.whenStable();
+    expect(document.querySelector('.aeris-drawer__swipe-handle')).toBeNull();
+    fixture.componentInstance.swipe.set(true);
+    fixture.componentInstance.handle.set(false);
+    await fixture.whenStable();
+    expect(document.querySelector('.aeris-drawer__swipe-handle')).toBeNull();
+    fixture.componentInstance.handle.set(true);
+    await fixture.whenStable();
+    const handle = document.querySelector('.aeris-drawer__swipe-handle') as HTMLButtonElement;
+    expect(handle.type).toBe('button');
+    expect(handle.getAttribute('aria-label')).toBe('Close drawer');
+    handle.click();
+    await fixture.whenStable();
+    expect(fixture.componentInstance.open()).toBe(false);
+    expect(fixture.componentInstance.lastHidden()?.reason).toBe('close-button');
+  });
+
+  it('uses the existing close lifecycle and typed reason after a handle swipe', async () => {
+    const fixture = TestBed.createComponent(BasicDrawerHost);
+    fixture.componentInstance.swipe.set(true);
+    await fixture.whenStable();
+    const launcher = fixture.nativeElement.querySelector('#launcher') as HTMLButtonElement;
+    launcher.focus();
+    launcher.click();
+    await fixture.whenStable();
+    const panel = document.querySelector('.aeris-drawer__panel') as HTMLElement;
+    panel.getBoundingClientRect = () => new DOMRect(0, 0, 200, 200);
+    const handle = panel.querySelector('.aeris-drawer__swipe-handle') as HTMLButtonElement;
+    for (const [type, x] of [
+      ['pointerdown', 0],
+      ['pointermove', 150],
+      ['pointerup', 150],
+    ] as const) {
+      handle.dispatchEvent(
+        new PointerEvent(type, {
+          isPrimary: true,
+          pointerId: 1,
+          bubbles: true,
+          button: 0,
+          clientX: x,
+          cancelable: true,
+        }),
+      );
+    }
+    await fixture.whenStable();
+    expect(fixture.componentInstance.open()).toBe(false);
+    expect(fixture.componentInstance.lastHidden()?.reason).toBe('swipe');
+    expect(panel.parentElement?.getAttribute('inert')).not.toBeNull();
+    expect(document.activeElement).toBe(launcher);
+  });
+
+  it('cancels an active gesture on resize and leaves content gestures untouched', async () => {
+    const fixture = TestBed.createComponent(BasicDrawerHost);
+    fixture.componentInstance.swipe.set(true);
+    fixture.componentInstance.open.set(true);
+    await fixture.whenStable();
+    const panel = document.querySelector('.aeris-drawer__panel') as HTMLElement;
+    panel.getBoundingClientRect = () => new DOMRect(0, 0, 200, 200);
+    const handle = panel.querySelector('.aeris-drawer__swipe-handle') as HTMLButtonElement;
+    handle.dispatchEvent(
+      new PointerEvent('pointerdown', { bubbles: true, isPrimary: true, pointerId: 1, button: 0 }),
+    );
+    handle.dispatchEvent(
+      new PointerEvent('pointermove', {
+        bubbles: true,
+        pointerId: 1,
+        clientX: 150,
+        cancelable: true,
+      }),
+    );
+    window.dispatchEvent(new Event('resize'));
+    handle.dispatchEvent(
+      new PointerEvent('pointerup', { bubbles: true, pointerId: 1, clientX: 150 }),
+    );
+    const body = panel.querySelector('.aeris-drawer__body') as HTMLElement;
+    for (const type of ['pointerdown', 'pointermove', 'pointerup']) {
+      body.dispatchEvent(
+        new PointerEvent(type, {
+          pointerId: 2,
+          isPrimary: true,
+          button: 0,
+          clientX: 200,
+          bubbles: true,
+        }),
+      );
+    }
+    await fixture.whenStable();
+    expect(fixture.componentInstance.open()).toBe(true);
+    expect(panel.getAttribute('data-swiping')).toBeNull();
+    expect(fixture.componentInstance.lastHidden()).toBeNull();
+  });
+
   afterEach(() => {
     vi.useRealTimers();
     vi.restoreAllMocks();

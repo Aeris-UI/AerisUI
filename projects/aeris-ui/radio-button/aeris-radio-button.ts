@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -9,12 +10,14 @@ import {
   output,
   signal,
   viewChild,
+  TemplateRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
 
 export type AerisRadioButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisRadioButtonLabelPosition = 'start' | 'end';
+export type AerisRadioButtonAppearance = 'standard' | 'card';
 
 export interface AerisRadioButtonChangeEvent {
   readonly originalEvent: Event;
@@ -24,10 +27,12 @@ export interface AerisRadioButtonChangeEvent {
 let nextRadioButtonId = 0;
 
 @Component({
+  imports: [NgTemplateOutlet],
   selector: 'aeris-radio-button',
   template: `
     <label
       class="aeris-radio"
+      [class.aeris-choice-card]="appearance() === 'card'"
       [class.aeris-radio--label-start]="labelPosition() === 'start'"
       [attr.data-size]="size()"
       [attr.data-selected]="isSelected()"
@@ -45,8 +50,8 @@ let nextRadioButtonId = 0;
         [disabled]="effectiveDisabled()"
         [required]="required()"
         [attr.aria-label]="ariaLabel() || null"
-        [attr.aria-labelledby]="ariaLabelledBy() || null"
-        [attr.aria-describedby]="ariaDescribedBy() || null"
+        [attr.aria-labelledby]="resolvedLabelledBy()"
+        [attr.aria-describedby]="resolvedDescribedBy()"
         [attr.aria-invalid]="displayInvalid() || null"
         [attr.aria-required]="required() || null"
         (change)="handleChange($event)"
@@ -57,11 +62,28 @@ let nextRadioButtonId = 0;
         <span class="aeris-radio__dot"></span>
       </span>
       <span class="aeris-radio__label">
-        @if (label()) {
-          {{ label() }}
-        } @else {
-          <ng-content />
+        @if (iconTemplate(); as icon) {
+          <span class="aeris-choice-card__icon" data-aeris-custom-icon aria-hidden="true">
+            <ng-container [ngTemplateOutlet]="icon" />
+          </span>
         }
+        <span class="aeris-choice-card__body">
+          <span [id]="generatedId + '-label'">
+            @if (label()) {
+              {{ label() }}
+            } @else {
+              <ng-content />
+            }
+          </span>
+          @if (description()) {
+            <span
+              class="aeris-choice-card__description"
+              [id]="generatedId + '-description'"
+              aria-hidden="true"
+              >{{ description() }}</span
+            >
+          }
+        </span>
       </span>
     </label>
   `,
@@ -76,6 +98,7 @@ let nextRadioButtonId = 0;
   host: {
     '[attr.data-selected]': 'isSelected()',
     '[attr.data-disabled]': 'effectiveDisabled()',
+    '[attr.data-appearance]': 'appearance()',
   },
 })
 export class AerisRadioButton implements ControlValueAccessor {
@@ -84,6 +107,9 @@ export class AerisRadioButton implements ControlValueAccessor {
   readonly name = input('');
   readonly inputId = input('');
   readonly label = input('');
+  readonly appearance = input<AerisRadioButtonAppearance>('standard');
+  readonly description = input('');
+  readonly iconTemplate = input<TemplateRef<void>>();
   readonly size = input<AerisRadioButtonSize>('md');
   readonly labelPosition = input<AerisRadioButtonLabelPosition>('end');
   readonly disabled = input(false, { transform: booleanAttribute });
@@ -102,11 +128,22 @@ export class AerisRadioButton implements ControlValueAccessor {
   readonly blurred = output<FocusEvent>();
   readonly touch = output<void>();
 
-  private readonly generatedId = `aeris-radio-${++nextRadioButtonId}`;
+  protected readonly generatedId = `aeris-radio-${++nextRadioButtonId}`;
   protected readonly formDisabled = signal(false);
   protected readonly resolvedInputId = computed(() => this.inputId() || this.generatedId);
   protected readonly effectiveDisabled = computed(() => this.disabled() || this.formDisabled());
   protected readonly isSelected = computed(() => this.selected() === this.value());
+  protected readonly resolvedLabelledBy = computed(
+    () =>
+      this.ariaLabelledBy() ||
+      (!this.ariaLabel() && this.description() ? `${this.generatedId}-label` : null),
+  );
+  protected readonly resolvedDescribedBy = computed(
+    () =>
+      [this.ariaDescribedBy(), this.description() ? `${this.generatedId}-description` : '']
+        .filter(Boolean)
+        .join(' ') || null,
+  );
 
   private readonly radioInput = viewChild<ElementRef<HTMLInputElement>>('radioInput');
   private onChange: (value: string) => void = () => undefined;

@@ -5,14 +5,18 @@ import { AerisButton } from '../../../button/aeris-button';
 import { AerisFluid, AerisFluidModule } from '../../../fluid/aeris-fluid';
 import { AerisInputText } from '../../../input-text/aeris-input-text';
 import { AerisTextarea } from '../../../textarea/aeris-textarea';
+import { AerisNativeSelect } from '../../../select/native/aeris-native-select';
 
 @Component({
-  imports: [AerisButton, AerisFluidModule, AerisInputText, AerisTextarea],
+  imports: [AerisButton, AerisFluidModule, AerisInputText, AerisTextarea, AerisNativeSelect],
   template: `
     <aeris-fluid class="enabled-fluid">
       <input aerisInputText aria-label="Project name" />
       <aeris-input-text ariaLabel="Workspace name" />
       <textarea aerisTextarea aria-label="Project summary"></textarea>
+      <select aerisNativeSelect aria-label="Region">
+        <option>Europe</option>
+      </select>
       <button aerisButton type="button">Create project</button>
     </aeris-fluid>
 
@@ -45,7 +49,9 @@ describe('AerisFluid', () => {
     fixture.detectChanges();
     const fluid = fixture.nativeElement.querySelector('.enabled-fluid') as HTMLElement;
 
-    for (const element of fluid.querySelectorAll('input, aeris-input-text, textarea, button')) {
+    for (const element of fluid.querySelectorAll(
+      'input, aeris-input-text, textarea, select, button',
+    )) {
       expect(getComputedStyle(element).inlineSize).toContain('--aeris-fluid-inline-size');
       expect(getComputedStyle(element).maxInlineSize).toBe('100%');
     }

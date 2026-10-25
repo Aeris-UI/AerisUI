@@ -2,7 +2,7 @@
 
 > Chronological event display with responsive orientation, progress, alignment, and templates.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/timeline`
 - Human-readable documentation: [https://aeris-ui.dev/components/timeline](https://aeris-ui.dev/components/timeline)
@@ -122,7 +122,7 @@ interface ReleaseData {
     }
   `
 })
-export class TimelineBasicBasicDemo {
+export class TimelineBasicDemo {
   protected readonly events = signal<readonly AerisTimelineItem<ReleaseData>[]>([
     {
       id: 'planning',
@@ -181,7 +181,7 @@ interface ReleaseData {
   templateUrl: './timeline-alignment.demo.html',
   styleUrl: './timeline-alignment.demo.scss'
 })
-export class TimelineAlignmentAlignmentDemo {
+export class TimelineAlignmentDemo {
   protected readonly events = signal<readonly AerisTimelineItem<ReleaseData>[]>([
     {
       id: 'planning',
@@ -320,7 +320,7 @@ interface ReleaseData {
     }
   `
 })
-export class TimelineProgressProgressAndStatusDemo {
+export class TimelineProgressDemo {
   protected readonly events = signal<readonly AerisTimelineItem<ReleaseData>[]>([
     {
       id: 'planning',
@@ -392,7 +392,7 @@ interface ReleaseData {
     }
   `
 })
-export class TimelineHorizontalHorizontalOrientationDemo {
+export class TimelineHorizontalDemo {
   protected readonly events = signal<readonly AerisTimelineItem<ReleaseData>[]>([
     {
       id: 'planning',
@@ -464,7 +464,7 @@ interface ReleaseData {
     }
   `
 })
-export class TimelineReverseReverseOrderDemo {
+export class TimelineReverseDemo {
   protected readonly events = signal<readonly AerisTimelineItem<ReleaseData>[]>([
     {
       id: 'planning',
@@ -525,7 +525,7 @@ interface CustomReleaseData {
   templateUrl: './timeline-templates.demo.html',
   styleUrl: './timeline-templates.demo.scss'
 })
-export class TimelineTemplatesCustomMarkerIconsAndColorsDemo {
+export class TimelineTemplatesDemo {
   protected readonly customEvents: readonly AerisTimelineItem<CustomReleaseData>[] = [
     {
       id: 'planning',
@@ -600,6 +600,13 @@ export class TimelineTemplatesCustomMarkerIconsAndColorsDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .timeline-demo--custom {
   --aeris-timeline-marker-size: 2rem;
   --aeris-timeline-separator-size: 2.75rem;
@@ -683,7 +690,7 @@ import { AerisTimelineModule } from '@aeris-ui/core/timeline';
     }
   `
 })
-export class TimelineEmptyEmptyStateDemo {
+export class TimelineEmptyDemo {
 }
 ```
 

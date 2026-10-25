@@ -197,9 +197,7 @@
     (downloadRequested)="handleDownload($event)"
     ariaLabel="Puppy gallery with image tools"
   /&gt;
-  &lt;span class="galleria-toolbar-status" aria-live="polite"&gt;&#123;&#123;
-    toolbarStatus()
-  &#125;&#125;&lt;/span&gt;
+  &lt;span class="galleria-toolbar-status" aria-live="polite"&gt;&#123;&#123; toolbarStatus() &#125;&#125;&lt;/span&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -318,9 +316,7 @@
       First item
     &lt;/button&gt;
     &lt;button aerisButton type="button" (click)="showNext()"&gt;Next&lt;/button&gt;
-    &lt;span class="galleria-demo-status" aria-live="polite"&gt;&#123;&#123;
-      controlledStatus()
-    &#125;&#125;&lt;/span&gt;
+    &lt;span class="galleria-demo-status" aria-live="polite"&gt;&#123;&#123; controlledStatus() &#125;&#125;&lt;/span&gt;
   &lt;/div&gt;
   &lt;aeris-galleria
     #controlledGallery
@@ -391,9 +387,9 @@
       &lt;/figure&gt;
     &lt;/ng-template&gt;
     &lt;ng-template aerisGalleriaThumbnail let-photo&gt;
-      &lt;span class="galleria-custom-thumbnail"
-        &gt;&lt;img [src]="$any(photo).thumbnailSrc" [alt]="$any(photo).alt"
-      /&gt;&lt;/span&gt;
+      &lt;span class="galleria-custom-thumbnail"&gt;
+        &lt;img [src]="$any(photo).thumbnailSrc" [alt]="$any(photo).alt" /&gt;
+      &lt;/span&gt;
     &lt;/ng-template&gt;
     &lt;ng-template aerisGalleriaCaption let-photo let-index="index"&gt;
       &lt;div class="galleria-custom-caption"&gt;

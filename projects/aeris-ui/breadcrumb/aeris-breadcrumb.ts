@@ -119,7 +119,16 @@ let nextBreadcrumbId = 0;
                     [ngTemplateOutletContext]="{ hiddenItems: entry.hiddenItems }"
                   />
                 } @else {
-                  <span aria-hidden="true">…</span>
+                  <svg
+                    class="aeris-breadcrumb__ellipsis-icon"
+                    viewBox="0 0 24 24"
+                    focusable="false"
+                    aria-hidden="true"
+                  >
+                    <circle cx="12" cy="12" r="1" />
+                    <circle cx="19" cy="12" r="1" />
+                    <circle cx="5" cy="12" r="1" />
+                  </svg>
                 }
               </button>
             } @else if (entry.item; as item) {
@@ -208,8 +217,8 @@ let nextBreadcrumbId = 0;
                 } @else if (separator()) {
                   {{ separator() }}
                 } @else {
-                  <svg viewBox="0 0 20 20" focusable="false" aria-hidden="true">
-                    <path d="m7.5 4.5 5 5.5-5 5.5" />
+                  <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                    <path d="m9 18 6-6-6-6" />
                   </svg>
                 }
               </span>
@@ -218,8 +227,8 @@ let nextBreadcrumbId = 0;
                 @if (separator()) {
                   {{ separator() }}
                 } @else {
-                  <svg viewBox="0 0 20 20" focusable="false" aria-hidden="true">
-                    <path d="m7.5 4.5 5 5.5-5 5.5" />
+                  <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                    <path d="m9 18 6-6-6-6" />
                   </svg>
                 }
               </span>

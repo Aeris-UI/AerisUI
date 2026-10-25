@@ -5,18 +5,7 @@
   align-items: start;
   padding: clamp(1rem, 3cqi, 2rem);
   overflow: hidden;
-  background:
-    radial-gradient(
-      circle at 76% 21%,
-      color-mix(in srgb, var(--primary) 8%, transparent),
-      transparent 25rem
-    ),
-    radial-gradient(
-      circle at 13% 78%,
-      color-mix(in srgb, var(--secondary) 7%, transparent),
-      transparent 22rem
-    ),
-    var(--page);
+  background: var(--page);
 }
 
 .components-preview__canvas {
@@ -25,60 +14,37 @@
   min-height: 34rem;
   margin-inline: auto;
   display: grid;
-  grid-template-columns: minmax(13rem, 0.82fr) minmax(15rem, 1fr) minmax(14rem, 0.86fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: start;
   gap: clamp(0.75rem, 1.8cqi, 1.35rem);
 }
 
 .component-sample {
   min-width: 0;
-  padding: clamp(0.75rem, 1.8cqi, 1.1rem);
+  padding: 0;
 }
 
 .components-preview__column {
   min-width: 0;
   display: grid;
   align-content: start;
-  gap: clamp(0.75rem, 1.8cqi, 1.35rem);
+  gap: 1.75rem;
 }
 
-.component-sample--actions {
-  align-self: start;
-  padding-inline: 0;
+.component-sample .preview-card-heading {
+  min-block-size: 2.75rem;
+  align-items: flex-start;
 }
 
 .component-sample--fields {
   align-self: stretch;
   display: grid;
-  align-content: center;
-  border-radius: var(--aeris-radius-surface);
-  background: color-mix(in srgb, var(--surface) 72%, transparent);
-}
-
-.component-sample--choices {
-  align-self: start;
-  padding-inline: 0;
-}
-
-.component-sample--status {
-  align-self: start;
-  padding: 0;
-}
-
-.component-sample--identity {
-  align-self: start;
-  padding: 0;
-}
-
-.component-sample--navigation {
-  align-self: start;
-  padding: 0;
+  align-content: start;
 }
 
 .component-sample--verification {
   display: grid;
   gap: 0.75rem;
-  padding-inline: 0.25rem;
 }
 
 .component-sample__verification-meta {
@@ -86,11 +52,6 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-}
-
-.component-sample--details {
-  align-self: start;
-  padding-inline: 0.25rem;
 }
 
 .component-sample > .preview-card-heading + * {
@@ -110,8 +71,13 @@
   display: grid;
   gap: 0.4rem;
   color: var(--text-2);
-  font-size: 0.75rem;
-  font-weight: 650;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.component-sample__fields input,
+.component-sample__fields textarea {
+  font-weight: 400;
 }
 
 .component-sample__stack {
@@ -155,7 +121,7 @@
 }
 
 .component-sample__avatars {
-  padding-inline-start: 0.625rem;
+  padding-inline-start: 0.75rem;
 }
 
 .component-sample__avatars aeris-avatar {
@@ -300,7 +266,7 @@
   margin-top: 1rem;
 }
 
-.dashboard-preview__tasks label,
+.dashboard-preview__task,
 .dashboard-preview__activity article {
   min-width: 0;
   display: grid;
@@ -310,8 +276,13 @@
   border-top: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
 }
 
-.dashboard-preview__tasks label {
-  grid-template-columns: minmax(0, 1fr) auto;
+.dashboard-preview__task {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.25rem;
+}
+
+.dashboard-preview__task small {
+  padding-inline-start: 1.75rem;
 }
 
 .dashboard-preview__tasks small,

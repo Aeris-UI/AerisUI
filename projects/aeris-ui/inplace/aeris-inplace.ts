@@ -1,3 +1,4 @@
+import { ɵAerisIcon } from '@aeris-ui/core';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
@@ -47,7 +48,7 @@ export class AerisInplaceContentTemplate {
 
 @Component({
   selector: 'aeris-inplace',
-  imports: [NgTemplateOutlet],
+  imports: [ɵAerisIcon, NgTemplateOutlet],
   template: `
     @if (!active()) {
       <button
@@ -99,7 +100,17 @@ export class AerisInplaceContentTemplate {
             [attr.aria-label]="closeAriaLabel()"
             (click)="deactivate($event, 'close')"
           >
-            <span class="aeris-inplace__close-icon" aria-hidden="true"></span>
+            @if (closeIconTemplate(); as customIcon) {
+              <span class="aeris-inplace__close-icon" aria-hidden="true" data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <span
+                aerisInternalIcon="close"
+                class="aeris-inplace__close-icon"
+                aria-hidden="true"
+              ></span>
+            }
           </button>
         }
       </div>
@@ -114,6 +125,8 @@ export class AerisInplaceContentTemplate {
   },
 })
 export class AerisInplace {
+  readonly closeIconTemplate = input<TemplateRef<void>>();
+
   private static nextId = 0;
   private readonly displayButton = viewChild<ElementRef<HTMLButtonElement>>('displayButton');
   private readonly contentPanel = viewChild<ElementRef<HTMLElement>>('contentPanel');

@@ -4,6 +4,7 @@ import {
   AerisColorPicker,
   type AerisColorFormat,
   type AerisColorPickerChangeEvent,
+  type AerisColorPickerPreset,
 } from '@aeris-ui/core/color-picker';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
@@ -41,9 +42,27 @@ interface ApiRow {
 })
 export class ColorPickerPage {
   protected readonly brandColor = signal('#2c694b');
+  protected readonly areaColor = signal('#336699');
+  protected readonly hueColor = signal('#336699');
+  protected readonly saturationColor = signal('#336699');
+  protected readonly brightnessColor = signal('#336699');
+  protected readonly lightnessColor = signal('#336699');
+  protected readonly rgbColor = signal('#336699');
+  protected readonly sliderOpacity = signal('#33669980');
   protected readonly accentColor = signal('#a88245');
   protected readonly formatColor = signal('#2c694b');
   protected readonly selectedFormat = signal<AerisColorFormat>('hex');
+  protected readonly translucentColor = signal('rgba(51, 102, 153, 0.5)');
+  protected readonly paletteColor = signal('#2c694b');
+  protected readonly paletteOpacity = signal('rgba(51, 102, 153, 0.5)');
+  protected readonly namedPresets: readonly AerisColorPickerPreset[] = [
+    { value: '#2c694b', label: 'Forest' },
+    { value: '#bc6c25', label: 'Copper' },
+    { value: '#336699', label: 'Ocean' },
+    { value: '#171717', label: 'Ink' },
+    { value: '#fafafa', label: 'Paper' },
+    { value: '#dda15e', label: 'Caramel (unavailable)', disabled: true },
+  ];
   protected readonly invalidColor = signal('');
   protected readonly touched = signal(false);
   protected readonly lastChange = signal('No color change yet');
@@ -63,10 +82,18 @@ export class ColorPickerPage {
 
   protected readonly featureLinks: readonly PageTocLink[] = [
     { id: 'color-picker-basic', label: 'Basic' },
+    { id: 'color-picker-area', label: 'Color area' },
+    { id: 'color-picker-channels', label: 'Color sliders' },
+    { id: 'color-picker-rgb', label: 'RGB sliders' },
+    { id: 'color-picker-slider-opacity', label: 'Opacity slider' },
+    { id: 'color-picker-slider-states', label: 'Slider layout and states' },
     { id: 'color-picker-signal', label: 'Signal value' },
     { id: 'color-picker-formats', label: 'Selectable formats' },
+    { id: 'color-picker-opacity', label: 'Opacity' },
     { id: 'color-picker-eyedropper', label: 'Screen sampling' },
     { id: 'color-picker-presets', label: 'Presets' },
+    { id: 'color-picker-palette', label: 'Inline palette' },
+    { id: 'color-picker-palette-opacity', label: 'Palette opacity' },
     { id: 'color-picker-swatch-only', label: 'Swatch only' },
     { id: 'color-picker-sizes', label: 'Sizes' },
     { id: 'color-picker-appearances', label: 'Appearances' },
@@ -89,6 +116,8 @@ export class ColorPickerPage {
 
   protected readonly formatCode = `protected readonly formatColor = signal('#2c694b');
 protected readonly selectedFormat = signal<AerisColorFormat>('hex');`;
+
+  protected readonly opacityCode = `protected readonly translucentColor = signal('rgba(51, 102, 153, 0.5)');`;
 
   protected readonly presetsCode = `protected readonly presets: readonly string[] = [
   '#f1f4f2',
@@ -118,6 +147,16 @@ protected recordChange(event: AerisColorPickerChangeEvent): void {
   protected readonly interfacesCode = `type AerisColorPickerSize = 'xs' | 'sm' | 'md' | 'lg';
 type AerisColorPickerAppearance = 'outline' | 'filled';
 type AerisColorFormat = 'hex' | 'rgb' | 'hsl';
+type AerisColorPickerPresentation = 'picker' | 'palette' | 'area' | 'slider';
+type AerisColorPickerChannel = 'hue' | 'saturation' | 'brightness' | 'lightness'
+  | 'red' | 'green' | 'blue' | 'alpha';
+type AerisColorPickerOrientation = 'horizontal' | 'vertical';
+
+interface AerisColorPickerPreset {
+  readonly value: string;
+  readonly label?: string;
+  readonly disabled?: boolean;
+}
 
 interface AerisColorPickerChangeEvent {
   readonly originalEvent: Event;
@@ -126,6 +165,75 @@ interface AerisColorPickerChangeEvent {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    {
+      name: 'presentation',
+      type: "AerisColorPickerPresentation: 'picker' | 'palette' | 'area' | 'slider'",
+      defaultValue: "'picker'",
+      description:
+        "Options: 'picker', 'palette', 'area', 'slider'. Picker opens the full editor; palette shows preset choices; area shows the saturation/brightness plane; slider edits one color channel. Inline presentations have no trigger or overlay and share value, format, events and forms support.",
+    },
+    {
+      name: 'channel',
+      type: 'AerisColorPickerChannel',
+      defaultValue: "'hue'",
+      description:
+        "Channel edited by the slider presentation. Options: 'hue', 'saturation' (HSV), 'brightness' (HSV), 'lightness' (HSL), 'red', 'green', 'blue', 'alpha'. Alpha enables transparent values without requiring the alpha input. Other channels preserve the current opacity when alpha is enabled.",
+    },
+    {
+      name: 'orientation',
+      type: 'AerisColorPickerOrientation',
+      defaultValue: "'horizontal'",
+      description:
+        "Slider layout. Options: 'horizontal', 'vertical'. Values increase left to right horizontally and bottom to top vertically, including in RTL layouts.",
+    },
+    {
+      name: 'showDots',
+      type: 'boolean',
+      defaultValue: 'false',
+      description:
+        'Shows a decorative precision grid on the area, inline or in the popup. The grid does not change color values.',
+    },
+    {
+      name: 'alpha',
+      type: 'boolean',
+      defaultValue: 'false',
+      description:
+        'Enables opacity editing and transparent colors. HEX output uses #RRGGBBAA below full opacity; RGB and HSL use rgba() and hsla(). Opaque values keep their existing format.',
+    },
+    {
+      name: 'opacityLabel',
+      type: 'string',
+      defaultValue: "'Opacity'",
+      description: 'Visible label above the optional opacity slider.',
+    },
+    {
+      name: 'alphaAriaLabel',
+      type: 'string',
+      defaultValue: "'Opacity'",
+      description:
+        'Accessible name for the optional opacity slider, which reports its value as a percentage.',
+    },
+    {
+      name: 'clearIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'eyedropperIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the eyedropper icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'closeIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the close icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
     {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
@@ -157,7 +265,8 @@ interface AerisColorPickerChangeEvent {
       name: 'inputId',
       type: 'string',
       defaultValue: 'generated',
-      description: 'ID assigned to the visible color-picker trigger for label association.',
+      description:
+        'ID assigned to the trigger, slider input, inline area, or palette group. Use ariaLabelledBy to label a non-native area or palette.',
     },
     {
       name: 'name',
@@ -181,13 +290,14 @@ interface AerisColorPickerChangeEvent {
       name: 'ariaLabel',
       type: 'string | undefined',
       defaultValue: 'undefined',
-      description: 'Accessible name for the visible trigger when no visible label is available.',
+      description:
+        'Accessible name for the trigger or inline control when no visible label is available. Sliders otherwise use their channel label.',
     },
     {
       name: 'ariaLabelledBy',
       type: 'string | undefined',
       defaultValue: 'undefined',
-      description: 'IDs of visible elements that label the trigger.',
+      description: 'IDs of visible elements that label the trigger or inline control.',
     },
     {
       name: 'ariaDescribedBy',
@@ -287,10 +397,10 @@ interface AerisColorPickerChangeEvent {
     },
     {
       name: 'presets',
-      type: 'readonly string[]',
+      type: 'readonly (string | AerisColorPickerPreset)[]',
       defaultValue: '[]',
       description:
-        'Preset colors shown inside the picker panel. Hex, rgb(), and hsl() strings are accepted.',
+        'Preset colors in the panel or inline palette. Accepts color strings or objects with value, optional accessible label and disabled state. Invalid colors are omitted and equivalent presets are deduplicated. With alpha enabled, presets without explicit opacity inherit the current opacity; explicit alpha uses its own opacity, including #336699ff for full opacity. A check mark identifies the selected color without relying on hue.',
     },
     {
       name: 'showInput',
@@ -340,7 +450,8 @@ interface AerisColorPickerChangeEvent {
       name: 'required',
       type: 'boolean',
       defaultValue: 'false',
-      description: 'Exposes native required validation semantics.',
+      description:
+        'Sets required semantics on the picker text input. For palette presentation, configure a required validator in your Angular form; the palette has no native text input.',
     },
     {
       name: 'invalid',
@@ -427,13 +538,15 @@ interface AerisColorPickerChangeEvent {
       name: 'focus(options?)',
       type: 'void',
       defaultValue: '-',
-      description: 'Moves focus to the visible trigger button.',
+      description:
+        'Moves focus to the trigger, inline area, channel slider, or current enabled preset in palette presentation.',
     },
     {
       name: 'open()',
       type: 'void',
       defaultValue: '-',
-      description: 'Opens the custom picker panel and focuses the color plane.',
+      description:
+        'Opens the custom picker panel and focuses the color plane. Has no effect in palette, area, or slider presentation.',
     },
     {
       name: 'close(restoreFocus?)',

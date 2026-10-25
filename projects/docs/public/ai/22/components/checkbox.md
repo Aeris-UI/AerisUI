@@ -2,7 +2,7 @@
 
 > Binary and mixed-state selection with native form semantics.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/checkbox`
 - Human-readable documentation: [https://aeris-ui.dev/components/checkbox](https://aeris-ui.dev/components/checkbox)
@@ -29,6 +29,11 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appearance` | `AerisCheckboxAppearance` | `'standard'` | Presentation. Options: 'standard', 'card'. The card uses the same native checkbox. |
+| `description` | `string` | `''` | Supporting text, automatically associated with the input as its accessible description. |
+| `iconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Optional decorative leading icon beside the label. Keep its contents non-interactive. |
+| `checkIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the check icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `mixedIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the mixed icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `checked` | `boolean (model)` | `false` | Boolean selection state and Angular Signal Forms checkbox contract. |
 | `indeterminate` | `boolean (model)` | `false` | Mixed visual and native state. User activation clears it. |
 | `inputId` | `string` | `generated` | ID assigned to the native checkbox. |
@@ -42,7 +47,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 | `labelPosition` | `AerisCheckboxLabelPosition` | `'end'` | Places the visible label before or after the control. Options: 'start', 'end'. |
 | `tabIndex` | `number` | `0` | Native tab order value for composite widgets that manage focus. |
 | `disabled` | `boolean` | `false` | Disables native interaction and form submission. |
-| `required` | `boolean` | `false` | Exposes native required validation semantics. |
+| `required` | `boolean` | `false` | Requires this specific checkbox to be checked. Use a form-model validator for a collection minimum such as at least one selected option. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid. |
 | `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 
@@ -72,6 +77,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 
 ```ts
 type AerisCheckboxSize = 'xs' | 'sm' | 'md' | 'lg';
+type AerisCheckboxAppearance = 'standard' | 'card';
 type AerisCheckboxLabelPosition = 'start' | 'end';
 
 interface AerisCheckboxChangeEvent {
@@ -86,6 +92,13 @@ interface AerisCheckboxChangeEvent {
 
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
+| `--aeris-choice-card-padding` | `CSS custom property` | — | Card padding. |
+| `--aeris-choice-card-gap` | `CSS custom property` | — | Space between control, icon and content. |
+| `--aeris-choice-card-radius` | `CSS custom property` | — | Card corner radius. |
+| `--aeris-choice-card-border` | `CSS custom property` | — | Unselected border color. |
+| `--aeris-choice-card-background` | `CSS custom property` | — | Unselected background. |
+| `--aeris-choice-card-selected-border` | `CSS custom property` | — | Selected and hover border color. |
+| `--aeris-choice-card-selected-background` | `CSS custom property` | — | Selected background. |
 | `--aeris-primary` | `CSS custom property` | — | Selected and mixed control background. |
 | `--aeris-on-primary` | `CSS custom property` | — | Selected icon color. |
 | `--aeris-border` | `CSS custom property` | — | Unchecked border. |
@@ -115,7 +128,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
     </div>
   `
 })
-export class CheckboxBasicBasicDemo {
+export class CheckboxBasicDemo {
 }
 ```
 
@@ -127,7 +140,7 @@ Use two-way binding for local state and the typed changed output when event deta
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisCheckbox } from '@aeris-ui/core/checkbox';
+import { AerisCheckbox, type AerisCheckboxChangeEvent } from '@aeris-ui/core/checkbox';
 
 @Component({
   selector: 'app-checkbox-model-demo',
@@ -157,9 +170,19 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
     }
+
+    .checkbox-stack > small.error {
+      color: var(--aeris-danger);
+    }
   `
 })
-export class CheckboxModelSignalModelDemo {
+export class CheckboxModelDemo {
+  protected readonly lastChange = signal('No interaction');
+
+  protected recordChange(event: AerisCheckboxChangeEvent): void {
+      this.lastChange.set(`${event.value}: ${event.checked ? 'checked' : 'unchecked'}`);
+    }
+
   protected readonly notifications = signal(true);
 }
 ```
@@ -171,8 +194,14 @@ Mixed state represents partial selection. Activating it clears mixed state and s
 #### TS
 
 ```ts
-import { Component, computed } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { AerisCheckbox } from '@aeris-ui/core/checkbox';
+
+interface Interest {
+  readonly value: string;
+  readonly label: string;
+  readonly description: string;
+}
 
 @Component({
   selector: 'app-checkbox-indeterminate-demo',
@@ -202,9 +231,29 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
     }
+
+    .checkbox-stack > small.error {
+      color: var(--aeris-danger);
+    }
   `
 })
-export class CheckboxIndeterminateIndeterminateDemo {
+export class CheckboxIndeterminateDemo {
+  protected readonly selectedInterests = signal<readonly string[]>(['accessibility']);
+
+  protected readonly interests: readonly Interest[] = [
+      { value: 'angular', label: 'Angular', description: 'Framework releases and patterns' },
+      { value: 'accessibility', label: 'Accessibility', description: 'Inclusive interface guidance' },
+      {
+        value: 'performance',
+        label: 'Performance',
+        description: 'Rendering and delivery techniques',
+      },
+    ];
+
+  protected setAll(checked: boolean): void {
+      this.selectedInterests.set(checked ? this.interests.map((item) => item.value) : []);
+    }
+
   protected readonly allSelected = computed(
     () => this.selectedInterests().length === this.interests.length,
   );
@@ -225,13 +274,29 @@ Compose independent checkboxes in a semantic fieldset for multiple-choice data.
 import { Component, signal } from '@angular/core';
 import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 
+interface Interest {
+  readonly value: string;
+  readonly label: string;
+  readonly description: string;
+}
+
 @Component({
   selector: 'app-checkbox-group-demo',
   imports: [AerisCheckbox],
   templateUrl: './checkbox-group.demo.html',
   styleUrl: './checkbox-group.demo.scss'
 })
-export class CheckboxGroupSelectionGroupDemo {
+export class CheckboxGroupDemo {
+  protected readonly interests: readonly Interest[] = [
+      { value: 'angular', label: 'Angular', description: 'Framework releases and patterns' },
+      { value: 'accessibility', label: 'Accessibility', description: 'Inclusive interface guidance' },
+      {
+        value: 'performance',
+        label: 'Performance',
+        description: 'Rendering and delivery techniques',
+      },
+    ];
+
   protected readonly selectedInterests =
     signal<readonly string[]>(['accessibility']);
 
@@ -256,18 +321,14 @@ export class CheckboxGroupSelectionGroupDemo {
   <fieldset class="checkbox-group">
     <legend>Topics of interest</legend>
     @for (interest of interests; track interest.value) {
-      <div class="checkbox-option">
-        <aeris-checkbox
-          [value]="interest.value"
-          [checked]="isInterestSelected(interest.value)"
-          (checkedChange)="setInterest(interest.value, $event)"
-        >
-          <span class="checkbox-option__content">
-            <strong>{{ interest.label }}</strong>
-            <small>{{ interest.description }}</small>
-          </span>
-        </aeris-checkbox>
-      </div>
+      <aeris-checkbox
+        appearance="card"
+        [label]="interest.label"
+        [description]="interest.description"
+        [value]="interest.value"
+        [checked]="isInterestSelected(interest.value)"
+        (checkedChange)="setInterest(interest.value, $event)"
+      />
     }
   </fieldset>
 </div>
@@ -291,33 +352,150 @@ export class CheckboxGroupSelectionGroupDemo {
   font-size: 0.9375rem;
   font-weight: 650;
 }
+```
 
-.checkbox-option {
-  padding: 0.875rem 1rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: 0.625rem;
-  background: var(--aeris-surface);
+### Selectable cards
+
+The whole card activates the native checkbox. Use labelPosition to place the indicator at the trailing edge.
+
+#### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisCheckbox } from '@aeris-ui/core/checkbox';
+import { LucideBell, LucideDynamicIcon } from '@lucide/angular';
+
+@Component({
+  selector: 'app-checkbox-cards-demo',
+  imports: [AerisButton, AerisCheckbox, LucideDynamicIcon],
+  templateUrl: './checkbox-cards.demo.html',
+  styleUrl: './checkbox-cards.demo.scss'
+})
+export class CheckboxCardsDemo {
+  protected readonly bellIcon = LucideBell;
+
+  protected readonly cardUpdates = signal(true);
+
+  protected readonly cardReports = signal(false);
+
+  protected readonly cardsSubmitted = signal(false);
+}
+```
+
+#### HTML
+
+```html
+<div class="checkbox-stack">
+  <ng-template #updatesIcon><svg [lucideIcon]="bellIcon"></svg></ng-template>
+  <fieldset class="checkbox-group">
+    <legend>Notification preferences</legend>
+    <aeris-checkbox
+      appearance="card"
+      label="Product updates"
+      description="Release notes and important changes to the tools your team uses."
+      [iconTemplate]="updatesIcon"
+      [(checked)]="cardUpdates"
+      labelPosition="start"
+    />
+    <aeris-checkbox
+      appearance="card"
+      label="Weekly report"
+      description="A summary of workspace activity, completed work, and upcoming deadlines."
+      [(checked)]="cardReports"
+      [invalid]="!cardReports()"
+      [touched]="cardsSubmitted()"
+      ariaDescribedBy="card-report-help"
+    />
+    <aeris-checkbox
+      appearance="card"
+      label="Managed alerts"
+      description="Your workspace administrator manages this preference."
+      disabled
+      [checked]="true"
+    />
+  </fieldset>
+  <small
+    id="card-report-help"
+    aria-live="polite"
+    [class.error]="cardsSubmitted() && !cardReports()"
+  >
+    {{
+      cardsSubmitted() && !cardReports()
+        ? 'Select Weekly report to continue.'
+        : cardsSubmitted()
+          ? 'Selection is valid.'
+          : 'Weekly report is required for this demonstration.'
+    }}
+  </small>
+  <div class="field-row">
+    <button aerisButton type="button" (click)="cardsSubmitted.set(true)">
+      Validate selection
+    </button>
+    <button
+      aerisButton
+      variant="ghost"
+      type="button"
+      (click)="cardUpdates.set(true); cardReports.set(false); cardsSubmitted.set(false)"
+    >
+      Reset
+    </button>
+  </div>
+</div>
+```
+
+#### CSS
+
+```css
+.field-row {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 1rem;
 }
 
-.checkbox-option:has(aeris-checkbox[data-checked]),
-.checkbox-option:has(aeris-checkbox[data-indeterminate]) {
-  border-color: color-mix(in srgb, var(--aeris-primary) 55%, var(--aeris-border));
-  background: color-mix(in srgb, var(--aeris-primary) 7%, var(--aeris-surface));
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
-.checkbox-option__content {
-  display: inline-grid;
-  gap: 0.125rem;
+@media (max-width: 42rem) {
+  .field-row {
+    align-items: stretch;
+  }
+
+  .field-row > input {
+    width: 100%;
+  }
 }
 
-.checkbox-option__content strong {
+.checkbox-stack {
+  width: 100%;
+  display: grid;
+  gap: 0.875rem;
+}
+
+.checkbox-group {
+  width: min(100%, 36rem);
+  display: grid;
+  gap: 0.625rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.checkbox-group legend {
+  margin-bottom: 0.75rem;
   color: var(--aeris-text);
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
+  font-weight: 650;
 }
 
-.checkbox-option__content small {
-  color: var(--aeris-text-2);
-  font-size: 0.75rem;
+.checkbox-stack > small.error {
+  color: var(--aeris-danger);
 }
 ```
 
@@ -355,10 +533,14 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       .field-row {
         align-items: stretch;
       }
+
+      .field-row > input {
+        width: 100%;
+      }
     }
   `
 })
-export class CheckboxSizesSizesDemo {
+export class CheckboxSizesDemo {
 }
 ```
 
@@ -378,8 +560,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
   template: `
     <div class="field-row checkbox-label-position">
       <aeris-checkbox [checked]="true">Label at end</aeris-checkbox>
-      <aeris-checkbox [checked]="true" labelPosition="start"
-        >Label at start</aeris-checkbox>
+      <aeris-checkbox [checked]="true" labelPosition="start">Label at start</aeris-checkbox>
     </div>
   `,
   styles: `
@@ -395,6 +576,10 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       .field-row {
         align-items: stretch;
       }
+
+      .field-row > input {
+        width: 100%;
+      }
     }
 
     .checkbox-label-position {
@@ -402,7 +587,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
     }
   `
 })
-export class CheckboxLabelPositionLabelPositionDemo {
+export class CheckboxLabelPositionDemo {
 }
 ```
 
@@ -413,7 +598,7 @@ Projected semantic content supports titles, descriptions, and inline links while
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 
 @Component({
@@ -445,7 +630,8 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
     }
   `
 })
-export class CheckboxRichLabelRichLabelDemo {
+export class CheckboxRichLabelDemo {
+  protected readonly termsAccepted = signal(false);
 }
 ```
 
@@ -462,35 +648,44 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 @Component({
   selector: 'app-checkbox-states-demo',
   imports: [AerisCheckbox],
-  template: `
-    <div class="checkbox-stack">
-      <aeris-checkbox
-        inputId="required-terms"
-        required
-        invalid
-        ariaDescribedBy="required-terms-error"
-      >
-        Accept terms
-      </aeris-checkbox>
-      <small id="required-terms-error" class="error"
-        >You must accept the terms to continue.</small>
-      <aeris-checkbox disabled>Unavailable option</aeris-checkbox>
-      <aeris-checkbox [checked]="true" disabled>Selected and unavailable</aeris-checkbox>
-    </div>
-  `,
-  styles: `
-    .field small.error {
-      color: var(--aeris-danger);
-    }
-
-    .checkbox-stack {
-      width: 100%;
-      display: grid;
-      gap: 0.875rem;
-    }
-  `
+  templateUrl: './checkbox-states.demo.html',
+  styleUrl: './checkbox-states.demo.scss'
 })
-export class CheckboxStatesRequiredInvalidAndDisabledDemo {
+export class CheckboxStatesDemo {
+}
+```
+
+#### HTML
+
+```html
+<div class="checkbox-stack">
+  <aeris-checkbox
+    inputId="required-terms"
+    required
+    invalid
+    ariaDescribedBy="required-terms-error"
+  >
+    Accept terms
+  </aeris-checkbox>
+  <small id="required-terms-error" class="error">
+    You must accept the terms to continue.
+  </small>
+  <aeris-checkbox disabled>Unavailable option</aeris-checkbox>
+  <aeris-checkbox [checked]="true" disabled>Selected and unavailable</aeris-checkbox>
+</div>
+```
+
+#### CSS
+
+```css
+.checkbox-stack {
+  width: 100%;
+  display: grid;
+  gap: 0.875rem;
+}
+
+.checkbox-stack > small.error {
+  color: var(--aeris-danger);
 }
 ```
 
@@ -512,7 +707,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       <aeris-checkbox name="permissions" value="reports" [checked]="true">
         View reports
       </aeris-checkbox>
-      <aeris-checkbox name="permissions" value="exports"> Export data </aeris-checkbox>
+      <aeris-checkbox name="permissions" value="exports">Export data</aeris-checkbox>
     </div>
   `,
   styles: `
@@ -521,9 +716,13 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       display: grid;
       gap: 0.875rem;
     }
+
+    .checkbox-stack > small.error {
+      color: var(--aeris-danger);
+    }
   `
 })
-export class CheckboxNativeFormNativeFormValuesDemo {
+export class CheckboxNativeFormDemo {
 }
 ```
 
@@ -561,7 +760,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
     .field-grid {
       width: 100%;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
       gap: 1.25rem;
     }
 
@@ -598,7 +797,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
     }
   `
 })
-export class CheckboxAngularFormsReactiveAndTemplateDrivenFormsDemo {
+export class CheckboxAngularFormsDemo {
   protected readonly reactiveChecked =
     new FormControl(false);
 
@@ -608,6 +807,9 @@ export class CheckboxAngularFormsReactiveAndTemplateDrivenFormsDemo {
 
 ## Accessibility
 
+- Group related checkboxes with a native fieldset and visible legend. A disabled fieldset blocks its descendant controls; controls in its first legend remain enabled according to native HTML rules. Individually disabled options stay disabled when the fieldset is enabled again. No Aeris group wrapper is needed.
+- required means this specific checkbox must be checked. For “choose at least one” or a minimum count, validate the collection in your form model and associate shared help/error text using ariaDescribedBy. Signal Forms binds each checkbox to its own boolean field with [formField]; do not also bind checked or register the same state with another form control. A disabled fieldset controls browser interaction, not programmatic model writes or the form model's validation/disabled state.
+- Card appearance keeps one native input and one focus stop per option. Its entire label is clickable. Keep projected content and icon templates decorative and non-interactive; place links and extra actions outside the control. The description input is automatically associated with the native input, alongside any ariaDescribedBy help or error IDs. Use a layout grid or stack around the controls to arrange cards; no application layout is imposed.
 - Checkbox uses a real native input type="checkbox", preserving browser, keyboard, form, and assistive-technology behavior.
 - Projected content and the label input are wrapped in one native label, expanding the pointer target.
 - Space toggles the focused checkbox. Native tab order and disabled behavior are preserved.

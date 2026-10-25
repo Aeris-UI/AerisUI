@@ -2,7 +2,7 @@
 
 > Segmented one-time-code entry with paste, masking, and complete keyboard navigation.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/input-otp`
 - Human-readable documentation: [https://aeris-ui.dev/components/input-otp](https://aeris-ui.dev/components/input-otp)
@@ -148,9 +148,13 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 34rem);
+    }
   `
 })
-export class OtpBasicBasicDemo {
+export class OtpBasicDemo {
   protected readonly code = signal('');
 }
 ```
@@ -162,7 +166,7 @@ Render the exact number of slots required by the verification flow.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputOtp } from '@aeris-ui/core/input-otp';
 
 @Component({
@@ -205,9 +209,14 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 34rem);
+    }
   `
 })
-export class OtpLengthConfigurableLengthDemo {
+export class OtpLengthDemo {
+  protected readonly sixDigitCode = signal('');
 }
 ```
 
@@ -218,7 +227,7 @@ Alphanumeric mode accepts ASCII letters and digits while retaining the same navi
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputOtp } from '@aeris-ui/core/input-otp';
 
 @Component({
@@ -262,9 +271,14 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 34rem);
+    }
   `
 })
-export class OtpAlphanumericAlphanumericCodesDemo {
+export class OtpAlphanumericDemo {
+  protected readonly alphanumericCode = signal('A2');
 }
 ```
 
@@ -275,7 +289,7 @@ Mask sensitive access codes while preserving paste, navigation, and the complete
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputOtp } from '@aeris-ui/core/input-otp';
 
 @Component({
@@ -313,9 +327,14 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 34rem);
+    }
   `
 })
-export class OtpMaskMaskedEntryDemo {
+export class OtpMaskDemo {
+  protected readonly maskedCode = signal('42');
 }
 ```
 
@@ -326,7 +345,7 @@ Insert original visual grouping without changing the model or slot semantics.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputOtp } from '@aeris-ui/core/input-otp';
 
 @Component({
@@ -375,13 +394,18 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       color: var(--aeris-danger);
     }
 
+    .field {
+      width: min(100%, 34rem);
+    }
+
     .otp-separator {
-      color: var(--text-2);
+      color: var(--aeris-text-2);
       font-weight: 700;
     }
   `
 })
-export class OtpSeparatorSeparatorTemplateDemo {
+export class OtpSeparatorDemo {
+  protected readonly groupedCode = signal('');
 }
 ```
 
@@ -435,9 +459,13 @@ import { AerisInputOtp, type AerisInputOtpCompleteEvent } from '@aeris-ui/core/i
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 34rem);
+    }
   `
 })
-export class OtpPastePasteAndCompletionDemo {
+export class OtpPasteDemo {
   protected readonly completedValue =
     signal('Not completed');
 
@@ -480,7 +508,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
     .field-grid {
       width: 100%;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
       gap: 1.25rem;
     }
 
@@ -515,9 +543,13 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
         grid-template-columns: 1fr;
       }
     }
+
+    .field {
+      width: min(100%, 34rem);
+    }
   `
 })
-export class OtpFocusFocusBehaviorDemo {
+export class OtpFocusDemo {
 }
 ```
 
@@ -537,7 +569,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
   templateUrl: './otp-sizes.demo.html',
   styleUrl: './otp-sizes.demo.scss'
 })
-export class OtpSizesSizesDemo {
+export class OtpSizesDemo {
 }
 ```
 
@@ -554,7 +586,8 @@ export class OtpSizesSizesDemo {
     <aeris-input-otp ariaLabel="Small code" value="1234" size="sm" />
   </div>
   <div>
-    <span>Medium</span><aeris-input-otp ariaLabel="Medium code" value="1234" />
+    <span>Medium</span>
+    <aeris-input-otp ariaLabel="Medium code" value="1234" />
   </div>
   <div>
     <span>Large</span>
@@ -607,7 +640,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
   templateUrl: './otp-states.demo.html',
   styleUrl: './otp-states.demo.scss'
 })
-export class OtpStatesAppearancesAndStatesDemo {
+export class OtpStatesDemo {
 }
 ```
 
@@ -628,7 +661,8 @@ export class OtpStatesAppearancesAndStatesDemo {
     <aeris-input-otp ariaLabel="Read-only code" value="1234" readonly />
   </div>
   <div class="field">
-    <span>Fluid</span><aeris-input-otp ariaLabel="Fluid code" value="1234" fluid />
+    <span>Fluid</span>
+    <aeris-input-otp ariaLabel="Fluid code" value="1234" fluid />
   </div>
 </div>
 ```
@@ -639,7 +673,7 @@ export class OtpStatesAppearancesAndStatesDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -674,6 +708,10 @@ export class OtpStatesAppearancesAndStatesDemo {
     grid-template-columns: 1fr;
   }
 }
+
+.field {
+  width: min(100%, 34rem);
+}
 ```
 
 ### Validation
@@ -692,7 +730,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
   templateUrl: './otp-validation.demo.html',
   styleUrl: './otp-validation.demo.scss'
 })
-export class OtpValidationValidationDemo {
+export class OtpValidationDemo {
   protected readonly invalidCode = signal('');
   protected readonly touched = signal(false);
   protected readonly codeInvalid = computed(
@@ -715,11 +753,11 @@ export class OtpValidationValidationDemo {
     (touch)="touched.set(true)"
   />
   @if (codeInvalid()) {
-    <small id="invalid-otp-message" class="error state-message"
-      >Enter all four digits.</small>
+    <small id="invalid-otp-message" class="error state-message">
+      Enter all four digits.
+    </small>
   } @else {
-    <small id="invalid-otp-message" class="state-message"
-      >Four digits required.</small>
+    <small id="invalid-otp-message" class="state-message">Four digits required.</small>
   }
 </div>
 ```
@@ -753,8 +791,8 @@ export class OtpValidationValidationDemo {
   color: var(--aeris-danger);
 }
 
-.field small.error {
-  color: var(--aeris-danger);
+.field {
+  width: min(100%, 34rem);
 }
 
 .state-message {
@@ -811,9 +849,13 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 34rem);
+    }
   `
 })
-export class OtpNativeFormHTMLFormValueDemo {
+export class OtpNativeFormDemo {
 }
 ```
 
@@ -834,7 +876,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
   templateUrl: './otp-forms.demo.html',
   styleUrl: './otp-forms.demo.scss'
 })
-export class OtpFormsReactiveAndTemplateDrivenFormsDemo {
+export class OtpFormsDemo {
   protected readonly reactiveCode =
     new FormControl('1234');
 
@@ -848,10 +890,7 @@ export class OtpFormsReactiveAndTemplateDrivenFormsDemo {
 <div class="field-grid">
   <div class="field">
     <span id="reactive-otp-label">Reactive Forms</span>
-    <aeris-input-otp
-      ariaLabelledBy="reactive-otp-label"
-      [formControl]="reactiveCode"
-    />
+    <aeris-input-otp ariaLabelledBy="reactive-otp-label" [formControl]="reactiveCode" />
     <small>Value: {{ reactiveCode.value || 'Empty' }}</small>
   </div>
   <div class="field">
@@ -872,7 +911,7 @@ export class OtpFormsReactiveAndTemplateDrivenFormsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -906,6 +945,10 @@ export class OtpFormsReactiveAndTemplateDrivenFormsDemo {
   .field-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.field {
+  width: min(100%, 34rem);
 }
 ```
 

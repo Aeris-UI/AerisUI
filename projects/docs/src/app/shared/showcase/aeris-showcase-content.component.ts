@@ -7,6 +7,7 @@ import { AerisButton } from '@aeris-ui/core/button';
 import { AerisCardModule } from '@aeris-ui/core/card';
 import {
   AerisChartModule,
+  createAerisChartAreaFill,
   type AerisChartData,
   type AerisChartOptions,
 } from '@aeris-ui/core/chart';
@@ -173,6 +174,8 @@ const SHOWCASE_ICONS = {
   ],
 })
 export class AerisShowcaseContentComponent {
+  private static nextId = 0;
+  protected readonly chatInputId = `showcase-chat-message-${AerisShowcaseContentComponent.nextId++}`;
   readonly activeView = input.required<ShowcaseView>();
   readonly viewRequested = output<ShowcaseView>();
   private readonly document = inject(DOCUMENT);
@@ -192,7 +195,7 @@ export class AerisShowcaseContentComponent {
   protected readonly componentSlider = signal(64);
   protected readonly componentOtp = signal('4821');
   protected readonly componentRating = signal(4);
-  protected readonly componentNotice = signal('Choose an action to see feedback.');
+  protected readonly componentNotice = signal('Changes are saved only in this preview.');
   protected readonly showAllActivity = signal(false);
   protected readonly completedTasks = signal<readonly string[]>([
     'Review mobile navigation',
@@ -224,6 +227,7 @@ export class AerisShowcaseContentComponent {
     this.threads.map((thread) => ({ label: thread.name, value: thread.id })),
   );
   protected readonly chatDraft = signal('');
+  protected readonly canSendMessage = computed(() => this.chatDraft().trim().length > 0);
   private readonly initialChatMessages: readonly ChatMessage[] = [
     { id: 1, author: 'Maya', text: 'The release dashboard is ready for review.', time: '10:18' },
     {
@@ -373,6 +377,10 @@ export class AerisShowcaseContentComponent {
   };
 
   protected readonly compactChartOptions: AerisChartOptions = {
+    devicePixelRatio:
+      typeof window === 'undefined'
+        ? 2
+        : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),
     maintainAspectRatio: false,
     interaction: { mode: 'index', intersect: false },
     plugins: { legend: { display: false } },
@@ -793,33 +801,51 @@ export class AerisShowcaseContentComponent {
       datasets: [
         {
           label: 'Income ($k)',
+          borderColor: '#2563eb',
+          pointBackgroundColor: '#2563eb',
+          backgroundColor: createAerisChartAreaFill('#2563eb', 0.12),
           data:
             period === 'year'
               ? [58, 65, 80, 84]
               : period === 'quarter'
                 ? [25, 27, 31]
                 : [6, 8, 7, 11],
-          tension: 0.35,
           fill: true,
         },
         {
           label: 'Expenses ($k)',
+          borderColor: '#db2777',
+          backgroundColor: '#db2777',
+          borderDash: [5, 4],
+          fill: false,
           data:
             period === 'year'
               ? [36, 39, 43, 51]
               : period === 'quarter'
                 ? [17, 16, 18]
                 : [4, 5, 4, 5],
-          tension: 0.35,
         },
       ],
     };
   });
 
   protected readonly chartOptions: AerisChartOptions = {
+    devicePixelRatio:
+      typeof window === 'undefined'
+        ? 2
+        : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),
     maintainAspectRatio: false,
+    elements: {
+      line: { borderWidth: 2, tension: 0.35 },
+      point: { radius: 0, hoverRadius: 4 },
+    },
     interaction: { mode: 'index', intersect: false },
-    plugins: { legend: { position: 'bottom' } },
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { usePointStyle: true, pointStyle: 'line' },
+      },
+    },
   };
 
   protected showComponentNotice(message: string): void {

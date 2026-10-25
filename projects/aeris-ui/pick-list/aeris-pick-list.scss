@@ -1,3 +1,4 @@
+@use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
@@ -294,7 +295,7 @@
   display: block;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.75;
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
@@ -325,7 +326,7 @@
     justify-content: center;
   }
 
-  .aeris-pick-list__transfer-controls svg {
+  .aeris-pick-list__transfer-controls > button > :is(svg, [data-aeris-custom-icon]) {
     transform: rotate(90deg);
   }
 }
@@ -367,3 +368,5 @@
 }
 
 @include aeris-mobile.input-font('input:not([type="checkbox"]):not([type="radio"]), textarea');
+
+@include aeris-icons.custom-icon;

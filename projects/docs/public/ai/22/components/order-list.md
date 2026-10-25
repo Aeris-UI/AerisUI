@@ -2,7 +2,7 @@
 
 > Reorder a single item collection with accessible selection and templates.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/order-list`
 - Human-readable documentation: [https://aeris-ui.dev/components/order-list](https://aeris-ui.dev/components/order-list)
@@ -29,6 +29,10 @@ import { AerisOrderListModule } from '@aeris-ui/core/order-list';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `moveTopIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move top icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveUpIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move up icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveDownIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move down icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveBottomIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move bottom icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `optionLabel` | `string` | `'label'` | Property used as the default visible item label. |
 | `dataKey` | `string` | `'id'` | Property used as the stable item identity. |
 | `header` | `string` | `''` | Optional list header text. |
@@ -150,7 +154,22 @@ interface Product {
     }
   `
 })
-export class OrderListBasicBasicDemo {
+export class OrderListBasicDemo {
+  protected readonly basicProducts = signal<readonly Product[]>(this.createProducts());
+
+  protected readonly selectedBasic = signal<readonly string[]>(['keyboard']);
+
+  private createProducts(): readonly Product[] {
+      return [
+        { id: 'monitor', label: 'Monitor', category: 'Hardware', stock: 'In stock' },
+        { id: 'keyboard', label: 'Keyboard', category: 'Hardware', stock: 'Low stock' },
+        { id: 'desk', label: 'Desk', category: 'Furniture', stock: 'In stock' },
+        { id: 'lamp', label: 'Desk lamp', category: 'Furniture', stock: 'In stock' },
+        { id: 'dock', label: 'Docking station', category: 'Hardware', stock: 'Backordered' },
+      ];
+    }
+
+
   protected readonly products = signal<readonly Product[]>([
     { id: 'monitor', label: 'Monitor', category: 'Hardware', stock: 'In stock' },
     { id: 'keyboard', label: 'Keyboard', category: 'Hardware', stock: 'Low stock' },
@@ -166,8 +185,15 @@ When multiple is enabled, selected items move as a group while preserving their 
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisOrderListModule } from '@aeris-ui/core/order-list';
+
+interface Product {
+  readonly id: string;
+  readonly label: string;
+  readonly category: string;
+  readonly stock: string;
+}
 
 @Component({
   selector: 'app-order-list-selection-demo',
@@ -195,7 +221,20 @@ import { AerisOrderListModule } from '@aeris-ui/core/order-list';
     }
   `
 })
-export class OrderListSelectionMultipleSelectionDemo {
+export class OrderListSelectionDemo {
+  protected readonly templateProducts = signal<readonly Product[]>(this.createProducts());
+
+  protected readonly selectedTemplate = signal<readonly string[]>(['monitor', 'keyboard']);
+
+  private createProducts(): readonly Product[] {
+      return [
+        { id: 'monitor', label: 'Monitor', category: 'Hardware', stock: 'In stock' },
+        { id: 'keyboard', label: 'Keyboard', category: 'Hardware', stock: 'Low stock' },
+        { id: 'desk', label: 'Desk', category: 'Furniture', stock: 'In stock' },
+        { id: 'lamp', label: 'Desk lamp', category: 'Furniture', stock: 'In stock' },
+        { id: 'dock', label: 'Docking station', category: 'Hardware', stock: 'Backordered' },
+      ];
+    }
 }
 ```
 
@@ -235,11 +274,11 @@ import { AerisOrderListModule } from '@aeris-ui/core/order-list';
     }
 
     .product-row small {
-      color: var(--text-3);
+      color: var(--aeris-text-3);
     }
   `
 })
-export class OrderListTemplateItemTemplateDemo {
+export class OrderListTemplateDemo {
 }
 ```
 
@@ -250,8 +289,15 @@ Long lists scroll inside the viewport. Size the component with layout CSS or tok
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisOrderListModule } from '@aeris-ui/core/order-list';
+
+interface Product {
+  readonly id: string;
+  readonly label: string;
+  readonly category: string;
+  readonly stock: string;
+}
 
 @Component({
   selector: 'app-order-list-scrolling-demo',
@@ -283,7 +329,19 @@ import { AerisOrderListModule } from '@aeris-ui/core/order-list';
     }
   `
 })
-export class OrderListScrollingScrollingDemo {
+export class OrderListScrollingDemo {
+  protected readonly manyProducts = signal<readonly Product[]>(this.createManyProducts());
+
+  protected readonly selectedMany = signal<readonly string[]>(['item-6']);
+
+  private createManyProducts(): readonly Product[] {
+      return Array.from({ length: 28 }, (_, index) => ({
+        id: `item-${index + 1}`,
+        label: `Queue item ${index + 1}`,
+        category: index % 2 === 0 ? 'Hardware' : 'Furniture',
+        stock: index % 3 === 0 ? 'Low stock' : 'In stock',
+      }));
+    }
 }
 ```
 
@@ -294,8 +352,15 @@ OrderList includes disabled and empty states with preserved semantics.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisOrderListModule } from '@aeris-ui/core/order-list';
+
+interface Product {
+  readonly id: string;
+  readonly label: string;
+  readonly category: string;
+  readonly stock: string;
+}
 
 @Component({
   selector: 'app-order-list-states-demo',
@@ -330,7 +395,18 @@ import { AerisOrderListModule } from '@aeris-ui/core/order-list';
     }
   `
 })
-export class OrderListStatesStatesDemo {
+export class OrderListStatesDemo {
+  protected readonly basicProducts = signal<readonly Product[]>(this.createProducts());
+
+  private createProducts(): readonly Product[] {
+      return [
+        { id: 'monitor', label: 'Monitor', category: 'Hardware', stock: 'In stock' },
+        { id: 'keyboard', label: 'Keyboard', category: 'Hardware', stock: 'Low stock' },
+        { id: 'desk', label: 'Desk', category: 'Furniture', stock: 'In stock' },
+        { id: 'lamp', label: 'Desk lamp', category: 'Furniture', stock: 'In stock' },
+        { id: 'dock', label: 'Docking station', category: 'Hardware', stock: 'Backordered' },
+      ];
+    }
 }
 ```
 
@@ -343,6 +419,13 @@ Use outputs to react to selection and reorder changes.
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisOrderListModule, type AerisOrderListReorderEvent, type AerisOrderListSelectionEvent } from '@aeris-ui/core/order-list';
+
+interface Product {
+  readonly id: string;
+  readonly label: string;
+  readonly category: string;
+  readonly stock: string;
+}
 
 @Component({
   selector: 'app-order-list-events-demo',
@@ -376,7 +459,21 @@ import { AerisOrderListModule, type AerisOrderListReorderEvent, type AerisOrderL
     }
   `
 })
-export class OrderListEventsEventsDemo {
+export class OrderListEventsDemo {
+  protected readonly basicProducts = signal<readonly Product[]>(this.createProducts());
+
+  protected readonly selectedBasic = signal<readonly string[]>(['keyboard']);
+
+  private createProducts(): readonly Product[] {
+      return [
+        { id: 'monitor', label: 'Monitor', category: 'Hardware', stock: 'In stock' },
+        { id: 'keyboard', label: 'Keyboard', category: 'Hardware', stock: 'Low stock' },
+        { id: 'desk', label: 'Desk', category: 'Furniture', stock: 'In stock' },
+        { id: 'lamp', label: 'Desk lamp', category: 'Furniture', stock: 'In stock' },
+        { id: 'dock', label: 'Docking station', category: 'Hardware', stock: 'Backordered' },
+      ];
+    }
+
   protected readonly products = signal<readonly Product[]>(this.createProducts());
   protected readonly selected = signal<readonly string[]>(['keyboard']);
   protected readonly eventText = signal('No reorder event yet.');

@@ -198,9 +198,7 @@
     [model]="commandItems"
     ariaLabel="Editor actions"
   /&gt;
-  &lt;p class="context-menu-status" aria-live="polite"&gt;
-    Last action: &#123;&#123; selectedAction &#125;&#125;
-  &lt;/p&gt;
+  &lt;p class="context-menu-status" aria-live="polite"&gt;Last action: &#123;&#123; selectedAction &#125;&#125;&lt;/p&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -217,9 +215,7 @@
                 <aeris-context-menu #manualMenu [model]="manualItems" ariaLabel="Manual actions" />
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
-  &lt;button aerisButton type="button" (click)="openManualMenu($event)"&gt;
-    Open menu
-  &lt;/button&gt;
+  &lt;button aerisButton type="button" (click)="openManualMenu($event)"&gt;Open menu&lt;/button&gt;
   &lt;aeris-context-menu #manualMenu [model]="manualItems" ariaLabel="Manual actions" /&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>

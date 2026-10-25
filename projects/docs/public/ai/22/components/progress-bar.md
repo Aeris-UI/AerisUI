@@ -2,7 +2,7 @@
 
 > Process indicator with determinate, indeterminate, formatted, severity, and stepped progress states.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/progress-bar`
 - Human-readable documentation: [https://aeris-ui.dev/components/progress-bar](https://aeris-ui.dev/components/progress-bar)
@@ -42,6 +42,7 @@ import { AerisProgressBarModule } from '@aeris-ui/core/progress-bar';
 | `rounded` | `boolean` | `true` | Uses pill-shaped track corners. |
 | `ariaLabel` | `string` | `''` | Accessible name when no visible label names the bar. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that labels the bar. |
+| `ariaDescribedBy` | `string` | `''` | Space-separated IDs of supporting text describing the progressbar. |
 | `ariaValueText` | `string` | `''` | Custom accessible value text. |
 | `steps` | `readonly AerisProgressBarStep[]` | `[]` | Optional visual step markers. |
 | `activeStep` | `number &#124; null` | `null` | Optional explicit active step index. |
@@ -137,7 +138,99 @@ import { AerisProgressBarModule } from '@aeris-ui/core/progress-bar';
     </div>
   `
 })
-export class ProgressBarBasicBasicDemo {
+export class ProgressBarBasicDemo {
+}
+```
+
+### File processing
+
+Simulate preparation followed by eight files. Buttons stand in for application callbacks; a separate status announces phases, not every numeric update.
+
+#### TS
+
+```ts
+import { Component, computed, signal } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisProgressBarModule, type AerisProgressBarStep } from '@aeris-ui/core/progress-bar';
+
+@Component({
+  selector: 'app-progress-bar-processing-demo',
+  imports: [AerisButton, AerisProgressBarModule],
+  templateUrl: './progress-bar-processing.demo.html',
+  styleUrl: './progress-bar-processing.demo.scss'
+})
+export class ProgressBarProcessingDemo {
+  protected readonly processedFiles = signal(0);
+  protected readonly processingStarted = signal(false);
+  protected readonly processingStatus = computed(() => !this.processingStarted()
+    ? 'Preparing files. Continue when preparation finishes.'
+    : this.processedFiles() < 8 ? 'Processing files.' : 'All files processed.');
+  protected readonly processingValueText = computed(() => `${this.processedFiles()} of 8 files processed`);
+  protected readonly processingSteps: readonly AerisProgressBarStep[] = [
+    { label: 'Prepare', value: 0 }, { label: 'Process', value: 4 }, { label: 'Complete', value: 8 },
+  ];
+  protected processNextFile(): void {
+    if (!this.processingStarted()) this.processingStarted.set(true);
+    else this.processedFiles.update((value) => Math.min(8, value + 1));
+  }
+  protected restartProcessing(): void {
+    this.processedFiles.set(0);
+    this.processingStarted.set(false);
+  }
+}
+```
+
+#### HTML
+
+```html
+<div>
+  <div class="progress-stack" [attr.aria-busy]="processedFiles() < 8">
+    <strong id="processing-title">Prepare and process files</strong>
+    <p id="processing-help">Keep this page open until all eight files are processed.</p>
+    <aeris-progress-bar
+      [mode]="processingStarted() ? 'determinate' : 'indeterminate'"
+      [value]="processedFiles()"
+      [max]="8"
+      [showValue]="false"
+      [ariaValueText]="processingStarted() ? processingValueText() : ''"
+      ariaLabelledBy="processing-title"
+      ariaDescribedBy="processing-help"
+      [steps]="processingSteps"
+      [activeStep]="!processingStarted() ? 0 : processedFiles() < 8 ? 1 : 2"
+    />
+    <span>{{ processingValueText() }}</span>
+  </div>
+  <p role="status">{{ processingStatus() }}</p>
+  <div class="progress-actions">
+    <button
+      aerisButton
+      type="button"
+      [disabled]="processedFiles() === 8"
+      (click)="processNextFile()"
+    >
+      {{ processingStarted() ? 'Process next file' : 'Finish preparation' }}
+    </button>
+    <button aerisButton type="button" variant="outline" (click)="restartProcessing()">
+      Restart
+    </button>
+  </div>
+</div>
+```
+
+#### CSS
+
+```css
+.progress-stack,
+.progress-template-stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.progress-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.875rem;
 }
 ```
 
@@ -177,7 +270,7 @@ import { AerisProgressBarModule } from '@aeris-ui/core/progress-bar';
     }
   `
 })
-export class ProgressBarDynamicDynamicDemo {
+export class ProgressBarDynamicDemo {
   protected readonly uploadValue = signal(35);
   protected readonly uploadStatus = computed(() => `${this.uploadValue()}% uploaded`);
 
@@ -204,50 +297,27 @@ import { AerisProgressBarModule } from '@aeris-ui/core/progress-bar';
 @Component({
   selector: 'app-progress-bar-severity-demo',
   imports: [AerisProgressBarModule],
-  templateUrl: './progress-bar-severity.demo.html',
-  styleUrl: './progress-bar-severity.demo.scss'
+  template: `
+    <div>
+      <div class="progress-stack">
+        <aeris-progress-bar [value]="25" severity="primary" ariaLabel="Primary progress" />
+        <aeris-progress-bar [value]="35" severity="info" ariaLabel="Info progress" />
+        <aeris-progress-bar [value]="50" severity="success" ariaLabel="Success progress" />
+        <aeris-progress-bar [value]="65" severity="warning" ariaLabel="Warning progress" />
+        <aeris-progress-bar [value]="80" severity="danger" ariaLabel="Danger progress" />
+        <aeris-progress-bar [value]="95" severity="contrast" ariaLabel="Contrast progress" />
+      </div>
+    </div>
+  `,
+  styles: `
+    .progress-stack,
+    .progress-template-stack {
+      display: grid;
+      gap: 1rem;
+    }
+  `
 })
-export class ProgressBarSeveritySeverityDemo {
-}
-```
-
-#### HTML
-
-```html
-<div>
-  <div class="progress-stack">
-    <aeris-progress-bar
-      [value]="25"
-      severity="primary"
-      ariaLabel="Primary progress"
-    />
-    <aeris-progress-bar [value]="35" severity="info" ariaLabel="Info progress" />
-    <aeris-progress-bar
-      [value]="50"
-      severity="success"
-      ariaLabel="Success progress"
-    />
-    <aeris-progress-bar
-      [value]="65"
-      severity="warning"
-      ariaLabel="Warning progress"
-    />
-    <aeris-progress-bar [value]="80" severity="danger" ariaLabel="Danger progress" />
-    <aeris-progress-bar
-      [value]="95"
-      severity="contrast"
-      ariaLabel="Contrast progress"
-    />
-  </div>
-</div>
-```
-
-#### CSS
-
-```css
-.progress-stack {
-  display: grid;
-  gap: 1rem;
+export class ProgressBarSeverityDemo {
 }
 ```
 
@@ -267,7 +337,7 @@ import { AerisProgressBarModule, type AerisProgressBarValueContext } from '@aeri
   templateUrl: './progress-bar-template.demo.html',
   styleUrl: './progress-bar-template.demo.scss'
 })
-export class ProgressBarTemplateTemplateDemo {
+export class ProgressBarTemplateDemo {
   protected readonly fileSizeFormatter = (context: AerisProgressBarValueContext): string => {
     const total = 5000;
     const current = Math.round((context.percent / 100) * total);
@@ -310,6 +380,7 @@ export class ProgressBarTemplateTemplateDemo {
 #### CSS
 
 ```css
+.progress-stack,
 .progress-template-stack {
   display: grid;
   gap: 1rem;
@@ -321,7 +392,7 @@ export class ProgressBarTemplateTemplateDemo {
   justify-content: space-between;
   gap: 0.75rem;
   margin-bottom: 0.35rem;
-  color: var(--text-2);
+  color: var(--aeris-text-2);
   font-size: 0.8125rem;
   font-weight: 700;
 }
@@ -346,7 +417,7 @@ import { AerisProgressBarModule } from '@aeris-ui/core/progress-bar';
     </div>
   `
 })
-export class ProgressBarIndeterminateIndeterminateDemo {
+export class ProgressBarIndeterminateDemo {
 }
 ```
 
@@ -387,7 +458,7 @@ import { AerisProgressBarModule, type AerisProgressBarStep } from '@aeris-ui/cor
     }
   `
 })
-export class ProgressBarStepsStepsDemo {
+export class ProgressBarStepsDemo {
   protected readonly orderStep = signal(1);
   protected readonly orderProgress = computed(() => this.orderStep() * 50);
   protected readonly steps: readonly AerisProgressBarStep[] = [
@@ -422,7 +493,7 @@ import { AerisProgressBarModule } from '@aeris-ui/core/progress-bar';
   templateUrl: './progress-bar-options.demo.html',
   styleUrl: './progress-bar-options.demo.scss'
 })
-export class ProgressBarOptionsOptionsDemo {
+export class ProgressBarOptionsDemo {
 }
 ```
 
@@ -451,7 +522,8 @@ export class ProgressBarOptionsOptionsDemo {
 #### CSS
 
 ```css
-.progress-stack {
+.progress-stack,
+.progress-template-stack {
   display: grid;
   gap: 1rem;
 }
@@ -460,6 +532,7 @@ export class ProgressBarOptionsOptionsDemo {
 ## Accessibility
 
 - The host uses role="progressbar".
+- Connect supporting text with ariaDescribedBy (space-separated IDs). Progress values are not live announcements. If background work needs announcements, use one nearby status for meaningful phase changes, outside any busy region; avoid announcing every percentage update. Keep custom value templates decorative and supply equivalent plain text through ariaValueText or valueFormatter.
 - Determinate progress exposes aria-valuemin, aria-valuemax, aria-valuenow, and value text.
 - Indeterminate progress omits numeric value attributes because no exact value is known.
 - Use ariaLabel or ariaLabelledBy so assistive technology can identify what process the bar describes.

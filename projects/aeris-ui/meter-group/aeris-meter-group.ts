@@ -102,6 +102,7 @@ interface AerisMeterGroupItemView {
         [attr.aria-valuetext]="resolvedAriaValueText()"
         [attr.aria-label]="ariaLabel() || null"
         [attr.aria-labelledby]="ariaLabelledBy() || null"
+        [attr.aria-describedby]="ariaDescribedBy() || null"
       >
         <span class="aeris-meter-group__segments" aria-hidden="true">
           @for (view of itemViews(); track view.index) {
@@ -206,6 +207,7 @@ export class AerisMeterGroup {
   readonly valueSuffix = input('%');
   readonly ariaLabel = input('Meter group');
   readonly ariaLabelledBy = input('');
+  readonly ariaDescribedBy = input('');
   readonly ariaValueText = input('');
   readonly valueFormatter = input<((context: AerisMeterGroupItemContext) => string) | null>(null);
 

@@ -115,11 +115,7 @@ export class AerisAccordionPanel {
         [attr.data-expanded]="state.expanded || null"
         [attr.data-disabled]="state.disabled || null"
       >
-        <div
-          class="aeris-accordion__heading"
-          role="heading"
-          [attr.aria-level]="headingLevel()"
-        >
+        <div class="aeris-accordion__heading" role="heading" [attr.aria-level]="headingLevel()">
           <button
             #headerButton
             class="aeris-accordion__trigger"
@@ -140,7 +136,7 @@ export class AerisAccordionPanel {
                     $implicit: state.expanded,
                     expanded: state.expanded,
                     disabled: state.disabled,
-                    value: state.value
+                    value: state.value,
                   }"
                 />
               } @else {
@@ -155,7 +151,7 @@ export class AerisAccordionPanel {
                     $implicit: state.expanded,
                     expanded: state.expanded,
                     disabled: state.disabled,
-                    value: state.value
+                    value: state.value,
                   }"
                 />
               } @else {
@@ -165,7 +161,12 @@ export class AerisAccordionPanel {
           </button>
         </div>
 
-        @if (state.expanded) {
+        <div
+          class="aeris-accordion__body"
+          [attr.data-expanded]="state.expanded || null"
+          [attr.aria-hidden]="state.expanded ? null : 'true'"
+          [attr.inert]="state.expanded ? null : ''"
+        >
           <div
             class="aeris-accordion__panel"
             role="region"
@@ -175,7 +176,7 @@ export class AerisAccordionPanel {
           >
             <ng-container [ngTemplateOutlet]="state.content" />
           </div>
-        }
+        </div>
       </section>
     }
   `,
@@ -275,7 +276,9 @@ export class AerisAccordion {
   }
 
   focusPanel(value: string, options?: FocusOptions): void {
-    const stateIndex = this.panelStates().findIndex((state) => state.value === value && !state.disabled);
+    const stateIndex = this.panelStates().findIndex(
+      (state) => state.value === value && !state.disabled,
+    );
     if (stateIndex < 0) return;
     this.focusedValue.set(value);
     this.headerButtons()[stateIndex]?.nativeElement.focus(options);

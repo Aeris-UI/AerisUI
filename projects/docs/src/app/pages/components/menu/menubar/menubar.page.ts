@@ -7,6 +7,7 @@ import {
   type AerisMenubarItemEvent,
 } from '@aeris-ui/core/menubar';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
+import { AerisKbdModule } from '@aeris-ui/core/kbd';
 import {
   LucideClipboard,
   LucideCopy,
@@ -54,6 +55,7 @@ interface ApiRow {
     AerisButton,
     AerisMenubarModule,
     AerisTabsModule,
+    AerisKbdModule,
     CodeBlockComponent,
     ComponentPageHeaderComponent,
     PageTocComponent,
@@ -478,13 +480,6 @@ protected readonly templateItems: readonly AerisMenubarItem[] = [
   white-space: nowrap;
 }
 
-.menubar-doc-item kbd {
-  color: var(--text-2);
-  font: inherit;
-  font-size: 0.75rem;
-  font-weight: 750;
-}
-
 .menubar-doc-item__chevron {
   fill: none;
   stroke: currentColor;
@@ -535,6 +530,11 @@ type AerisButtonSeverity =
   | 'warning'
   | 'danger'
   | 'contrast';
+
+interface AerisMenubarSubmenuIconContext {
+  readonly $implicit: boolean;
+  readonly root: boolean;
+}
 
 interface AerisMenubarItem<T = unknown> {
   readonly id?: string;
@@ -622,6 +622,20 @@ interface AerisMenubarItemTemplateContext<T = unknown> {
   ];
 
   protected readonly inputs: readonly ApiRow[] = [
+    {
+      name: 'submenuIconTemplate',
+      type: 'TemplateRef<AerisMenubarSubmenuIconContext> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'menuIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the menu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
     {
       name: 'id',
       type: 'string',

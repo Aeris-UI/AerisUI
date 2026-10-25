@@ -19,6 +19,7 @@ import {
   viewChildren,
 } from '@angular/core';
 import {
+  ɵAerisIcon,
   ɵAerisAppendTo,
   aerisInternalClampOverlayPoint,
   aerisInternalCreateFrameScheduler,
@@ -151,7 +152,7 @@ let nextMenuId = 0;
 
 @Component({
   selector: 'aeris-menu',
-  imports: [NgTemplateOutlet, ɵAerisAppendTo],
+  imports: [ɵAerisIcon, NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     <ng-template #defaultItemTemplate let-item let-hasChildren="hasChildren">
       @if (item.icon) {
@@ -170,9 +171,16 @@ let nextMenuId = 0;
         <kbd class="aeris-menu__shortcut">{{ item.shortcut }}</kbd>
       }
       @if (hasChildren) {
-        <svg class="aeris-menu__chevron" viewBox="0 0 20 20" aria-hidden="true">
-          <path d="m6 8 4 4 4-4" />
-        </svg>
+        @if (submenuIconTemplate(); as customIcon) {
+          <span
+            class="aeris-custom-icon aeris-menu__chevron"
+            aria-hidden="true"
+            data-aeris-custom-icon
+            ><ng-container [ngTemplateOutlet]="customIcon"
+          /></span>
+        } @else {
+          <span aerisInternalIcon="chevron" class="aeris-menu__chevron" aria-hidden="true"></span>
+        }
       }
     </ng-template>
 
@@ -334,6 +342,8 @@ let nextMenuId = 0;
   },
 })
 export class AerisMenu<T = unknown> {
+  readonly submenuIconTemplate = input<TemplateRef<void>>();
+
   protected readonly dismissOverlay = (): boolean => {
     if (!(this.popup() && this.closeOnEscape())) return false;
     this.hide();

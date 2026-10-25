@@ -20,6 +20,27 @@
     <aeris-tab-panel value="features" label="Features">
       <section class="doc-section">
         <h2>Features showcase</h2>
+        <p>
+          Chart.js options provide formatting, legends and tooltip callbacks, including multiline
+          labels and external tooltips. Dataset backgroundColor and borderColor control series
+          colors; Aeris themes the surrounding surface, text, axes and tooltips. Your options take
+          precedence, except that system reduced motion disables animations. Chart.js is required
+          only when importing Chart, not for other Aeris components.
+        </p>
+        <p>
+          These documentation examples explicitly increase <code>options.devicePixelRatio</code>
+          for smoother canvas edges. Aeris itself uses the screen’s native pixel density by default.
+          Higher resolution uses more canvas memory and rendering work; choose it based on your
+          chart size, update frequency and target devices.
+        </p>
+        <p>
+          Area fills are drawn before all dataset strokes and points by default, including when
+          filled and unfilled lines are mixed. Override this through
+          <code>options.plugins.filler.drawTime</code> when needed. For overlapping series, use
+          subtle transparent fills; with many series, prefer unfilled lines or fill only the main
+          series. Stacking and filling between datasets remain explicit Chart.js choices: use
+          stacked areas for parts of a total, and fill between two lines to emphasize their gap.
+        </p>
         <div class="doc-content-layout">
           <div class="doc-content-main">
             <app-form-demo
@@ -76,6 +97,205 @@
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
+            <app-form-demo
+              id="chart-area"
+              title="Fading area fill"
+              description="Use the optional area-fill helper for a translucent fade beneath a line. It caches its canvas gradient and adapts to resizing. Turn the fill off to keep the same line without an area."
+            >
+              <div preview>
+                <aeris-chart
+                  type="line"
+                  [data]="areaEnabled() ? areaData : areaLineData"
+                  [options]="areaOptions"
+                  height="20rem"
+                  ariaLabel="Completed orders this week"
+                  ariaDescription="Orders increased from 34 on Monday to 96 on Sunday, with small declines on Wednesday and Friday."
+                />
+                <div class="chart-actions">
+                  <button
+                    aerisButton
+                    type="button"
+                    variant="outline"
+                    [attr.aria-pressed]="areaEnabled()"
+                    (click)="areaEnabled.set(!areaEnabled())"
+                  >
+                    {{ areaEnabled() ? 'Hide area fill' : 'Show area fill' }}
+                  </button>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-chart
+    type="line"
+    [data]="areaEnabled() ? areaData : areaLineData"
+    [options]="areaOptions"
+    height="20rem"
+    ariaLabel="Completed orders this week"
+    ariaDescription="Orders increased from 34 on Monday to 96 on Sunday, with small declines on Wednesday and Friday."
+  /&gt;
+  &lt;div class="chart-actions"&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      variant="outline"
+      [attr.aria-pressed]="areaEnabled()"
+      (click)="areaEnabled.set(!areaEnabled())"
+    &gt;
+      &#123;&#123; areaEnabled() ? 'Hide area fill' : 'Show area fill' &#125;&#125;
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="chart-comparison"
+              title="Compare multiple series"
+              description="Hover or touch a month to compare both series in one tooltip. Index interaction is native Chart.js behavior; the optional comparison-guide helper adds the dotted vertical line."
+            >
+              <div preview>
+                <aeris-chart
+                  type="line"
+                  [data]="comparisonData"
+                  [options]="comparisonOptions"
+                  [plugins]="comparisonPlugins"
+                  height="22rem"
+                  ariaLabel="Monthly subscriptions and renewals"
+                  ariaDescription="June has 420 new subscriptions and 320 renewals. Both series increase overall from January to June."
+                />
+                <p>
+                  June: 420 new subscriptions and 320 renewals. The series are overlaid, not
+                  stacked.
+                </p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-chart
+    type="line"
+    [data]="comparisonData"
+    [options]="comparisonOptions"
+    [plugins]="comparisonPlugins"
+    height="22rem"
+    ariaLabel="Monthly subscriptions and renewals"
+    ariaDescription="June has 420 new subscriptions and 320 renewals. Both series increase overall from January to June."
+  /&gt;
+  &lt;p&gt;
+    June: 420 new subscriptions and 320 renewals. The series are overlaid, not stacked.
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="chart-radial"
+              title="Radial charts and gauges"
+              description="Slim progress fills have subtly rounded ends and become seamless when complete. Doughnut options support rings, semicircular gauges and spaced concentric series without another dependency. For a single accessible progress indicator rather than a data visualization, use ProgressSpinner."
+            >
+              <div preview>
+                <div class="chart-radial-grid">
+                  <section aria-label="Progress ring">
+                    <h4>Release readiness</h4>
+                    <div class="chart-ring">
+                      <aeris-chart
+                        type="doughnut"
+                        [data]="ringData"
+                        [options]="ringOptions"
+                        height="14rem"
+                        ariaLabel="Release readiness: 76 percent complete"
+                      />
+                      <span class="chart-ring-value" aria-hidden="true">76<span>%</span></span>
+                    </div>
+                    <p>76 of 100 release checks completed.</p>
+                  </section>
+                  <section aria-label="Semicircular gauge">
+                    <h4>Capacity used</h4>
+                    <aeris-chart
+                      type="doughnut"
+                      [data]="gaugeData"
+                      [options]="gaugeOptions"
+                      height="14rem"
+                      ariaLabel="Capacity used: 76 percent"
+                    />
+                    <p><strong>76%</strong> used · 24% available</p>
+                  </section>
+                  <section aria-label="Concentric goal rings">
+                    <h4>Quarterly goals</h4>
+                    <aeris-chart
+                      type="doughnut"
+                      [data]="goalData"
+                      [options]="goalOptions"
+                      height="14rem"
+                      ariaLabel="Quarterly goals: Design 88 percent, Development 72 percent, Testing 56 percent"
+                    />
+                    <ul class="chart-goals">
+                      @for (goal of goalSeries; track goal.label) {
+                        <li>
+                          <span
+                            class="chart-goal-dot"
+                            [style.background]="goal.color"
+                            aria-hidden="true"
+                          ></span
+                          ><span>{{ goal.label }}</span
+                          ><strong>{{ goal.value }}%</strong>
+                        </li>
+                      }
+                    </ul>
+                  </section>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="chart-radial-grid"&gt;
+    &lt;section aria-label="Progress ring"&gt;
+      &lt;h4&gt;Release readiness&lt;/h4&gt;
+      &lt;div class="chart-ring"&gt;
+        &lt;aeris-chart
+          type="doughnut"
+          [data]="ringData"
+          [options]="ringOptions"
+          height="14rem"
+          ariaLabel="Release readiness: 76 percent complete"
+        /&gt;
+        &lt;span class="chart-ring-value" aria-hidden="true"&gt;
+          76
+          &lt;span&gt;%&lt;/span&gt;
+        &lt;/span&gt;
+      &lt;/div&gt;
+      &lt;p&gt;76 of 100 release checks completed.&lt;/p&gt;
+    &lt;/section&gt;
+    &lt;section aria-label="Semicircular gauge"&gt;
+      &lt;h4&gt;Capacity used&lt;/h4&gt;
+      &lt;aeris-chart
+        type="doughnut"
+        [data]="gaugeData"
+        [options]="gaugeOptions"
+        height="14rem"
+        ariaLabel="Capacity used: 76 percent"
+      /&gt;
+      &lt;p&gt;
+        &lt;strong&gt;76%&lt;/strong&gt;
+        used · 24% available
+      &lt;/p&gt;
+    &lt;/section&gt;
+    &lt;section aria-label="Concentric goal rings"&gt;
+      &lt;h4&gt;Quarterly goals&lt;/h4&gt;
+      &lt;aeris-chart
+        type="doughnut"
+        [data]="goalData"
+        [options]="goalOptions"
+        height="14rem"
+        ariaLabel="Quarterly goals: Design 88 percent, Development 72 percent, Testing 56 percent"
+      /&gt;
+      &lt;ul class="chart-goals"&gt;
+        &#64;for (goal of goalSeries; track goal.label) &#123;
+          &lt;li&gt;
+            &lt;span
+              class="chart-goal-dot"
+              [style.background]="goal.color"
+              aria-hidden="true"
+            &gt;&lt;/span&gt;
+            &lt;span&gt;&#123;&#123; goal.label &#125;&#125;&lt;/span&gt;
+            &lt;strong&gt;&#123;&#123; goal.value &#125;&#125;%&lt;/strong&gt;
+          &lt;/li&gt;
+        &#125;
+      &lt;/ul&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
             <app-form-demo
               id="chart-circular"
               title="Circular charts"
@@ -191,7 +411,7 @@
               title="Dynamic data"
               description="Replace chart data immutably to update the existing renderer."
               [tsCode]="dynamicCode"
-              [cssCode]="'.chart-actions { display: flex; gap: 0.5rem; margin-top: 0.875rem; } .chart-actions button { min-height: 2.25rem; padding: 0.45rem 0.75rem; border: 1px solid var(--border); border-radius: var(--aeris-radius-control); background: var(--surface); color: var(--text); font: inherit; font-weight: 700; cursor: pointer; } .chart-actions button:hover { background: var(--surface-2); } .chart-actions button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }'"
+              [cssCode]="'.chart-actions { display: flex; gap: 0.5rem; margin-top: 0.875rem; }'"
             >
               <div preview>
                 <aeris-chart
@@ -267,6 +487,148 @@
   /&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
+            <app-form-demo
+              id="chart-compact"
+              title="Compact KPI and sparkline"
+              description="Compose a small trend chart with a real Card. Keep the headline value and a written trend visible without requiring a tooltip."
+            >
+              <div preview class="chart-kpi">
+                <aeris-card>
+                  <div aerisCardHeader><h4 aerisCardTitle>Orders this week</h4></div>
+                  <p class="chart-kpi-value">273</p>
+                  <p>Daily orders increased from 28 on Monday to 52 on Sunday.</p>
+                  <aeris-chart
+                    class="chart-sparkline"
+                    type="line"
+                    [data]="compactData"
+                    [options]="compactOptions"
+                    height="5rem"
+                    ariaLabel="Daily orders this week"
+                  />
+                </aeris-card>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="chart-kpi"&gt;
+  &lt;aeris-card&gt;
+    &lt;div aerisCardHeader&gt;&lt;h4 aerisCardTitle&gt;Orders this week&lt;/h4&gt;&lt;/div&gt;
+    &lt;p class="chart-kpi-value"&gt;273&lt;/p&gt;
+    &lt;p&gt;Daily orders increased from 28 on Monday to 52 on Sunday.&lt;/p&gt;
+    &lt;aeris-chart
+      class="chart-sparkline"
+      type="line"
+      [data]="compactData"
+      [options]="compactOptions"
+      height="5rem"
+      ariaLabel="Daily orders this week"
+    /&gt;
+  &lt;/aeris-card&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="chart-mixed"
+              title="Mixed series and formatting"
+              description="Combine bars and a target line. Use native Chart.js callbacks to format axis values and tooltips as currency; no extra formatter API is required."
+            >
+              <div preview>
+                <aeris-chart
+                  type="bar"
+                  [data]="mixedData"
+                  [options]="moneyOptions"
+                  height="22rem"
+                  ariaLabel="Revenue and target in US dollars"
+                  ariaDescription="Revenue totals $16,300 for January through April. April revenue is $5,200, exceeding its $4,800 target."
+                />
+                <p>January–April revenue: $16,300. April exceeded its target by $400.</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-chart
+    type="bar"
+    [data]="mixedData"
+    [options]="moneyOptions"
+    height="22rem"
+    ariaLabel="Revenue and target in US dollars"
+    ariaDescription="Revenue totals $16,300 for January through April. April revenue is $5,200, exceeding its $4,800 target."
+  /&gt;
+  &lt;p&gt;January–April revenue: $16,300. April exceeded its target by $400.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="chart-stacked"
+              title="Stacked values"
+              description="Stack related series to compare totals and their composition. The written summary conveys the main result without relying on color or hover."
+            >
+              <div preview>
+                <aeris-chart
+                  type="bar"
+                  [data]="stackedData"
+                  [options]="stackedOptions"
+                  height="22rem"
+                  ariaLabel="Completed tasks by discipline"
+                  ariaDescription="Weekly totals are 28, 38, 42 and 52 tasks. In week four, Design completed 14, Development 26 and Testing 12."
+                />
+                <p>
+                  Weekly totals: 28, 38, 42 and 52 tasks. Every discipline completed more tasks in
+                  week four than in week one.
+                </p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-chart
+    type="bar"
+    [data]="stackedData"
+    [options]="stackedOptions"
+    height="22rem"
+    ariaLabel="Completed tasks by discipline"
+    ariaDescription="Weekly totals are 28, 38, 42 and 52 tasks. In week four, Design completed 14, Development 26 and Testing 12."
+  /&gt;
+  &lt;p&gt;
+    Weekly totals: 28, 38, 42 and 52 tasks. Every discipline completed more tasks in week
+    four than in week one.
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="chart-loading"
+              title="Loading composition"
+              description="Use Skeleton while waiting for data, then render Chart. Keep loading state in your application rather than using an empty chart to imply an active request."
+            >
+              <div preview>
+                <div class="chart-loading-region" [attr.aria-busy]="loadingReport()">
+                  @if (loadingReport()) {
+                    <aeris-skeleton shape="rectangle" height="14rem" />
+                  } @else {
+                    <aeris-chart
+                      type="line"
+                      [data]="trendData"
+                      [options]="chartOptions"
+                      height="14rem"
+                      ariaLabel="Active projects over seven days"
+                    />
+                  }
+                </div>
+                <p role="status">{{ loadingReport() ? 'Loading report…' : 'Report loaded.' }}</p>
+                <button aerisButton type="button" (click)="loadingReport.set(!loadingReport())">
+                  {{ loadingReport() ? 'Show report' : 'Show loading state' }}
+                </button>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="chart-loading-region" [attr.aria-busy]="loadingReport()"&gt;
+    &#64;if (loadingReport()) &#123;
+      &lt;aeris-skeleton shape="rectangle" height="14rem" /&gt;
+    &#125; &#64;else &#123;
+      &lt;aeris-chart
+        type="line"
+        [data]="trendData"
+        [options]="chartOptions"
+        height="14rem"
+        ariaLabel="Active projects over seven days"
+      /&gt;
+    &#125;
+  &lt;/div&gt;
+  &lt;p role="status"&gt;&#123;&#123; loadingReport() ? 'Loading report…' : 'Report loaded.' &#125;&#125;&lt;/p&gt;
+  &lt;button aerisButton type="button" (click)="loadingReport.set(!loadingReport())"&gt;
+    &#123;&#123; loadingReport() ? 'Show report' : 'Show loading state' &#125;&#125;
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
           </div>
           <app-page-toc title="On this page" ariaLabel="Chart features" [links]="featureLinks" />
         </div>
@@ -323,6 +685,29 @@
                   ><span role="columnheader">Description</span>
                 </div>
                 @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="chart-api-helpers" class="api-section">
+              <h3>Presentation helpers</h3>
+              <p>
+                Import these optional functions from <code>&#64;aeris-ui/core/chart</code>. They
+                compose with native Chart.js datasets and plugins; they are not methods on the Chart
+                component.
+              </p>
+              <div class="api-table" role="table" aria-label="Chart presentation helpers">
+                <div role="row">
+                  <span role="columnheader">Export or argument</span
+                  ><span role="columnheader">Type</span><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of helperExports; track row.name) {
                   <div role="row">
                     <code role="cell">{{ row.name }}</code
                     ><span role="cell">{{ row.type }}</span
@@ -398,13 +783,23 @@
                   hidden description.
                 </li>
                 <li>
-                  A concise text summary of labels and dataset values is kept available to assistive
-                  technologies.
+                  A text summary of labels and dataset values is associated with the canvas through
+                  aria-describedby. Add a visible summary or data table when readers need to compare
+                  exact values.
                 </li>
                 <li>Empty charts replace the canvas with a named status message.</li>
                 <li>
                   Charts are visualizations, not input controls. Provide equivalent controls outside
                   the chart for any action or filtering workflow.
+                </li>
+                <li>
+                  Canvas tooltips and legends are pointer interactions, not keyboard controls. Do
+                  not put essential information only in a tooltip, and provide external native
+                  controls for toggling datasets when that action is required.
+                </li>
+                <li>
+                  Aeris disables Chart.js animations when the system requests reduced motion,
+                  including when the preference changes while the chart is open.
                 </li>
               </ul>
             </section>

@@ -2,7 +2,7 @@
 
 > Service-managed transient notifications with timing, grouping, positions, templates, and live-region semantics.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/toast`
 - Human-readable documentation: [https://aeris-ui.dev/components/toast](https://aeris-ui.dev/components/toast)
@@ -32,6 +32,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `closeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Replaces only the close icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `position` | `AerisToastPosition` | `'bottom-right'` | Places the toast region on the viewport. Options: 'top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', 'bottom-right', 'center'. |
 | `group` | `string` | `''` | Renders only messages from the matching service group. |
 | `mode` | `AerisToastMode` | `'stacked'` | Uses a compact stack that expands on hover/focus and toggles on touch taps, or an always-expanded list. Options: 'stacked', 'expanded'. |
@@ -197,7 +198,7 @@ import { AerisToastModule, AerisToastService } from '@aeris-ui/core/toast';
     </div>
   `
 })
-export class ToastBasicBasicDemo {
+export class ToastBasicDemo {
   private readonly toast = inject(AerisToastService);
 
   protected showBasicToast(): void {
@@ -230,16 +231,11 @@ import { AerisToastModule, AerisToastService } from '@aeris-ui/core/toast';
           Show severities
         </button>
       </div>
-      <aeris-toast
-        group="severity"
-        position="top-left"
-        mode="expanded"
-        [visibleCount]="8"
-      />
+      <aeris-toast group="severity" position="top-left" mode="expanded" [visibleCount]="8" />
     </div>
   `
 })
-export class ToastSeveritySeverityDemo {
+export class ToastSeverityDemo {
   private readonly toast = inject(AerisToastService);
 
   protected showSeverityToasts(): void {
@@ -274,7 +270,7 @@ import { AerisToastModule, AerisToastService, type AerisToastCloseEvent } from '
   templateUrl: './toast-sticky.demo.html',
   styleUrl: './toast-sticky.demo.scss'
 })
-export class ToastStickyStickyAndClearDemo {
+export class ToastStickyDemo {
   private readonly toast = inject(AerisToastService);
   protected readonly lastClosed = signal('No toast has closed yet.');
 
@@ -316,11 +312,7 @@ export class ToastStickyStickyAndClearDemo {
       Clear sticky group
     </button>
   </div>
-  <aeris-toast
-    group="sticky"
-    position="bottom-right"
-    (closed)="recordClosed($event)"
-  />
+  <aeris-toast group="sticky" position="bottom-right" (closed)="recordClosed($event)" />
   <p aria-live="polite">{{ lastClosed() }}</p>
 </div>
 ```
@@ -352,7 +344,7 @@ import { AerisToastModule, AerisToastService, type AerisToastMessage } from '@ae
   templateUrl: './toast-custom.demo.html',
   styleUrl: './toast-custom.demo.scss'
 })
-export class ToastCustomCustomContentDemo {
+export class ToastCustomDemo {
   private readonly toast = inject(AerisToastService);
 
   protected showActionToast(): void {
@@ -431,6 +423,12 @@ export class ToastCustomCustomContentDemo {
 #### CSS
 
 ```css
+.toast-example-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 .toast-example-content {
   display: grid;
   gap: 0.5rem;
@@ -438,12 +436,6 @@ export class ToastCustomCustomContentDemo {
 
 .toast-example-content p {
   margin: 0;
-}
-
-.toast-example-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
 }
 ```
 
@@ -472,7 +464,7 @@ import { AerisToastModule, AerisToastService } from '@aeris-ui/core/toast';
     </div>
   `
 })
-export class ToastStackedStackedPreviewDemo {
+export class ToastStackedDemo {
   private readonly toast = inject(AerisToastService);
 
   protected showStackedToasts(): void {
@@ -509,15 +501,11 @@ import { AerisToastModule, AerisToastService } from '@aeris-ui/core/toast';
           Show swipeable toast
         </button>
       </div>
-      <aeris-toast
-        group="swipe"
-        [swipeDirection]="['down', 'right']"
-        [swipeThreshold]="40"
-      />
+      <aeris-toast group="swipe" [swipeDirection]="['down', 'right']" [swipeThreshold]="40" />
     </div>
   `
 })
-export class ToastSwipeSwipeDismissalDemo {
+export class ToastSwipeDemo {
   private readonly toast = inject(AerisToastService);
 
   protected showSwipeToast(): void {
@@ -549,7 +537,7 @@ import { AerisToastModule, AerisToastService, type AerisToastPosition } from '@a
   templateUrl: './toast-positions.demo.html',
   styleUrl: './toast-positions.demo.scss'
 })
-export class ToastPositionsPositionsDemo {
+export class ToastPositionsDemo {
   private readonly toast = inject(AerisToastService);
   protected readonly currentPosition = signal<AerisToastPosition>('top-right');
 
@@ -571,13 +559,9 @@ export class ToastPositionsPositionsDemo {
 <div>
   <div class="toast-example-actions">
     <button aerisButton type="button" (click)="showAt('top-left')">Top left</button>
-    <button aerisButton type="button" (click)="showAt('top-center')">
-      Top center
-    </button>
+    <button aerisButton type="button" (click)="showAt('top-center')">Top center</button>
     <button aerisButton type="button" (click)="showAt('top-right')">Top right</button>
-    <button aerisButton type="button" (click)="showAt('bottom-left')">
-      Bottom left
-    </button>
+    <button aerisButton type="button" (click)="showAt('bottom-left')">Bottom left</button>
     <button aerisButton type="button" (click)="showAt('bottom-center')">
       Bottom center
     </button>
@@ -630,7 +614,7 @@ import { AerisToastModule, AerisToastService } from '@aeris-ui/core/toast';
     </div>
   `
 })
-export class ToastExpandedExpandedStackDemo {
+export class ToastExpandedDemo {
   private readonly toast = inject(AerisToastService);
 
   protected showExpandedStack(): void {
@@ -668,7 +652,7 @@ import { AerisToastModule, AerisToastService } from '@aeris-ui/core/toast';
     </div>
   `
 })
-export class ToastLoadingLoadingPatternDemo {
+export class ToastLoadingDemo {
   private readonly toast = inject(AerisToastService);
 
   protected startUpload(): void {

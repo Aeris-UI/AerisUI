@@ -2,7 +2,7 @@
 
 > Accessible inputmask component for Angular.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/input-mask`
 - Human-readable documentation: [https://aeris-ui.dev/components/input-mask](https://aeris-ui.dev/components/input-mask)
@@ -29,6 +29,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `value` | `string (model)` | `''` | Formatted or raw value, depending on unmask. |
 | `mask` | `string` | `required` | Mask grammar applied to user input. |
 | `inputId` | `string` | `generated` | ID assigned to the internal input. |
@@ -118,7 +119,7 @@ A phone mask accepts only characters allowed by each slot and inserts literals a
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputMask } from '@aeris-ui/core/input-mask';
 
 @Component({
@@ -134,8 +135,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
         [(value)]="phone"
         fluid
       />
-      <small class="mask-result" aria-live="polite"
-        >Value: {{ phone() || 'Empty' }}</small>
+      <small class="mask-result" aria-live="polite">Value: {{ phone() || 'Empty' }}</small>
     </div>
   `,
   styles: `
@@ -172,7 +172,8 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
     }
   `
 })
-export class MaskBasicBasicDemo {
+export class MaskBasicDemo {
+  protected readonly phone = signal('');
 }
 ```
 
@@ -227,7 +228,7 @@ import { Component } from '@angular/core';
     }
   `
 })
-export class MaskPatternsMaskTokensDemo {
+export class MaskPatternsDemo {
 }
 ```
 
@@ -247,7 +248,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
   templateUrl: './mask-placeholder.demo.html',
   styleUrl: './mask-placeholder.demo.scss'
 })
-export class MaskPlaceholderPlaceholderAndSlotsDemo {
+export class MaskPlaceholderDemo {
 }
 ```
 
@@ -283,7 +284,7 @@ export class MaskPlaceholderPlaceholderAndSlotsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -327,7 +328,7 @@ Set unmask when the model should contain only accepted slot characters while the
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputMask } from '@aeris-ui/core/input-mask';
 
 @Component({
@@ -344,8 +345,9 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
         [(value)]="rawPhone"
         fluid
       />
-      <small class="mask-result" aria-live="polite"
-        >Raw value: {{ rawPhone() || 'Empty' }}</small>
+      <small class="mask-result" aria-live="polite">
+        Raw value: {{ rawPhone() || 'Empty' }}
+      </small>
     </div>
   `,
   styles: `
@@ -382,7 +384,8 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
     }
   `
 })
-export class MaskUnmaskedUnmaskedValueDemo {
+export class MaskUnmaskedDemo {
+  protected readonly rawPhone = signal('');
 }
 ```
 
@@ -408,8 +411,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
         (completed)="completedValue.set($event)"
         fluid
       />
-      <small class="mask-result" aria-live="polite"
-        >Completed: {{ completedValue() }}</small>
+      <small class="mask-result" aria-live="polite">Completed: {{ completedValue() }}</small>
     </div>
   `,
   styles: `
@@ -446,7 +448,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
     }
   `
 })
-export class MaskCompleteCompletionDemo {
+export class MaskCompleteDemo {
   protected readonly completedValue = signal('Not completed');
 
   protected handleComplete(value: string): void {
@@ -478,8 +480,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
         ariaDescribedBy="mask-auto-clear-help"
         fluid
       />
-      <small id="mask-auto-clear-help"
-        >Enter all six digits before leaving the field.</small>
+      <small id="mask-auto-clear-help">Enter all six digits before leaving the field.</small>
     </div>
   `,
   styles: `
@@ -510,7 +511,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
     }
   `
 })
-export class MaskAutoClearAutoClearDemo {
+export class MaskAutoClearDemo {
 }
 ```
 
@@ -521,7 +522,7 @@ An optional suffix button clears the value and restores focus to the field.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputMask } from '@aeris-ui/core/input-mask';
 
 @Component({
@@ -537,8 +538,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
         [(value)]="serial"
         fluid
       />
-      <small class="mask-result" aria-live="polite"
-        >Value: {{ serial() || 'Empty' }}</small>
+      <small class="mask-result" aria-live="polite">Value: {{ serial() || 'Empty' }}</small>
     </div>
   `,
   styles: `
@@ -575,7 +575,8 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
     }
   `
 })
-export class MaskClearableClearButtonDemo {
+export class MaskClearableDemo {
+  protected readonly serial = signal('AE42UI');
 }
 ```
 
@@ -595,7 +596,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
   templateUrl: './mask-sizes.demo.html',
   styleUrl: './mask-sizes.demo.scss'
 })
-export class MaskSizesSizesDemo {
+export class MaskSizesDemo {
 }
 ```
 
@@ -603,34 +604,37 @@ export class MaskSizesSizesDemo {
 
 ```html
 <div class="field-row">
-  <label class="size-sample"
-    ><span>Extra small</span>
+  <label class="size-sample">
+    <span>Extra small</span>
     <aeris-input-mask
       ariaLabel="Extra small code"
       mask="999-999"
       size="xs"
       [value]="'123456'"
-  /></label>
-  <label class="size-sample"
-    ><span>Small</span>
+    />
+  </label>
+  <label class="size-sample">
+    <span>Small</span>
     <aeris-input-mask
       ariaLabel="Small code"
       mask="999-999"
       size="sm"
       [value]="'123456'"
-  /></label>
-  <label class="size-sample"
-    ><span>Medium</span>
-    <aeris-input-mask ariaLabel="Medium code" mask="999-999" [value]="'123456'"
-  /></label>
-  <label class="size-sample"
-    ><span>Large</span>
+    />
+  </label>
+  <label class="size-sample">
+    <span>Medium</span>
+    <aeris-input-mask ariaLabel="Medium code" mask="999-999" [value]="'123456'" />
+  </label>
+  <label class="size-sample">
+    <span>Large</span>
     <aeris-input-mask
       ariaLabel="Large code"
       mask="999-999"
       size="lg"
       [value]="'123456'"
-  /></label>
+    />
+  </label>
 </div>
 ```
 
@@ -660,8 +664,11 @@ export class MaskSizesSizesDemo {
     align-items: stretch;
   }
 
-  .size-sample,
   .field-row > input {
+    width: 100%;
+  }
+
+  .size-sample {
     width: 100%;
   }
 }
@@ -683,7 +690,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
   templateUrl: './mask-states.demo.html',
   styleUrl: './mask-states.demo.scss'
 })
-export class MaskStatesAppearancesAndStatesDemo {
+export class MaskStatesDemo {
 }
 ```
 
@@ -710,7 +717,8 @@ export class MaskStatesAppearancesAndStatesDemo {
       invalid
       ariaDescribedBy="mask-error"
       fluid
-    /><small id="mask-error" class="error">Enter the complete code.</small>
+    />
+    <small id="mask-error" class="error">Enter the complete code.</small>
   </div>
   <div class="field">
     <label for="mask-readonly">Read-only</label>
@@ -741,7 +749,7 @@ export class MaskStatesAppearancesAndStatesDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -775,10 +783,6 @@ export class MaskStatesAppearancesAndStatesDemo {
   .field-grid {
     grid-template-columns: 1fr;
   }
-}
-
-.field small.error {
-  color: var(--aeris-danger);
 }
 ```
 
@@ -834,7 +838,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
     }
   `
 })
-export class MaskFluidFluidLayoutDemo {
+export class MaskFluidDemo {
 }
 ```
 
@@ -890,7 +894,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
     }
   `
 })
-export class MaskSignalsSignalFormsContractDemo {
+export class MaskSignalsDemo {
   protected readonly phone = signal('');
 
   // The value model structurally satisfies Angular 22 Signal Forms'
@@ -915,7 +919,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
   templateUrl: './mask-angular-forms.demo.html',
   styleUrl: './mask-angular-forms.demo.scss'
 })
-export class MaskAngularFormsReactiveAndTemplateDrivenFormsDemo {
+export class MaskAngularFormsDemo {
   protected readonly reactiveMask =
     new FormControl('123-456');
 
@@ -957,7 +961,7 @@ export class MaskAngularFormsReactiveAndTemplateDrivenFormsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 

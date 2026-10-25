@@ -2,6 +2,7 @@ import { auditAerisThemeContrast } from './aeris-contrast';
 import { AERIS_SEMANTIC_TONE_NAMES } from './aeris-semantic-tones';
 import { resolveAerisTheme } from './aeris-theme-resolver';
 import {
+  AERIS_THEME_PRESETS,
   type AerisSemanticTone,
   type AerisTheme,
   type AerisThemeOverride,
@@ -16,6 +17,7 @@ export type AerisThemeValidationCode =
   | 'contrast-unresolved'
   | 'invalid-css-value'
   | 'invalid-direction'
+  | 'invalid-preset'
   | 'missing-density'
   | 'missing-radius';
 
@@ -136,6 +138,15 @@ export function validateAerisTheme(themeOverride?: AerisThemeOverride): AerisThe
 }
 
 function validateThemeSelection(theme: AerisTheme, issues: AerisThemeValidationIssue[]): void {
+  if (!Object.hasOwn(AERIS_THEME_PRESETS, theme.preset)) {
+    issues.push({
+      code: 'invalid-preset',
+      severity: 'error',
+      path: 'preset',
+      message: `Unknown theme preset "${String(theme.preset)}".`,
+      guidance: 'Choose monochrome, earth, coastal, or orchid.',
+    });
+  }
   if (theme.direction !== undefined && theme.direction !== 'ltr' && theme.direction !== 'rtl') {
     issues.push({
       code: 'invalid-direction',
@@ -200,7 +211,7 @@ function collectThemeCssValues(theme: AerisTheme): readonly ThemeCssValue[] {
       if (!tone) continue;
       for (const property of TONE_PROPERTIES) {
         const value = tone[property];
-        if (value !== undefined) {
+        if (value !== undefined && value !== null) {
           values.push(cssValue(`${mode}.tones.${toneName}.${property}`, value, true));
         }
       }

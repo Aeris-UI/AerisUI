@@ -180,6 +180,12 @@ button.aeris-breadcrumb__item--ellipsis:active {
   transform: scale(0.92);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  button.aeris-breadcrumb__item--ellipsis:active {
+    transform: none;
+  }
+}
+
 .aeris-breadcrumb__list-item--enter {
   animation: aeris-breadcrumb-item-enter var(--aeris-motion-normal, 150ms)
     var(--aeris-ease-enter, ease-out) both;
@@ -233,15 +239,24 @@ button.aeris-breadcrumb__item--ellipsis:active {
   font-size: var(--aeris-breadcrumb-separator-font-size, 0.875rem);
 }
 
-.aeris-breadcrumb__separator svg {
+.aeris-breadcrumb__ellipsis-icon {
+  inline-size: var(--aeris-icon-size, 1rem);
+  block-size: var(--aeris-icon-size, 1rem);
+}
+
+.aeris-breadcrumb__separator svg,
+.aeris-breadcrumb__ellipsis-icon {
   display: block;
-  inline-size: 100%;
-  block-size: 100%;
   fill: none;
   stroke: currentColor;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 2;
+}
+
+.aeris-breadcrumb__separator svg {
+  inline-size: 100%;
+  block-size: 100%;
 }
 
 .aeris-breadcrumb[data-size='sm'] {

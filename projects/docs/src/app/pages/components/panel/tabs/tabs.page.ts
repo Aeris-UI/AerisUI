@@ -61,6 +61,10 @@ export class TabsPage {
   };
 
   protected readonly statisticsOptions: AerisChartOptions = {
+    devicePixelRatio:
+      typeof window === 'undefined'
+        ? 2
+        : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),
     maintainAspectRatio: false,
     interaction: { mode: 'index', intersect: false },
     plugins: { legend: { position: 'bottom' } },
@@ -123,6 +127,10 @@ protected readonly conversionData: AerisChartData = {
 };
 
 protected readonly statisticsOptions: AerisChartOptions = {
+  devicePixelRatio:
+      typeof window === 'undefined'
+        ? 2
+        : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),
   maintainAspectRatio: false,
   interaction: { mode: 'index', intersect: false },
   plugins: { legend: { position: 'bottom' } },
@@ -191,6 +199,20 @@ interface AerisTabChangeEvent {
 }`;
 
   protected readonly tabsInputs: readonly ApiRow[] = [
+    {
+      name: 'previousIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the previous icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'nextIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the next icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
     {
       name: 'value',
       type: 'string (model)',

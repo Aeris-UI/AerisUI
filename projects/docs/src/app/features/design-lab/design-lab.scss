@@ -20,7 +20,62 @@
 
 .design-lab__intro {
   align-items: center;
-  padding-bottom: 3rem;
+  padding-bottom: 1.5rem;
+}
+
+.design-lab__workflow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-block-end: 1.5rem;
+}
+
+.design-lab [id] {
+  scroll-margin-block-start: calc(var(--docs-header-height, 4rem) + 1.5rem);
+}
+
+.design-lab__disclosure {
+  min-width: 0;
+}
+
+.design-lab__disclosure > summary {
+  padding-block: 1rem;
+  color: var(--text);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.design-lab__disclosure > summary:focus-visible {
+  outline: 2px solid var(--aeris-focus);
+  outline-offset: 3px;
+}
+
+.design-lab__disclosure > summary > span {
+  display: block;
+  padding-inline-start: 1.25rem;
+  margin-top: 0.35rem;
+  color: var(--text-2);
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+
+.design-lab__advanced,
+.design-lab__report {
+  border-top: 1px solid var(--border);
+}
+
+.design-lab__advanced {
+  margin-top: 1rem;
+}
+
+.design-lab p.design-lab__handoff-note {
+  margin-block: -0.5rem 1.5rem;
+  color: var(--text-2);
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.6;
 }
 
 .design-lab__intro > div {
@@ -37,7 +92,7 @@
 
 .design-lab h1 {
   margin: 0.5rem 0 0.75rem;
-  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-size: clamp(2rem, 4vw, 2.75rem);
   line-height: 1.04;
   letter-spacing: -0.05em;
 }
@@ -52,7 +107,7 @@
 
 .design-lab h2 {
   margin: 0.4rem 0 0;
-  font-size: clamp(1.75rem, 3vw, 2.375rem);
+  font-size: clamp(1.5rem, 3vw, 1.875rem);
   letter-spacing: -0.04em;
 }
 
@@ -65,7 +120,7 @@
 .design-lab__controls,
 .design-lab__preview,
 .design-lab__code {
-  padding-block: 4.5rem;
+  padding-block: 2.5rem;
   border-top: 1px solid var(--border);
 }
 
@@ -83,10 +138,12 @@
 
 .design-lab__palette-card {
   min-width: 0;
+  align-self: start;
 }
 
 .design-lab__control-heading {
   display: flex;
+  flex-wrap: wrap;
   align-items: start;
   justify-content: space-between;
   gap: 1rem;
@@ -118,6 +175,7 @@
 .design-lab__control-heading > span {
   color: var(--text-3);
   font-size: 0.75rem;
+  white-space: nowrap;
 }
 
 .design-lab__presets {
@@ -127,34 +185,7 @@
   margin-bottom: 1rem;
 }
 
-.design-lab__presets button {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.4rem 0.65rem;
-  border: 1px solid var(--border);
-  border-radius: var(--aeris-radius-md);
-  background: var(--surface);
-  color: var(--text-2);
-  font: inherit;
-  font-size: 0.8125rem;
-  font-weight: 650;
-  cursor: pointer;
-}
-
-.design-lab__presets button:hover {
-  border-color: var(--border);
-  background: var(--surface-2);
-}
-
-.design-lab__presets button.active {
-  border-color: color-mix(in srgb, var(--aeris-primary) 38%, transparent);
-  background: color-mix(in srgb, var(--aeris-primary) 10%, var(--surface));
-  color: var(--text);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--aeris-primary) 12%, transparent);
-}
-
-.design-lab__presets button > span {
+.design-lab__swatches {
   width: 2.5rem;
   height: 0.75rem;
   display: grid;
@@ -246,11 +277,6 @@
   border-radius: 50%;
 }
 
-.design-lab__tones {
-  min-width: 0;
-  margin-top: 1rem;
-}
-
 .design-lab__tones-heading {
   display: flex;
   align-items: flex-start;
@@ -275,7 +301,7 @@
 }
 
 .design-lab__tones-heading p,
-.design-lab__tones-note {
+.design-lab .design-lab__tones-note {
   margin-top: 0.3rem;
   color: var(--text-3);
   font-size: 0.8125rem;
@@ -286,7 +312,7 @@
 
 .design-lab__contrast {
   margin-top: 1rem;
-  padding-top: 2.5rem;
+  padding-block: 2.5rem 2rem;
   border-top: 1px solid var(--border);
 }
 
@@ -612,7 +638,6 @@
 }
 
 .design-lab__tones-note {
-  margin-bottom: 0;
   padding-top: 1rem;
 }
 

@@ -2,7 +2,7 @@
 
 > Large navigation menu with grouped panels, horizontal or vertical orientation, templates, commands, and keyboard support.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/mega-menu`
 - Human-readable documentation: [https://aeris-ui.dev/components/mega-menu](https://aeris-ui.dev/components/mega-menu)
@@ -29,6 +29,7 @@ import { AerisMegaMenuModule } from '@aeris-ui/core/mega-menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `submenuIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `id` | `string` | `generated id` | Base id used for menu item and panel relationships. |
 | `model` | `readonly AerisMegaMenuItem&lt;T&gt;[]` | `[]` | Root menu items with optional grouped mega panels. |
 | `orientation` | `horizontal &#124; vertical` | `'horizontal'` | Lays root items across or stacked. |
@@ -134,6 +135,13 @@ Use grouped items to organize wide navigation surfaces.
 import { Component } from '@angular/core';
 import { AerisMegaMenuModule, type AerisMegaMenuItem } from '@aeris-ui/core/mega-menu';
 
+interface ApiRow {
+  readonly name: string;
+  readonly type: string;
+  readonly defaultValue: string;
+  readonly description: string;
+}
+
 @Component({
   selector: 'app-mega-menu-basic-demo',
   imports: [AerisMegaMenuModule],
@@ -143,7 +151,64 @@ import { AerisMegaMenuModule, type AerisMegaMenuItem } from '@aeris-ui/core/mega
     </div>
   `
 })
-export class MegaMenuBasicBasicDemo {
+export class MegaMenuBasicDemo {
+  protected readonly tokens: readonly ApiRow[] = [
+      {
+        name: '--aeris-mega-menu-background',
+        type: 'color',
+        defaultValue: '--aeris-surface',
+        description: 'Root surface background.',
+      },
+      {
+        name: '--aeris-mega-menu-border',
+        type: 'color',
+        defaultValue: '--aeris-border',
+        description: 'Root and nested separator border color.',
+      },
+      {
+        name: '--aeris-mega-menu-panel-background',
+        type: 'color',
+        defaultValue: '--aeris-surface',
+        description: 'Mega panel background.',
+      },
+      {
+        name: '--aeris-mega-menu-panel-width',
+        type: 'length',
+        defaultValue: '44rem',
+        description: 'Maximum panel width before viewport clamping.',
+      },
+      {
+        name: '--aeris-mega-menu-panel-radius',
+        type: 'length',
+        defaultValue: '--aeris-radius-overlay',
+        description: 'Mega panel corner radius shared by Aeris overlay surfaces.',
+      },
+      {
+        name: '--aeris-mega-menu-item-radius',
+        type: 'length',
+        defaultValue: '--aeris-radius-item',
+        description: 'Shared radius for top-level items and panel subitems.',
+      },
+      {
+        name: '--aeris-mega-menu-panel-item-radius',
+        type: 'length',
+        defaultValue: '--aeris-mega-menu-item-radius',
+        description: 'Optional panel-only override for the otherwise shared item radius.',
+      },
+      {
+        name: '--aeris-mega-menu-item-hover-background',
+        type: 'color',
+        defaultValue: 'primary mix',
+        description: 'Hover and open trigger surface.',
+      },
+      {
+        name: '--aeris-mega-menu-icon-size',
+        type: 'length',
+        defaultValue: '--aeris-icon-size',
+        description: 'Default icon and chevron box.',
+      },
+    ];
+
   protected readonly productMenu: readonly AerisMegaMenuItem[] = [
     {
       label: 'Products',
@@ -181,6 +246,13 @@ Switch orientation when the menu belongs in a sidebar or narrow navigation regio
 import { Component } from '@angular/core';
 import { AerisMegaMenuModule, type AerisMegaMenuItem } from '@aeris-ui/core/mega-menu';
 
+interface ApiRow {
+  readonly name: string;
+  readonly type: string;
+  readonly defaultValue: string;
+  readonly description: string;
+}
+
 @Component({
   selector: 'app-mega-menu-vertical-demo',
   imports: [AerisMegaMenuModule],
@@ -194,7 +266,64 @@ import { AerisMegaMenuModule, type AerisMegaMenuItem } from '@aeris-ui/core/mega
     </div>
   `
 })
-export class MegaMenuVerticalVerticalDemo {
+export class MegaMenuVerticalDemo {
+  protected readonly tokens: readonly ApiRow[] = [
+      {
+        name: '--aeris-mega-menu-background',
+        type: 'color',
+        defaultValue: '--aeris-surface',
+        description: 'Root surface background.',
+      },
+      {
+        name: '--aeris-mega-menu-border',
+        type: 'color',
+        defaultValue: '--aeris-border',
+        description: 'Root and nested separator border color.',
+      },
+      {
+        name: '--aeris-mega-menu-panel-background',
+        type: 'color',
+        defaultValue: '--aeris-surface',
+        description: 'Mega panel background.',
+      },
+      {
+        name: '--aeris-mega-menu-panel-width',
+        type: 'length',
+        defaultValue: '44rem',
+        description: 'Maximum panel width before viewport clamping.',
+      },
+      {
+        name: '--aeris-mega-menu-panel-radius',
+        type: 'length',
+        defaultValue: '--aeris-radius-overlay',
+        description: 'Mega panel corner radius shared by Aeris overlay surfaces.',
+      },
+      {
+        name: '--aeris-mega-menu-item-radius',
+        type: 'length',
+        defaultValue: '--aeris-radius-item',
+        description: 'Shared radius for top-level items and panel subitems.',
+      },
+      {
+        name: '--aeris-mega-menu-panel-item-radius',
+        type: 'length',
+        defaultValue: '--aeris-mega-menu-item-radius',
+        description: 'Optional panel-only override for the otherwise shared item radius.',
+      },
+      {
+        name: '--aeris-mega-menu-item-hover-background',
+        type: 'color',
+        defaultValue: 'primary mix',
+        description: 'Hover and open trigger surface.',
+      },
+      {
+        name: '--aeris-mega-menu-icon-size',
+        type: 'length',
+        defaultValue: '--aeris-icon-size',
+        description: 'Default icon and chevron box.',
+      },
+    ];
+
   protected readonly productMenu: readonly AerisMegaMenuItem[] = [
     {
       label: 'Products',
@@ -232,6 +361,13 @@ Use the item template to customize root triggers and panel items without changin
 import { Component } from '@angular/core';
 import { AerisMegaMenuModule, type AerisMegaMenuItem } from '@aeris-ui/core/mega-menu';
 
+interface ApiRow {
+  readonly name: string;
+  readonly type: string;
+  readonly defaultValue: string;
+  readonly description: string;
+}
+
 @Component({
   selector: 'app-mega-menu-template-demo',
   imports: [AerisMegaMenuModule],
@@ -260,11 +396,68 @@ import { AerisMegaMenuModule, type AerisMegaMenuItem } from '@aeris-ui/core/mega
     }
 
     .mega-menu-template-item small {
-      color: var(--text-2);
+      color: var(--aeris-text-2);
     }
   `
 })
-export class MegaMenuTemplateTemplateDemo {
+export class MegaMenuTemplateDemo {
+  protected readonly tokens: readonly ApiRow[] = [
+      {
+        name: '--aeris-mega-menu-background',
+        type: 'color',
+        defaultValue: '--aeris-surface',
+        description: 'Root surface background.',
+      },
+      {
+        name: '--aeris-mega-menu-border',
+        type: 'color',
+        defaultValue: '--aeris-border',
+        description: 'Root and nested separator border color.',
+      },
+      {
+        name: '--aeris-mega-menu-panel-background',
+        type: 'color',
+        defaultValue: '--aeris-surface',
+        description: 'Mega panel background.',
+      },
+      {
+        name: '--aeris-mega-menu-panel-width',
+        type: 'length',
+        defaultValue: '44rem',
+        description: 'Maximum panel width before viewport clamping.',
+      },
+      {
+        name: '--aeris-mega-menu-panel-radius',
+        type: 'length',
+        defaultValue: '--aeris-radius-overlay',
+        description: 'Mega panel corner radius shared by Aeris overlay surfaces.',
+      },
+      {
+        name: '--aeris-mega-menu-item-radius',
+        type: 'length',
+        defaultValue: '--aeris-radius-item',
+        description: 'Shared radius for top-level items and panel subitems.',
+      },
+      {
+        name: '--aeris-mega-menu-panel-item-radius',
+        type: 'length',
+        defaultValue: '--aeris-mega-menu-item-radius',
+        description: 'Optional panel-only override for the otherwise shared item radius.',
+      },
+      {
+        name: '--aeris-mega-menu-item-hover-background',
+        type: 'color',
+        defaultValue: 'primary mix',
+        description: 'Hover and open trigger surface.',
+      },
+      {
+        name: '--aeris-mega-menu-icon-size',
+        type: 'length',
+        defaultValue: '--aeris-icon-size',
+        description: 'Default icon and chevron box.',
+      },
+    ];
+
   protected readonly productMenu: readonly AerisMegaMenuItem[] = [
     {
       label: 'Products',
@@ -299,7 +492,7 @@ Items can run commands, use routerLink, or link to external URLs. Use navigation
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisMegaMenuModule, type AerisMegaMenuItem, type AerisMegaMenuItemEvent } from '@aeris-ui/core/mega-menu';
 
 @Component({
@@ -316,7 +509,9 @@ import { AerisMegaMenuModule, type AerisMegaMenuItem, type AerisMegaMenuItemEven
     </div>
   `
 })
-export class MegaMenuCommandCommandAndLinksDemo {
+export class MegaMenuCommandDemo {
+  protected readonly lastAction = signal('No menu action yet');
+
   protected readonly commandMenu: readonly AerisMegaMenuItem[] = [
     {
       label: 'Workspace',

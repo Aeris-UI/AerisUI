@@ -2,7 +2,7 @@
 
 > Target-relative confirmation popup with service prompts, trigger ARIA state, templates, and explicit outcomes.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/confirm-popup`
 - Human-readable documentation: [https://aeris-ui.dev/components/confirm-popup](https://aeris-ui.dev/components/confirm-popup)
@@ -270,12 +270,7 @@ import { AerisConfirmPopupService } from '@aeris-ui/core/confirm-popup';
   template: `
     <div>
       <div class="demo-actions">
-        <button
-          aerisButton
-          severity="danger"
-          type="button"
-          (click)="confirmDelete($event)"
-        >
+        <button aerisButton severity="danger" type="button" (click)="confirmDelete($event)">
           Delete project
         </button>
       </div>
@@ -299,12 +294,25 @@ import { AerisConfirmPopupService } from '@aeris-ui/core/confirm-popup';
     .demo-status {
       width: 100%;
       margin: 0.875rem 0 0;
-      color: var(--text-3);
+      color: var(--aeris-text-3);
+      font-size: 0.8125rem;
+    }
+
+    .demo-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .demo-status {
+      width: 100%;
+      margin: 0.875rem 0 0;
+      color: var(--aeris-text-3);
       font-size: 0.8125rem;
     }
   `
 })
-export class ConfirmPopupBasicBasicDemo {
+export class ConfirmPopupBasicDemo {
   private readonly confirmations = inject(AerisConfirmPopupService);
   protected readonly lastResult = signal('No popup has completed.');
 
@@ -344,7 +352,7 @@ import { AerisConfirmPopupService, type AerisConfirmPopupSeverity } from '@aeris
   templateUrl: './confirm-popup-severity.demo.html',
   styleUrl: './confirm-popup-severity.demo.scss'
 })
-export class ConfirmPopupSeveritySeverityDemo {
+export class ConfirmPopupSeverityDemo {
   private readonly confirmations = inject(AerisConfirmPopupService);
   protected readonly lastResult = signal('No popup has completed.');
 
@@ -424,7 +432,20 @@ export class ConfirmPopupSeveritySeverityDemo {
 .demo-status {
   width: 100%;
   margin: 0.875rem 0 0;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
+  font-size: 0.8125rem;
+}
+
+.demo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.demo-status {
+  width: 100%;
+  margin: 0.875rem 0 0;
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
 }
 ```
@@ -443,10 +464,55 @@ import { AerisConfirmPopupService, type AerisConfirmPopupPlacement } from '@aeri
 @Component({
   selector: 'app-confirm-popup-placement-demo',
   imports: [AerisButton],
-  templateUrl: './confirm-popup-placement.demo.html',
-  styleUrl: './confirm-popup-placement.demo.scss'
+  template: `
+    <div>
+      <div class="placement-grid">
+        <button aerisButton type="button" (click)="confirmAt($event, 'auto')">Auto</button>
+        <button aerisButton type="button" (click)="confirmAt($event, 'top')">Top</button>
+        <button aerisButton type="button" (click)="confirmAt($event, 'right')">Right</button>
+        <button aerisButton type="button" (click)="confirmAt($event, 'bottom')">
+          Bottom
+        </button>
+        <button aerisButton type="button" (click)="confirmAt($event, 'left')">Left</button>
+      </div>
+    </div>
+  `,
+  styles: `
+    .demo-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .placement-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.5rem;
+      max-width: 34rem;
+    }
+
+    .demo-status {
+      width: 100%;
+      margin: 0.875rem 0 0;
+      color: var(--aeris-text-3);
+      font-size: 0.8125rem;
+    }
+
+    .placement-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.5rem;
+      max-width: 34rem;
+    }
+
+    @media (max-width: 42rem) {
+      .placement-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+  `
 })
-export class ConfirmPopupPlacementPlacementDemo {
+export class ConfirmPopupPlacementDemo {
   private readonly confirmations = inject(AerisConfirmPopupService);
 
   protected confirmAt(event: MouseEvent, placement: AerisConfirmPopupPlacement): void {
@@ -458,52 +524,6 @@ export class ConfirmPopupPlacementPlacementDemo {
       acceptLabel: 'Done',
     });
   }
-}
-```
-
-#### HTML
-
-```html
-<div>
-  <div class="placement-grid">
-    <button aerisButton type="button" (click)="confirmAt($event, 'auto')">
-      Auto
-    </button>
-    <button aerisButton type="button" (click)="confirmAt($event, 'top')">Top</button>
-    <button aerisButton type="button" (click)="confirmAt($event, 'right')">
-      Right
-    </button>
-    <button aerisButton type="button" (click)="confirmAt($event, 'bottom')">
-      Bottom
-    </button>
-    <button aerisButton type="button" (click)="confirmAt($event, 'left')">
-      Left
-    </button>
-  </div>
-</div>
-```
-
-#### CSS
-
-```css
-.demo-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.placement-grid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0.5rem;
-  max-width: 34rem;
-}
-
-.demo-status {
-  width: 100%;
-  margin: 0.875rem 0 0;
-  color: var(--text-3);
-  font-size: 0.8125rem;
 }
 ```
 
@@ -524,7 +544,7 @@ import { AerisConfirmPopupModule, type AerisConfirmPopupCloseEvent } from '@aeri
   templateUrl: './confirm-popup-controlled.demo.html',
   styleUrl: './confirm-popup-controlled.demo.scss'
 })
-export class ConfirmPopupControlledControlledDemo {
+export class ConfirmPopupControlledDemo {
   protected readonly controlledOpen = signal(false);
   protected readonly controlledTarget = signal<EventTarget | null>(null);
   protected readonly controlledResult = signal('Controlled popup is closed.');
@@ -581,7 +601,14 @@ export class ConfirmPopupControlledControlledDemo {
 .demo-status {
   width: 100%;
   margin: 0.875rem 0 0;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
+  font-size: 0.8125rem;
+}
+
+.demo-status {
+  width: 100%;
+  margin: 0.875rem 0 0;
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
 }
 ```
@@ -603,7 +630,7 @@ import { AerisConfirmPopupModule, AerisConfirmPopupService } from '@aeris-ui/cor
   templateUrl: './confirm-popup-templates.demo.html',
   styleUrl: './confirm-popup-templates.demo.scss'
 })
-export class ConfirmPopupTemplatesTemplatesDemo {
+export class ConfirmPopupTemplatesDemo {
   private readonly confirmations = inject(AerisConfirmPopupService);
   protected readonly releaseName = 'Aeris UI 1.0';
 
@@ -634,9 +661,10 @@ export class ConfirmPopupTemplatesTemplatesDemo {
     <ng-template aerisConfirmPopupMessage let-data="data">
       <span class="confirm-popup-message">
         <strong>{{ data }}</strong>
-        <span
-          >Confirm that release notes, accessibility checks, and package metadata are
-          ready.</span>
+        <span>
+          Confirm that release notes, accessibility checks, and package metadata are
+          ready.
+        </span>
       </span>
     </ng-template>
     <ng-template aerisConfirmPopupFooter let-accept="accept" let-reject="reject">
@@ -662,13 +690,15 @@ export class ConfirmPopupTemplatesTemplatesDemo {
 #### CSS
 
 ```css
-.confirm-popup-message {
+.confirm-popup-message,
+.headless-popup {
   display: grid;
   gap: 0.35rem;
 }
 
-.confirm-popup-message strong {
-  color: var(--text);
+.confirm-popup-message strong,
+.headless-popup strong {
+  color: var(--aeris-text);
 }
 
 .custom-popup-icon {
@@ -678,8 +708,8 @@ export class ConfirmPopupTemplatesTemplatesDemo {
   display: inline-grid;
   place-items: center;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--warning) 18%, transparent);
-  color: var(--warning-text);
+  background: color-mix(in srgb, var(--aeris-warning) 18%, transparent);
+  color: var(--aeris-warning-text);
 }
 
 .custom-popup-icon::before {
@@ -688,10 +718,11 @@ export class ConfirmPopupTemplatesTemplatesDemo {
   border: solid currentColor;
   border-width: 0 0 2px 2px;
   transform: rotate(-45deg) translate(0.06rem, -0.06rem);
-  content: '';
+  content: "";
 }
 
-.confirm-popup-footer {
+.confirm-popup-footer,
+.headless-popup-actions {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
@@ -716,7 +747,7 @@ import { AerisConfirmPopupModule, AerisConfirmPopupService } from '@aeris-ui/cor
   templateUrl: './confirm-popup-headless.demo.html',
   styleUrl: './confirm-popup-headless.demo.scss'
 })
-export class ConfirmPopupHeadlessHeadlessDemo {
+export class ConfirmPopupHeadlessDemo {
   private readonly confirmations = inject(AerisConfirmPopupService);
 
   protected confirmHeadless(event: MouseEvent): void {
@@ -763,23 +794,30 @@ export class ConfirmPopupHeadlessHeadlessDemo {
 #### CSS
 
 ```css
+.confirm-popup-message,
 .headless-popup {
   display: grid;
-  gap: 0.75rem;
-  min-width: 16rem;
+  gap: 0.35rem;
 }
 
+.confirm-popup-message strong,
 .headless-popup strong {
-  color: var(--text);
+  color: var(--aeris-text);
+}
+
+.headless-popup {
+  min-width: 16rem;
+  gap: 0.75rem;
 }
 
 .headless-popup p {
-  margin: 0;
-  color: var(--text-2);
+  color: var(--aeris-text-2);
 }
 
+.confirm-popup-footer,
 .headless-popup-actions {
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-end;
   gap: 0.5rem;
 }
@@ -823,12 +861,12 @@ import { AerisConfirmPopupService } from '@aeris-ui/core/confirm-popup';
     .demo-status {
       width: 100%;
       margin: 0.875rem 0 0;
-      color: var(--text-3);
+      color: var(--aeris-text-3);
       font-size: 0.8125rem;
     }
   `
 })
-export class ConfirmPopupOptionsOptionsDemo {
+export class ConfirmPopupOptionsDemo {
   private readonly confirmations = inject(AerisConfirmPopupService);
 
   protected confirmSticky(event: MouseEvent): void {

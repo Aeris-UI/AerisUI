@@ -73,10 +73,17 @@ button:disabled {
   margin-inline-end: var(--aeris-overlay-padding, 0.375rem);
   margin-block: var(--aeris-overlay-padding, 0.375rem);
 }
-svg {
+.aeris-code-block__copy-icon {
+  background: currentColor;
+  -webkit-mask: var(--aeris-icon-copy) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-copy) center / 100% 100% no-repeat;
   inline-size: var(--aeris-icon-size, 1rem);
   block-size: var(--aeris-icon-size, 1rem);
   flex-shrink: 0;
+}
+.aeris-code-block__copy-icon[data-copied] {
+  -webkit-mask-image: var(--aeris-icon-check);
+  mask-image: var(--aeris-icon-check);
 }
 .aeris-code-block__pre {
   box-sizing: border-box;

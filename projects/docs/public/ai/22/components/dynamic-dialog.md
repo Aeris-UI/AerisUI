@@ -2,7 +2,7 @@
 
 > Service-created dialog shell that renders any Angular component as dynamic content.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/dynamic-dialog`
 - Human-readable documentation: [https://aeris-ui.dev/components/dynamic-dialog](https://aeris-ui.dev/components/dynamic-dialog)
@@ -42,6 +42,8 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `maximizeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Decorative artwork for the maximize and restore button; the Dialog retains its accessible name and action. |
+| `closeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Optional close-button artwork; the service forwards it to the underlying Dialog without replacing its behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'body'` | Mounts the dialog locally, in document.body, or in the supplied DOM/template target. |
 | `header` | `string` | `''` | Dialog title rendered by the shell. |
 | `data` | `TData` | `undefined` | Typed payload available through AERIS_DYNAMIC_DIALOG_DATA. |
@@ -94,6 +96,8 @@ import {
 
 ```ts
 interface AerisDynamicDialogConfig<TData = unknown> {
+  readonly closeIconTemplate?: TemplateRef<AerisDialogTemplateContext>;
+  readonly maximizeIconTemplate?: TemplateRef<AerisDialogTemplateContext>;
   readonly header?: string;
   readonly appendTo?: AerisAppendTo;
   readonly data?: TData;
@@ -220,12 +224,12 @@ class AuditDialogContent {
 
     .dynamic-dialog-status {
       margin-top: 0.875rem;
-      color: var(--text-3);
+      color: var(--aeris-text-3);
       font-size: 0.8125rem;
     }
   `
 })
-export class DynamicDialogBasicBasicDemo {
+export class DynamicDialogBasicDemo {
   private readonly dialogService = inject(AerisDynamicDialogService);
 
   protected openAuditDialog(): void {
@@ -318,12 +322,12 @@ class ReleaseDialogContent {
 
     .dynamic-dialog-status {
       margin-top: 0.875rem;
-      color: var(--text-3);
+      color: var(--aeris-text-3);
       font-size: 0.8125rem;
     }
   `
 })
-export class DynamicDialogDataDataAndInputsDemo {
+export class DynamicDialogDataDemo {
   private readonly dialogService = inject(AerisDynamicDialogService);
 
   protected openReleaseDialog(): void {
@@ -425,12 +429,18 @@ class ReleaseDialogContent {
 
     .dynamic-dialog-status {
       margin-top: 0.875rem;
-      color: var(--text-3);
+      color: var(--aeris-text-3);
+      font-size: 0.8125rem;
+    }
+
+    .dynamic-dialog-status {
+      margin-top: 0.875rem;
+      color: var(--aeris-text-3);
       font-size: 0.8125rem;
     }
   `
 })
-export class DynamicDialogResultCloseResultDemo {
+export class DynamicDialogResultDemo {
   private readonly dialogService = inject(AerisDynamicDialogService);
 
   protected openReleaseDialog(): void {
@@ -533,12 +543,12 @@ class AuditDialogContent {
 
     .dynamic-dialog-status {
       margin-top: 0.875rem;
-      color: var(--text-3);
+      color: var(--aeris-text-3);
       font-size: 0.8125rem;
     }
   `
 })
-export class DynamicDialogOptionsDialogOptionsDemo {
+export class DynamicDialogOptionsDemo {
   private readonly dialogService = inject(AerisDynamicDialogService);
 
   protected openUtilityDialog(): void {
@@ -604,9 +614,7 @@ class ManageDialogContent {
   template: `
     <div>
       <div class="dynamic-dialog-controls">
-        <button aerisButton type="button" (click)="openTwoDialogs()">
-          Open two dialogs
-        </button>
+        <button aerisButton type="button" (click)="openTwoDialogs()">Open two dialogs</button>
       </div>
     </div>
   `,
@@ -619,12 +627,25 @@ class ManageDialogContent {
 
     .dynamic-dialog-status {
       margin-top: 0.875rem;
-      color: var(--text-3);
+      color: var(--aeris-text-3);
       font-size: 0.8125rem;
+    }
+
+    .dynamic-dialog-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    @media (max-width: 42rem) {
+      .dynamic-dialog-controls {
+          align-items: stretch;
+          flex-direction: column;
+        }
     }
   `
 })
-export class DynamicDialogManageManageReferencesDemo {
+export class DynamicDialogManageDemo {
   private readonly dialogService = inject(AerisDynamicDialogService);
 
   protected openTwoDialogs(): void {

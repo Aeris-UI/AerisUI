@@ -16,6 +16,7 @@ import {
   viewChildren,
 } from '@angular/core';
 import {
+  ɵAerisIcon,
   ɵAerisAppendTo,
   type AerisAppendTo,
   type AerisOverlayCollisionPadding,
@@ -96,7 +97,13 @@ class AerisSplitButtonToggleAnchor {
 
 @Component({
   selector: 'aeris-split-button',
-  imports: [NgTemplateOutlet, AerisButtonDirective, AerisSplitButtonToggleAnchor, ɵAerisAppendTo],
+  imports: [
+    ɵAerisIcon,
+    NgTemplateOutlet,
+    AerisButtonDirective,
+    AerisSplitButtonToggleAnchor,
+    ɵAerisAppendTo,
+  ],
   template: `
     <div class="aeris-split-button__control">
       <button
@@ -181,7 +188,11 @@ class AerisSplitButtonToggleAnchor {
             [ngTemplateOutletContext]="{ loading: loading() }"
           />
         } @else {
-          <span class="aeris-split-button__chevron" aria-hidden="true"></span>
+          <span
+            aerisInternalIcon="chevron"
+            class="aeris-split-button__chevron"
+            aria-hidden="true"
+          ></span>
         }
       </button>
     </div>

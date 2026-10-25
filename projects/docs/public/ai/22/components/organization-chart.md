@@ -2,7 +2,7 @@
 
 > Hierarchical team chart with templates, selection, and collapsible branches.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/organization-chart`
 - Human-readable documentation: [https://aeris-ui.dev/components/organization-chart](https://aeris-ui.dev/components/organization-chart)
@@ -29,6 +29,7 @@ import { AerisOrganizationChartModule } from '@aeris-ui/core/organization-chart'
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `toggleIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the toggle icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `value` | `readonly AerisOrganizationChartNode&lt;TData&gt;[]` | `[]` | Root nodes rendered by the chart. |
 | `selectionMode` | `'single' &#124; 'multiple' &#124; null` | `null` | Enables single or multiple node selection. |
 | `collapsible` | `boolean` | `true` | Shows branch expand and collapse controls. |
@@ -139,7 +140,7 @@ interface Person {
     }
   `
 })
-export class OrganizationChartBasicBasicDemo {
+export class OrganizationChartBasicDemo {
   protected readonly chart: readonly AerisOrganizationChartNode<Person>[] = [
     {
       key: 'ceo',
@@ -162,8 +163,15 @@ Single selection uses controlled selected keys and emits the selected node.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisOrganizationChartModule } from '@aeris-ui/core/organization-chart';
+import { Component, signal } from '@angular/core';
+import { AerisOrganizationChartModule, type AerisOrganizationChartNode, type AerisOrganizationChartSelectionEvent } from '@aeris-ui/core/organization-chart';
+
+interface Person {
+  readonly name: string;
+  readonly role: string;
+  readonly team: string;
+  readonly tone: 'sage' | 'blue' | 'gold' | 'rose';
+}
 
 @Component({
   selector: 'app-organization-chart-selection-demo',
@@ -196,7 +204,93 @@ import { AerisOrganizationChartModule } from '@aeris-ui/core/organization-chart'
     }
   `
 })
-export class OrganizationChartSelectionSelectionDemo {
+export class OrganizationChartSelectionDemo {
+  protected readonly chart = this.createChart();
+
+  protected readonly selectedSingle = signal<readonly string[]>(['product']);
+
+  protected readonly eventText = signal('No chart event yet.');
+
+  protected handleSelection(event: AerisOrganizationChartSelectionEvent<Person>): void {
+      this.eventText.set(`Selected ${event.node.label ?? event.key}.`);
+    }
+
+  private person(name: string, role: string, team: string, tone: Person['tone']): Person {
+      return { name, role, team, tone };
+    }
+
+  private createChart(): readonly AerisOrganizationChartNode<Person>[] {
+      return [
+        {
+          key: 'ceo',
+          label: 'Maya Chen',
+          type: 'Executive',
+          data: this.person('Maya Chen', 'Chief Executive Officer', 'Leadership', 'sage'),
+          children: [
+            {
+              key: 'product',
+              label: 'Noah Williams',
+              type: 'Product',
+              data: this.person('Noah Williams', 'VP Product', 'Product', 'blue'),
+              children: [
+                {
+                  key: 'design',
+                  label: 'Lena Park',
+                  type: 'Design',
+                  data: this.person('Lena Park', 'Design Lead', 'Experience', 'rose'),
+                },
+                {
+                  key: 'research',
+                  label: 'Iris Novak',
+                  type: 'Research',
+                  data: this.person('Iris Novak', 'Research Lead', 'Insights', 'gold'),
+                },
+              ],
+            },
+            {
+              key: 'engineering',
+              label: 'Sofia Rossi',
+              type: 'Engineering',
+              data: this.person('Sofia Rossi', 'VP Engineering', 'Engineering', 'sage'),
+              children: [
+                {
+                  key: 'platform',
+                  label: 'Eli Brooks',
+                  type: 'Platform',
+                  data: this.person('Eli Brooks', 'Platform Lead', 'Core', 'blue'),
+                },
+                {
+                  key: 'quality',
+                  label: 'Ava Patel',
+                  type: 'Quality',
+                  data: this.person('Ava Patel', 'Quality Lead', 'QA', 'gold'),
+                },
+              ],
+            },
+            {
+              key: 'ops',
+              label: 'Liam Novak',
+              type: 'Operations',
+              data: this.person('Liam Novak', 'Operations Director', 'Operations', 'rose'),
+              children: [
+                {
+                  key: 'finance',
+                  label: 'Mila Costa',
+                  type: 'Finance',
+                  data: this.person('Mila Costa', 'Finance Lead', 'Finance', 'sage'),
+                },
+                {
+                  key: 'people',
+                  label: 'Theo Stone',
+                  type: 'People',
+                  data: this.person('Theo Stone', 'People Lead', 'People', 'blue'),
+                },
+              ],
+            },
+          ],
+        },
+      ];
+    }
 }
 ```
 
@@ -207,8 +301,15 @@ Multiple selection keeps every selected node key in the selectionKeys model.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisOrganizationChartModule } from '@aeris-ui/core/organization-chart';
+import { Component, signal } from '@angular/core';
+import { AerisOrganizationChartModule, type AerisOrganizationChartNode } from '@aeris-ui/core/organization-chart';
+
+interface Person {
+  readonly name: string;
+  readonly role: string;
+  readonly team: string;
+  readonly tone: 'sage' | 'blue' | 'gold' | 'rose';
+}
 
 @Component({
   selector: 'app-organization-chart-multiple-demo',
@@ -234,7 +335,87 @@ import { AerisOrganizationChartModule } from '@aeris-ui/core/organization-chart'
     }
   `
 })
-export class OrganizationChartMultipleMultipleSelectionDemo {
+export class OrganizationChartMultipleDemo {
+  protected readonly chart = this.createChart();
+
+  protected readonly selectedMultiple = signal<readonly string[]>(['design', 'platform']);
+
+  private person(name: string, role: string, team: string, tone: Person['tone']): Person {
+      return { name, role, team, tone };
+    }
+
+  private createChart(): readonly AerisOrganizationChartNode<Person>[] {
+      return [
+        {
+          key: 'ceo',
+          label: 'Maya Chen',
+          type: 'Executive',
+          data: this.person('Maya Chen', 'Chief Executive Officer', 'Leadership', 'sage'),
+          children: [
+            {
+              key: 'product',
+              label: 'Noah Williams',
+              type: 'Product',
+              data: this.person('Noah Williams', 'VP Product', 'Product', 'blue'),
+              children: [
+                {
+                  key: 'design',
+                  label: 'Lena Park',
+                  type: 'Design',
+                  data: this.person('Lena Park', 'Design Lead', 'Experience', 'rose'),
+                },
+                {
+                  key: 'research',
+                  label: 'Iris Novak',
+                  type: 'Research',
+                  data: this.person('Iris Novak', 'Research Lead', 'Insights', 'gold'),
+                },
+              ],
+            },
+            {
+              key: 'engineering',
+              label: 'Sofia Rossi',
+              type: 'Engineering',
+              data: this.person('Sofia Rossi', 'VP Engineering', 'Engineering', 'sage'),
+              children: [
+                {
+                  key: 'platform',
+                  label: 'Eli Brooks',
+                  type: 'Platform',
+                  data: this.person('Eli Brooks', 'Platform Lead', 'Core', 'blue'),
+                },
+                {
+                  key: 'quality',
+                  label: 'Ava Patel',
+                  type: 'Quality',
+                  data: this.person('Ava Patel', 'Quality Lead', 'QA', 'gold'),
+                },
+              ],
+            },
+            {
+              key: 'ops',
+              label: 'Liam Novak',
+              type: 'Operations',
+              data: this.person('Liam Novak', 'Operations Director', 'Operations', 'rose'),
+              children: [
+                {
+                  key: 'finance',
+                  label: 'Mila Costa',
+                  type: 'Finance',
+                  data: this.person('Mila Costa', 'Finance Lead', 'Finance', 'sage'),
+                },
+                {
+                  key: 'people',
+                  label: 'Theo Stone',
+                  type: 'People',
+                  data: this.person('Theo Stone', 'People Lead', 'People', 'blue'),
+                },
+              ],
+            },
+          ],
+        },
+      ];
+    }
 }
 ```
 
@@ -246,7 +427,14 @@ Collapsed branches are controlled with collapsedKeys so state can be saved or re
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisOrganizationChartModule, type AerisOrganizationChartNodeEvent, type AerisOrganizationChartSelectionEvent } from '@aeris-ui/core/organization-chart';
+import { AerisOrganizationChartModule, type AerisOrganizationChartNode, type AerisOrganizationChartNodeEvent, type AerisOrganizationChartSelectionEvent } from '@aeris-ui/core/organization-chart';
+
+interface Person {
+  readonly name: string;
+  readonly role: string;
+  readonly team: string;
+  readonly tone: 'sage' | 'blue' | 'gold' | 'rose';
+}
 
 @Component({
   selector: 'app-organization-chart-collapsible-demo',
@@ -278,7 +466,88 @@ import { AerisOrganizationChartModule, type AerisOrganizationChartNodeEvent, typ
     }
   `
 })
-export class OrganizationChartCollapsibleCollapsibleDemo {
+export class OrganizationChartCollapsibleDemo {
+  protected readonly chart = this.createChart();
+
+  protected readonly collapsed = signal<readonly string[]>(['ops']);
+
+  private person(name: string, role: string, team: string, tone: Person['tone']): Person {
+      return { name, role, team, tone };
+    }
+
+  private createChart(): readonly AerisOrganizationChartNode<Person>[] {
+      return [
+        {
+          key: 'ceo',
+          label: 'Maya Chen',
+          type: 'Executive',
+          data: this.person('Maya Chen', 'Chief Executive Officer', 'Leadership', 'sage'),
+          children: [
+            {
+              key: 'product',
+              label: 'Noah Williams',
+              type: 'Product',
+              data: this.person('Noah Williams', 'VP Product', 'Product', 'blue'),
+              children: [
+                {
+                  key: 'design',
+                  label: 'Lena Park',
+                  type: 'Design',
+                  data: this.person('Lena Park', 'Design Lead', 'Experience', 'rose'),
+                },
+                {
+                  key: 'research',
+                  label: 'Iris Novak',
+                  type: 'Research',
+                  data: this.person('Iris Novak', 'Research Lead', 'Insights', 'gold'),
+                },
+              ],
+            },
+            {
+              key: 'engineering',
+              label: 'Sofia Rossi',
+              type: 'Engineering',
+              data: this.person('Sofia Rossi', 'VP Engineering', 'Engineering', 'sage'),
+              children: [
+                {
+                  key: 'platform',
+                  label: 'Eli Brooks',
+                  type: 'Platform',
+                  data: this.person('Eli Brooks', 'Platform Lead', 'Core', 'blue'),
+                },
+                {
+                  key: 'quality',
+                  label: 'Ava Patel',
+                  type: 'Quality',
+                  data: this.person('Ava Patel', 'Quality Lead', 'QA', 'gold'),
+                },
+              ],
+            },
+            {
+              key: 'ops',
+              label: 'Liam Novak',
+              type: 'Operations',
+              data: this.person('Liam Novak', 'Operations Director', 'Operations', 'rose'),
+              children: [
+                {
+                  key: 'finance',
+                  label: 'Mila Costa',
+                  type: 'Finance',
+                  data: this.person('Mila Costa', 'Finance Lead', 'Finance', 'sage'),
+                },
+                {
+                  key: 'people',
+                  label: 'Theo Stone',
+                  type: 'People',
+                  data: this.person('Theo Stone', 'People Lead', 'People', 'blue'),
+                },
+              ],
+            },
+          ],
+        },
+      ];
+    }
+
   protected readonly selectedSingle = signal<readonly string[]>(['product']);
   protected readonly eventText = signal('No chart event yet.');
 
@@ -308,7 +577,7 @@ import { AerisOrganizationChartModule } from '@aeris-ui/core/organization-chart'
   templateUrl: './organization-chart-template.demo.html',
   styleUrl: './organization-chart-template.demo.scss'
 })
-export class OrganizationChartTemplateTemplateDemo {
+export class OrganizationChartTemplateDemo {
 }
 ```
 
@@ -350,8 +619,8 @@ export class OrganizationChartTemplateTemplateDemo {
   display: grid;
   place-items: center;
   border-radius: 999px;
-  background: var(--primary-soft);
-  color: var(--primary-text);
+  background: var(--aeris-primary-soft);
+  color: var(--aeris-primary-text);
   font-size: 0.75rem;
   font-weight: 800;
 }
@@ -365,7 +634,14 @@ Wide charts keep their natural layout and scroll horizontally inside the compone
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisOrganizationChartModule } from '@aeris-ui/core/organization-chart';
+import { AerisOrganizationChartModule, type AerisOrganizationChartNode } from '@aeris-ui/core/organization-chart';
+
+interface Person {
+  readonly name: string;
+  readonly role: string;
+  readonly team: string;
+  readonly tone: 'sage' | 'blue' | 'gold' | 'rose';
+}
 
 @Component({
   selector: 'app-organization-chart-scrolling-demo',
@@ -395,7 +671,39 @@ import { AerisOrganizationChartModule } from '@aeris-ui/core/organization-chart'
     }
   `
 })
-export class OrganizationChartScrollingScrollingDemo {
+export class OrganizationChartScrollingDemo {
+  protected readonly wideChart = this.createWideChart();
+
+  private person(name: string, role: string, team: string, tone: Person['tone']): Person {
+      return { name, role, team, tone };
+    }
+
+  private createWideChart(): readonly AerisOrganizationChartNode<Person>[] {
+      const teams = [
+        'Growth',
+        'Support',
+        'Data',
+        'Security',
+        'Mobile',
+        'Web',
+        'Infrastructure',
+        'Enablement',
+      ];
+      return [
+        {
+          key: 'wide-root',
+          label: 'Aeris Group',
+          type: 'Company',
+          data: this.person('Aeris Group', 'Organization', 'Company', 'sage'),
+          children: teams.map((team, index) => ({
+            key: `wide-${team.toLowerCase()}`,
+            label: team,
+            type: 'Team',
+            data: this.person(`${team} Team`, 'Team', team, index % 2 === 0 ? 'blue' : 'gold'),
+          })),
+        },
+      ];
+    }
 }
 ```
 

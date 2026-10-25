@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -5,18 +6,45 @@ import {
   afterNextRender,
   booleanAttribute,
   computed,
+  effect,
   forwardRef,
   inject,
   input,
+  linkedSignal,
   model,
   numberAttribute,
   output,
   signal,
+  runInInjectionContext,
+  untracked,
   viewChild,
   viewChildren,
+  TemplateRef,
+  type WritableSignal,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+  NG_VALIDATORS,
+  type ValidationErrors,
+  type Validator,
+} from '@angular/forms';
+import { transformedValue, type TransformedValueSignal } from '@angular/forms/signals';
+import { ɵAerisDatePickerInput } from './aeris-date-picker-input';
+import type { AerisDatePickerInputEditEvent } from './aeris-date-picker-input.utils';
+import {
+  ɵAerisIcon,
+  ɵaerisDisplayInvalid,
+  aerisInternalReadTime as timeFromDate,
+  aerisInternalFormatTimeParts,
+  aerisInternalLocaleFirstDay,
+  aerisInternalToTwelveHour as toTwelveHour,
+  aerisInternalFromTwelveHour as fromTwelveHour,
+  aerisInternalParseDateParts,
+  aerisInternalParseTimeParts,
+  aerisInternalDateFromParts,
+  type AerisInternalTimeParts as AerisTimeValue,
+} from '@aeris-ui/core';
 import {
   ɵAerisAppendTo,
   type AerisAppendTo,
@@ -33,6 +61,7 @@ import {
   dateKey,
   isDateBetween,
   isValidDate,
+  localDate,
   sameDate,
   weekdayLabels,
   weekNumber,
@@ -79,17 +108,11 @@ interface AerisRenderedMonth {
   readonly weeks: readonly number[];
 }
 
-interface AerisTimeValue {
-  readonly hours: number;
-  readonly minutes: number;
-  readonly seconds: number;
-}
-
 let datePickerId = 0;
 
 @Component({
   selector: 'aeris-date-picker',
-  imports: [ɵAerisAppendTo],
+  imports: [ɵAerisIcon, NgTemplateOutlet, ɵAerisAppendTo, ɵAerisDatePickerInput],
   template: `
     <div
       class="aeris-date-picker"
@@ -102,37 +125,111 @@ let datePickerId = 0;
       [attr.data-fluid]="fluid() || null"
     >
       @if (name() && serializedValue()) {
-        <input type="hidden" [name]="name()" [value]="serializedValue()" />
+        <input
+          type="hidden"
+          [name]="name()"
+          [value]="typedError() ? '' : serializedValue()"
+          [disabled]="effectiveDisabled()"
+        />
       }
 
       @if (!inline()) {
         <div #control class="aeris-date-picker__control">
-          <button
-            #trigger
-            class="aeris-date-picker__trigger"
-            type="button"
-            role="combobox"
-            aria-haspopup="dialog"
-            [id]="resolvedInputId()"
-            [attr.aria-expanded]="open()"
-            [attr.aria-controls]="panelId"
-            [attr.aria-label]="ariaLabel() || null"
-            [attr.aria-labelledby]="ariaLabelledBy() || null"
-            [attr.aria-describedby]="ariaDescribedBy() || null"
-            [attr.aria-invalid]="displayInvalid() || null"
-            [attr.aria-required]="required() || null"
-            [disabled]="effectiveDisabled()"
-            (click)="toggle()"
-            (keydown)="handleTriggerKeydown($event)"
-            (focus)="focused.emit($event)"
-            (blur)="handleBlur($event)"
-          >
-            <span
-              class="aeris-date-picker__value"
-              [class.aeris-date-picker__placeholder]="!displayValue()"
-              >{{ displayValue() || placeholder() }}</span
+          @if (usesEditableField()) {
+            @defer (when usesEditableField()) {
+              <aeris-internal-date-picker-input
+                #datePickerInput
+                [inputId]="resolvedInputId()"
+                [value]="typedDateValue()"
+                [granularity]="view()"
+                [mode]="mode()"
+                [hourCycle]="hourCycle()"
+                [showSeconds]="showSeconds()"
+                [minuteStep]="normalizedMinuteStep()"
+                [secondStep]="normalizedSecondStep()"
+                [clockLabels]="typedClockLabels()"
+                [locale]="locale()"
+                [min]="typedMinimum()"
+                [max]="typedMaximum()"
+                [dateDisabled]="typedDateDisabled"
+                [disabled]="effectiveDisabled()"
+                [readonly]="readonly()"
+                [required]="required()"
+                [invalid]="displayInvalid()"
+                [touched]="touched() ?? interactionTouched()"
+                [ariaLabel]="ariaLabel() || panelAriaLabel()"
+                [ariaLabelledBy]="ariaLabelledBy()"
+                [ariaDescribedBy]="ariaDescribedBy()"
+                [size]="size()"
+                [appearance]="appearance()"
+                (edited)="handleTypedDate($event)"
+                (focused)="focused.emit($event)"
+                (blurred)="handleEditableBlur($event)"
+                (keydown)="handleEditableKeydown($event)"
+              />
+            } @placeholder {
+              <button
+                type="button"
+                class="aeris-date-picker__trigger"
+                disabled
+                [id]="resolvedInputId()"
+              >
+                {{ displayValue() || placeholder() }}
+              </button>
+            }
+            <button
+              #trigger
+              class="aeris-date-picker__entry-trigger"
+              type="button"
+              aria-haspopup="dialog"
+              [attr.aria-label]="panelAriaLabel()"
+              [attr.aria-expanded]="open()"
+              [attr.aria-controls]="panelId"
+              [disabled]="effectiveDisabled() || readonly()"
+              (click)="toggleFromEntryButton()"
+              (blur)="handleEditableBlur($event)"
             >
-          </button>
+              @if (showIcon() ? calendarIconTemplate() : dropdownIconTemplate(); as customIcon) {
+                <span aria-hidden="true" data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <span
+                  class="aeris-date-picker__entry-icon"
+                  [class.aeris-date-picker__entry-icon--chevron]="!showIcon()"
+                  [aerisInternalIcon]="showIcon() ? 'calendar' : 'chevron'"
+                  aria-hidden="true"
+                ></span>
+              }
+            </button>
+          } @else {
+            <button
+              #trigger
+              class="aeris-date-picker__trigger"
+              type="button"
+              role="combobox"
+              aria-haspopup="dialog"
+              [id]="resolvedInputId()"
+              [attr.aria-expanded]="open()"
+              [attr.aria-controls]="panelId"
+              [attr.aria-label]="ariaLabel() || null"
+              [attr.aria-labelledby]="ariaLabelledBy() || null"
+              [attr.aria-describedby]="ariaDescribedBy() || null"
+              [attr.aria-invalid]="displayInvalid() || null"
+              [attr.aria-required]="required() || null"
+              [disabled]="effectiveDisabled() || readonly()"
+              (click)="toggle()"
+              (keydown)="handleTriggerKeydown($event)"
+              (focus)="focused.emit($event)"
+              (blur)="handleBlur($event)"
+            >
+              <span
+                class="aeris-date-picker__value"
+                [class.aeris-date-picker__placeholder]="!displayValue()"
+                >{{ displayValue() || placeholder() }}</span
+              >
+            </button>
+          }
 
           @if (showClearButton()) {
             <button
@@ -141,22 +238,52 @@ let datePickerId = 0;
               [attr.aria-label]="clearButtonAriaLabel()"
               (click)="handleClearClick($event)"
             >
-              <span aria-hidden="true"></span>
+              @if (clearIconTemplate(); as customIcon) {
+                <span aria-hidden="true" data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <span aerisInternalIcon="close" aria-hidden="true"></span>
+              }
             </button>
           }
 
-          @if (showIcon()) {
-            <span class="aeris-date-picker__calendar-icon" aria-hidden="true">
-              <span></span>
-            </span>
-          } @else {
-            <span class="aeris-date-picker__chevron" aria-hidden="true"></span>
+          @if (!usesEditableField()) {
+            @if (showIcon()) {
+              @if (calendarIconTemplate(); as customIcon) {
+                <span
+                  class="aeris-date-picker__calendar-icon"
+                  aria-hidden="true"
+                  data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <span
+                  aerisInternalIcon="calendar"
+                  class="aeris-date-picker__calendar-icon"
+                  aria-hidden="true"
+                ></span>
+              }
+            } @else {
+              @if (dropdownIconTemplate(); as customIcon) {
+                <span class="aeris-date-picker__chevron" aria-hidden="true" data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <span
+                  aerisInternalIcon="chevron"
+                  class="aeris-date-picker__chevron"
+                  aria-hidden="true"
+                ></span>
+              }
+            }
           }
         </div>
       }
 
       @if (panelVisible()) {
         <div
+          #panelRoot
           class="aeris-date-picker__panel"
           [aerisInternalAppendTo]="inline() ? 'self' : appendTo()"
           [aerisInternalAppendToDismiss]="inline() ? null : dismissOverlay"
@@ -179,7 +306,13 @@ let datePickerId = 0;
                 [disabled]="previousDisabled()"
                 (click)="navigate(-1)"
               >
-                <span aria-hidden="true"></span>
+                @if (previousIconTemplate(); as customIcon) {
+                  <span aria-hidden="true" data-aeris-custom-icon
+                    ><ng-container [ngTemplateOutlet]="customIcon"
+                  /></span>
+                } @else {
+                  <span aerisInternalIcon="chevron" aria-hidden="true"></span>
+                }
               </button>
 
               <div class="aeris-date-picker__heading">
@@ -204,7 +337,13 @@ let datePickerId = 0;
                 [disabled]="nextDisabled()"
                 (click)="navigate(1)"
               >
-                <span aria-hidden="true"></span>
+                @if (nextIconTemplate(); as customIcon) {
+                  <span aria-hidden="true" data-aeris-custom-icon
+                    ><ng-container [ngTemplateOutlet]="customIcon"
+                  /></span>
+                } @else {
+                  <span aerisInternalIcon="chevron" aria-hidden="true"></span>
+                }
               </button>
             </div>
 
@@ -394,6 +533,7 @@ let datePickerId = 0;
   `,
   styleUrl: './aeris-date-picker.scss',
   providers: [
+    { provide: NG_VALIDATORS, useExisting: forwardRef(() => AerisDatePicker), multi: true },
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => AerisDatePicker),
@@ -407,7 +547,13 @@ let datePickerId = 0;
     '[attr.data-fluid]': 'fluid() || null',
   },
 })
-export class AerisDatePicker implements ControlValueAccessor {
+export class AerisDatePicker implements ControlValueAccessor, Validator {
+  readonly clearIconTemplate = input<TemplateRef<void>>();
+  readonly calendarIconTemplate = input<TemplateRef<void>>();
+  readonly dropdownIconTemplate = input<TemplateRef<void>>();
+  readonly previousIconTemplate = input<TemplateRef<void>>();
+  readonly nextIconTemplate = input<TemplateRef<void>>();
+
   protected readonly dismissOverlay = (): boolean => {
     if (this.inline()) return false;
     this.close(true);
@@ -417,6 +563,8 @@ export class AerisDatePicker implements ControlValueAccessor {
   readonly value = model<AerisDatePickerValue>(null);
   readonly selectionMode = input<AerisDatePickerSelectionMode>('single');
   readonly view = input<AerisDatePickerView>('day');
+  readonly editable = input(false, { transform: booleanAttribute });
+  readonly readonly = input(false, { transform: booleanAttribute });
   readonly mode = input<AerisDatePickerMode>('date');
   readonly inputId = input('');
   readonly name = input('');
@@ -454,8 +602,10 @@ export class AerisDatePicker implements ControlValueAccessor {
   readonly required = input(false, { transform: booleanAttribute });
   readonly invalid = input(false, { transform: booleanAttribute });
   readonly touched = input<boolean | null>(null);
-  protected readonly displayInvalid = computed(() =>
-    ɵaerisDisplayInvalid(this.invalid(), this.touched()),
+  protected readonly displayInvalid = computed(
+    () =>
+      ɵaerisDisplayInvalid(this.invalid(), this.touched()) ||
+      Boolean(this.typedError() && (this.touched() ?? this.interactionTouched())),
   );
   readonly fluid = input(false, { transform: booleanAttribute });
   readonly closeOnSelect = input(true, { transform: booleanAttribute });
@@ -480,13 +630,87 @@ export class AerisDatePicker implements ControlValueAccessor {
 
   protected readonly open = signal(false);
   protected readonly formDisabled = signal(false);
+  protected readonly interactionTouched = signal(false);
+  protected readonly usesEditableField = computed(
+    () => this.editable() && !this.inline() && this.selectionMode() === 'single',
+  );
+  protected readonly typedDateValue = computed(() => {
+    const value = this.value();
+    return this.formatTypedValue(value);
+  });
+  protected readonly typedClockLabels = computed(() => ({
+    hour: this.hourLabel(),
+    minute: this.minuteLabel(),
+    second: this.secondLabel(),
+    dayPeriod: this.periodLabel(),
+  }));
+  protected readonly typedMinimum = computed(() =>
+    this.minDate() ? dateKey(this.minDate()!) : null,
+  );
+  protected readonly typedMaximum = computed(() =>
+    this.maxDate() ? dateKey(this.maxDate()!) : null,
+  );
+  private readonly initialTypedState = linkedSignal<
+    Pick<AerisDatePickerInputEditEvent, 'value' | 'error'>
+  >(() => ({ value: this.typedDateValue(), error: null }));
+  private readonly typedParser = signal<TransformedValueSignal<
+    Pick<AerisDatePickerInputEditEvent, 'value' | 'error'>
+  > | null>(null);
+  private get typedDateState(): WritableSignal<
+    Pick<AerisDatePickerInputEditEvent, 'value' | 'error'>
+  > {
+    return this.typedParser() ?? this.initialTypedState;
+  }
+  private readonly createTypedParser = () =>
+    transformedValue(this.value, {
+      format: (value) => ({
+        value: this.formatTypedValue(value),
+        error: null as AerisDatePickerInputEditEvent['error'],
+      }),
+      parse: (state: Pick<AerisDatePickerInputEditEvent, 'value' | 'error'>) => {
+        if (state.error === 'required') return { error: { kind: 'dateRequired' } };
+        if (state.error) return { error: { kind: `date${state.error}` } };
+        if (state.value === null) return { value: null };
+        const current = this.value();
+        if (isValidDate(current) && this.formatTypedValue(current) === state.value)
+          return { value: current };
+        const date = this.parseTypedValue(state.value);
+        return date
+          ? { value: isValidDate(current) && current.getTime() === date.getTime() ? current : date }
+          : { error: { kind: 'dateInvalid' } };
+      },
+    });
+  protected readonly typedError = computed(
+    () => this.usesEditableField() && Boolean(this.typedParser()?.parseErrors().length),
+  );
+  protected readonly typedDateDisabled = (value: string): boolean => {
+    const date = this.parseTypedValue(value);
+    return !date || this.isDisabled(date);
+  };
+  private formatTypedValue(value: AerisDatePickerValue): string | null {
+    if (!isValidDate(value)) return null;
+    if (this.mode() === 'date') return dateKey(value);
+    const time = aerisInternalFormatTimeParts(timeFromDate(value), true);
+    return this.mode() === 'time' ? time : `${dateKey(value)}T${time}`;
+  }
+  private parseTypedValue(value: string): Date | null {
+    const [date, clock] = value.split('T');
+    const base = this.mode() === 'time' ? dateKey(this.singleDateBase()) : (date ?? '');
+    const parts = aerisInternalParseDateParts(base);
+    const time =
+      this.mode() === 'date'
+        ? undefined
+        : aerisInternalParseTimeParts(this.mode() === 'time' ? value : (clock ?? ''));
+    if (!parts || time === null) return null;
+    return aerisInternalDateFromParts(parts, time);
+  }
   protected readonly visibleDate = signal(
-    new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+    localDate(new Date().getFullYear(), new Date().getMonth(), 1),
   );
   protected readonly activeDate = signal(dateAtMidnight(new Date()));
   protected readonly panelView = signal<AerisDatePickerView>('day');
   protected readonly choiceIndex = signal(0);
-  private readonly fallbackTime = signal<AerisTimeValue>(this.timeFromDate(new Date()));
+  private readonly fallbackTime = signal<AerisTimeValue>(timeFromDate(new Date()));
   protected readonly effectiveDisabled = computed(() => this.disabled() || this.formDisabled());
   protected readonly panelVisible = computed(() => this.inline() || this.open());
   protected readonly timeOnly = computed(() => this.mode() === 'time');
@@ -495,7 +719,7 @@ export class AerisDatePicker implements ControlValueAccessor {
     this.timeOnly() ? this.timeAriaLabel() : this.calendarAriaLabel(),
   );
   protected readonly resolvedFirstDay = computed(
-    () => this.firstDayOfWeek() ?? this.localeFirstDay(),
+    () => this.firstDayOfWeek() ?? aerisInternalLocaleFirstDay(this.locale()),
   );
   protected readonly weekdays = computed(() =>
     weekdayLabels(this.locale(), this.resolvedFirstDay()),
@@ -533,7 +757,7 @@ export class AerisDatePicker implements ControlValueAccessor {
   protected readonly monthChoices = computed(() => {
     const formatter = new Intl.DateTimeFormat(this.locale(), { month: 'short' });
     return Array.from({ length: 12 }, (_, month) => {
-      const date = new Date(this.visibleYear(), month, 1);
+      const date = localDate(this.visibleYear(), month, 1);
       return {
         value: month,
         label: formatter.format(date),
@@ -541,7 +765,10 @@ export class AerisDatePicker implements ControlValueAccessor {
           (selected) =>
             selected.getFullYear() === date.getFullYear() && selected.getMonth() === month,
         ),
-        disabled: !this.periodHasEnabledDate(date, 'month'),
+        disabled:
+          this.view() === 'month'
+            ? this.isDisabled(date)
+            : !this.periodHasEnabledDate(date, 'month'),
       };
     });
   });
@@ -551,7 +778,10 @@ export class AerisDatePicker implements ControlValueAccessor {
       return {
         value,
         selected: this.selectedDates().some((selected) => selected.getFullYear() === value),
-        disabled: !this.periodHasEnabledDate(new Date(value, 0, 1), 'year'),
+        disabled:
+          this.view() === 'year'
+            ? this.isDisabled(localDate(value, 0, 1))
+            : !this.periodHasEnabledDate(localDate(value, 0, 1), 'year'),
       };
     }),
   );
@@ -559,7 +789,11 @@ export class AerisDatePicker implements ControlValueAccessor {
   protected readonly nextDisabled = computed(() => this.timeOnly() || !this.canNavigate(1));
   protected readonly hasValue = computed(() => this.selectedDates().length > 0);
   protected readonly showClearButton = computed(
-    () => this.clearable() && this.hasValue() && !this.effectiveDisabled(),
+    () =>
+      this.clearable() &&
+      (this.hasValue() || this.typedError()) &&
+      !this.effectiveDisabled() &&
+      !this.readonly(),
   );
   protected readonly todayDisabled = computed(() => this.isDisabled(new Date()));
   protected readonly displayValue = computed(() => this.formatValue(this.value()));
@@ -570,12 +804,12 @@ export class AerisDatePicker implements ControlValueAccessor {
   protected readonly hourMaximum = computed(() => (this.hourCycle() === '12' ? 12 : 23));
   protected readonly timeValue = computed(() => {
     const value = this.value();
-    return isValidDate(value) ? this.timeFromDate(value) : this.fallbackTime();
+    return isValidDate(value) ? timeFromDate(value) : this.fallbackTime();
   });
   protected readonly timePeriod = computed(() => (this.timeValue().hours >= 12 ? 'PM' : 'AM'));
   protected readonly timeDisplayParts = computed(() => {
     const time = this.timeValue();
-    const hour = this.hourCycle() === '12' ? this.toTwelveHour(time.hours) : time.hours;
+    const hour = this.hourCycle() === '12' ? toTwelveHour(time.hours) : time.hours;
     return {
       hour: String(hour).padStart(2, '0'),
       minute: String(time.minutes).padStart(2, '0'),
@@ -588,6 +822,8 @@ export class AerisDatePicker implements ControlValueAccessor {
 
   protected readonly control = viewChild<ElementRef<HTMLElement>>('control');
   protected readonly trigger = viewChild<ElementRef<HTMLButtonElement>>('trigger');
+  private readonly datePickerInput = viewChild<ɵAerisDatePickerInput>('datePickerInput');
+  private readonly panelRoot = viewChild<ElementRef<HTMLElement>>('panelRoot');
   private readonly panelPortal = viewChild(ɵAerisAppendTo);
   private readonly hourInput = viewChild<ElementRef<HTMLInputElement>>('hourInput');
   private readonly dayButtons = viewChildren<ElementRef<HTMLButtonElement>>('dayButton');
@@ -595,10 +831,39 @@ export class AerisDatePicker implements ControlValueAccessor {
   private readonly injector = inject(Injector);
   private onChange: (value: AerisDatePickerValue) => void = () => undefined;
   private onTouched: () => void = () => undefined;
+  private onValidatorChange: () => void = () => undefined;
+  private returnFocusTo: HTMLElement | null = null;
+
+  ngOnInit(): void {
+    this.typedParser.set(runInInjectionContext(this.injector, this.createTypedParser));
+  }
+
+  constructor() {
+    effect(() => {
+      if (this.readonly() || this.effectiveDisabled()) untracked(() => this.close(false));
+    });
+    effect(() => {
+      const field = this.datePickerInput();
+      const error = field?.validationError();
+      const value = this.typedDateValue();
+      if (field && this.usesEditableField())
+        untracked(() => {
+          this.typedDateState.set({ value: value ?? null, error: error ?? null });
+          this.onValidatorChange();
+        });
+    });
+  }
+  validate(): ValidationErrors | null {
+    return this.typedError() ? { aerisDate: true } : null;
+  }
+  registerOnValidatorChange(callback: () => void): void {
+    this.onValidatorChange = callback;
+  }
 
   writeValue(value: unknown): void {
     const normalized = this.normalizeValue(value);
     this.value.set(normalized);
+    this.datePickerInput()?.writeValue(this.formatTypedValue(normalized));
     const first = this.datesFromValue(normalized)[0];
     if (first) this.syncVisibleDate(first);
   }
@@ -617,11 +882,17 @@ export class AerisDatePicker implements ControlValueAccessor {
   }
 
   focus(options?: FocusOptions): void {
-    this.trigger()?.nativeElement.focus(options);
+    if (this.usesEditableField()) this.datePickerInput()?.focus(options);
+    else this.trigger()?.nativeElement.focus(options);
   }
 
   openPanel(): void {
-    if (this.effectiveDisabled() || this.inline() || this.open()) return;
+    if (this.effectiveDisabled() || this.readonly() || this.inline() || this.open()) return;
+    const active = this.control()?.nativeElement.ownerDocument.activeElement;
+    this.returnFocusTo =
+      active instanceof HTMLElement && this.control()?.nativeElement.contains(active)
+        ? active
+        : null;
     const initial =
       this.selectedDates()[0] ?? clampDate(new Date(), this.minDate(), this.maxDate());
     this.activeDate.set(initial);
@@ -644,16 +915,28 @@ export class AerisDatePicker implements ControlValueAccessor {
     this.open.set(false);
     this.panelPortal()?.restore();
     this.closed.emit();
-    if (restoreFocus) queueMicrotask(() => this.focus());
+    const target = this.returnFocusTo;
+    this.returnFocusTo = null;
+    if (restoreFocus)
+      queueMicrotask(() => {
+        if (this.open()) return;
+        if (target?.isConnected) target.focus();
+        else this.focus();
+      });
   }
 
   toggle(): void {
     if (this.open()) this.close(false);
     else this.openPanel();
   }
+  protected toggleFromEntryButton(): void {
+    this.toggle();
+    if (this.open()) this.returnFocusTo = this.trigger()?.nativeElement ?? null;
+  }
 
   clear(): void {
-    if (this.effectiveDisabled() || !this.hasValue()) return;
+    if (this.effectiveDisabled() || this.readonly() || (!this.hasValue() && !this.typedError()))
+      return;
     this.setValue(null);
     this.cleared.emit();
     if (!this.inline()) queueMicrotask(() => this.focus());
@@ -675,7 +958,7 @@ export class AerisDatePicker implements ControlValueAccessor {
   }
 
   protected selectMonth(month: number, event: Event): void {
-    const date = new Date(this.visibleYear(), month, 1);
+    const date = localDate(this.visibleYear(), month, 1);
     this.visibleDate.set(date);
     this.activeDate.set(date);
     if (this.view() === 'month') this.selectDate(date, event);
@@ -686,7 +969,7 @@ export class AerisDatePicker implements ControlValueAccessor {
   }
 
   protected selectYear(year: number, event: Event): void {
-    const date = new Date(year, this.visibleDate().getMonth(), 1);
+    const date = localDate(year, this.view() === 'year' ? 0 : this.visibleDate().getMonth(), 1);
     this.visibleDate.set(date);
     this.activeDate.set(date);
     if (this.view() === 'year') this.selectDate(date, event);
@@ -757,7 +1040,7 @@ export class AerisDatePicker implements ControlValueAccessor {
     const nextTarget = event.relatedTarget;
     if (
       nextTarget instanceof Node &&
-      (panel.contains(nextTarget) || this.trigger()?.nativeElement.contains(nextTarget))
+      (panel.contains(nextTarget) || this.control()?.nativeElement.contains(nextTarget))
     ) {
       return;
     }
@@ -773,10 +1056,11 @@ export class AerisDatePicker implements ControlValueAccessor {
           if (
             activeElement instanceof Node &&
             (panel.contains(activeElement) ||
-              Boolean(this.trigger()?.nativeElement.contains(activeElement)))
+              Boolean(this.control()?.nativeElement.contains(activeElement)))
           ) {
             return;
           }
+          if (this.usesEditableField()) this.handleBlur(event);
           this.close(false);
         });
       },
@@ -837,7 +1121,7 @@ export class AerisDatePicker implements ControlValueAccessor {
     if (rawValue === null) return;
     const displayHour = this.clamp(rawValue, this.hourMinimum(), this.hourMaximum());
     const hours =
-      this.hourCycle() === '12' ? this.fromTwelveHour(displayHour, this.timePeriod()) : displayHour;
+      this.hourCycle() === '12' ? fromTwelveHour(displayHour, this.timePeriod()) : displayHour;
     this.updateTime({ ...this.timeValue(), hours }, event);
   }
 
@@ -856,21 +1140,65 @@ export class AerisDatePicker implements ControlValueAccessor {
   protected handlePeriodChange(event: Event): void {
     const select = event.target as HTMLSelectElement | null;
     const period = select?.value === 'PM' ? 'PM' : 'AM';
-    const displayHour = this.toTwelveHour(this.timeValue().hours);
-    this.updateTime(
-      { ...this.timeValue(), hours: this.fromTwelveHour(displayHour, period) },
-      event,
-    );
+    const displayHour = toTwelveHour(this.timeValue().hours);
+    this.updateTime({ ...this.timeValue(), hours: fromTwelveHour(displayHour, period) }, event);
   }
 
   protected handleBlur(event: FocusEvent): void {
+    this.interactionTouched.set(true);
     this.onTouched();
     this.touch.emit();
     this.blurred.emit(event);
   }
 
+  protected handleEditableKeydown(event: KeyboardEvent): void {
+    if (event.altKey && event.key === 'ArrowDown') {
+      event.preventDefault();
+      this.openPanel();
+    } else if (event.key === 'Escape' && this.open()) {
+      event.preventDefault();
+      this.close(false);
+    }
+  }
+  protected handleEditableBlur(event: FocusEvent): void {
+    const next = event.relatedTarget;
+    if (
+      next instanceof Node &&
+      (this.control()?.nativeElement.contains(next) ||
+        this.panelRoot()?.nativeElement.contains(next))
+    )
+      return;
+    this.handleBlur(event);
+  }
+  protected handleTypedDate(event: AerisDatePickerInputEditEvent): void {
+    if (event.originalEvent.type === 'invalid') {
+      this.interactionTouched.set(true);
+      this.onTouched();
+      this.touch.emit();
+    }
+    const previous = this.value();
+    if (event.error === 'required') this.value.set(null);
+    this.typedDateState.set(event);
+    this.onValidatorChange();
+    if (event.error && event.error !== 'required') return;
+    const value = this.value();
+    if (
+      (isValidDate(previous) && isValidDate(value) && previous.getTime() === value.getTime()) ||
+      (previous === null && value === null)
+    )
+      return;
+    this.onChange(value);
+    if (isValidDate(value)) {
+      this.activeDate.set(value);
+      this.syncVisibleDate(value);
+    }
+    this.changed.emit({ originalEvent: event.originalEvent, value });
+  }
+
   private selectDate(date: Date, event: Event): void {
     const normalized = dateAtMidnight(date);
+    if (this.view() === 'year') normalized.setMonth(0, 1);
+    else if (this.view() === 'month') normalized.setDate(1);
     if (this.isDisabled(normalized)) return;
 
     let next: AerisDatePickerValue;
@@ -912,6 +1240,11 @@ export class AerisDatePicker implements ControlValueAccessor {
 
   private setValue(value: AerisDatePickerValue): void {
     this.value.set(value);
+    if (this.usesEditableField()) {
+      const date = this.formatTypedValue(value);
+      this.typedDateState.set({ value: date, error: null });
+      this.datePickerInput()?.writeValue(date);
+    }
     this.onChange(value);
   }
 
@@ -984,8 +1317,10 @@ export class AerisDatePicker implements ControlValueAccessor {
     const min = this.minDate();
     const max = this.maxDate();
     return Boolean(
-      (min && normalized < dateAtMidnight(min)) ||
-      (max && normalized > dateAtMidnight(max)) ||
+      (this.view() === 'day' && min && normalized < dateAtMidnight(min)) ||
+      (this.view() === 'day' && max && normalized > dateAtMidnight(max)) ||
+      (this.view() !== 'day' &&
+        !this.periodHasEnabledDate(normalized, this.view() === 'year' ? 'year' : 'month')) ||
       this.disabledDays().includes(normalized.getDay()) ||
       this.disabledDates().some((disabled) => sameDate(disabled, normalized)) ||
       this.dateDisabled()?.(normalized),
@@ -995,26 +1330,30 @@ export class AerisDatePicker implements ControlValueAccessor {
   private periodHasEnabledDate(date: Date, period: 'month' | 'year'): boolean {
     const start =
       period === 'year'
-        ? new Date(date.getFullYear(), 0, 1)
-        : new Date(date.getFullYear(), date.getMonth(), 1);
+        ? localDate(date.getFullYear(), 0, 1)
+        : localDate(date.getFullYear(), date.getMonth(), 1);
     const end =
       period === 'year'
-        ? new Date(date.getFullYear(), 11, 31)
-        : new Date(date.getFullYear(), date.getMonth() + 1, 0);
+        ? localDate(date.getFullYear(), 11, 31)
+        : localDate(date.getFullYear(), date.getMonth() + 1, 0);
     const min = this.minDate() ? dateAtMidnight(this.minDate()!) : null;
     const max = this.maxDate() ? dateAtMidnight(this.maxDate()!) : null;
     return !(max && start > max) && !(min && end < min);
   }
 
   private formatValue(value: AerisDatePickerValue): string {
-    const dateFormatter = new Intl.DateTimeFormat(this.locale(), {
-      dateStyle: this.dateStyle(),
-    });
+    const dateOptions: Intl.DateTimeFormatOptions =
+      this.view() === 'year'
+        ? { year: 'numeric' }
+        : this.view() === 'month'
+          ? { year: 'numeric', month: 'long' }
+          : { dateStyle: this.dateStyle() };
+    const dateFormatter = new Intl.DateTimeFormat(this.locale(), dateOptions);
     const timeFormatter = new Intl.DateTimeFormat(this.locale(), {
       hour: '2-digit',
       minute: '2-digit',
       second: this.showSeconds() ? '2-digit' : undefined,
-      hour12: this.hourCycle() === '12',
+      hourCycle: this.hourCycle() === '12' ? 'h12' : 'h23',
     });
     if (isValidDate(value)) {
       if (this.mode() === 'time') return timeFormatter.format(value);
@@ -1070,28 +1409,24 @@ export class AerisDatePicker implements ControlValueAccessor {
 
   private withTime(date: Date, time: AerisTimeValue): Date {
     const result = dateAtMidnight(date);
-    result.setHours(time.hours, time.minutes, this.showSeconds() ? time.seconds : 0, 0);
+    result.setHours(
+      time.hours,
+      time.minutes,
+      this.showSeconds() || this.usesEditableField() ? time.seconds : 0,
+      0,
+    );
     return result;
   }
 
-  private timeFromDate(date: Date): AerisTimeValue {
-    return {
-      hours: date.getHours(),
-      minutes: date.getMinutes(),
-      seconds: date.getSeconds(),
-    };
-  }
-
   private timeKey(date: Date): string {
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = String(date.getSeconds()).padStart(2, '0');
-    return this.showSeconds() ? `${hours}:${minutes}:${seconds}` : `${hours}:${minutes}`;
+    return aerisInternalFormatTimeParts(timeFromDate(date), this.showSeconds());
   }
 
   private numberFromEvent(event: Event): number | null {
     const inputElement = event.target as HTMLInputElement | null;
-    const value = Number(inputElement?.value);
+    const rawValue = inputElement?.value;
+    if (!rawValue?.trim()) return null;
+    const value = Number(rawValue);
     return Number.isFinite(value) ? Math.trunc(value) : null;
   }
 
@@ -1101,27 +1436,6 @@ export class AerisDatePicker implements ControlValueAccessor {
 
   private clamp(value: number, min: number, max: number): number {
     return Math.min(max, Math.max(min, value));
-  }
-
-  private toTwelveHour(hours: number): number {
-    const normalized = hours % 12;
-    return normalized === 0 ? 12 : normalized;
-  }
-
-  private fromTwelveHour(displayHour: number, period: 'AM' | 'PM'): number {
-    const normalized = displayHour === 12 ? 0 : displayHour;
-    return period === 'PM' ? normalized + 12 : normalized;
-  }
-
-  private localeFirstDay(): number {
-    try {
-      const locale = new Intl.Locale(this.locale()) as Intl.Locale & {
-        readonly weekInfo?: { readonly firstDay: number };
-      };
-      return (locale.weekInfo?.firstDay ?? 7) % 7;
-    } catch {
-      return 0;
-    }
   }
 
   private canNavigate(direction: -1 | 1): boolean {
@@ -1151,7 +1465,7 @@ export class AerisDatePicker implements ControlValueAccessor {
   private syncVisibleDate(date: Date): void {
     const firstVisible = this.visibleDate();
     const lastVisible = addMonths(firstVisible, this.visibleMonthCount() - 1);
-    const month = new Date(date.getFullYear(), date.getMonth(), 1);
+    const month = localDate(date.getFullYear(), date.getMonth(), 1);
     if (month < firstVisible || month > lastVisible) {
       this.visibleDate.set(month);
       this.monthChanged.emit(month);

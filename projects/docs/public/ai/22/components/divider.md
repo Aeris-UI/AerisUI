@@ -2,7 +2,7 @@
 
 > Semantic separator for grouping content with horizontal, vertical, labelled, and decorative layouts.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/divider`
 - Human-readable documentation: [https://aeris-ui.dev/components/divider](https://aeris-ui.dev/components/divider)
@@ -94,7 +94,7 @@ import { AerisDivider } from '@aeris-ui/core/divider';
     </div>
   `
 })
-export class DividerBasicBasicDemo {
+export class DividerBasicDemo {
 }
 ```
 
@@ -114,12 +114,13 @@ import { AerisDivider } from '@aeris-ui/core/divider';
   template: `
     <div>
       <aeris-divider ariaLabel="Full-width separator">Full width</aeris-divider>
-      <aeris-divider width="70%" ariaLabel="Seventy percent width separator"
-        >70% width</aeris-divider>
+      <aeris-divider width="70%" ariaLabel="Seventy percent width separator">
+        70% width
+      </aeris-divider>
     </div>
   `
 })
-export class DividerWidthWidthDemo {
+export class DividerWidthDemo {
 }
 ```
 
@@ -144,7 +145,7 @@ import { AerisDivider } from '@aeris-ui/core/divider';
     </div>
   `
 })
-export class DividerContentContentDemo {
+export class DividerContentDemo {
 }
 ```
 
@@ -163,14 +164,13 @@ import { AerisDivider } from '@aeris-ui/core/divider';
   imports: [AerisDivider],
   template: `
     <div>
-      <aeris-divider align="start" ariaLabel="Start aligned metadata"
-        >Metadata</aeris-divider>
+      <aeris-divider align="start" ariaLabel="Start aligned metadata">Metadata</aeris-divider>
       <aeris-divider align="center" ariaLabel="Centered metadata">Metadata</aeris-divider>
       <aeris-divider align="end" ariaLabel="End aligned metadata">Metadata</aeris-divider>
     </div>
   `
 })
-export class DividerAlignmentAlignmentDemo {
+export class DividerAlignmentDemo {
 }
 ```
 
@@ -193,8 +193,9 @@ import { AerisDivider } from '@aeris-ui/core/divider';
         <section class="vertical-panel" aria-label="Draft">
           <p>Draft</p>
         </section>
-        <aeris-divider orientation="vertical" ariaLabel="Draft and published boundary"
-          >to</aeris-divider>
+        <aeris-divider orientation="vertical" ariaLabel="Draft and published boundary">
+          to
+        </aeris-divider>
         <section class="vertical-panel" aria-label="Published">
           <p>Published</p>
         </section>
@@ -213,13 +214,23 @@ import { AerisDivider } from '@aeris-ui/core/divider';
       min-width: 0;
       flex: 1;
       padding: 1rem;
-      border: 1px solid var(--border);
+      border: 1px solid var(--aeris-border);
       border-radius: var(--aeris-radius-lg);
-      background: var(--surface);
+      background: var(--aeris-surface);
+    }
+
+    @media (max-width: 36rem) {
+      .vertical-layout {
+          flex-direction: column;
+        }
+
+      .vertical-layout aeris-divider {
+          align-self: auto;
+        }
     }
   `
 })
-export class DividerVerticalVerticalDemo {
+export class DividerVerticalDemo {
 }
 ```
 
@@ -240,21 +251,20 @@ import { AerisDivider } from '@aeris-ui/core/divider';
     <div>
       <div class="line-style-stack">
         <aeris-divider lineStyle="solid" ariaLabel="Solid separator">Solid</aeris-divider>
-        <aeris-divider lineStyle="dashed" ariaLabel="Dashed separator"
-          >Dashed</aeris-divider>
-        <aeris-divider lineStyle="dotted" ariaLabel="Dotted separator"
-          >Dotted</aeris-divider>
+        <aeris-divider lineStyle="dashed" ariaLabel="Dashed separator">Dashed</aeris-divider>
+        <aeris-divider lineStyle="dotted" ariaLabel="Dotted separator">Dotted</aeris-divider>
       </div>
     </div>
   `,
   styles: `
-    .line-style-stack {
+    .line-style-stack,
+    .decorative-section {
       display: grid;
       gap: 1rem;
     }
   `
 })
-export class DividerLineStyleLineStyleDemo {
+export class DividerLineStyleDemo {
 }
 ```
 
@@ -281,13 +291,18 @@ import { AerisDivider } from '@aeris-ui/core/divider';
     </div>
   `,
   styles: `
+    .line-style-stack,
     .decorative-section {
       display: grid;
+      gap: 1rem;
+    }
+
+    .decorative-section {
       gap: 0.75rem;
     }
   `
 })
-export class DividerDecorativeDecorativeDemo {
+export class DividerDecorativeDemo {
 }
 ```
 
@@ -306,11 +321,9 @@ import { AerisDivider } from '@aeris-ui/core/divider';
   imports: [AerisDivider],
   template: `
     <div>
-      <aeris-divider
-        class="brand-divider"
-        lineStyle="dashed"
-        ariaLabel="Branded separator"
-        >Release gate</aeris-divider>
+      <aeris-divider class="brand-divider" lineStyle="dashed" ariaLabel="Branded separator">
+        Release gate
+      </aeris-divider>
     </div>
   `,
   styles: `
@@ -327,7 +340,7 @@ import { AerisDivider } from '@aeris-ui/core/divider';
     }
   `
 })
-export class DividerCustomTokenCustomizationDemo {
+export class DividerCustomDemo {
 }
 ```
 

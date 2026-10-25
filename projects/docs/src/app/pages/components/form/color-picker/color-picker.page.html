@@ -2,7 +2,7 @@
   <app-component-page-header
     category="Form"
     title="ColorPicker"
-    description="A polished color editor with an Aeris-owned picker panel, visual and text input, selectable formats, presets, validation, and Angular Forms support."
+    description="Edit colors with a popup, inline area, channel sliders or preset palette, with selectable formats, optional opacity, validation, and Angular Forms support."
   />
 
   <section class="import-section" aria-labelledby="color-picker-import-title">
@@ -46,6 +46,225 @@
     value="#2c694b"
   /&gt;
   &lt;small id="color-basic-help"&gt;Choose the primary color for your interface.&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="color-picker-area"
+              title="Color area"
+              description="Adjust saturation horizontally and brightness vertically. A linked hue slider shares the same color; the optional dot grid helps locate positions. Use the arrow keys for precise adjustment."
+            >
+              <div preview class="field">
+                <span id="area-label">Saturation and brightness</span>
+                <aeris-color-picker
+                  presentation="area"
+                  showDots
+                  ariaLabelledBy="area-label"
+                  [(value)]="areaColor"
+                />
+                <aeris-color-picker presentation="slider" channel="hue" [(value)]="areaColor" />
+                <small aria-live="polite">Selected: {{ areaColor() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;span id="area-label"&gt;Saturation and brightness&lt;/span&gt;
+  &lt;aeris-color-picker
+    presentation="area"
+    showDots
+    ariaLabelledBy="area-label"
+    [(value)]="areaColor"
+  /&gt;
+  &lt;aeris-color-picker presentation="slider" channel="hue" [(value)]="areaColor" /&gt;
+  &lt;small aria-live="polite"&gt;Selected: &#123;&#123; areaColor() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="color-picker-channels"
+              title="Color sliders"
+              description="Each slider edits its own color independently. Hue, saturation and brightness use HSV; lightness uses HSL. To synchronize sliders, bind them to the same value, as in the RGB example below. Mixing HSV and HSL on a shared color can move other sliders because the channel values are related."
+            >
+              <div preview class="field">
+                <aeris-color-picker presentation="slider" channel="hue" [(value)]="hueColor" />
+                <aeris-color-picker
+                  presentation="slider"
+                  channel="saturation"
+                  [(value)]="saturationColor"
+                />
+                <aeris-color-picker
+                  presentation="slider"
+                  channel="brightness"
+                  [(value)]="brightnessColor"
+                />
+                <aeris-color-picker
+                  presentation="slider"
+                  channel="lightness"
+                  [(value)]="lightnessColor"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;aeris-color-picker presentation="slider" channel="hue" [(value)]="hueColor" /&gt;
+  &lt;aeris-color-picker
+    presentation="slider"
+    channel="saturation"
+    [(value)]="saturationColor"
+  /&gt;
+  &lt;aeris-color-picker
+    presentation="slider"
+    channel="brightness"
+    [(value)]="brightnessColor"
+  /&gt;
+  &lt;aeris-color-picker
+    presentation="slider"
+    channel="lightness"
+    [(value)]="lightnessColor"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="color-picker-rgb"
+              title="RGB sliders"
+              description="Edit red, green and blue independently from 0 to 255. All sliders update the same value, formatted here as rgb()."
+            >
+              <div preview class="field">
+                <aeris-color-picker
+                  presentation="slider"
+                  channel="red"
+                  format="rgb"
+                  [(value)]="rgbColor"
+                />
+                <aeris-color-picker
+                  presentation="slider"
+                  channel="green"
+                  format="rgb"
+                  [(value)]="rgbColor"
+                />
+                <aeris-color-picker
+                  presentation="slider"
+                  channel="blue"
+                  format="rgb"
+                  [(value)]="rgbColor"
+                />
+                <small aria-live="polite">Selected: {{ rgbColor() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;aeris-color-picker
+    presentation="slider"
+    channel="red"
+    format="rgb"
+    [(value)]="rgbColor"
+  /&gt;
+  &lt;aeris-color-picker
+    presentation="slider"
+    channel="green"
+    format="rgb"
+    [(value)]="rgbColor"
+  /&gt;
+  &lt;aeris-color-picker
+    presentation="slider"
+    channel="blue"
+    format="rgb"
+    [(value)]="rgbColor"
+  /&gt;
+  &lt;small aria-live="polite"&gt;Selected: &#123;&#123; rgbColor() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="color-picker-slider-opacity"
+              title="Opacity slider"
+              description="The alpha channel automatically accepts transparency. Its checkerboard track previews opacity from 0 to 100 percent. Enable alpha on linked non-alpha controls to preserve transparency."
+            >
+              <div preview class="field">
+                <aeris-color-picker
+                  presentation="area"
+                  alpha
+                  ariaLabel="Transparent color saturation and brightness"
+                  [(value)]="sliderOpacity"
+                />
+                <aeris-color-picker
+                  presentation="slider"
+                  channel="alpha"
+                  [(value)]="sliderOpacity"
+                />
+                <small aria-live="polite">Selected: {{ sliderOpacity() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;aeris-color-picker
+    presentation="area"
+    alpha
+    ariaLabel="Transparent color saturation and brightness"
+    [(value)]="sliderOpacity"
+  /&gt;
+  &lt;aeris-color-picker presentation="slider" channel="alpha" [(value)]="sliderOpacity" /&gt;
+  &lt;small aria-live="polite"&gt;Selected: &#123;&#123; sliderOpacity() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="color-picker-slider-states"
+              title="Slider layout and states"
+              description="Vertical sliders increase from bottom to top. Read-only controls remain focusable without changing; disabled controls are skipped during keyboard navigation."
+            >
+              <div preview class="field-grid">
+                <aeris-color-picker
+                  presentation="slider"
+                  orientation="vertical"
+                  channel="hue"
+                  value="#336699"
+                />
+                <div class="field">
+                  <aeris-color-picker
+                    presentation="slider"
+                    channel="hue"
+                    value="#336699"
+                    readonly
+                    ariaLabel="Read-only hue"
+                  />
+                  <aeris-color-picker
+                    presentation="slider"
+                    channel="hue"
+                    value="#336699"
+                    disabled
+                    ariaLabel="Disabled hue"
+                  />
+                  <aeris-color-picker
+                    presentation="area"
+                    value="#336699"
+                    disabled
+                    ariaLabel="Disabled saturation and brightness"
+                  />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;aeris-color-picker
+    presentation="slider"
+    orientation="vertical"
+    channel="hue"
+    value="#336699"
+  /&gt;
+  &lt;div class="field"&gt;
+    &lt;aeris-color-picker
+      presentation="slider"
+      channel="hue"
+      value="#336699"
+      readonly
+      ariaLabel="Read-only hue"
+    /&gt;
+    &lt;aeris-color-picker
+      presentation="slider"
+      channel="hue"
+      value="#336699"
+      disabled
+      ariaLabel="Disabled hue"
+    /&gt;
+    &lt;aeris-color-picker
+      presentation="area"
+      value="#336699"
+      disabled
+      ariaLabel="Disabled saturation and brightness"
+    /&gt;
+  &lt;/div&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -98,6 +317,56 @@
             </app-form-demo>
 
             <app-form-demo
+              id="color-picker-opacity"
+              title="Opacity"
+              description="Enable alpha to edit opacity with a percentage slider or text. The checkerboard distinguishes transparent colors from opaque colors."
+              [tsCode]="opacityCode"
+            >
+              <div preview class="field">
+                <label for="color-opacity">Overlay color</label>
+                <aeris-color-picker
+                  inputId="color-opacity"
+                  alpha
+                  format="rgb"
+                  [(value)]="translucentColor"
+                  [presets]="['#336699', '#33669940', '#336699ff', 'transparent']"
+                />
+                <small aria-live="polite">Selected: {{ translucentColor() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="color-opacity"&gt;Overlay color&lt;/label&gt;
+  &lt;aeris-color-picker
+    inputId="color-opacity"
+    alpha
+    format="rgb"
+    [(value)]="translucentColor"
+    [presets]="['#336699', '#33669940', '#336699ff', 'transparent']"
+  /&gt;
+  &lt;small aria-live="polite"&gt;Selected: &#123;&#123; translucentColor() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <p>
+              With <code>alpha</code>, text entry also accepts <code>#RGBA</code>,
+              <code>#RRGGBBAA</code>, <code>rgba(51, 102, 153, 0.5)</code>,
+              <code>hsla(210, 50%, 40%, 0.5)</code>, space-separated RGB/HSL with slash opacity, and
+              <code>transparent</code>. Opacity can be a number from 0 to 1 or a percentage. HEX
+              stores opacity in 255 steps, so switching to HEX can round it slightly; RGB and HSL
+              retain up to eight decimal places.
+            </p>
+            <p>
+              Hue, saturation, brightness, and screen sampling retain the current opacity. With
+              <code>alpha</code> enabled, presets without explicit opacity inherit the current
+              slider opacity. Their swatch previews update as you move the slider, and selecting one
+              keeps that opacity. For example, <code>#336699</code> inherits the slider value, while
+              <code>#33669980</code> always applies approximately 50% opacity and
+              <code>#336699ff</code> always restores 100% opacity. Typed opaque values and
+              <code>reset()</code> also restore full opacity. The <code>changed.hex</code> value
+              includes alpha when translucent. Screen sampling reads a composited screen pixel, not
+              the original transparent color. Leave alpha disabled for theme seeds and other values
+              that require opaque colors, as the Design Lab does.
+            </p>
+
+            <app-form-demo
               id="color-picker-eyedropper"
               title="Screen sampling"
               description="In secure contexts, supported browsers add a pipette action that can sample a pixel from anywhere on screen. The action is omitted when the browser does not provide the EyeDropper API, while every other color input remains available."
@@ -121,9 +390,9 @@
     value="#2f6f8f"
     eyeDropperAriaLabel="Sample a color from the screen"
   /&gt;
-  &lt;small
-    &gt;Open the picker and use the pipette action when it is available in your
-    browser.&lt;/small&gt;
+  &lt;small&gt;
+    Open the picker and use the pipette action when it is available in your browser.
+  &lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -148,6 +417,76 @@
     [(value)]="accentColor"
     [presets]="presets"
   /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="color-picker-palette"
+              title="Inline palette"
+              description="Show a fixed palette without opening a popup. Named presets provide accessible labels; disabled colors cannot be selected. The check mark identifies the current choice independently of its color."
+            >
+              <div preview class="field">
+                <span id="palette-label">Accent color</span>
+                <aeris-color-picker
+                  presentation="palette"
+                  ariaLabelledBy="palette-label"
+                  [(value)]="paletteColor"
+                  [presets]="namedPresets"
+                />
+                <small aria-live="polite">Selected: {{ paletteColor() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;span id="palette-label"&gt;Accent color&lt;/span&gt;
+  &lt;aeris-color-picker
+    presentation="palette"
+    ariaLabelledBy="palette-label"
+    [(value)]="paletteColor"
+    [presets]="namedPresets"
+  /&gt;
+  &lt;small aria-live="polite"&gt;Selected: &#123;&#123; paletteColor() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="color-picker-palette-opacity"
+              title="Palette opacity"
+              description="Presets without explicit alpha inherit the current value's opacity. Explicit alpha selects that exact opacity, including fully opaque and fully transparent colors."
+            >
+              <div preview class="field">
+                <span id="palette-opacity-label">Transparent colors</span>
+                <aeris-color-picker
+                  presentation="palette"
+                  alpha
+                  format="rgb"
+                  ariaLabelledBy="palette-opacity-label"
+                  [(value)]="paletteOpacity"
+                  [presets]="[
+                    { value: '#336699', label: 'Ocean, inherited opacity' },
+                    { value: '#993366', label: 'Plum, inherited opacity' },
+                    { value: '#33669940', label: 'Ocean, quarter opacity' },
+                    { value: '#336699ff', label: 'Ocean, full opacity' },
+                    { value: 'transparent', label: 'Transparent' },
+                  ]"
+                />
+                <small aria-live="polite">Selected: {{ paletteOpacity() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;span id="palette-opacity-label"&gt;Transparent colors&lt;/span&gt;
+  &lt;aeris-color-picker
+    presentation="palette"
+    alpha
+    format="rgb"
+    ariaLabelledBy="palette-opacity-label"
+    [(value)]="paletteOpacity"
+    [presets]="[
+      &#123; value: '#336699', label: 'Ocean, inherited opacity' &#125;,
+      &#123; value: '#993366', label: 'Plum, inherited opacity' &#125;,
+      &#123; value: '#33669940', label: 'Ocean, quarter opacity' &#125;,
+      &#123; value: '#336699ff', label: 'Ocean, full opacity' &#125;,
+      &#123; value: 'transparent', label: 'Transparent' &#125;,
+    ]"
+  /&gt;
+  &lt;small aria-live="polite"&gt;Selected: &#123;&#123; paletteOpacity() &#125;&#125;&lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -303,7 +642,9 @@
     class="validation-message"
     [class.error]="invalid()"
     aria-live="polite"
-    &gt;&#123;&#123; invalid() ? 'Select a color.' : 'Required.' &#125;&#125;&lt;/small&gt;
+  &gt;
+    &#123;&#123; invalid() ? 'Select a color.' : 'Required.' &#125;&#125;
+  &lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -461,6 +802,50 @@
             ><b role="columnheader">Fallback</b>
           </div>
           <div role="row">
+            <code role="cell">--aeris-color-picker-checker-light</code>
+            <span role="cell">Light transparency checker square.</span><code role="cell">#fff</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-color-picker-inline-width</code>
+            <span role="cell"
+              >Preferred width of inline areas and sliders, clamped to the container. The fluid
+              input fills the available width.</span
+            >
+            <code role="cell">18rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-color-picker-area-height</code>
+            <span role="cell">Height of the saturation and brightness area.</span>
+            <code role="cell">11rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-color-picker-slider-length</code>
+            <span role="cell">Length of a vertical color slider.</span>
+            <code role="cell">11rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-color-picker-checker-dark</code>
+            <span role="cell">Dark transparency checker square.</span
+            ><code role="cell">#b8b8b8</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-color-picker-preset-size</code>
+            <span role="cell"
+              >Square preset size; also supports local overrides for inline palettes.</span
+            >
+            <code role="cell">1.75rem (picker), 2.25rem (palette)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-color-picker-preset-gap</code>
+            <span role="cell">Spacing between wrapping preset choices.</span>
+            <code role="cell">0.625rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-color-picker-checker-size</code>
+            <span role="cell">Size of a repeating checker tile.</span
+            ><code role="cell">0.625rem</code>
+          </div>
+          <div role="row">
             <code role="cell">--aeris-surface</code
             ><span role="cell">Control, panel, and active format backgrounds.</span
             ><code role="cell">#fff</code>
@@ -535,7 +920,8 @@
             relationship to the custom picker panel.
           </li>
           <li>
-            Use a visible label and connect it with <code>inputId</code>. Use
+            For the picker, use a visible label and connect it with <code>inputId</code>. Inline
+            palettes use <code>ariaLabelledBy</code> to reference a visible label. Use
             <code>ariaDescribedBy</code> for help and validation text.
           </li>
           <li>
@@ -547,8 +933,8 @@
             full keyboard adjustment.
           </li>
           <li>
-            Hue uses a native range input. Format choices and preset colors are native buttons with
-            pressed state.
+            Hue and optional opacity use native range inputs. Opacity is announced as a percentage.
+            Format choices and preset colors are native buttons with pressed state.
           </li>
           <li>
             Where supported, screen sampling uses the browser-provided EyeDropper API after an
@@ -556,6 +942,9 @@
           </li>
           <li>
             Do not rely on a color swatch alone when naming presets in surrounding application UI.
+            Use preset objects with a readable <code>label</code>. Inline palettes accept
+            <code>ariaLabel</code> or <code>ariaLabelledBy</code> for the group; the selected preset
+            has pressed state and a visible check mark.
           </li>
           <li>
             Invalid state is visual and semantic through <code>aria-invalid</code>; pair it with
@@ -571,6 +960,13 @@
           </li>
         </ul>
         <h3>Keyboard support</h3>
+        <p>
+          Inline areas and sliders use the same value model and Angular Forms integration as the
+          popup. Label areas with <code>ariaLabel</code> or <code>ariaLabelledBy</code>. Sliders
+          show a channel label by default; these naming inputs can override its accessible name.
+          Read-only controls can receive focus but do not change; disabled controls cannot receive
+          keyboard focus.
+        </p>
         <div
           class="api-table keyboard-table"
           role="table"
@@ -581,10 +977,32 @@
             <b role="columnheader">Key</b><b role="columnheader">Function</b>
           </div>
           <div role="row">
+            <span role="cell">Slider arrows / Shift + arrows</span>
+            <span role="cell"
+              >Increase or decrease the channel by 1 or 10 units. Left/Down decrease; Right/Up
+              increase.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Slider Home / End / Page Up / Page Down</span>
+            <span role="cell"
+              >Jump to the minimum or maximum, or adjust by 10 units. Pointer input updates value
+              continuously; changed emits on release or a keyboard adjustment.</span
+            >
+          </div>
+          <div role="row">
             <span role="cell"><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></span
             ><span role="cell"
               >Moves through the trigger, text input, plane, hue slider, format choices, and
-              presets.</span
+              presets. Each preset group has one tab stop; disabled presets are skipped.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Arrow keys; Home / End (presets)</span>
+            <span role="cell"
+              >Moves focus between enabled presets without changing the value. Left/Right follow
+              text direction; Up/Down move to the previous/next preset. Home/End focus the
+              first/last enabled preset. Enter or Space selects it.</span
             >
           </div>
           <div role="row">
@@ -598,7 +1016,7 @@
             <span role="cell"><kbd>Arrow Left</kbd> / <kbd>Arrow Right</kbd></span
             ><span role="cell"
               >Decreases or increases saturation on the color plane. Native arrow behavior adjusts
-              hue on its slider.</span
+              hue or opacity on its slider.</span
             >
           </div>
           <div role="row">
@@ -611,7 +1029,10 @@
           </div>
           <div role="row">
             <span role="cell"><kbd>Home</kbd> / <kbd>End</kbd></span
-            ><span role="cell">Moves saturation to its minimum or maximum on the color plane.</span>
+            ><span role="cell"
+              >Moves saturation to its minimum or maximum on the color plane, or moves a native
+              slider to its minimum or maximum.</span
+            >
           </div>
           <div role="row">
             <span role="cell"><kbd>Page Up</kbd> / <kbd>Page Down</kbd></span

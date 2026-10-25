@@ -4,22 +4,34 @@ import {
   Directive,
   DestroyRef,
   ElementRef,
+  Injector,
   TemplateRef,
   booleanAttribute,
+  afterNextRender,
   computed,
+  effect,
   contentChild,
   inject,
   input,
   model,
   output,
   signal,
-  viewChild,
+  untracked,
   viewChildren,
 } from '@angular/core';
 import { AerisPaginator, type AerisPaginatorPageEvent } from '@aeris-ui/core/paginator';
 import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 import { AerisTooltip } from '@aeris-ui/core/tooltip';
 import {
+  ɵAerisIcon,
+  ɵAerisCellEditor,
+  ɵAerisTablePinning,
+  aerisInternalOrderPinnedColumns,
+  aerisInternalOrderPinnedRows,
+  aerisInternalPinnedRowSides,
+  type AerisTableColumnPin,
+  type AerisTablePinnedRows,
+  type AerisCellEditor,
   aerisInternalApplyMeasuredColumnWidths,
   aerisInternalClampColumnResizeDelta,
   aerisInternalColumnResizeDirection,
@@ -55,10 +67,16 @@ export interface AerisTreeTableColumn {
   readonly sortable?: boolean;
   readonly filterable?: boolean;
   readonly editable?: boolean;
-  readonly frozen?: boolean;
+  readonly pinned?: AerisTableColumnPin;
   readonly width?: string;
   readonly align?: 'start' | 'center' | 'end';
 }
+
+export type AerisTreeTableCellEditable<TData extends AerisTreeTableData = AerisTreeTableData> = (
+  data: TData,
+  column: AerisTreeTableColumn,
+  node: AerisTreeTableNode<TData>,
+) => boolean | undefined;
 
 export interface AerisTreeTableSort {
   readonly field: string;
@@ -147,11 +165,35 @@ export interface AerisTreeTableCellContext<TData extends AerisTreeTableData = Ae
   readonly leaf: boolean;
 }
 
+export interface AerisTreeTableEditorContext<
+  TData extends AerisTreeTableData = AerisTreeTableData,
+> {
+  readonly $implicit: AerisCellEditor;
+  readonly editor: AerisCellEditor;
+  readonly node: AerisTreeTableNode<TData>;
+  readonly data: TData;
+  readonly key: string;
+  readonly column: AerisTreeTableColumn;
+  readonly rowIndex: number;
+}
+
+@Directive({ selector: 'ng-template[aerisTreeTableEditor]' })
+export class AerisTreeTableEditorTemplate<TData extends AerisTreeTableData = AerisTreeTableData> {
+  readonly template = inject<TemplateRef<AerisTreeTableEditorContext<TData>>>(TemplateRef);
+  static ngTemplateContextGuard<TData extends AerisTreeTableData>(
+    _directive: AerisTreeTableEditorTemplate<TData>,
+    context: unknown,
+  ): context is AerisTreeTableEditorContext<TData> {
+    return true;
+  }
+}
+
 interface TreeTableStructureEntry<TData extends AerisTreeTableData> {
   readonly node: AerisTreeTableNode<TData>;
   readonly key: string;
   readonly level: number;
   readonly parentKey: string | null;
+  readonly rootKey: string;
   readonly position: number;
   readonly setSize: number;
   readonly expanded: boolean;
@@ -161,10 +203,6 @@ interface TreeTableStructureEntry<TData extends AerisTreeTableData> {
 interface TreeTableSelectionState {
   readonly selected: boolean;
   readonly partial: boolean;
-}
-
-interface TreeTableRenderedColumn extends AerisTreeTableColumn {
-  readonly frozenLeft: string | null;
 }
 
 interface TreeTableRenderedEntry<
@@ -187,6 +225,11 @@ interface TreeTableResizeState {
   readonly startWidth: number;
   readonly startAdjacentWidth: number;
   readonly direction: 1 | -1;
+}
+
+export interface AerisTreeTableSortIconContext {
+  readonly $implicit: AerisTreeTableColumn;
+  readonly direction: AerisTreeTableSortDirection | null;
 }
 
 @Directive({ selector: 'ng-template[aerisTreeTableHeader]' })
@@ -227,7 +270,15 @@ let treeTableId = 0;
 
 @Component({
   selector: 'aeris-tree-table',
-  imports: [NgTemplateOutlet, AerisCheckbox, AerisPaginator, AerisTooltip],
+  imports: [
+    ɵAerisIcon,
+    ɵAerisCellEditor,
+    ɵAerisTablePinning,
+    NgTemplateOutlet,
+    AerisCheckbox,
+    AerisPaginator,
+    AerisTooltip,
+  ],
   template: `
     <div
       class="aeris-tree-table"
@@ -260,6 +311,7 @@ let treeTableId = 0;
       <div class="aeris-tree-table__frame">
         <div
           class="aeris-tree-table__viewport"
+          [aerisInternalTablePinning]="stickyHeader()"
           tabindex="0"
           [attr.data-scrollable]="scrollable() || null"
         >
@@ -286,12 +338,11 @@ let treeTableId = 0;
                     scope="col"
                     [attr.data-field]="column.field"
                     [attr.data-resizing-column]="resizingField() === column.field ? true : null"
-                    [attr.data-frozen]="column.frozen || null"
+                    [attr.data-pinned-column]="column.pinned || null"
                     [attr.data-align]="column.align || 'start'"
                     [attr.aria-sort]="ariaSort(column.field)"
                     [attr.draggable]="reorderableColumns() ? true : null"
                     [style.width]="column.width || null"
-                    [style.left]="column.frozenLeft"
                     (dragstart)="handleColumnDragStart(column.field, $event)"
                     (dragover)="handleColumnDragOver($event)"
                     (drop)="handleColumnDrop(column.field, $event)"
@@ -333,12 +384,26 @@ let treeTableId = 0;
                             {{ column.header }}
                           </span>
                         }
-                        <span
-                          class="aeris-tree-table__sort-mark"
-                          [attr.data-direction]="sortDirection(column.field)"
-                          aria-hidden="true"
-                          ><span></span><span></span
-                        ></span>
+                        @if (sortIconTemplate(); as customIcon) {
+                          <span
+                            class="aeris-tree-table__sort-mark"
+                            data-aeris-custom-icon
+                            aria-hidden="true"
+                            ><ng-container
+                              [ngTemplateOutlet]="customIcon"
+                              [ngTemplateOutletContext]="{
+                                $implicit: column,
+                                direction: sortDirection(column.field),
+                              }"
+                          /></span>
+                        } @else {
+                          <span
+                            class="aeris-tree-table__sort-mark"
+                            [attr.data-direction]="sortDirection(column.field)"
+                            aria-hidden="true"
+                            ><span></span><span></span
+                          ></span>
+                        }
                       </button>
                     } @else {
                       <span
@@ -389,8 +454,8 @@ let treeTableId = 0;
                     <th
                       scope="col"
                       [attr.aria-label]="column.header"
-                      [attr.data-frozen]="column.frozen || null"
-                      [style.left]="column.frozenLeft"
+                      [attr.data-field]="column.field"
+                      [attr.data-pinned-column]="column.pinned || null"
                     >
                       @if (column.filterable !== false) {
                         <label>
@@ -418,7 +483,16 @@ let treeTableId = 0;
                       @if (loadingTemplate(); as customLoading) {
                         <ng-container [ngTemplateOutlet]="customLoading.template" />
                       } @else {
-                        <span class="aeris-tree-table__spinner" aria-hidden="true"></span>
+                        @if (loadingIconTemplate(); as customIcon) {
+                          <span
+                            class="aeris-tree-table__spinner"
+                            aria-hidden="true"
+                            data-aeris-custom-icon
+                            ><ng-container [ngTemplateOutlet]="customIcon"
+                          /></span>
+                        } @else {
+                          <span class="aeris-tree-table__spinner" aria-hidden="true"></span>
+                        }
                         {{ loadingMessage() }}
                       }
                     </div>
@@ -445,6 +519,7 @@ let treeTableId = 0;
                     [id]="entry.id"
                     [attr.tabindex]="entry.tabIndex"
                     [attr.data-row-key]="entry.key"
+                    [attr.data-pinned-row]="rowPinSides().get(entry.rootKey) || null"
                     [attr.data-selected]="entry.selected || null"
                     [attr.data-disabled]="entry.disabled || null"
                     [attr.aria-level]="entry.level"
@@ -459,14 +534,25 @@ let treeTableId = 0;
                     (keydown)="handleRowKeydown(entry, $event)"
                   >
                     @for (column of renderedColumns(); track column.field) {
+                      @let cellEditable =
+                        editableCells().get(entry.key)?.has(column.field) === true;
                       <td
                         [attr.data-label]="column.header"
-                        [attr.data-frozen]="column.frozen || null"
-                        [attr.data-editable]="isCellEditable(entry, column) || null"
+                        [attr.data-field]="column.field"
+                        [attr.tabindex]="cellEditable ? 0 : null"
+                        (keydown)="handleCellKeydown(entry, column, $event)"
+                        [attr.data-pinned-column]="column.pinned || null"
+                        [attr.data-editable]="cellEditable || null"
                         [attr.data-align]="column.align || 'start'"
-                        [style.left]="column.frozenLeft"
                         (dblclick)="startCellEdit(entry, column, $event)"
                       >
+                        @if (cellEditable) {
+                          <span
+                            aerisInternalIcon="edit"
+                            class="aeris-tree-table__edit-icon"
+                            aria-hidden="true"
+                          ></span>
+                        }
                         <div
                           class="aeris-tree-table__cell"
                           [attr.data-tree-cell]="column.field === treeField() || null"
@@ -487,9 +573,24 @@ let treeTableId = 0;
                               (click)="toggleNode(entry, $event)"
                             >
                               @if (entry.loading) {
-                                <span class="aeris-tree-table__spinner" aria-hidden="true"></span>
+                                @if (loadingIconTemplate(); as customIcon) {
+                                  <span
+                                    class="aeris-tree-table__spinner"
+                                    aria-hidden="true"
+                                    data-aeris-custom-icon
+                                    ><ng-container [ngTemplateOutlet]="customIcon"
+                                  /></span>
+                                } @else {
+                                  <span class="aeris-tree-table__spinner" aria-hidden="true"></span>
+                                }
                               } @else {
-                                <span aria-hidden="true"></span>
+                                @if (toggleIconTemplate(); as customIcon) {
+                                  <span aria-hidden="true" data-aeris-custom-icon>
+                                    <ng-container [ngTemplateOutlet]="customIcon" />
+                                  </span>
+                                } @else {
+                                  <span aerisInternalIcon="chevron" aria-hidden="true"></span>
+                                }
                               }
                             </button>
                             @if (selectionMode() === 'checkbox') {
@@ -507,17 +608,27 @@ let treeTableId = 0;
                             }
                           }
 
-                          @if (isEditing(entry.key, column.field)) {
-                            <input
-                              #cellEditor
-                              class="aeris-tree-table__editor"
-                              type="text"
-                              [value]="editValue()"
-                              [attr.aria-label]="'Edit ' + column.header"
-                              (input)="editValue.set($any($event.target).value)"
-                              (keydown)="handleEditKeydown(entry, column, $event)"
-                              (blur)="commitEdit(entry, column, $event)"
-                            />
+                          @if (isEditing(entry.key, column.field) && editorContext(); as context) {
+                            <div [aerisInternalCellEditor]="context.editor">
+                              @if (editorTemplate(); as customEditor) {
+                                <ng-container
+                                  [ngTemplateOutlet]="customEditor.template"
+                                  [ngTemplateOutletContext]="editorContext()"
+                                />
+                              } @else {
+                                <input
+                                  class="aeris-tree-table__editor"
+                                  type="text"
+                                  [value]="editValue()"
+                                  [attr.aria-label]="'Edit ' + column.header"
+                                  (input)="
+                                    editorContext()?.editor.value.set($any($event.target).value)
+                                  "
+                                  (keydown)="handleEditKeydown(entry, column, $event)"
+                                  (blur)="commitEdit(entry, column, $event)"
+                                />
+                              }
+                            </div>
                           } @else {
                             <div
                               class="aeris-tree-table__cell-content"
@@ -570,8 +681,13 @@ let treeTableId = 0;
   styleUrl: './aeris-tree-table.scss',
 })
 export class AerisTreeTable<TData extends AerisTreeTableData = AerisTreeTableData> {
+  readonly sortIconTemplate = input<TemplateRef<AerisTreeTableSortIconContext>>();
+  readonly loadingIconTemplate = input<TemplateRef<void>>();
+  readonly toggleIconTemplate = input<TemplateRef<void>>();
+
   private readonly destroyRef = inject(DestroyRef);
   private readonly document = inject(DOCUMENT);
+  private readonly injector = inject(Injector);
   readonly value = model<readonly AerisTreeTableNode<TData>[]>([]);
   readonly columns = model<readonly AerisTreeTableColumn[]>([]);
   readonly expandedKeys = model<readonly string[]>([]);
@@ -593,6 +709,8 @@ export class AerisTreeTable<TData extends AerisTreeTableData = AerisTreeTableDat
   readonly responsiveMode = input<AerisTreeTableResponsiveMode>('scroll');
   readonly scrollable = input(true, { transform: booleanAttribute });
   readonly scrollHeight = input('');
+  readonly stickyHeader = input(true, { transform: booleanAttribute });
+  readonly pinnedRows = model<AerisTablePinnedRows>({ top: [], bottom: [] });
   readonly tableMinWidth = input('42rem');
   readonly selectionMode = input<AerisTreeTableSelectionMode | null>(null);
   readonly propagateSelection = input(true, { transform: booleanAttribute });
@@ -616,6 +734,7 @@ export class AerisTreeTable<TData extends AerisTreeTableData = AerisTreeTableDat
   readonly emptyMessage = input('No rows available');
   readonly emptyFilterMessage = input('No matching rows');
   readonly editable = input(false, { transform: booleanAttribute });
+  readonly cellEditable = input<AerisTreeTableCellEditable<TData>>();
   readonly resizableColumns = input(false, { transform: booleanAttribute });
   readonly reorderableColumns = input(false, { transform: booleanAttribute });
   readonly minColumnWidth = input(96);
@@ -645,18 +764,39 @@ export class AerisTreeTable<TData extends AerisTreeTableData = AerisTreeTableDat
   protected readonly emptyTemplate = contentChild(AerisTreeTableEmptyTemplate);
   protected readonly loadingTemplate = contentChild(AerisTreeTableLoadingTemplate);
   private readonly rowElements = viewChildren<ElementRef<HTMLTableRowElement>>('rowElement');
-  private readonly cellEditor = viewChild<ElementRef<HTMLInputElement>>('cellEditor');
+  protected readonly editorTemplate = contentChild(AerisTreeTableEditorTemplate<TData>);
+  protected readonly editorContext = signal<AerisTreeTableEditorContext<TData> | null>(null);
+  private returnCell: HTMLElement | null = null;
+  private readonly maintainEditor = effect(() => {
+    const context = this.editorContext();
+    if (!context) return;
+    if (this.editableCells().get(context.key)?.has(context.column.field)) return;
+    untracked(() => {
+      this.finishCellEdit(context.key, false);
+      this.editCancelled.emit({
+        originalEvent: new Event('editcancel'),
+        node: context.node,
+        key: context.key,
+        field: context.column.field,
+        previousValue: context.editor.originalValue,
+        value: context.editor.originalValue,
+      });
+    });
+  });
   private readonly activeKey = signal<string | null>(null);
-  private readonly editingCell = signal<{ readonly key: string; readonly field: string } | null>(
-    null,
-  );
-  protected readonly editValue = signal('');
-  private readonly editPreviousValue = signal<unknown>(null);
+  private readonly editingCell = computed(() => {
+    const context = this.editorContext();
+    return context ? { key: context.key, field: context.column.field } : null;
+  });
+  protected readonly editValue = computed(() => {
+    const context = this.editorContext();
+    return context ? context.editor.value() : '';
+  });
   private readonly resizeState = signal<TreeTableResizeState | null>(null);
   protected readonly resizingField = computed(() => this.resizeState()?.field ?? null);
   protected readonly resizeHandleValues = computed(() =>
     aerisInternalColumnSeparatorValues(
-      this.columns().map((column) => column.width),
+      this.renderedColumns().map((column) => column.width),
       this.minColumnWidth(),
     ),
   );
@@ -687,9 +827,18 @@ export class AerisTreeTable<TData extends AerisTreeTableData = AerisTreeTableDat
   private readonly sortedRoots = computed(() =>
     this.lazy() ? this.filteredRoots() : this.sortNodes(this.filteredRoots(), this.sorts()),
   );
+  protected readonly rowPinSides = computed(() => {
+    const roots = new Set(this.value().map((node) => node.key));
+    return new Map(
+      [...aerisInternalPinnedRowSides(this.pinnedRows())].filter(([key]) => roots.has(key)),
+    );
+  });
   private readonly pageRoots = computed(() => {
-    if (!this.paginator() || this.lazy()) return this.sortedRoots();
-    return this.sortedRoots().slice(this.first(), this.first() + this.rows());
+    const roots =
+      !this.paginator() || this.lazy()
+        ? this.sortedRoots()
+        : this.sortedRoots().slice(this.first(), this.first() + this.rows());
+    return aerisInternalOrderPinnedRows(roots, this.rowPinSides(), (node) => node.key);
   });
   private readonly structure = computed(() =>
     this.flattenNodes(this.pageRoots(), 1, null, this.hasFilters(), new Set(this.expandedKeys())),
@@ -702,18 +851,9 @@ export class AerisTreeTable<TData extends AerisTreeTableData = AerisTreeTableDat
       : (structure.find((entry) => !entry.node.disabled)?.key ?? structure[0]?.key ?? null);
   });
   private readonly selectionStates = computed(() => this.buildSelectionStates(this.value()));
-  protected readonly renderedColumns = computed<readonly TreeTableRenderedColumn[]>(() => {
-    const frozenWidths: string[] = [];
-    return this.columns().map((column) => {
-      const frozenLeft = column.frozen
-        ? frozenWidths.length
-          ? `calc(${frozenWidths.join(' + ')})`
-          : '0px'
-        : null;
-      if (column.frozen) frozenWidths.push(column.width ?? '12rem');
-      return { ...column, frozenLeft };
-    });
-  });
+  protected readonly renderedColumns = computed(() =>
+    aerisInternalOrderPinnedColumns(this.columns()),
+  );
   protected readonly renderedRows = computed<readonly TreeTableRenderedEntry<TData>[]>(() => {
     const selectionStates = this.selectionStates();
     const activeKey = this.resolvedActiveKey();
@@ -886,6 +1026,8 @@ export class AerisTreeTable<TData extends AerisTreeTableData = AerisTreeTableDat
     entry: TreeTableRenderedEntry<TData>,
     originalEvent: KeyboardEvent,
   ): void {
+    if (originalEvent.target !== originalEvent.currentTarget || originalEvent.defaultPrevented)
+      return;
     const rows = this.renderedRows();
     const index = rows.findIndex((row) => row.key === entry.key);
     switch (originalEvent.key) {
@@ -968,12 +1110,27 @@ export class AerisTreeTable<TData extends AerisTreeTableData = AerisTreeTableDat
     return editing?.key === key && editing.field === field;
   }
 
-  protected isCellEditable(
-    entry: TreeTableRenderedEntry<TData>,
-    column: AerisTreeTableColumn,
-  ): boolean {
-    return this.editable() && column.editable === true && !entry.disabled;
-  }
+  protected readonly editableCells = computed(() => {
+    const fallback = this.editable();
+    const predicate = this.cellEditable();
+    const columns = this.columns();
+    if (!fallback && !predicate && !columns.some((column) => column.editable === true))
+      return new Map<string, ReadonlySet<string>>();
+    return new Map(
+      this.structure().map((entry) => [
+        entry.key,
+        new Set(
+          columns
+            .filter(
+              (column) =>
+                entry.node.disabled !== true &&
+                (predicate?.(entry.node.data, column, entry.node) ?? column.editable ?? fallback),
+            )
+            .map((column) => column.field),
+        ),
+      ]),
+    );
+  });
 
   protected startCellEdit(
     entry: TreeTableRenderedEntry<TData>,
@@ -989,13 +1146,25 @@ export class AerisTreeTable<TData extends AerisTreeTableData = AerisTreeTableDat
     column: AerisTreeTableColumn,
     originalEvent: KeyboardEvent,
   ): void {
+    if (originalEvent.defaultPrevented || originalEvent.isComposing) return;
     if (originalEvent.key === 'Enter') {
       originalEvent.preventDefault();
+      originalEvent.stopPropagation();
       this.commitEdit(entry, column, originalEvent);
-    } else if (originalEvent.key === 'Escape') {
-      originalEvent.preventDefault();
-      this.cancelEdit(entry, column, originalEvent);
     }
+  }
+
+  protected handleCellKeydown(
+    entry: TreeTableRenderedEntry<TData>,
+    column: AerisTreeTableColumn,
+    event: KeyboardEvent,
+  ): void {
+    if (event.target !== event.currentTarget || event.defaultPrevented || event.isComposing) return;
+    if (!this.editableCells().get(entry.key)?.has(column.field)) return;
+    if (event.key !== 'Enter' && event.key !== 'F2') return;
+    event.preventDefault();
+    event.stopPropagation();
+    this.beginEdit(entry, column, event);
   }
 
   protected commitEdit(
@@ -1003,11 +1172,19 @@ export class AerisTreeTable<TData extends AerisTreeTableData = AerisTreeTableDat
     column: AerisTreeTableColumn,
     originalEvent: Event,
   ): void {
-    if (!this.isEditing(entry.key, column.field)) return;
-    const previousValue = this.editPreviousValue();
+    if (
+      !this.isEditing(entry.key, column.field) ||
+      !this.editorContext()?.editor.valid() ||
+      !this.editableCells().get(entry.key)?.has(column.field)
+    )
+      return;
+    const previousValue = this.editorContext()?.editor.originalValue;
     const value = this.editValue();
     this.value.set(this.updateNodeData(this.value(), entry.key, column.field, value));
-    this.editingCell.set(null);
+    this.finishCellEdit(
+      entry.key,
+      !['blur', 'focusout', 'focusin', 'pointerdown', 'dblclick'].includes(originalEvent.type),
+    );
     this.cellEdited.emit({
       originalEvent,
       node: entry.node,
@@ -1016,7 +1193,6 @@ export class AerisTreeTable<TData extends AerisTreeTableData = AerisTreeTableDat
       previousValue,
       value,
     });
-    queueMicrotask(() => this.focusKey(entry.key));
   }
 
   protected handlePage(event: AerisPaginatorPageEvent): void {
@@ -1089,7 +1265,7 @@ export class AerisTreeTable<TData extends AerisTreeTableData = AerisTreeTableDat
   protected handleResizeKeydown(field: string, originalEvent: KeyboardEvent): void {
     if (originalEvent.key !== 'ArrowLeft' && originalEvent.key !== 'ArrowRight') return;
     originalEvent.preventDefault();
-    const columns = this.columns();
+    const columns = this.renderedColumns();
     const columnIndex = columns.findIndex((item) => item.field === field);
     const column = columns[columnIndex];
     const adjacentColumn = columns[columnIndex + 1];
@@ -1152,7 +1328,7 @@ export class AerisTreeTable<TData extends AerisTreeTableData = AerisTreeTableDat
     if (!this.reorderableColumns() || !originalEvent.altKey) return;
     if (originalEvent.key !== 'ArrowLeft' && originalEvent.key !== 'ArrowRight') return;
     originalEvent.preventDefault();
-    const columns = this.columns();
+    const columns = this.renderedColumns();
     const index = columns.findIndex((column) => column.field === field);
     const visualOffset = originalEvent.key === 'ArrowRight' ? 1 : -1;
     const direction = this.resizeDirection(originalEvent.currentTarget as HTMLElement);
@@ -1165,11 +1341,41 @@ export class AerisTreeTable<TData extends AerisTreeTableData = AerisTreeTableDat
     column: AerisTreeTableColumn,
     originalEvent: Event,
   ): void {
-    if (!this.editable() || !column.editable || entry.disabled) return;
+    if (
+      !this.editableCells().get(entry.key)?.has(column.field) ||
+      this.isEditing(entry.key, column.field)
+    )
+      return;
+    const previous = this.editorContext();
+    if (previous) {
+      previous.editor.commit(originalEvent);
+      if (this.editorContext() === previous) previous.editor.cancel(originalEvent);
+    }
+    entry = this.renderedRows().find((row) => row.key === entry.key) ?? entry;
     const previousValue = entry.node.data[column.field];
-    this.editPreviousValue.set(previousValue);
-    this.editValue.set(this.displayValue(previousValue));
-    this.editingCell.set({ key: entry.key, field: column.field });
+    const target = originalEvent.currentTarget;
+    this.returnCell = target instanceof HTMLElement && target.tagName === 'TD' ? target : null;
+    const editor: AerisCellEditor = {
+      valid: signal(true),
+      value: signal(this.editorTemplate() ? previousValue : this.displayValue(previousValue)),
+      originalValue: previousValue,
+      ariaLabel: 'Edit ' + column.header,
+      commit: (event = originalEvent) => {
+        if (this.editorContext()?.editor === editor) this.commitEdit(entry, column, event);
+      },
+      cancel: (event = originalEvent) => {
+        if (this.editorContext()?.editor === editor) this.cancelEdit(entry, column, event);
+      },
+    };
+    this.editorContext.set({
+      $implicit: editor,
+      editor,
+      node: entry.node,
+      data: entry.node.data,
+      key: entry.key,
+      column,
+      rowIndex: this.renderedRows().findIndex((row) => row.key === entry.key),
+    });
     this.editStarted.emit({
       originalEvent,
       node: entry.node,
@@ -1178,16 +1384,19 @@ export class AerisTreeTable<TData extends AerisTreeTableData = AerisTreeTableDat
       previousValue,
       value: previousValue,
     });
-    queueMicrotask(() => this.cellEditor()?.nativeElement.focus());
   }
 
-  private cancelEdit(
+  protected cancelEdit(
     entry: TreeTableRenderedEntry<TData>,
     column: AerisTreeTableColumn,
     originalEvent: Event,
   ): void {
-    const previousValue = this.editPreviousValue();
-    this.editingCell.set(null);
+    if (!this.isEditing(entry.key, column.field)) return;
+    const previousValue = this.editorContext()?.editor.originalValue;
+    this.finishCellEdit(
+      entry.key,
+      !['blur', 'focusout', 'focusin', 'pointerdown', 'dblclick'].includes(originalEvent.type),
+    );
     this.editCancelled.emit({
       originalEvent,
       node: entry.node,
@@ -1196,7 +1405,20 @@ export class AerisTreeTable<TData extends AerisTreeTableData = AerisTreeTableDat
       previousValue,
       value: previousValue,
     });
-    queueMicrotask(() => this.focusKey(entry.key));
+  }
+
+  private finishCellEdit(key: string, restoreFocus = true): void {
+    const cell = this.returnCell;
+    this.returnCell = null;
+    this.editorContext.set(null);
+    if (restoreFocus)
+      afterNextRender(
+        () => {
+          if (cell?.isConnected) cell.focus({ preventScroll: true });
+          else this.focusKey(key);
+        },
+        { injector: this.injector },
+      );
   }
 
   private filterNodes(
@@ -1271,6 +1493,7 @@ export class AerisTreeTable<TData extends AerisTreeTableData = AerisTreeTableDat
     parentKey: string | null,
     forceExpanded: boolean,
     expandedKeys: ReadonlySet<string>,
+    rootKey: string | null = null,
   ): readonly TreeTableStructureEntry<TData>[] {
     const entries: TreeTableStructureEntry<TData>[] = [];
     nodes.forEach((node, index) => {
@@ -1281,6 +1504,7 @@ export class AerisTreeTable<TData extends AerisTreeTableData = AerisTreeTableDat
         key: node.key,
         level,
         parentKey,
+        rootKey: rootKey ?? node.key,
         position: index + 1,
         setSize: nodes.length,
         expanded,
@@ -1288,7 +1512,14 @@ export class AerisTreeTable<TData extends AerisTreeTableData = AerisTreeTableDat
       });
       if (expanded && node.children?.length) {
         entries.push(
-          ...this.flattenNodes(node.children, level + 1, node.key, forceExpanded, expandedKeys),
+          ...this.flattenNodes(
+            node.children,
+            level + 1,
+            node.key,
+            forceExpanded,
+            expandedKeys,
+            rootKey ?? node.key,
+          ),
         );
       }
     });
@@ -1458,6 +1689,7 @@ export class AerisTreeTable<TData extends AerisTreeTableData = AerisTreeTableDat
     const fromIndex = columns.findIndex((column) => column.field === sourceField);
     const targetIndex = columns.findIndex((column) => column.field === targetField);
     if (fromIndex < 0 || targetIndex < 0) return;
+    if (columns[fromIndex].pinned !== columns[targetIndex].pinned) return;
     const [column] = columns.splice(fromIndex, 1);
     if (!column) return;
     const targetAfterRemoval = columns.findIndex((item) => item.field === targetField);
@@ -1496,6 +1728,7 @@ export const AerisTreeTableModule = [
   AerisTreeTable,
   AerisTreeTableHeaderTemplate,
   AerisTreeTableCellTemplate,
+  AerisTreeTableEditorTemplate,
   AerisTreeTableEmptyTemplate,
   AerisTreeTableLoadingTemplate,
 ] as const;

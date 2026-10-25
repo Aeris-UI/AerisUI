@@ -2,7 +2,7 @@
 
 > Reveal content on viewport entry with motion-safe effects, replay controls, timing, and intersection events.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/animate-on-scroll`
 - Human-readable documentation: [https://aeris-ui.dev/components/animate-on-scroll](https://aeris-ui.dev/components/animate-on-scroll)
@@ -64,6 +64,16 @@ export interface AerisAnimateOnScrollEvent {
 }
 ```
 
+## Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-animate-on-scroll-distance` | `CSS custom property` | `1.5rem` | Translation distance for directional effects. |
+| `--aeris-animate-on-scroll-scale` | `CSS custom property` | `0.96` | Initial scale for the scale effect. |
+| `--aeris-animate-on-scroll-duration` | `CSS custom property` | `480ms` | Resolved transition duration set by the duration input. |
+| `--aeris-animate-on-scroll-delay` | `CSS custom property` | `0ms` | Resolved transition delay set by the delay input. |
+| `--aeris-animate-on-scroll-easing` | `CSS custom property` | `cubic-bezier(0.22, 1, 0.36, 1)` | Resolved transition timing function set by the easing input. |
+
 ## Examples
 
 ### Scroll showcase
@@ -82,7 +92,7 @@ import { AerisAnimateOnScrollModule } from '@aeris-ui/core/animate-on-scroll';
   templateUrl: './animate-on-scroll-basic.demo.html',
   styleUrl: './animate-on-scroll-basic.demo.scss'
 })
-export class AnimateOnScrollBasicScrollShowcaseDemo {
+export class AnimateOnScrollBasicDemo {
 }
 ```
 
@@ -122,22 +132,25 @@ export class AnimateOnScrollBasicScrollShowcaseDemo {
       >
         <div class="story-dashboard">
           <div class="story-metric">
-            <strong>84%</strong><span>Accessibility coverage</span>
+            <strong>84%</strong>
+            <span>Accessibility coverage</span>
           </div>
-          <div class="story-metric"><strong>32</strong><span>Patterns</span></div>
-          <div class="story-metric"><strong>6</strong><span>Palettes</span></div>
+          <div class="story-metric">
+            <strong>32</strong>
+            <span>Patterns</span>
+          </div>
+          <div class="story-metric">
+            <strong>6</strong>
+            <span>Palettes</span>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="story-stat-grid" aria-label="Animation qualities">
-      <article
-        class="story-stat"
-        aerisAnimateOnScroll="scale"
-        [once]="false"
-        [delay]="0"
-      >
-        <strong>Fast</strong><span>Observer driven</span>
+      <article class="story-stat" aerisAnimateOnScroll="scale" [once]="false" [delay]="0">
+        <strong>Fast</strong>
+        <span>Observer driven</span>
       </article>
       <article
         class="story-stat"
@@ -145,7 +158,8 @@ export class AnimateOnScrollBasicScrollShowcaseDemo {
         [once]="false"
         [delay]="100"
       >
-        <strong>Calm</strong><span>Purposeful easing</span>
+        <strong>Calm</strong>
+        <span>Purposeful easing</span>
       </article>
       <article
         class="story-stat"
@@ -153,7 +167,8 @@ export class AnimateOnScrollBasicScrollShowcaseDemo {
         [once]="false"
         [delay]="200"
       >
-        <strong>Inclusive</strong><span>Motion aware</span>
+        <strong>Inclusive</strong>
+        <span>Motion aware</span>
       </article>
     </section>
 
@@ -165,9 +180,7 @@ export class AnimateOnScrollBasicScrollShowcaseDemo {
     >
       <span>Ready to replay</span>
       <h4>Scroll back to the beginning.</h4>
-      <p>
-        Each section returns to its initial state after it leaves the visible area.
-      </p>
+      <p>Each section returns to its initial state after it leaves the visible area.</p>
     </footer>
   </div>
 </div>
@@ -182,9 +195,7 @@ export class AnimateOnScrollBasicScrollShowcaseDemo {
   overscroll-behavior: contain;
   border: 1px solid var(--aeris-border);
   border-radius: var(--aeris-radius-xl);
-  background:
-    radial-gradient(circle at 82% 8%, var(--aeris-primary-soft), transparent 24rem),
-    var(--aeris-surface-2);
+  background: radial-gradient(circle at 82% 8%, var(--aeris-primary-soft), transparent 24rem), var(--aeris-surface-2);
 }
 
 .story-hero,
@@ -264,12 +275,12 @@ export class AnimateOnScrollBasicScrollShowcaseDemo {
 
 @media (max-width: 42rem) {
   .story-chapter {
-    grid-template-columns: 1fr;
-  }
+      grid-template-columns: 1fr;
+    }
 
   .story-stat-grid {
-    grid-template-columns: 1fr;
-  }
+      grid-template-columns: 1fr;
+    }
 }
 ```
 
@@ -289,7 +300,7 @@ import { AerisAnimateOnScrollModule } from '@aeris-ui/core/animate-on-scroll';
   templateUrl: './animate-on-scroll-effects.demo.html',
   styleUrl: './animate-on-scroll-effects.demo.scss'
 })
-export class AnimateOnScrollEffectsEffectsDemo {
+export class AnimateOnScrollEffectsDemo {
 }
 ```
 
@@ -298,9 +309,7 @@ export class AnimateOnScrollEffectsEffectsDemo {
 ```html
 <div>
   <div class="effect-grid">
-    <article class="effect-card" aerisAnimateOnScroll="fade" [once]="false">
-      Fade
-    </article>
+    <article class="effect-card" aerisAnimateOnScroll="fade" [once]="false">Fade</article>
     <article class="effect-card" aerisAnimateOnScroll="fade-down" [once]="false">
       Fade down
     </article>
@@ -353,7 +362,7 @@ import { AerisAnimateOnScrollModule, type AerisAnimateOnScrollEvent } from '@aer
   templateUrl: './animate-on-scroll-replay.demo.html',
   styleUrl: './animate-on-scroll-replay.demo.scss'
 })
-export class AnimateOnScrollReplayEnterAndLeaveDemo {
+export class AnimateOnScrollReplayDemo {
   protected readonly replayStatus = signal('Scroll the panel to reveal the card.');
 
   protected onEntered(event: AerisAnimateOnScrollEvent): void {
@@ -371,11 +380,7 @@ export class AnimateOnScrollReplayEnterAndLeaveDemo {
 ```html
 <div>
   <div class="replay-demo">
-    <div
-      class="replay-viewport"
-      tabindex="0"
-      aria-label="Scrollable animation example"
-    >
+    <div class="replay-viewport" tabindex="0" aria-label="Scrollable animation example">
       <div class="replay-spacer">Scroll down</div>
       <article
         class="replay-card"
@@ -447,54 +452,65 @@ import { AerisAnimateOnScrollModule } from '@aeris-ui/core/animate-on-scroll';
 @Component({
   selector: 'app-animate-on-scroll-timing-demo',
   imports: [AerisAnimateOnScrollModule],
-  template: `
-    <div>
-      <div class="stagger-grid">
-        <article aerisAnimateOnScroll [once]="false" [duration]="600">
-          <strong>Discover</strong><span>0 ms delay</span>
-        </article>
-        <article aerisAnimateOnScroll [once]="false" [duration]="600" [delay]="120">
-          <strong>Compose</strong><span>120 ms delay</span>
-        </article>
-        <article aerisAnimateOnScroll [once]="false" [duration]="600" [delay]="240">
-          <strong>Ship</strong><span>240 ms delay</span>
-        </article>
-      </div>
-    </div>
-  `,
-  styles: `
-    .stagger-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.875rem;
-    }
-
-    .stagger-grid article {
-      min-width: 0;
-      padding: 1rem;
-      border: 1px solid var(--aeris-border);
-      border-radius: var(--aeris-radius-lg);
-      background: var(--aeris-surface-2);
-    }
-
-    .stagger-grid strong,
-    .stagger-grid span {
-      display: block;
-    }
-
-    .stagger-grid span {
-      margin-top: 0.25rem;
-      color: var(--aeris-text-2);
-    }
-
-    @media (max-width: 36rem) {
-      .stagger-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  `
+  templateUrl: './animate-on-scroll-timing.demo.html',
+  styleUrl: './animate-on-scroll-timing.demo.scss'
 })
-export class AnimateOnScrollTimingTimingDemo {
+export class AnimateOnScrollTimingDemo {
+}
+```
+
+#### HTML
+
+```html
+<div>
+  <div class="stagger-grid">
+    <article aerisAnimateOnScroll [once]="false" [duration]="600">
+      <strong>Discover</strong>
+      <span>0 ms delay</span>
+    </article>
+    <article aerisAnimateOnScroll [once]="false" [duration]="600" [delay]="120">
+      <strong>Compose</strong>
+      <span>120 ms delay</span>
+    </article>
+    <article aerisAnimateOnScroll [once]="false" [duration]="600" [delay]="240">
+      <strong>Ship</strong>
+      <span>240 ms delay</span>
+    </article>
+  </div>
+</div>
+```
+
+#### CSS
+
+```css
+.stagger-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.875rem;
+}
+
+.stagger-grid article {
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--aeris-border);
+  border-radius: var(--aeris-radius-lg);
+  background: var(--aeris-surface-2);
+}
+
+.stagger-grid strong,
+.stagger-grid span {
+  display: block;
+}
+
+.stagger-grid span {
+  margin-top: 0.25rem;
+  color: var(--aeris-text-2);
+}
+
+@media (max-width: 36rem) {
+  .stagger-grid {
+      grid-template-columns: 1fr;
+    }
 }
 ```
 
@@ -533,7 +549,7 @@ import { AerisAnimateOnScrollModule } from '@aeris-ui/core/animate-on-scroll';
     }
   `
 })
-export class AnimateOnScrollCustomTokenCustomizationDemo {
+export class AnimateOnScrollCustomDemo {
 }
 ```
 
@@ -558,7 +574,7 @@ import { AerisAnimateOnScrollModule } from '@aeris-ui/core/animate-on-scroll';
     </div>
   `
 })
-export class AnimateOnScrollDisabledDisabledDemo {
+export class AnimateOnScrollDisabledDemo {
 }
 ```
 

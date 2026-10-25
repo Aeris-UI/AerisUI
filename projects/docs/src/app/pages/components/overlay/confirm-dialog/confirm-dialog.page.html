@@ -97,12 +97,7 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="demo-actions"&gt;
-    &lt;button
-      aerisButton
-      severity="info"
-      type="button"
-      (click)="confirmSeverity('info')"
-    &gt;
+    &lt;button aerisButton severity="info" type="button" (click)="confirmSeverity('info')"&gt;
       Info
     &lt;/button&gt;
     &lt;button
@@ -164,13 +159,9 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="position-grid"&gt;
-    &lt;button aerisButton type="button" (click)="confirmAt('top-left')"&gt;
-      Top left
-    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="confirmAt('top-left')"&gt;Top left&lt;/button&gt;
     &lt;button aerisButton type="button" (click)="confirmAt('top')"&gt;Top&lt;/button&gt;
-    &lt;button aerisButton type="button" (click)="confirmAt('top-right')"&gt;
-      Top right
-    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="confirmAt('top-right')"&gt;Top right&lt;/button&gt;
     &lt;button aerisButton type="button" (click)="confirmAt('left')"&gt;Left&lt;/button&gt;
     &lt;button aerisButton type="button" (click)="confirmAt('center')"&gt;Center&lt;/button&gt;
     &lt;button aerisButton type="button" (click)="confirmAt('right')"&gt;Right&lt;/button&gt;
@@ -279,9 +270,10 @@
     &lt;ng-template aerisConfirmDialogMessage let-data="data"&gt;
       &lt;span class="confirm-message"&gt;
         &lt;strong&gt;&#123;&#123; data &#125;&#125;&lt;/strong&gt;
-        &lt;span
-          &gt;Confirm that release notes, accessibility checks, and package metadata are
-          ready.&lt;/span&gt;
+        &lt;span&gt;
+          Confirm that release notes, accessibility checks, and package metadata are
+          ready.
+        &lt;/span&gt;
       &lt;/span&gt;
     &lt;/ng-template&gt;
     &lt;ng-template aerisConfirmDialogFooter let-accept="accept" let-reject="reject"&gt;

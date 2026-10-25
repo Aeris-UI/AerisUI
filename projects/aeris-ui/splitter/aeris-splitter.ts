@@ -20,7 +20,6 @@ import {
 export type AerisSplitterOrientation = 'horizontal' | 'vertical';
 export type AerisSplitterVariant = 'outlined' | 'filled' | 'plain';
 export type AerisSplitterSize = 'sm' | 'md' | 'lg';
-export type AerisSplitterDivider = 'handle' | 'line';
 
 export interface AerisSplitterResizeEvent {
   readonly originalEvent: Event | null;
@@ -147,7 +146,11 @@ export class AerisSplitterPanel {
             tabindex="0"
             [id]="handleStates()[state.index]?.id"
             [attr.aria-label]="separatorLabel()"
-            [attr.aria-controls]="handleStates()[state.index]?.currentPanelId + ' ' + handleStates()[state.index]?.nextPanelId"
+            [attr.aria-controls]="
+              handleStates()[state.index]?.currentPanelId +
+              ' ' +
+              handleStates()[state.index]?.nextPanelId
+            "
             [attr.aria-orientation]="orientation()"
             [attr.aria-valuemin]="handleStates()[state.index]?.min"
             [attr.aria-valuemax]="handleStates()[state.index]?.max"
@@ -159,7 +162,9 @@ export class AerisSplitterPanel {
             (pointerdown)="handlePointerDown($event, state.index)"
             (keydown)="handleGutterKeydown($event, state.index)"
           >
-            <span class="aeris-splitter__handle" aria-hidden="true"></span>
+            @if (showHandle()) {
+              <span class="aeris-splitter__handle" aria-hidden="true"></span>
+            }
           </div>
         }
       }
@@ -171,7 +176,7 @@ export class AerisSplitterPanel {
     '[attr.data-orientation]': 'orientation()',
     '[attr.data-variant]': 'variant()',
     '[attr.data-size]': 'size()',
-    '[attr.data-divider]': 'divider()',
+    '[attr.data-show-handle]': 'showHandle()',
     '[attr.data-disabled]': 'disabled() || null',
     '[attr.data-dragging]': 'activeHandle() !== null || null',
     '[attr.data-fluid]': 'fluid() || null',
@@ -192,7 +197,7 @@ export class AerisSplitter {
   readonly orientation = input<AerisSplitterOrientation>('horizontal');
   readonly variant = input<AerisSplitterVariant>('outlined');
   readonly size = input<AerisSplitterSize>('md');
-  readonly divider = input<AerisSplitterDivider>('handle');
+  readonly showHandle = input(true, { transform: booleanAttribute });
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly fluid = input(true, { transform: booleanAttribute });
   readonly step = input(5, { transform: numberAttribute });
@@ -219,7 +224,9 @@ export class AerisSplitter {
   protected readonly panels = computed(() =>
     this.discoveredPanels().filter((panel) => panel.isDirectPanelOf(this.hostElement)),
   );
-  protected readonly normalizedSizes = computed(() => this.normalizeSizes(this.panels(), this.sizes()));
+  protected readonly normalizedSizes = computed(() =>
+    this.normalizeSizes(this.panels(), this.sizes()),
+  );
   protected readonly panelStates = computed<readonly AerisSplitterPanelState[]>(() => {
     const sizes = this.normalizedSizes();
     return this.panels().map((panel, index) => ({
@@ -323,7 +330,8 @@ export class AerisSplitter {
     const session = this.activeSession;
     if (!session || event.pointerId !== session.pointerId) return;
     event.preventDefault();
-    const delta = ((this.pointerCoordinate(event) - session.startCoordinate) / session.containerSize) * 100;
+    const delta =
+      ((this.pointerCoordinate(event) - session.startCoordinate) / session.containerSize) * 100;
     const nextSizes = this.resizePair(session.startSizes, session.index, delta);
     this.commitSizes(nextSizes, session.previousSizes, session.index, event, this.resized);
   }
@@ -470,11 +478,14 @@ export class AerisSplitter {
 
   private containerPixelSize(): number {
     const rect = this.root()?.nativeElement.getBoundingClientRect();
-    return this.orientation() === 'horizontal' ? rect?.width ?? 0 : rect?.height ?? 0;
+    return this.orientation() === 'horizontal' ? (rect?.width ?? 0) : (rect?.height ?? 0);
   }
 
   private sameSizes(left: readonly number[], right: readonly number[]): boolean {
-    return left.length === right.length && left.every((value, index) => Math.abs(value - (right[index] ?? 0)) < 0.001);
+    return (
+      left.length === right.length &&
+      left.every((value, index) => Math.abs(value - (right[index] ?? 0)) < 0.001)
+    );
   }
 
   private clampPercent(value: number): number {

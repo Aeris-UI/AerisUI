@@ -38,7 +38,59 @@ class MultiSelectTestHost {
   ];
 }
 
+@Component({
+  imports: [AerisMultiSelect],
+  template: `
+    <aeris-multi-select
+      [options]="options"
+      [(value)]="value"
+      display="chips"
+      ariaLabel="Chip skills"
+      [disabled]="disabled()"
+    >
+      <ng-template aerisMultiSelectChip let-option let-remove="remove">
+        <button type="button" (click)="remove()">Discard {{ option.label }}</button>
+      </ng-template>
+    </aeris-multi-select>
+  `,
+})
+class CustomChipHost {
+  readonly options = [{ label: 'Design', value: 'design' }];
+  readonly value = signal<readonly string[]>(['design']);
+  readonly disabled = signal(false);
+}
+
 describe('AerisMultiSelect', () => {
+  it('keeps custom chip removal callbacks disabled with their parent control', async () => {
+    const fixture = TestBed.createComponent(CustomChipHost);
+    fixture.componentInstance.disabled.set(true);
+    await fixture.whenStable();
+    const customRemove = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
+    customRemove.click();
+    await fixture.whenStable();
+    expect(fixture.componentInstance.value()).toEqual(['design']);
+    fixture.componentInstance.disabled.set(false);
+    await fixture.whenStable();
+    customRemove.click();
+    await fixture.whenStable();
+    expect(fixture.componentInstance.value()).toEqual([]);
+  });
+
+  it('removes a default chip once without opening its dropdown', async () => {
+    const fixture = TestBed.createComponent(AerisMultiSelectComponent);
+    fixture.componentRef.setInput('options', [{ label: 'Design', value: 'design' }]);
+    fixture.componentRef.setInput('value', ['design']);
+    fixture.componentRef.setInput('display', 'chips');
+    await fixture.whenStable();
+    let changes = 0;
+    fixture.componentInstance.changed.subscribe(() => changes++);
+    fixture.nativeElement.querySelector('.aeris-multi-select__chip-remove').click();
+    await fixture.whenStable();
+    expect(fixture.componentInstance.value()).toEqual([]);
+    expect(changes).toBe(1);
+    expect(fixture.nativeElement.querySelector('[role=listbox]')).toBeNull();
+  });
+
   it('exposes combobox, multiselect listbox, and native form semantics', async () => {
     const fixture = TestBed.createComponent(MultiSelectTestHost);
     await fixture.whenStable();

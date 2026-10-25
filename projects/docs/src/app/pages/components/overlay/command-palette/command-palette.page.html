@@ -1,0 +1,512 @@
+<article class="button-docs">
+  <app-component-page-header
+    category="Overlay"
+    title="CommandPalette"
+    description="Search and execute grouped commands with input-focused keyboard navigation, modal or inline presentation, and consumer-provided content."
+  />
+  <section class="import-section" aria-labelledby="command-palette-import-title">
+    <div>
+      <h2 id="command-palette-import-title">Import</h2>
+      <p>One import includes the component and every template directive.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+  <aeris-tabs ariaLabel="CommandPalette documentation">
+    <aeris-tab-panel value="features" label="Features"
+      ><section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="command-palette-basic"
+              title="Basic"
+              description="Open the dialog, search labels or keywords, then use arrows and Enter. Execution emits an event; the application owns the action."
+            >
+              <div preview class="command-demo">
+                <button aerisButton (click)="basicOpen.set(true)">Open commands</button>
+                <aeris-command-palette
+                  [(open)]="basicOpen"
+                  [commands]="commands"
+                  (executed)="recordExecution($event)"
+                />
+                <p aria-live="polite">Last command: {{ lastExecuted() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="command-demo"&gt;
+  &lt;button aerisButton (click)="basicOpen.set(true)"&gt;Open commands&lt;/button&gt;
+  &lt;aeris-command-palette
+    [(open)]="basicOpen"
+    [commands]="commands"
+    (executed)="recordExecution($event)"
+  /&gt;
+  &lt;p aria-live="polite"&gt;Last command: &#123;&#123; lastExecuted() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="command-palette-inline"
+              title="Inline and groups"
+              description="Inline presentation stays visible and does not take focus automatically. Group labels organize commands; disabled commands are skipped."
+            >
+              <div preview class="command-demo">
+                <aeris-command-palette
+                  inline
+                  searchAriaLabel="Inline commands"
+                  [commands]="commands"
+                  (executed)="recordExecution($event)"
+                />
+                <p>Last command: {{ lastExecuted() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="command-demo"&gt;
+  &lt;aeris-command-palette
+    inline
+    searchAriaLabel="Inline commands"
+    [commands]="commands"
+    (executed)="recordExecution($event)"
+  /&gt;
+  &lt;p&gt;Last command: &#123;&#123; lastExecuted() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="command-palette-controlled"
+              title="Controlled state and methods"
+              description="Set open and query externally, or use show, hide and focus. Keep the dialog open after executing with closeOnExecute=false."
+            >
+              <div preview class="command-demo">
+                <button
+                  aerisButton
+                  variant="outline"
+                  (click)="controlledQuery.set('theme'); controlledOpen.set(true)"
+                >
+                  Find theme command
+                </button>
+                <button aerisButton variant="ghost" (click)="controlledPalette.show()">
+                  Show with method
+                </button>
+                <aeris-command-palette
+                  #controlledPalette
+                  title="Controlled commands"
+                  [(open)]="controlledOpen"
+                  [(query)]="controlledQuery"
+                  [commands]="commands"
+                  [closeOnExecute]="false"
+                  width="30rem"
+                  [backdropBlur]="false"
+                  (executed)="recordExecution($event)"
+                >
+                  <ng-template aerisCommandPaletteFooter
+                    ><div class="command-actions">
+                      <button
+                        aerisButton
+                        variant="ghost"
+                        size="sm"
+                        (click)="controlledPalette.focus()"
+                      >
+                        Focus search</button
+                      ><button
+                        aerisButton
+                        variant="outline"
+                        size="sm"
+                        (click)="controlledPalette.hide()"
+                      >
+                        Close
+                      </button>
+                    </div></ng-template
+                  >
+                </aeris-command-palette>
+                <p>Query: {{ controlledQuery() }}. Last command: {{ lastExecuted() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="command-demo"&gt;
+  &lt;button
+    aerisButton
+    variant="outline"
+    (click)="controlledQuery.set('theme'); controlledOpen.set(true)"
+  &gt;
+    Find theme command
+  &lt;/button&gt;
+  &lt;button aerisButton variant="ghost" (click)="controlledPalette.show()"&gt;
+    Show with method
+  &lt;/button&gt;
+  &lt;aeris-command-palette
+    #controlledPalette
+    title="Controlled commands"
+    [(open)]="controlledOpen"
+    [(query)]="controlledQuery"
+    [commands]="commands"
+    [closeOnExecute]="false"
+    width="30rem"
+    [backdropBlur]="false"
+    (executed)="recordExecution($event)"
+  &gt;
+    &lt;ng-template aerisCommandPaletteFooter&gt;
+      &lt;div class="command-actions"&gt;
+        &lt;button aerisButton variant="ghost" size="sm" (click)="controlledPalette.focus()"&gt;
+          Focus search
+        &lt;/button&gt;
+        &lt;button
+          aerisButton
+          variant="outline"
+          size="sm"
+          (click)="controlledPalette.hide()"
+        &gt;
+          Close
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-command-palette&gt;
+  &lt;p&gt;Query: &#123;&#123; controlledQuery() &#125;&#125;. Last command: &#123;&#123; lastExecuted() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="command-palette-templates"
+              title="Templates and icons"
+              description="Provide icons and item content from any icon library. Aeris owns the built-in search and Dialog close icons."
+            >
+              <div preview class="command-demo">
+                <aeris-command-palette
+                  inline
+                  searchAriaLabel="Templated commands"
+                  [commands]="commands"
+                >
+                  <ng-template aerisCommandPaletteGroup let-group>{{ group }} commands</ng-template>
+                  <ng-template aerisCommandPaletteItem let-command let-active="active"
+                    ><span class="command-item"
+                      ><svg [lucideIcon]="searchIcon" aria-hidden="true"></svg
+                      ><span>{{ command.label }}</span>
+                      @if (active) {
+                        <small>Enter</small>
+                      }
+                    </span></ng-template
+                  >
+                </aeris-command-palette>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="command-demo"&gt;
+  &lt;aeris-command-palette
+    inline
+    searchAriaLabel="Templated commands"
+    [commands]="commands"
+  &gt;
+    &lt;ng-template aerisCommandPaletteGroup let-group&gt;&#123;&#123; group &#125;&#125; commands&lt;/ng-template&gt;
+    &lt;ng-template aerisCommandPaletteItem let-command let-active="active"&gt;
+      &lt;span class="command-item"&gt;
+        &lt;svg [lucideIcon]="searchIcon" aria-hidden="true"&gt;&lt;/svg&gt;
+        &lt;span&gt;&#123;&#123; command.label &#125;&#125;&lt;/span&gt;
+        &#64;if (active) &#123;
+          &lt;small&gt;Enter&lt;/small&gt;
+        &#125;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-command-palette&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="command-palette-external"
+              title="External filtering"
+              description="Disable built-in filtering to own matching. This example matches label prefixes. For remote results, cancel stale requests and apply only the latest response in your data layer."
+            >
+              <div preview class="command-demo">
+                <aeris-command-palette
+                  inline
+                  searchAriaLabel="External commands"
+                  [filter]="false"
+                  [(query)]="externalQuery"
+                  [commands]="externalCommands()"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="command-demo"&gt;
+  &lt;aeris-command-palette
+    inline
+    searchAriaLabel="External commands"
+    [filter]="false"
+    [(query)]="externalQuery"
+    [commands]="externalCommands()"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="command-palette-states"
+              title="Loading and empty"
+              description="Loading preserves the results while preventing execution. Empty and loading templates customize the visual content; matching messages provide live announcements."
+            >
+              <div preview class="command-demo">
+                <button aerisButton variant="outline" (click)="loading.set(!loading())">
+                  Toggle loading
+                </button>
+                <aeris-command-palette
+                  inline
+                  searchAriaLabel="Loading commands"
+                  [commands]="commands"
+                  [loading]="loading()"
+                  loadingMessage="Fetching commands"
+                  ><ng-template aerisCommandPaletteLoading
+                    >Fetching commands…</ng-template
+                  ></aeris-command-palette
+                >
+                <aeris-command-palette
+                  inline
+                  searchAriaLabel="Empty commands"
+                  [commands]="[]"
+                  emptyMessage="No commands available"
+                  ><ng-template aerisCommandPaletteEmpty
+                    >No commands available.</ng-template
+                  ></aeris-command-palette
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="command-demo"&gt;
+  &lt;button aerisButton variant="outline" (click)="loading.set(!loading())"&gt;
+    Toggle loading
+  &lt;/button&gt;
+  &lt;aeris-command-palette
+    inline
+    searchAriaLabel="Loading commands"
+    [commands]="commands"
+    [loading]="loading()"
+    loadingMessage="Fetching commands"
+  &gt;
+    &lt;ng-template aerisCommandPaletteLoading&gt;Fetching commands…&lt;/ng-template&gt;
+  &lt;/aeris-command-palette&gt;
+  &lt;aeris-command-palette
+    inline
+    searchAriaLabel="Empty commands"
+    [commands]="[]"
+    emptyMessage="No commands available"
+  &gt;
+    &lt;ng-template aerisCommandPaletteEmpty&gt;No commands available.&lt;/ng-template&gt;
+  &lt;/aeris-command-palette&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="command-palette-shortcut"
+              title="Launcher shortcut"
+              description="Ctrl or Command + J opens this palette outside editable fields. The launcher is explicitly registered; shortcut labels on individual commands are display-only."
+            >
+              <div preview class="command-demo">
+                <button aerisButton variant="outline" (click)="shortcutOpen.set(true)">
+                  Open shortcut palette</button
+                ><aeris-command-palette
+                  title="Shortcut commands"
+                  [(open)]="shortcutOpen"
+                  [commands]="commands"
+                  [shortcut]="launchShortcut"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="command-demo"&gt;
+  &lt;button aerisButton variant="outline" (click)="shortcutOpen.set(true)"&gt;
+    Open shortcut palette
+  &lt;/button&gt;
+  &lt;aeris-command-palette
+    title="Shortcut commands"
+    [(open)]="shortcutOpen"
+    [commands]="commands"
+    [shortcut]="launchShortcut"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="Features"
+            ariaLabel="CommandPalette features on this page"
+            [links]="featureLinks"
+          />
+        </div></section
+    ></aeris-tab-panel>
+    <aeris-tab-panel value="api" label="API"
+      ><section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <h3 id="command-palette-inputs">Inputs and models</h3>
+            <div class="api-table" role="table" aria-label="CommandPalette inputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of inputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+            <h3 id="command-palette-outputs">Outputs</h3>
+            <div
+              class="api-table compact"
+              role="table"
+              aria-label="CommandPalette outputs"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Description</b>
+              </div>
+              @for (property of outputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+            <h3 id="command-palette-templates-api">Templates</h3>
+            <div
+              class="api-table compact"
+              role="table"
+              aria-label="CommandPalette templates"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Directive</b><b role="columnheader">Context</b
+                ><b role="columnheader">Description</b>
+              </div>
+              @for (property of templates; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+            <h3 id="command-palette-methods">Methods</h3>
+            <div
+              class="api-table compact"
+              role="table"
+              aria-label="CommandPalette methods"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Signature</b
+                ><b role="columnheader">Description</b>
+              </div>
+              @for (property of methods; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+          </div>
+          <app-page-toc
+            title="API"
+            ariaLabel="CommandPalette API on this page"
+            [links]="apiLinks"
+          />
+        </div></section
+    ></aeris-tab-panel>
+    <aeris-tab-panel value="interfaces" label="Interfaces"
+      ><section class="doc-section">
+        <h2>Interfaces</h2>
+        <p>
+          Commands are flat and identified by unique string IDs. Their icon and shortcut fields are
+          presentation metadata, not dependencies or registered actions.
+        </p>
+        <app-code-block [code]="interfacesCode" language="TypeScript" /></section
+    ></aeris-tab-panel>
+    <aeris-tab-panel value="tokens" label="Tokens"
+      ><section class="doc-section">
+        <h2>Design tokens</h2>
+        <p>
+          Shared Dialog, InputText, surface, spacing, item-radius and motion tokens apply
+          automatically.
+        </p>
+        <div
+          class="api-table compact"
+          role="table"
+          aria-label="CommandPalette design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          @for (token of tokens; track token.name) {
+            <div role="row">
+              <code role="cell">{{ token.name }}</code
+              ><span role="cell">{{ token.description }}</span
+              ><code role="cell">{{ token.defaultValue }}</code>
+            </div>
+          }
+        </div>
+      </section></aeris-tab-panel
+    >
+    <aeris-tab-panel value="accessibility" label="Accessibility"
+      ><section class="doc-section">
+        <h2>Accessibility</h2>
+        <p>
+          The search field is a combobox controlling a named listbox. Focus stays in the field while
+          aria-activedescendant identifies the active command. Disabled commands are skipped. Active
+          means the current execution target, not persistent selection. Groups, descriptions, busy
+          state and result-count announcements are associated automatically.
+        </p>
+        <p>
+          Modal presentation delegates focus trapping, Escape, focus restoration, backdrop
+          dismissal, reduced motion and safe-area/viewport handling to Dialog. Inline presentation
+          does not trap or automatically move focus. Keep item and group templates non-interactive;
+          additional actions belong in the footer. Translate labels, messages, result wording and
+          helpText for your application.
+        </p>
+        <p>
+          Launchers require a modifier and ignore editable targets, IME composition, repeated keys
+          and prevented events. The first eligible registered palette claims a matching event;
+          destroying or reconfiguring it cleans up its listener. Command shortcut text does not
+          enable that shortcut. Nested navigation and remote-search cancellation belong to the
+          application; replace command arrays atomically and reject stale responses there. Result
+          replacement always repairs the active target before execution.
+        </p>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="CommandPalette keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <span role="cell">Arrow Up / Down</span
+            ><span role="cell"
+              >Move the active command, skipping disabled commands and wrapping at the ends.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Home / End</span
+            ><span role="cell"
+              >Activate the first or last enabled command. Modified text-editing shortcuts retain
+              native behavior.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Enter</span
+            ><span role="cell">Execute the active enabled command unless loading.</span>
+          </div>
+          <div role="row">
+            <span role="cell">Escape</span
+            ><span role="cell"
+              >Close the modal through Dialog. Does not dismiss inline presentation or interrupt IME
+              composition.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Tab / Shift + Tab</span
+            ><span role="cell"
+              >Navigate search, Dialog close and footer controls; trapped only in modal
+              presentation.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Printable characters / Space</span
+            ><span role="cell">Edit the query normally; Space does not execute a command.</span>
+          </div>
+          <div role="row">
+            <span role="cell">Configured modified launcher</span
+            ><span role="cell"
+              >Open the palette from a non-editable target. No global key is registered by
+              default.</span
+            >
+          </div>
+        </div>
+      </section></aeris-tab-panel
+    >
+  </aeris-tabs>
+</article>

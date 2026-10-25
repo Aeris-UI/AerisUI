@@ -1,3 +1,5 @@
+@use '../src/styles/icon-artwork' as artwork;
+@use '../src/styles/icon-template' as aeris-icons;
 :host {
   display: block;
   color: var(--aeris-file-upload-text, var(--aeris-text, #111111));
@@ -199,12 +201,13 @@
 }
 
 .aeris-file-upload__file-icon::before {
-  width: 1.2rem;
-  height: 1.45rem;
-  border: 2px solid currentColor;
-  border-radius: 0.18rem;
-  color: var(--aeris-text-3, #6f7667);
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--aeris-text-3);
   content: '';
+  background: currentColor;
+  -webkit-mask: var(--aeris-icon-file, #{artwork.$file}) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-file, #{artwork.$file}) center / 100% 100% no-repeat;
 }
 
 .aeris-file-upload__file-body {
@@ -366,6 +369,8 @@
     display: none;
   }
 }
+
+@include aeris-icons.custom-icon;
 
 @media (prefers-reduced-motion: reduce) {
   .aeris-file-upload__dropzone,

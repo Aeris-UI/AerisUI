@@ -122,6 +122,7 @@ for (const [exportName, exportValue] of Object.entries(packageManifest.exports ?
 
 for (const requiredFile of [
   'LICENSE',
+  'THIRD_PARTY_LICENSES.md',
   'README.md',
   'schematics/collection.json',
   'schematics/runtime/schematics/ng-add/index.js',

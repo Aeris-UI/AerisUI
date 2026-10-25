@@ -92,12 +92,7 @@
   &lt;/div&gt;
   &lt;div class="rating-card"&gt;
     &lt;span&gt;Required choice&lt;/span&gt;
-    &lt;aeris-rating
-      [value]="3"
-      [allowClear]="false"
-      required
-      ariaLabel="Required rating"
-    /&gt;
+    &lt;aeris-rating [value]="3" [allowClear]="false" required ariaLabel="Required rating" /&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -129,14 +124,16 @@
     &lt;aeris-rating size="xs" [value]="3" ariaLabel="Extra small rating" /&gt;
   &lt;/div&gt;
   &lt;div class="rating-card"&gt;
-    &lt;span&gt;Small&lt;/span&gt;&lt;aeris-rating size="sm" [value]="3" ariaLabel="Small rating" /&gt;
+    &lt;span&gt;Small&lt;/span&gt;
+    &lt;aeris-rating size="sm" [value]="3" ariaLabel="Small rating" /&gt;
   &lt;/div&gt;
   &lt;div class="rating-card"&gt;
     &lt;span&gt;Medium&lt;/span&gt;
     &lt;aeris-rating size="md" [value]="3" ariaLabel="Medium rating" /&gt;
   &lt;/div&gt;
   &lt;div class="rating-card"&gt;
-    &lt;span&gt;Large&lt;/span&gt;&lt;aeris-rating size="lg" [value]="3" ariaLabel="Large rating" /&gt;
+    &lt;span&gt;Large&lt;/span&gt;
+    &lt;aeris-rating size="lg" [value]="3" ariaLabel="Large rating" /&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -344,10 +341,7 @@
               <pre code><code ngNonBindable>&lt;div class="rating-grid"&gt;
   &lt;div class="rating-card"&gt;
     &lt;span id="rating-reactive-label"&gt;Reactive Forms&lt;/span&gt;
-    &lt;aeris-rating
-      ariaLabelledBy="rating-reactive-label"
-      [formControl]="reactiveValue"
-    /&gt;
+    &lt;aeris-rating ariaLabelledBy="rating-reactive-label" [formControl]="reactiveValue" /&gt;
     &lt;small&gt;Value: &#123;&#123; reactiveValue.value &#125;&#125;&lt;/small&gt;
   &lt;/div&gt;
   &lt;div class="rating-card"&gt;

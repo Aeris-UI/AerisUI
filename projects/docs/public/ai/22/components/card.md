@@ -2,7 +2,7 @@
 
 > Composable content surface with media, semantic regions, responsive layouts, and theme tokens.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/card`
 - Human-readable documentation: [https://aeris-ui.dev/components/card](https://aeris-ui.dev/components/card)
@@ -98,7 +98,7 @@ import { AerisCardModule } from '@aeris-ui/core/card';
   templateUrl: './card-basic.demo.html',
   styleUrl: './card-basic.demo.scss'
 })
-export class CardBasicBasicDemo {
+export class CardBasicDemo {
 }
 ```
 
@@ -119,14 +119,12 @@ export class CardBasicBasicDemo {
       <aeris-badge value="Active" severity="success" size="sm" variant="soft" />
     </header>
     <p id="project-card-description">
-      Review the refreshed tokens, component states, and migration notes before the
-      next release.
+      Review the refreshed tokens, component states, and migration notes before the next
+      release.
     </p>
     <footer aerisCardFooter>
       <button aerisButton size="sm">Open project</button>
-      <button aerisButton size="sm" variant="solid" severity="secondary">
-        Share
-      </button>
+      <button aerisButton size="sm" variant="solid" severity="secondary">Share</button>
     </footer>
   </aeris-card>
 </div>
@@ -160,15 +158,18 @@ import { AerisCardModule } from '@aeris-ui/core/card';
   imports: [AerisCardModule],
   template: `
     <div class="card-demo card-grid">
-      <aeris-card variant="outlined"
-        ><header aerisCardHeader><h3 aerisCardTitle>Outlined</h3></header>
-        <p>Clear boundaries for structured layouts.</p></aeris-card>
-      <aeris-card variant="elevated"
-        ><header aerisCardHeader><h3 aerisCardTitle>Elevated</h3></header>
-        <p>Depth for prominent or floating content.</p></aeris-card>
-      <aeris-card variant="filled"
-        ><header aerisCardHeader><h3 aerisCardTitle>Filled</h3></header>
-        <p>Subtle grouping on open page surfaces.</p></aeris-card>
+      <aeris-card variant="outlined">
+        <header aerisCardHeader><h3 aerisCardTitle>Outlined</h3></header>
+        <p>Clear boundaries for structured layouts.</p>
+      </aeris-card>
+      <aeris-card variant="elevated">
+        <header aerisCardHeader><h3 aerisCardTitle>Elevated</h3></header>
+        <p>Depth for prominent or floating content.</p>
+      </aeris-card>
+      <aeris-card variant="filled">
+        <header aerisCardHeader><h3 aerisCardTitle>Filled</h3></header>
+        <p>Subtle grouping on open page surfaces.</p>
+      </aeris-card>
     </div>
   `,
   styles: `
@@ -194,7 +195,7 @@ import { AerisCardModule } from '@aeris-ui/core/card';
     }
   `
 })
-export class CardVariantsSurfaceVariantsDemo {
+export class CardVariantsDemo {
 }
 ```
 
@@ -214,7 +215,7 @@ import { AerisCardModule } from '@aeris-ui/core/card';
   templateUrl: './card-padding.demo.html',
   styleUrl: './card-padding.demo.scss'
 })
-export class CardPaddingPaddingDemo {
+export class CardPaddingDemo {
 }
 ```
 
@@ -222,20 +223,24 @@ export class CardPaddingPaddingDemo {
 
 ```html
 <div class="card-demo card-grid card-grid--two">
-  <aeris-card padding="sm"
-    ><header aerisCardHeader><h3 aerisCardTitle>Small</h3></header>
-    <p>Compact supporting content.</p></aeris-card>
-  <aeris-card padding="md"
-    ><header aerisCardHeader><h3 aerisCardTitle>Medium</h3></header>
-    <p>The balanced default.</p></aeris-card>
-  <aeris-card padding="lg"
-    ><header aerisCardHeader><h3 aerisCardTitle>Large</h3></header>
-    <p>More room for featured content.</p></aeris-card>
-  <aeris-card padding="none"
-    ><div class="custom-padding">
+  <aeris-card padding="sm">
+    <header aerisCardHeader><h3 aerisCardTitle>Small</h3></header>
+    <p>Compact supporting content.</p>
+  </aeris-card>
+  <aeris-card padding="md">
+    <header aerisCardHeader><h3 aerisCardTitle>Medium</h3></header>
+    <p>The balanced default.</p>
+  </aeris-card>
+  <aeris-card padding="lg">
+    <header aerisCardHeader><h3 aerisCardTitle>Large</h3></header>
+    <p>More room for featured content.</p>
+  </aeris-card>
+  <aeris-card padding="none">
+    <div class="custom-padding">
       <h3 aerisCardTitle>None</h3>
       <p>Bring your own internal layout.</p>
-    </div></aeris-card>
+    </div>
+  </aeris-card>
 </div>
 ```
 
@@ -292,7 +297,7 @@ import { AerisCardModule } from '@aeris-ui/core/card';
   templateUrl: './card-media.demo.html',
   styleUrl: './card-media.demo.scss'
 })
-export class CardMediaMediaDemo {
+export class CardMediaDemo {
 }
 ```
 
@@ -302,7 +307,9 @@ export class CardMediaMediaDemo {
 <div class="card-demo card-demo--single">
   <aeris-card variant="elevated">
     <div aerisCardMedia class="card-art" aria-hidden="true">
-      <span></span><span></span><span></span>
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
     <header aerisCardHeader>
       <div>
@@ -379,7 +386,7 @@ import { AerisCardModule } from '@aeris-ui/core/card';
   templateUrl: './card-horizontal.demo.html',
   styleUrl: './card-horizontal.demo.scss'
 })
-export class CardHorizontalResponsiveHorizontalCardDemo {
+export class CardHorizontalDemo {
 }
 ```
 
@@ -389,7 +396,8 @@ export class CardHorizontalResponsiveHorizontalCardDemo {
 <div class="card-demo">
   <aeris-card orientation="horizontal">
     <div aerisCardMedia class="card-art card-art--horizontal" aria-hidden="true">
-      <span></span><span></span>
+      <span></span>
+      <span></span>
     </div>
     <header aerisCardHeader>
       <div>
@@ -398,8 +406,8 @@ export class CardHorizontalResponsiveHorizontalCardDemo {
       </div>
     </header>
     <p>
-      Keep public APIs focused, favor composition, and let semantic tokens carry
-      visual consistency.
+      Keep public APIs focused, favor composition, and let semantic tokens carry visual
+      consistency.
     </p>
     <footer aerisCardFooter>
       <button aerisButton size="sm" variant="solid" severity="secondary">
@@ -470,7 +478,7 @@ import { AerisCardModule } from '@aeris-ui/core/card';
   templateUrl: './card-link.demo.html',
   styleUrl: './card-link.demo.scss'
 })
-export class CardLinkLinkedCardDemo {
+export class CardLinkDemo {
 }
 ```
 
@@ -491,9 +499,7 @@ export class CardLinkLinkedCardDemo {
           <p aerisCardSubtitle>Source and release history</p>
         </div>
       </header>
-      <p>
-        Explore implementation details, package entry points, and project changes.
-      </p>
+      <p>Explore implementation details, package entry points, and project changes.</p>
     </aeris-card>
   </a>
 </div>
@@ -561,22 +567,14 @@ import { AerisCardModule } from '@aeris-ui/core/card';
     }
 
     .brand-card {
-      --aeris-card-background: color-mix(
-        in srgb,
-        var(--aeris-primary) 9%,
-        var(--aeris-surface)
-      );
-      --aeris-card-border: color-mix(
-        in srgb,
-        var(--aeris-primary) 42%,
-        var(--aeris-border)
-      );
+      --aeris-card-background: color-mix(in srgb, var(--aeris-primary) 9%, var(--aeris-surface));
+      --aeris-card-border: color-mix(in srgb, var(--aeris-primary) 42%, var(--aeris-border));
       --aeris-card-radius: 1.5rem;
       --aeris-card-title-color: var(--aeris-primary-text);
     }
   `
 })
-export class CardCustomTokenCustomizationDemo {
+export class CardCustomDemo {
 }
 ```
 

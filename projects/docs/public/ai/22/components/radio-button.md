@@ -2,7 +2,7 @@
 
 > Single-choice control designed for accessible grouped selection.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/radio-button`
 - Human-readable documentation: [https://aeris-ui.dev/components/radio-button](https://aeris-ui.dev/components/radio-button)
@@ -29,6 +29,9 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appearance` | `AerisRadioButtonAppearance` | `'standard'` | Presentation. Options: 'standard', 'card'. The card retains native radio group behavior. |
+| `description` | `string` | `''` | Supporting text, automatically associated with the input as its accessible description. |
+| `iconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Optional decorative leading icon beside the label. Keep its contents non-interactive. |
 | `selected` | `string &#124; null (model)` | `null` | Selected value shared by every radio in a group. |
 | `value` | `string` | `required` | Value selected and submitted by this option. |
 | `name` | `string` | `''` | Native radio group name. Use the same value for related options. |
@@ -71,6 +74,7 @@ type AerisRadioButtonSize =
   'xs' | 'sm' | 'md' | 'lg';
 
 type AerisRadioButtonLabelPosition = 'start' | 'end';
+type AerisRadioButtonAppearance = 'standard' | 'card';
 
 interface AerisRadioButtonChangeEvent {
   readonly originalEvent: Event;
@@ -82,6 +86,13 @@ interface AerisRadioButtonChangeEvent {
 
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
+| `--aeris-choice-card-padding` | `CSS custom property` | — | Card padding. |
+| `--aeris-choice-card-gap` | `CSS custom property` | — | Space between control, icon and content. |
+| `--aeris-choice-card-radius` | `CSS custom property` | — | Card corner radius. |
+| `--aeris-choice-card-border` | `CSS custom property` | — | Unselected border color. |
+| `--aeris-choice-card-background` | `CSS custom property` | — | Unselected background. |
+| `--aeris-choice-card-selected-border` | `CSS custom property` | — | Selected and hover border color. |
+| `--aeris-choice-card-selected-background` | `CSS custom property` | — | Selected background. |
 | `--aeris-radio-label-color` | `CSS custom property` | — | Option label color. |
 | `--aeris-radio-border` | `CSS custom property` | — | Unselected border. |
 | `--aeris-radio-background` | `CSS custom property` | — | Unselected background. |
@@ -109,12 +120,15 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
     <div>
       <fieldset class="radio-group">
         <legend>Workspace visibility</legend>
-        <aeris-radio-button name="visibility" value="private" [(selected)]="visibility"
-          >Private</aeris-radio-button>
-        <aeris-radio-button name="visibility" value="team" [(selected)]="visibility"
-          >Team members</aeris-radio-button>
-        <aeris-radio-button name="visibility" value="public" [(selected)]="visibility"
-          >Public</aeris-radio-button>
+        <aeris-radio-button name="visibility" value="private" [(selected)]="visibility">
+          Private
+        </aeris-radio-button>
+        <aeris-radio-button name="visibility" value="team" [(selected)]="visibility">
+          Team members
+        </aeris-radio-button>
+        <aeris-radio-button name="visibility" value="public" [(selected)]="visibility">
+          Public
+        </aeris-radio-button>
       </fieldset>
     </div>
   `,
@@ -144,7 +158,7 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
     }
   `
 })
-export class RadioBasicBasicGroupDemo {
+export class RadioBasicDemo {
   protected readonly visibility = signal<string | null>('private');
 }
 ```
@@ -157,7 +171,7 @@ Bind every option to one writable signal and observe detailed user changes when 
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisRadioButton } from '@aeris-ui/core/radio-button';
+import { AerisRadioButton, type AerisRadioButtonChangeEvent } from '@aeris-ui/core/radio-button';
 
 @Component({
   selector: 'app-radio-model-demo',
@@ -165,7 +179,13 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
   templateUrl: './radio-model.demo.html',
   styleUrl: './radio-model.demo.scss'
 })
-export class RadioModelSignalModelDemo {
+export class RadioModelDemo {
+  protected readonly lastChange = signal('No interaction');
+
+  protected recordChange(event: AerisRadioButtonChangeEvent): void {
+      this.lastChange.set(`Selected ${event.value}`);
+    }
+
   protected readonly notificationChannel = signal<string | null>('email');
 }
 ```
@@ -181,19 +201,25 @@ export class RadioModelSignalModelDemo {
       value="email"
       [(selected)]="notificationChannel"
       (changed)="recordChange($event)"
-      >Email</aeris-radio-button>
+    >
+      Email
+    </aeris-radio-button>
     <aeris-radio-button
       name="channel"
       value="push"
       [(selected)]="notificationChannel"
       (changed)="recordChange($event)"
-      >Push notification</aeris-radio-button>
+    >
+      Push notification
+    </aeris-radio-button>
     <aeris-radio-button
       name="channel"
       value="none"
       [(selected)]="notificationChannel"
       (changed)="recordChange($event)"
-      >None</aeris-radio-button>
+    >
+      None
+    </aeris-radio-button>
   </fieldset>
   <span class="radio-result" aria-live="polite">
     Value: {{ notificationChannel() }}. {{ lastChange() }}.
@@ -228,7 +254,6 @@ export class RadioModelSignalModelDemo {
   font-weight: 650;
 }
 
-.radio-option-content small,
 .radio-result {
   color: var(--aeris-text-2);
   font-size: 0.8125rem;
@@ -257,7 +282,7 @@ interface Plan {
   templateUrl: './radio-rich-options.demo.html',
   styleUrl: './radio-rich-options.demo.scss'
 })
-export class RadioRichOptionsRichOptionsDemo {
+export class RadioRichOptionsDemo {
   protected readonly selectedPlan = signal<string | null>('team');
   protected readonly plans: readonly Plan[] = [
     { value: 'starter', label: 'Starter', description: 'Essential controls.' },
@@ -274,21 +299,14 @@ export class RadioRichOptionsRichOptionsDemo {
   <fieldset class="radio-card-group">
     <legend>Choose a plan</legend>
     @for (plan of plans; track plan.value) {
-      <div
-        class="radio-card"
-        [class.radio-card--selected]="selectedPlan() === plan.value"
-      >
-        <aeris-radio-button
-          name="plan"
-          [value]="plan.value"
-          [(selected)]="selectedPlan"
-        >
-          <span class="radio-option-content">
-            <strong>{{ plan.label }}</strong>
-            <small>{{ plan.description }}</small>
-          </span>
-        </aeris-radio-button>
-      </div>
+      <aeris-radio-button
+        appearance="card"
+        [label]="plan.label"
+        [description]="plan.description"
+        name="plan"
+        [value]="plan.value"
+        [(selected)]="selectedPlan"
+      />
     }
   </fieldset>
 </div>
@@ -324,35 +342,117 @@ export class RadioRichOptionsRichOptionsDemo {
 .radio-card-group {
   width: min(100%, 38rem);
 }
+```
 
-.radio-card {
-  padding: 0.875rem 1rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: 0.75rem;
-  background: var(--aeris-surface);
-  transition: border-color 150ms ease, background-color 150ms ease;
+### Selectable cards
+
+Share a native group name and selected signal. Arrow keys move between available choices; the entire card is clickable.
+
+#### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisRadioButton } from '@aeris-ui/core/radio-button';
+
+@Component({
+  selector: 'app-radio-cards-demo',
+  imports: [AerisButton, AerisRadioButton],
+  templateUrl: './radio-cards.demo.html',
+  styleUrl: './radio-cards.demo.scss'
+})
+export class RadioCardsDemo {
+  protected readonly delivery = signal<string | null>(null);
+
+  protected readonly deliverySubmitted = signal(false);
+}
+```
+
+#### HTML
+
+```html
+<div class="radio-stack">
+  <fieldset class="radio-card-group radio-card-grid">
+    <legend>Delivery method</legend>
+    <aeris-radio-button
+      appearance="card"
+      name="delivery"
+      value="standard"
+      label="Standard delivery"
+      description="Arrives in three to five working days. Tracking is included for the entire journey."
+      [(selected)]="delivery"
+      [invalid]="!delivery()"
+      [touched]="deliverySubmitted()"
+      ariaDescribedBy="delivery-help"
+    />
+    <aeris-radio-button
+      appearance="card"
+      name="delivery"
+      value="express"
+      label="Express delivery"
+      description="Arrives the next working day when ordered before noon."
+      labelPosition="start"
+      [(selected)]="delivery"
+      [invalid]="!delivery()"
+      [touched]="deliverySubmitted()"
+      ariaDescribedBy="delivery-help"
+    />
+    <aeris-radio-button
+      appearance="card"
+      name="delivery"
+      value="collection"
+      label="Store collection"
+      description="Not available in your region."
+      disabled
+      [(selected)]="delivery"
+    />
+  </fieldset>
+  <small id="delivery-help">
+    {{
+      deliverySubmitted() && !delivery()
+        ? 'Choose a delivery method to continue.'
+        : 'Select one delivery method.'
+    }}
+  </small>
+  <button aerisButton type="button" (click)="deliverySubmitted.set(true)">
+    Continue
+  </button>
+</div>
+```
+
+#### CSS
+
+```css
+.radio-stack,
+.radio-group,
+.radio-card-group {
+  width: 100%;
+  display: grid;
+  gap: 0.75rem;
 }
 
-.radio-option-content {
-  display: inline-grid;
-  gap: 0.125rem;
+.radio-group,
+.radio-card-group {
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
-.radio-option-content strong {
+.radio-group legend,
+.radio-card-group legend,
+.radio-group > strong {
+  margin-bottom: 0.125rem;
   color: var(--aeris-text);
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
+  font-weight: 650;
 }
 
-.radio-option-content small,
-.radio-result {
-  color: var(--aeris-text-2);
-  font-size: 0.8125rem;
+.radio-card-group {
+  width: min(100%, 38rem);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .radio-card {
-      transition: none;
-    }
+.radio-card-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
 }
 ```
 
@@ -371,14 +471,16 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
   imports: [AerisRadioButton],
   template: `
     <div class="field-row">
-      <aeris-radio-button name="size-xs" value="xs" selected="xs" size="xs"
-        >Extra small</aeris-radio-button>
-      <aeris-radio-button name="size-sm" value="sm" selected="sm" size="sm"
-        >Small</aeris-radio-button>
-      <aeris-radio-button name="size-md" value="md" selected="md"
-        >Medium</aeris-radio-button>
-      <aeris-radio-button name="size-lg" value="lg" selected="lg" size="lg"
-        >Large</aeris-radio-button>
+      <aeris-radio-button name="size-xs" value="xs" selected="xs" size="xs">
+        Extra small
+      </aeris-radio-button>
+      <aeris-radio-button name="size-sm" value="sm" selected="sm" size="sm">
+        Small
+      </aeris-radio-button>
+      <aeris-radio-button name="size-md" value="md" selected="md">Medium</aeris-radio-button>
+      <aeris-radio-button name="size-lg" value="lg" selected="lg" size="lg">
+        Large
+      </aeris-radio-button>
     </div>
   `,
   styles: `
@@ -394,10 +496,14 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
       .field-row {
         align-items: stretch;
       }
+
+      .field-row > input {
+        width: 100%;
+      }
     }
   `
 })
-export class RadioSizesSizesDemo {
+export class RadioSizesDemo {
 }
 ```
 
@@ -416,14 +522,17 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
   imports: [AerisRadioButton],
   template: `
     <div class="field-row">
-      <aeris-radio-button name="label-end" value="end" selected="end"
-        >Label at end</aeris-radio-button>
+      <aeris-radio-button name="label-end" value="end" selected="end">
+        Label at end
+      </aeris-radio-button>
       <aeris-radio-button
         name="label-start"
         value="start"
         selected="start"
         labelPosition="start"
-        >Label at start</aeris-radio-button>
+      >
+        Label at start
+      </aeris-radio-button>
     </div>
   `,
   styles: `
@@ -439,10 +548,14 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
       .field-row {
         align-items: stretch;
       }
+
+      .field-row > input {
+        width: 100%;
+      }
     }
   `
 })
-export class RadioLabelPositionLabelPositionDemo {
+export class RadioLabelPositionDemo {
 }
 ```
 
@@ -453,7 +566,7 @@ State is synchronized with the internal native input and exposed to assistive te
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisRadioButton } from '@aeris-ui/core/radio-button';
 
 @Component({
@@ -462,7 +575,8 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
   templateUrl: './radio-states.demo.html',
   styleUrl: './radio-states.demo.scss'
 })
-export class RadioStatesRequiredInvalidAndDisabledDemo {
+export class RadioStatesDemo {
+  protected readonly deliverySpeed = signal<string | null>(null);
 }
 ```
 
@@ -470,42 +584,52 @@ export class RadioStatesRequiredInvalidAndDisabledDemo {
 
 ```html
 <div class="radio-stack">
-  <fieldset class="radio-group" aria-describedby="delivery-error">
+  <fieldset
+    class="radio-group"
+    [attr.aria-describedby]="deliverySpeed() ? null : 'delivery-error'"
+  >
     <legend>Delivery speed</legend>
     <aeris-radio-button
-      name="delivery"
+      name="delivery-speed"
       value="standard"
+      [(selected)]="deliverySpeed"
       required
-      invalid
-      ariaDescribedBy="delivery-error"
-      >Standard</aeris-radio-button>
+      [invalid]="!deliverySpeed()"
+      [ariaDescribedBy]="deliverySpeed() ? '' : 'delivery-error'"
+    >
+      Standard
+    </aeris-radio-button>
     <aeris-radio-button
-      name="delivery"
+      name="delivery-speed"
       value="express"
+      [(selected)]="deliverySpeed"
       required
-      invalid
-      ariaDescribedBy="delivery-error"
-      >Express</aeris-radio-button>
+      [invalid]="!deliverySpeed()"
+      [ariaDescribedBy]="deliverySpeed() ? '' : 'delivery-error'"
+    >
+      Express
+    </aeris-radio-button>
   </fieldset>
-  <small id="delivery-error" class="error">Choose a delivery speed.</small>
-  <aeris-radio-button name="disabled-demo" value="disabled" disabled
-    >Unavailable option</aeris-radio-button>
+  @if (!deliverySpeed()) {
+    <small id="delivery-error" class="error">Choose a delivery speed.</small>
+  }
+  <aeris-radio-button name="disabled-demo" value="disabled" disabled>
+    Unavailable option
+  </aeris-radio-button>
   <aeris-radio-button
     name="disabled-selected"
     value="selected"
     selected="selected"
     disabled
-    >Selected and unavailable</aeris-radio-button>
+  >
+    Selected and unavailable
+  </aeris-radio-button>
 </div>
 ```
 
 #### CSS
 
 ```css
-.field small.error {
-  color: var(--aeris-danger);
-}
-
 .radio-stack,
 .radio-group,
 .radio-card-group {
@@ -553,10 +677,12 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
     <div>
       <form class="radio-group">
         <strong>Billing cycle</strong>
-        <aeris-radio-button name="billing" value="monthly" selected="monthly"
-          >Monthly</aeris-radio-button>
-        <aeris-radio-button name="billing" value="annual" selected="monthly"
-          >Annual</aeris-radio-button>
+        <aeris-radio-button name="billing" value="monthly" selected="monthly">
+          Monthly
+        </aeris-radio-button>
+        <aeris-radio-button name="billing" value="annual" selected="monthly">
+          Annual
+        </aeris-radio-button>
       </form>
     </div>
   `,
@@ -586,7 +712,7 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
     }
   `
 })
-export class RadioNativeFormNativeFormValuesDemo {
+export class RadioNativeFormDemo {
 }
 ```
 
@@ -607,7 +733,7 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
   templateUrl: './radio-angular-forms.demo.html',
   styleUrl: './radio-angular-forms.demo.scss'
 })
-export class RadioAngularFormsReactiveAndTemplateDrivenFormsDemo {
+export class RadioAngularFormsDemo {
   protected readonly reactivePlan =
     new FormControl<string | null>('team');
 
@@ -621,24 +747,22 @@ export class RadioAngularFormsReactiveAndTemplateDrivenFormsDemo {
 <div class="field-grid">
   <fieldset class="radio-group">
     <legend>Reactive Forms</legend>
-    <aeris-radio-button
-      name="reactive-plan"
-      value="starter"
-      [formControl]="reactivePlan"
-      >Starter</aeris-radio-button>
-    <aeris-radio-button name="reactive-plan" value="team" [formControl]="reactivePlan"
-      >Team</aeris-radio-button>
+    <aeris-radio-button name="reactive-plan" value="starter" [formControl]="reactivePlan">
+      Starter
+    </aeris-radio-button>
+    <aeris-radio-button name="reactive-plan" value="team" [formControl]="reactivePlan">
+      Team
+    </aeris-radio-button>
     <small>Value: {{ reactivePlan.value }}</small>
   </fieldset>
   <fieldset class="radio-group">
     <legend>Template-driven forms</legend>
-    <aeris-radio-button
-      name="template-plan"
-      value="starter"
-      [(ngModel)]="templatePlan"
-      >Starter</aeris-radio-button>
-    <aeris-radio-button name="template-plan" value="team" [(ngModel)]="templatePlan"
-      >Team</aeris-radio-button>
+    <aeris-radio-button name="template-plan" value="starter" [(ngModel)]="templatePlan">
+      Starter
+    </aeris-radio-button>
+    <aeris-radio-button name="template-plan" value="team" [(ngModel)]="templatePlan">
+      Team
+    </aeris-radio-button>
     <small>Value: {{ templatePlan }}</small>
   </fieldset>
 </div>
@@ -650,7 +774,7 @@ export class RadioAngularFormsReactiveAndTemplateDrivenFormsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -687,6 +811,10 @@ export class RadioAngularFormsReactiveAndTemplateDrivenFormsDemo {
 
 ## Accessibility
 
+- Native fieldset/legend provide the group name. Related radios share a name and selected value; use a different name for an independent group in the same form. Identical names in separate native forms remain independent. Applying required to an enabled member requires one selected radio in its native group.
+- A disabled fieldset blocks descendant radios and removes them from keyboard navigation; its first legend follows the native exception. Standard and card appearances reflect that disabled state. Explicitly disabled options remain disabled when the fieldset is enabled. Fieldset disabled state does not change your form model, validation or programmatic writes.
+- With Signal Forms, bind each radio to the same field through [formField] and keep the same group name with distinct option values. The existing forms integration synchronizes selection, touched, invalid and disabled state. Do not also bind selected or add a competing group form control. Share help/error IDs through ariaDescribedBy. No extra grouping directive is required.
+- Card appearance keeps one native input and one focus stop per option. Its entire label is clickable. Keep projected content and icon templates decorative and non-interactive; place links and extra actions outside the control. The description input is automatically associated with the native input, alongside any ariaDescribedBy help or error IDs. Use a layout grid or stack around the controls to arrange cards; no application layout is imposed.
 - Radio Button uses a native input type="radio", preserving browser, keyboard, form, and assistive-technology behavior.
 - Wrap related options in a fieldset with a legend, and give every option the same name.
 - Tab enters or leaves a group. Arrow keys move and select within it, and Space selects the focused option.

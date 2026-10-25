@@ -1,0 +1,118 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+@use '../src/styles/mobile' as aeris-mobile;
+:host {
+  --aeris-date-picker-input-height: var(--aeris-control-height, 2.625rem);
+  --aeris-date-picker-input-padding: var(--aeris-control-padding-x, 0.75rem);
+  --aeris-date-picker-input-font-size: var(--aeris-font-size-lg, 0.875rem);
+  display: inline-block;
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  font: inherit;
+  color: inherit;
+}
+:host([data-size='xs']) {
+  --aeris-date-picker-input-height: calc(var(--aeris-control-height, 2.625rem) - 0.875rem);
+  --aeris-date-picker-input-font-size: var(--aeris-font-size-sm, 0.75rem);
+}
+:host([data-size='sm']) {
+  --aeris-date-picker-input-height: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
+  --aeris-date-picker-input-font-size: var(--aeris-font-size-md, 0.8125rem);
+}
+:host([data-size='lg']) {
+  --aeris-date-picker-input-height: calc(var(--aeris-control-height, 2.625rem) + 0.5rem);
+  --aeris-date-picker-input-font-size: var(--aeris-font-size-xl, 0.9375rem);
+}
+.aeris-date-picker-input {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  column-gap: 0.75rem;
+  width: 100%;
+  min-width: 0;
+  min-height: var(--aeris-date-picker-input-height);
+  padding-inline: var(--aeris-date-picker-input-padding);
+  padding-inline-end: var(
+    --aeris-date-picker-input-padding-end,
+    var(--aeris-date-picker-input-padding)
+  );
+  border: 1px solid var(--aeris-date-picker-input-border, var(--aeris-border, #efefef));
+  border-radius: var(--aeris-date-picker-input-radius, var(--aeris-radius-control, 0.4375rem));
+  background: var(--aeris-date-picker-input-background, var(--aeris-surface, #fff));
+  font-size: var(--aeris-date-picker-input-font-size);
+  transition:
+    border-color var(--aeris-motion-normal, 150ms),
+    box-shadow var(--aeris-motion-normal, 150ms);
+}
+:host([data-appearance='filled']) .aeris-date-picker-input {
+  background: var(--aeris-surface-2, #f3f3f3);
+  border-color: transparent;
+}
+.aeris-date-picker-input:focus-within {
+  border-color: var(--aeris-control-focus-border, var(--aeris-focus, #{aeris-fallbacks.$focus}));
+  box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
+    var(--aeris-control-focus-ring-color, var(--aeris-focus-ring-color, transparent));
+}
+:host([data-invalid]) .aeris-date-picker-input {
+  border-color: var(--aeris-control-invalid-border, var(--aeris-danger, #c81e2a));
+}
+:host([data-invalid]) .aeris-date-picker-input:focus-within {
+  box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
+    var(--aeris-control-invalid-focus-ring-color, transparent);
+}
+:host([data-disabled]) {
+  opacity: var(--aeris-disabled-opacity, 0.5);
+}
+.aeris-date-picker-input input[role='spinbutton'] {
+  box-sizing: content-box;
+  flex: 0 1 auto;
+  width: calc(var(--aeris-date-picker-input-digits) * 1ch + 0.45rem);
+  min-width: 1.1ch;
+  min-height: calc(var(--aeris-date-picker-input-height) - 0.5rem);
+  margin: 0;
+  padding: 0.1rem 0.125rem;
+  border: 0;
+  border-radius: min(var(--aeris-radius-control, 0.4375rem), 0.25rem);
+  outline: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  touch-action: manipulation;
+}
+.aeris-date-picker-input__segments {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  max-width: 100%;
+}
+.aeris-date-picker-input input[role='spinbutton']:focus {
+  background: var(--aeris-control-hover-background, var(--aeris-surface-2, #f3f3f3));
+}
+.aeris-date-picker-input input::placeholder,
+.aeris-date-picker-input__literal {
+  color: var(--aeris-text-2, #454545);
+  opacity: 1;
+}
+.aeris-date-picker-input__literal {
+  flex: 0 0 auto;
+  white-space: pre;
+}
+@media (hover: hover) {
+  :host(:not([data-disabled])) .aeris-date-picker-input:hover {
+    border-color: var(--aeris-control-hover-border, var(--aeris-border, #efefef));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aeris-date-picker-input {
+    transition: none;
+  }
+}
+@include aeris-mobile.input-font(".aeris-date-picker-input input[role='spinbutton']");
+@media (pointer: coarse) {
+  .aeris-date-picker-input {
+    min-height: max(var(--aeris-date-picker-input-height), var(--aeris-touch-target-size, 2.75rem));
+  }
+}

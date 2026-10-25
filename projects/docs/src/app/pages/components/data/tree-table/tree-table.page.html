@@ -2,7 +2,7 @@
   <app-component-page-header
     category="Data"
     title="TreeTable"
-    description="Combines accessible treegrid navigation with dynamic columns, controlled expansion and selection, sorting, filtering, pagination, lazy loading, editing, and responsive data layouts."
+    description="Combine accessible treegrid navigation with controlled expansion, selection, filtering, pagination, custom editors, branch and column pinning, and responsive layouts."
   />
 
   <section class="import-section" aria-labelledby="tree-table-import-title">
@@ -233,6 +233,194 @@
             </app-form-demo>
 
             <app-form-demo
+              id="tree-table-selection-workflow"
+              title="Selection workflow"
+              description="Select files across root pages and collapsed branches, then remove them together. A column menu controls visible fields without introducing another selection store."
+            >
+              <div preview class="selection-workflow">
+                <aeris-toolbar fluid wrap variant="plain" role="group" ariaLabel="File bulk actions">
+                  <span aerisToolbarStart aria-live="polite"
+                    >{{ workflowSelection().length }} files selected across all root pages</span
+                  >
+                  <div aerisToolbarEnd>
+                    <button
+                      aerisButton
+                      type="button"
+                      variant="ghost"
+                      [disabled]="!workflowSelection().length || workflowBusy()"
+                      (click)="clearWorkflowSelection(workflowFocusTarget()?.nativeElement)"
+                    >
+                      Clear selection
+                    </button>
+                    <button
+                      aerisButton
+                      type="button"
+                      severity="danger"
+                      [disabled]="!workflowSelection().length || workflowBusy()"
+                      [loading]="workflowBusy()"
+                      (click)="removeWorkflowFiles(workflowFocusTarget()?.nativeElement)"
+                    >
+                      Remove selected files
+                    </button>
+                    <button
+                      #workflowColumnsButton
+                      aerisButton
+                      type="button"
+                      variant="outline"
+                      (click)="workflowMenu.toggle($event)"
+                    >
+                      Columns
+                    </button>
+                    <button
+                      aerisButton
+                      type="button"
+                      variant="ghost"
+                      [disabled]="workflowBusy()"
+                      (click)="restoreWorkflowFiles()"
+                    >
+                      Restore files
+                    </button>
+                  </div>
+                </aeris-toolbar>
+                <aeris-menu
+                  #workflowMenu
+                  popup
+                  [model]="workflowColumnItems()"
+                  ariaLabel="File columns"
+                />
+                <aeris-tree-table
+                  ariaLabel="File selection workspace"
+                  [value]="workflowFiles()"
+                  [columns]="workflowColumns()"
+                  (columnsChange)="orderWorkflowColumns($event)"
+                  [(selectionKeys)]="workflowSelection"
+                  [(globalFilterValue)]="workflowQuery"
+                  [(expandedKeys)]="workflowExpanded"
+                  [(first)]="workflowFirst"
+                  [(sorts)]="workflowSorts"
+                  [(columnFilters)]="workflowFilters"
+                  selectionMode="checkbox"
+                  [propagateSelection]="false"
+                  paginator
+                  [rows]="1"
+                  globalFilter
+                  columnFilter
+                  reorderableColumns
+                  globalFilterLabel="Find files"
+                  globalFilterPlaceholder="Search visible columns"
+                  [loading]="workflowBusy()"
+                  loadingMessage="Removing files"
+                  emptyMessage="No files remain. Restore the example data."
+                  emptyFilterMessage="No matching files. Clear the search and column filters."
+                />
+                <p class="workflow-note" role="status">{{ workflowStatus() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="selection-workflow"&gt;
+  &lt;aeris-toolbar fluid wrap variant="plain" role="group" ariaLabel="File bulk actions"&gt;
+    &lt;span aerisToolbarStart aria-live="polite"&gt;
+      &#123;&#123; workflowSelection().length &#125;&#125; files selected across all root pages
+    &lt;/span&gt;
+    &lt;div aerisToolbarEnd&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        variant="ghost"
+        [disabled]="!workflowSelection().length || workflowBusy()"
+        (click)="clearWorkflowSelection(workflowFocusTarget()?.nativeElement)"
+      &gt;
+        Clear selection
+      &lt;/button&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        severity="danger"
+        [disabled]="!workflowSelection().length || workflowBusy()"
+        [loading]="workflowBusy()"
+        (click)="removeWorkflowFiles(workflowFocusTarget()?.nativeElement)"
+      &gt;
+        Remove selected files
+      &lt;/button&gt;
+      &lt;button
+        #workflowColumnsButton
+        aerisButton
+        type="button"
+        variant="outline"
+        (click)="workflowMenu.toggle($event)"
+      &gt;
+        Columns
+      &lt;/button&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        variant="ghost"
+        [disabled]="workflowBusy()"
+        (click)="restoreWorkflowFiles()"
+      &gt;
+        Restore files
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/aeris-toolbar&gt;
+  &lt;aeris-menu
+    #workflowMenu
+    popup
+    [model]="workflowColumnItems()"
+    ariaLabel="File columns"
+  /&gt;
+  &lt;aeris-tree-table
+    ariaLabel="File selection workspace"
+    [value]="workflowFiles()"
+    [columns]="workflowColumns()"
+    (columnsChange)="orderWorkflowColumns($event)"
+    [(selectionKeys)]="workflowSelection"
+    [(globalFilterValue)]="workflowQuery"
+    [(expandedKeys)]="workflowExpanded"
+    [(first)]="workflowFirst"
+    [(sorts)]="workflowSorts"
+    [(columnFilters)]="workflowFilters"
+    selectionMode="checkbox"
+    [propagateSelection]="false"
+    paginator
+    [rows]="1"
+    globalFilter
+    columnFilter
+    reorderableColumns
+    globalFilterLabel="Find files"
+    globalFilterPlaceholder="Search visible columns"
+    [loading]="workflowBusy()"
+    loadingMessage="Removing files"
+    emptyMessage="No files remain. Restore the example data."
+    emptyFilterMessage="No matching files. Clear the search and column filters."
+  /&gt;
+  &lt;p class="workflow-note" role="status"&gt;&#123;&#123; workflowStatus() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <p>
+              This example counts selected file keys in <code>selectionKeys</code>, including files
+              hidden by filtering, collapsed branches, or other root pages. Folders are marked
+              <code>selectable: false</code> and propagation is disabled, so the count does not
+              include ancestor keys. Removing files acts on every selected key and restores focus to
+              Columns. The delay simulates a request; retain nodes and selection until a real server
+              confirms success, and announce failures without clearing selection.
+            </p>
+            <p>
+              TreeTable paginates root nodes, not individual descendants. Filtering and collapsing
+              do not clear selected keys. In multiple row-selection mode, <kbd>Ctrl</kbd> or
+              <kbd>Meta</kbd> + <kbd>A</kbd> selects only currently rendered selectable rows.
+              Checkbox mode has no header select-all. With propagation enabled, selecting a checkbox
+              affects the loaded selectable nodes in that rendered branch; under path filtering this
+              can be only the matching descendants. A selected-key count can then include both
+              folders and files, not just leaf records.
+            </p>
+            <p>
+              In lazy mode the server owns filtering, sorting, and root pagination. Selection
+              persists by key, but checkbox propagation cannot select children that have not been
+              loaded. <code>totalRecords</code> describes the remote root count, not selected files.
+              Use stable keys and server-side authorization for bulk actions across unloaded data.
+              Hiding a column here clears its filter and sort and preserves the remaining order;
+              Name stays visible for tree navigation. Visibility is not an access-control boundary.
+            </p>
+
+            <app-form-demo
               id="tree-table-pagination"
               title="Pagination"
               description="Pagination counts root nodes while descendants remain attached to their parent page."
@@ -265,7 +453,7 @@
             <app-form-demo
               id="tree-table-editing"
               title="Cell editing"
-              description="Editable cells are visually indicated. Double-click one, press Enter or move focus to commit, and press Escape to cancel. Value updates are immutable."
+              description="Editable cells use a built-in text input and are visually indicated. Double-click one, press Enter or move focus to commit, and press Escape to cancel. Value updates are immutable."
               [tsCode]="editingTsCode"
             >
               <div preview class="tree-table-demo tree-table-demo--stack">
@@ -273,7 +461,7 @@
                   editable
                   ariaLabel="Editable project files"
                   [(value)]="editableFiles"
-                  [columns]="columns"
+                  [columns]="editingColumns"
                   [(expandedKeys)]="editableExpanded"
                   (cellEdited)="handleEdit($event)"
                 />
@@ -286,11 +474,186 @@
     editable
     ariaLabel="Editable project files"
     [(value)]="editableFiles"
-    [columns]="columns"
+    [columns]="editingColumns"
     [(expandedKeys)]="editableExpanded"
     (cellEdited)="handleEdit($event)"
   /&gt;
   &lt;small aria-live="polite"&gt;&#123;&#123; eventText() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tree-table-editing-permissions"
+              title="Editing permissions"
+              description="Name inherits the table default. Team opts in at column level. Status opts out. The cell predicate locks Noah's entire row and Sofia's Team cell. Toggle the default to see which cells inherit it."
+            >
+              <div preview class="custom-editor-demo">
+                <button
+                  aerisButton
+                  variant="outline"
+                  [attr.aria-pressed]="permissionDefault()"
+                  (click)="permissionDefault.set(!permissionDefault())"
+                >
+                  Table default: {{ permissionDefault() ? 'editable' : 'read-only' }}
+                </button>
+                <aeris-tree-table
+                  ariaLabel="Editing permissions"
+                  [(value)]="permissionNodes"
+                  [columns]="permissionColumns"
+                  [editable]="permissionDefault()"
+                  [cellEditable]="canEditCell"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="custom-editor-demo"&gt;
+  &lt;button
+    aerisButton
+    variant="outline"
+    [attr.aria-pressed]="permissionDefault()"
+    (click)="permissionDefault.set(!permissionDefault())"
+  &gt;
+    Table default: &#123;&#123; permissionDefault() ? 'editable' : 'read-only' &#125;&#125;
+  &lt;/button&gt;
+  &lt;aeris-tree-table
+    ariaLabel="Editing permissions"
+    [(value)]="permissionNodes"
+    [columns]="permissionColumns"
+    [editable]="permissionDefault()"
+    [cellEditable]="canEditCell"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tree-table-custom-editors"
+              title="Custom editors"
+              description="Edit text, quantities, dates, and selections directly. Leaving a cell commits its valid draft. Double-click another cell to switch immediately; Escape cancels. Body-mounted pickers remain part of the editor."
+            >
+              <div preview class="custom-editor-demo">
+                <aeris-tree-table
+                  ariaLabel="Custom editor files"
+                  [(value)]="customEditorNodes"
+                  [expandedKeys]="editorExpanded"
+                  [columns]="customEditorColumns"
+                  editable
+                  (cellEdited)="editorResult.set('Saved ' + $event.field + '.')"
+                  (editCancelled)="editorResult.set('Edit cancelled.')"
+                >
+                  <ng-template aerisTreeTableEditor let-editor let-column="column">
+                    @let draft = editor.value();
+                    <div class="custom-cell-editor">
+                      @switch (column.field) {
+                        @case ('quantity') {
+                          <aeris-input-number
+                            [ariaLabel]="editor.ariaLabel"
+                            [value]="typeof draft === 'number' ? draft : null"
+                            (valueChange)="
+                              editor.value.set($event);
+                              editor.valid.set($event !== null && $event >= 0)
+                            "
+                            [invalid]="typeof draft !== 'number' || draft < 0"
+                            fluid
+                          />
+                          @if (typeof draft !== 'number' || draft < 0) {
+                            <small role="alert">Enter a quantity of zero or greater.</small>
+                          }
+                        }
+                        @case ('status') {
+                          <aeris-select
+                            [ariaLabel]="editor.ariaLabel"
+                            [options]="editorStatuses"
+                            [value]="typeof draft === 'string' ? draft : null"
+                            (valueChange)="editor.value.set($event)"
+                            appendTo="body"
+                            fluid
+                          />
+                        }
+                        @case ('date') {
+                          @if (isDate(draft) || draft === null) {
+                            <aeris-date-picker
+                              [ariaLabel]="editor.ariaLabel"
+                              [value]="draft"
+                              (valueChange)="editor.value.set($event)"
+                              appendTo="body"
+                              fluid
+                            />
+                          }
+                        }
+                        @default {
+                          <aeris-input-text
+                            [ariaLabel]="editor.ariaLabel"
+                            [value]="typeof draft === 'string' ? draft : ''"
+                            (valueChange)="editor.value.set($event)"
+                            fluid
+                          />
+                        }
+                      }
+                    </div>
+                  </ng-template>
+                </aeris-tree-table>
+                <small role="status">{{ editorResult() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="custom-editor-demo"&gt;
+  &lt;aeris-tree-table
+    ariaLabel="Custom editor files"
+    [(value)]="customEditorNodes"
+    [expandedKeys]="editorExpanded"
+    [columns]="customEditorColumns"
+    editable
+    (cellEdited)="editorResult.set('Saved ' + $event.field + '.')"
+    (editCancelled)="editorResult.set('Edit cancelled.')"
+  &gt;
+    &lt;ng-template aerisTreeTableEditor let-editor let-column="column"&gt;
+      &#64;let draft = editor.value();
+      &lt;div class="custom-cell-editor"&gt;
+        &#64;switch (column.field) &#123;
+          &#64;case ('quantity') &#123;
+            &lt;aeris-input-number
+              [ariaLabel]="editor.ariaLabel"
+              [value]="typeof draft === 'number' ? draft : null"
+              (valueChange)="
+                editor.value.set($event); editor.valid.set($event !== null &amp;&amp; $event &gt;= 0)
+              "
+              [invalid]="typeof draft !== 'number' || draft &lt; 0"
+              fluid
+            /&gt;
+            &#64;if (typeof draft !== 'number' || draft &lt; 0) &#123;
+              &lt;small role="alert"&gt;Enter a quantity of zero or greater.&lt;/small&gt;
+            &#125;
+          &#125;
+          &#64;case ('status') &#123;
+            &lt;aeris-select
+              [ariaLabel]="editor.ariaLabel"
+              [options]="editorStatuses"
+              [value]="typeof draft === 'string' ? draft : null"
+              (valueChange)="editor.value.set($event)"
+              appendTo="body"
+              fluid
+            /&gt;
+          &#125;
+          &#64;case ('date') &#123;
+            &#64;if (isDate(draft) || draft === null) &#123;
+              &lt;aeris-date-picker
+                [ariaLabel]="editor.ariaLabel"
+                [value]="draft"
+                (valueChange)="editor.value.set($event)"
+                appendTo="body"
+                fluid
+              /&gt;
+            &#125;
+          &#125;
+          &#64;default &#123;
+            &lt;aeris-input-text
+              [ariaLabel]="editor.ariaLabel"
+              [value]="typeof draft === 'string' ? draft : ''"
+              (valueChange)="editor.value.set($event)"
+              fluid
+            /&gt;
+          &#125;
+        &#125;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-tree-table&gt;
+  &lt;small role="status"&gt;&#123;&#123; editorResult() &#125;&#125;&lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -331,6 +694,159 @@
     (columnReordered)="handleReorder($event)"
   /&gt;
   &lt;small aria-live="polite"&gt;&#123;&#123; eventText() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tree-table-sticky-headers"
+              title="Sticky headers"
+              description="Headers and filters stay aligned at measured offsets. Toggle stickyHeader to let both scroll normally."
+            >
+              <div preview class="custom-editor-demo">
+                <button
+                  aerisButton
+                  variant="outline"
+                  [attr.aria-pressed]="pinHeaders()"
+                  (click)="pinHeaders.set(!pinHeaders())"
+                >
+                  Sticky headers: {{ pinHeaders() ? 'on' : 'off' }}
+                </button>
+                <aeris-tree-table
+                  ariaLabel="Sticky headers and filters"
+                  [value]="pinningNodes()"
+                  [columns]="pinningPlainColumns"
+                  scrollable
+                  scrollHeight="22rem"
+                  columnFilter
+                  [stickyHeader]="pinHeaders()"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="custom-editor-demo"&gt;
+  &lt;button
+    aerisButton
+    variant="outline"
+    [attr.aria-pressed]="pinHeaders()"
+    (click)="pinHeaders.set(!pinHeaders())"
+  &gt;
+    Sticky headers: &#123;&#123; pinHeaders() ? 'on' : 'off' &#125;&#125;
+  &lt;/button&gt;
+  &lt;aeris-tree-table
+    ariaLabel="Sticky headers and filters"
+    [value]="pinningNodes()"
+    [columns]="pinningPlainColumns"
+    scrollable
+    scrollHeight="22rem"
+    columnFilter
+    [stickyHeader]="pinHeaders()"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="tree-table-pinned-columns"
+              title="Pinned columns"
+              description="Name stays at the logical start and Status at the end. Both sides follow RTL automatically. Scroll horizontally; if pinned columns leave less than 44px for normal content, they scroll normally instead."
+            >
+              <div preview class="custom-editor-demo">
+                <aeris-tree-table
+                  ariaLabel="Start and end columns"
+                  [value]="pinningNodes()"
+                  [columns]="pinnedColumns()"
+                  scrollable
+                  scrollHeight="22rem"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="custom-editor-demo"&gt;
+  &lt;aeris-tree-table
+    ariaLabel="Start and end columns"
+    [value]="pinningNodes()"
+    [columns]="pinnedColumns()"
+    scrollable
+    scrollHeight="22rem"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="tree-table-pinned-rows"
+              title="Pinned rows"
+              description="Root Record 3 and its expanded descendants stay together at the top; Record 18 stays at the bottom. Only root keys can be pinned. Expand or collapse the pinned branch; if pinned rows become too tall, they scroll normally instead."
+            >
+              <div preview class="custom-editor-demo">
+                <button
+                  aerisButton
+                  variant="outline"
+                  [attr.aria-pressed]="pinRows().top.length > 0"
+                  (click)="
+                    pinRows.set(pinRows().top.length ? { top: [], bottom: [] } : defaultPinRows)
+                  "
+                >
+                  {{ pinRows().top.length ? 'Unpin rows' : 'Pin rows' }}
+                </button>
+                <aeris-tree-table
+                  ariaLabel="Top and bottom rows"
+                  [value]="pinningNodes()"
+                  [columns]="pinningPlainColumns"
+                  scrollable
+                  scrollHeight="26rem"
+                  [(pinnedRows)]="pinRows"
+                  [(expandedKeys)]="pinningExpanded"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="custom-editor-demo"&gt;
+  &lt;button
+    aerisButton
+    variant="outline"
+    [attr.aria-pressed]="pinRows().top.length &gt; 0"
+    (click)="pinRows.set(pinRows().top.length ? &#123; top: [], bottom: [] &#125; : defaultPinRows)"
+  &gt;
+    &#123;&#123; pinRows().top.length ? 'Unpin rows' : 'Pin rows' &#125;&#125;
+  &lt;/button&gt;
+  &lt;aeris-tree-table
+    ariaLabel="Top and bottom rows"
+    [value]="pinningNodes()"
+    [columns]="pinningPlainColumns"
+    scrollable
+    scrollHeight="26rem"
+    [(pinnedRows)]="pinRows"
+    [(expandedKeys)]="pinningExpanded"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="tree-table-combined-pinning"
+              title="Combined pinning"
+              description="Pinned branches and columns meet without content showing through. Try sorting, filtering, resizing or editing a cell. Columns reorder within their pin group. Root pagination and lazy data remain authoritative."
+            >
+              <div preview class="custom-editor-demo">
+                <aeris-tree-table
+                  ariaLabel="Combined pinning"
+                  striped
+                  [(value)]="pinningNodes"
+                  [(columns)]="pinnedColumns"
+                  [pinnedRows]="defaultPinRows"
+                  [(expandedKeys)]="pinningExpanded"
+                  scrollable
+                  scrollHeight="26rem"
+                  columnFilter
+                  resizableColumns
+                  reorderableColumns
+                  editable
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="custom-editor-demo"&gt;
+  &lt;aeris-tree-table
+    ariaLabel="Combined pinning"
+    striped
+    [(value)]="pinningNodes"
+    [(columns)]="pinnedColumns"
+    [pinnedRows]="defaultPinRows"
+    [(expandedKeys)]="pinningExpanded"
+    scrollable
+    scrollHeight="26rem"
+    columnFilter
+    resizableColumns
+    reorderableColumns
+    editable
+  /&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -503,11 +1019,7 @@
   &lt;/section&gt;
   &lt;section&gt;
     &lt;h3&gt;Empty&lt;/h3&gt;
-    &lt;aeris-tree-table
-      ariaLabel="Empty project files"
-      [value]="[]"
-      [columns]="columns"
-    /&gt;
+    &lt;aeris-tree-table ariaLabel="Empty project files" [value]="[]" [columns]="columns" /&gt;
   &lt;/section&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -586,6 +1098,72 @@
                 </div>
               }
             </div>
+            <h3>Custom editor state</h3>
+            <p>
+              The template receives the editor as its implicit value and as editor. Use the row or
+              node metadata for application validation. Bind the control's accessible name and
+              connect its value changes to the draft. Leaving the editor commits a valid draft.
+              Switching cells commits the previous draft, or discards it if invalid, and opens the
+              new cell immediately. Portaled controls must link their panels with aria-controls or
+              aria-owns.
+            </p>
+            <div
+              class="api-table"
+              role="table"
+              aria-label="TreeTable custom editor state"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Member</b><b role="columnheader">Type</b
+                ><b role="columnheader">Behavior</b>
+              </div>
+              <div role="row">
+                <code role="cell">value</code><code role="cell">WritableSignal&lt;unknown&gt;</code
+                ><span role="cell"
+                  >Draft value. Replace it with value.set(next); preserve number, boolean, Date,
+                  array, object, or null types.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">originalValue</code><code role="cell">unknown</code
+                ><span role="cell"
+                  >Value at edit start. Treat objects and dates as immutable; no deep cloning is
+                  performed.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">valid</code><code role="cell">WritableSignal&lt;boolean&gt;</code>
+                <span role="cell"
+                  >Whether the draft may commit. Defaults to true. Update this from your form
+                  validation; invalid drafts stay open on blur and are discarded when switching
+                  cells.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">ariaLabel</code><code role="cell">string</code
+                ><span role="cell"
+                  >Default accessible name: Edit followed by the column header. Bind it to your
+                  editor control.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">commit(event?)</code
+                ><code role="cell">(event?: Event) =&gt; void</code
+                ><span role="cell"
+                  >Saves a valid draft and finishes editing. Also runs automatically when focus or a
+                  pointer leaves the owned editor, or on an unconsumed Enter outside multiline
+                  fields.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">cancel(event?)</code
+                ><code role="cell">(event?: Event) =&gt; void</code
+                ><span role="cell"
+                  >Discards the draft and finishes editing. Escape also cancels unless a child
+                  control consumes it or has an open picker.</span
+                >
+              </div>
+            </div>
             <h3 id="tree-table-api-methods" tabindex="-1">Methods</h3>
             <div class="api-table" role="table" aria-label="TreeTable methods" tabindex="0">
               <div class="api-head" role="row">
@@ -610,8 +1188,67 @@
     <aeris-tab-panel value="interfaces" label="Interfaces"
       ><section class="doc-section">
         <h2>Interfaces</h2>
-        <app-code-block [code]="interfacesCode" language="TypeScript" /></section
-    ></aeris-tab-panel>
+        <app-code-block [code]="editorInterfacesCode" language="TypeScript" />
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+        <h3>Editing permissions</h3>
+        <p>
+          The final permission is
+          <code>cellEditable(data, column, node) ?? column.editable ?? editable</code>. True allows
+          editing, false prevents it, and undefined inherits. The table setting is a default, not a
+          master switch. The pure predicate can restrict whole rows or individual cells and receives
+          the node as its third argument. Disabled nodes always remain non-editable, even when the
+          predicate returns true. Each descendant keeps its own disabled state and editing
+          permissions. Revoking permission cancels an active draft without saving. Read-only cells
+          have no edit indicator or editing tab stop; double-click, Enter and F2 do not start an
+          editor.
+        </p>
+        <div
+          class="api-table compact"
+          role="table"
+          aria-label="Column editing permission"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Property</b><b role="columnheader">Type</b
+            ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+          </div>
+          <div role="row">
+            <code role="cell">AerisTreeTableColumn.editable</code
+            ><code role="cell">boolean | undefined</code><code role="cell">undefined</code
+            ><span role="cell"
+              >Overrides the table default for a column. cellEditable has final priority unless the
+              node is disabled.</span
+            >
+          </div>
+        </div>
+        <h3>Pinning</h3>
+        <p>
+          Both tables use stickyHeader, column pinned and the pinnedRows model. Column pinned
+          accepts <code>'start'</code> or <code>'end'</code>; omit it for normal scrolling. Columns
+          are displayed in start, normal and end groups without changing your configuration.
+          Reordering stays within a pin group. Only loaded root keys are eligible for row pinning;
+          child keys are ignored and expanded descendants stay with their root. Top wins duplicate
+          keys. Normal filtering and root pagination apply first; within each pin group, current
+          sorted order is preserved. Pinning never fetches unloaded nodes, duplicates ancestors or
+          mutates source order. Persist pin state through your model. Oversized pinned regions
+          revert to normal scrolling to leave at least 44px for normal content. Responsive stack
+          mode disables sticking.
+        </p>
+        <div class="api-table compact" role="table" aria-label="Column pinning option" tabindex="0">
+          <div class="api-head" role="row">
+            <b role="columnheader">Property</b><b role="columnheader">Type</b
+            ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+          </div>
+          <div role="row">
+            <code role="cell">AerisTreeTableColumn.pinned</code
+            ><code role="cell">'start' | 'end' | undefined</code><code role="cell">undefined</code
+            ><span role="cell"
+              >Pins the column to a logical edge, including its header and filter cell.</span
+            >
+          </div>
+        </div>
+      </section></aeris-tab-panel
+    >
 
     <aeris-tab-panel value="tokens" label="Tokens"
       ><section class="doc-section">
@@ -628,8 +1265,7 @@
           </div>
           <div role="row">
             <code role="cell">--aeris-tree-table-border</code
-            ><span role="cell">Viewport border color.</span
-            ><code role="cell">--aeris-border</code>
+            ><span role="cell">Viewport border color.</span><code role="cell">--aeris-border</code>
           </div>
           <div role="row">
             <code role="cell">--aeris-tree-table-radius</code
@@ -657,11 +1293,6 @@
           <div role="row">
             <code role="cell">--aeris-tree-table-scroll-height</code
             ><span role="cell">Maximum scroll viewport height.</span><code role="cell">24rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-tree-table-header-height</code
-            ><span role="cell">Sticky header offset used by column filters.</span
-            ><code role="cell">2.8rem</code>
           </div>
           <div role="row">
             <code role="cell">--aeris-tree-table-indent</code
@@ -717,7 +1348,9 @@
           </li>
           <li>
             Editing uses a named native text input. Enter commits, Escape cancels, blur commits, and
-            focus returns to the row.
+            focus returns to the cell after keyboard completion. Custom editors commit valid drafts
+            when you leave them or press an unconsumed Enter outside multiline fields. Nested
+            pickers keep their own keyboard behavior and remain part of the editor when portaled.
           </li>
           <li>
             When <code>showOverflowTooltip</code> is enabled, truncated headers and cells use Aeris
@@ -796,8 +1429,22 @@
             >
           </div>
           <div role="row">
-            <span role="cell"><kbd>Enter</kbd> / <kbd>Escape</kbd> while editing</span
-            ><span role="cell">Commits or cancels the active cell edit.</span>
+            <span role="cell"><kbd>Enter</kbd> / <kbd>F2</kbd> on an editable cell</span>
+            <span role="cell">Starts editing and focuses its first available control.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Enter</kbd> in the built-in editor</span>
+            <span role="cell"
+              >Commits a valid draft. Custom editors also commit on an unconsumed Enter outside
+              multiline fields; child controls may handle the key first.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Escape</kbd> while editing</span>
+            <span role="cell"
+              >Cancels the edit unless a nested control consumes Escape or has an open picker to
+              dismiss first.</span
+            >
           </div>
         </div>
       </section></aeris-tab-panel

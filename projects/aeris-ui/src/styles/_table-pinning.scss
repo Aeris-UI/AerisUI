@@ -1,0 +1,119 @@
+// Sticky layers: columns 2, rows 4, intersections 6, headers 10/12.
+@mixin styles($root, $prefix: 'aeris-table') {
+  #{$root} [data-sticky-header] {
+    isolation: isolate;
+  }
+  #{$root} thead tr > th {
+    position: relative;
+    top: auto;
+    inset-block-start: auto;
+  }
+  #{$root} [data-sticky-header='true'] thead tr > th {
+    position: sticky;
+    top: var(--aeris-table-header-offset, 0px);
+    z-index: 10;
+  }
+  #{$root} [data-pinned-column] {
+    position: sticky;
+    inset-inline-start: var(--aeris-table-pin-start, auto);
+    inset-inline-end: var(--aeris-table-pin-end, auto);
+    z-index: 2;
+  }
+  #{$root} [data-sticky-header] tbody tr > td[data-pinned-column],
+  #{$root} [data-sticky-header] tbody tr[data-pinned-row] > td {
+    background: var(--_aeris-pinned-background, var(--aeris-surface, #fff));
+  }
+  #{$root} tr[data-pinned-row='top'] > td {
+    position: sticky;
+    top: var(--aeris-table-row-offset);
+    z-index: 4;
+  }
+  #{$root} tr[data-pinned-row='bottom'] > td {
+    position: sticky;
+    bottom: var(--aeris-table-row-offset);
+    z-index: 4;
+  }
+  #{$root} tr[data-pinned-row] > td[data-pinned-column] {
+    z-index: 6;
+  }
+  #{$root} [data-sticky-header] thead tr > th[data-pinned-column] {
+    z-index: 12;
+  }
+  #{$root}[data-striped] tbody tr:nth-child(odd) {
+    --_aeris-pinned-background: color-mix(
+      in srgb,
+      var(--aeris-surface-2, #f3f3f3) 55%,
+      var(--aeris-surface, #fff)
+    );
+  }
+  @media (hover: hover) {
+    #{$root}[data-hoverable] tbody tr:hover {
+      --_aeris-pinned-background: var(
+        --#{$prefix}-row-hover,
+        var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
+      );
+    }
+  }
+  #{$root} tbody tr[data-selected='true'] {
+    --_aeris-pinned-background: var(
+      --#{$prefix}-row-selected,
+      color-mix(in srgb, var(--aeris-primary, #666) 12%, var(--aeris-surface, #fff))
+    );
+  }
+  #{$root} tbody tr[data-context-menu-active] {
+    --_aeris-pinned-background: color-mix(
+      in srgb,
+      var(--aeris-primary, #666) 12%,
+      var(--aeris-surface, #fff)
+    );
+  }
+  #{$root} td[data-editable]:focus-within {
+    --_aeris-pinned-background: color-mix(
+      in srgb,
+      var(--aeris-primary, #666) 7%,
+      var(--aeris-surface, #fff)
+    );
+  }
+  @media (hover: hover) {
+    #{$root} td[data-editable]:hover {
+      --_aeris-pinned-background: color-mix(
+        in srgb,
+        var(--aeris-primary, #666) 7%,
+        var(--aeris-surface, #fff)
+      );
+    }
+  }
+  #{$root} [data-pin-inline-disabled] [data-pinned-column] {
+    inset-inline-start: auto;
+    inset-inline-end: auto;
+  }
+  #{$root} [data-pin-header-disabled] thead tr > th {
+    top: auto;
+    inset-block-start: auto;
+  }
+  #{$root} [data-pin-inline-disabled] tbody tr:not([data-pinned-row]) > td[data-pinned-column] {
+    position: relative;
+    z-index: auto;
+  }
+  #{$root} [data-pin-block-disabled] tr[data-pinned-row] > td {
+    top: auto;
+    bottom: auto;
+    position: relative;
+    z-index: auto;
+  }
+  #{$root}
+    [data-pin-block-disabled]:not([data-pin-inline-disabled])
+    tr[data-pinned-row]
+    > td[data-pinned-column] {
+    position: sticky;
+    z-index: 2;
+  }
+  @media (max-width: 42rem) {
+    #{$root}[data-responsive='stack'] tr[data-pinned-row] > td,
+    #{$root}[data-responsive='stack'] td[data-pinned-column] {
+      position: static;
+      inset: auto;
+      z-index: auto;
+    }
+  }
+}

@@ -1,0 +1,658 @@
+<ng-template #responsiveExample>
+  <div class="sidebar-workspace">
+    <aeris-sidebar
+      #responsiveSidebar
+      [breakpoint]="560"
+      width="12rem"
+      ariaLabel="Responsive example navigation"
+    >
+      <strong aerisSidebarHeader class="sidebar-brand">Workspace</strong>
+      <button
+        aerisSidebarItem
+        label="Overview"
+        [active]="responsiveActive() === 'Overview'"
+        (click)="responsiveActive.set('Overview')"
+      >
+        <svg aerisSidebarIcon [lucideIcon]="houseIcon"></svg>
+      </button>
+      <button
+        aerisSidebarItem
+        label="Projects"
+        [active]="responsiveActive() === 'Projects'"
+        (click)="responsiveActive.set('Projects')"
+      >
+        <svg aerisSidebarIcon [lucideIcon]="folderIcon"></svg>
+      </button>
+      <div aerisSidebarFooter>
+        <button
+          aerisSidebarItem
+          label="Settings"
+          [active]="responsiveActive() === 'Settings'"
+          (click)="responsiveActive.set('Settings')"
+        >
+          <svg aerisSidebarIcon [lucideIcon]="settingsIcon"></svg>
+        </button>
+      </div>
+    </aeris-sidebar>
+    <div class="sidebar-workspace__main">
+      <header class="sidebar-workspace__header">
+        @if (responsiveSidebar.mobile()) {
+          <button aerisButton variant="outline" [aerisSidebarToggle]="responsiveSidebar">
+            <svg [lucideIcon]="menuIcon" aria-hidden="true"></svg>Navigation
+          </button>
+        }
+        <span role="status">{{
+          responsiveSidebar.mobile() ? 'Drawer navigation' : 'Persistent navigation'
+        }}</span>
+      </header>
+      <main class="sidebar-main">
+        <h4>{{ responsiveActive() }}</h4>
+        @if (responsiveSidebar.mobile()) {
+          <p>
+            Navigation opens over this content. Select a destination or close the drawer to return
+            here.
+          </p>
+        } @else {
+          <p>
+            Navigation stays visible beside this content. Select a destination, or use the arrow to
+            collapse it to icons.
+          </p>
+        }
+      </main>
+    </div>
+  </div>
+</ng-template>
+@if (previewOnly) {
+  <ng-container [ngTemplateOutlet]="responsiveExample" />
+} @else {
+  <article class="button-docs">
+    <app-component-page-header
+      category="Menu"
+      title="Sidebar"
+      description="Responsive site navigation with native links, collapsible groups, icon-only presentation, and a mobile drawer."
+    />
+    <section id="sidebar-import" class="import-section" aria-labelledby="sidebar-import-title">
+      <div>
+        <h2 id="sidebar-import-title">Import</h2>
+        <p>One import includes the sidebar, items, groups, toggle, and slots.</p>
+      </div>
+      <app-code-block [code]="importCode" language="TypeScript" />
+    </section>
+    <aeris-tabs ariaLabel="Sidebar documentation">
+      <aeris-tab-panel value="features" label="Features">
+        <section class="doc-section">
+          <h2>Features showcase</h2>
+          <div class="doc-content-layout">
+            <div class="doc-content-main">
+              <app-form-demo
+                id="sidebar-basic"
+                title="Basic navigation"
+                description="Native item buttons update consumer-owned state. Use anchors and RouterLink for real destinations."
+              >
+                <div preview>
+                  <div class="sidebar-frame">
+                    <aeris-sidebar
+                      mode="desktop"
+                      [collapsible]="false"
+                      ariaLabel="Basic example navigation"
+                      width="min(16rem, 55vw)"
+                    >
+                      <strong aerisSidebarHeader class="sidebar-brand">Workspace</strong>
+                      <button
+                        aerisSidebarItem
+                        label="Overview"
+                        [active]="active() === 'Overview'"
+                        (click)="active.set('Overview')"
+                      >
+                        <svg aerisSidebarIcon [lucideIcon]="houseIcon"></svg>
+                      </button>
+                      <button
+                        aerisSidebarItem
+                        label="Projects"
+                        [active]="active() === 'Projects'"
+                        (click)="active.set('Projects')"
+                      >
+                        <svg aerisSidebarIcon [lucideIcon]="folderIcon"></svg
+                        ><aeris-badge aerisSidebarBadge value="3" />
+                      </button>
+                      <button aerisSidebarItem label="Unavailable" disabled>
+                        <svg aerisSidebarIcon [lucideIcon]="settingsIcon"></svg>
+                      </button>
+                      <div aerisSidebarFooter>
+                        <button
+                          aerisSidebarItem
+                          label="Settings"
+                          [active]="active() === 'Settings'"
+                          (click)="active.set('Settings')"
+                        >
+                          <svg aerisSidebarIcon [lucideIcon]="settingsIcon"></svg>
+                        </button>
+                      </div>
+                    </aeris-sidebar>
+                    <div class="sidebar-main">
+                      <strong>{{ active() }}</strong>
+                      <p>The active item and content are controlled by this example.</p>
+                    </div>
+                  </div>
+                </div>
+                <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="sidebar-frame"&gt;
+    &lt;aeris-sidebar
+      mode="desktop"
+      [collapsible]="false"
+      ariaLabel="Basic example navigation"
+      width="min(16rem, 55vw)"
+    &gt;
+      &lt;strong aerisSidebarHeader class="sidebar-brand"&gt;Workspace&lt;/strong&gt;
+      &lt;button
+        aerisSidebarItem
+        label="Overview"
+        [active]="active() === 'Overview'"
+        (click)="active.set('Overview')"
+      &gt;
+        &lt;svg aerisSidebarIcon [lucideIcon]="houseIcon"&gt;&lt;/svg&gt;
+      &lt;/button&gt;
+      &lt;button
+        aerisSidebarItem
+        label="Projects"
+        [active]="active() === 'Projects'"
+        (click)="active.set('Projects')"
+      &gt;
+        &lt;svg aerisSidebarIcon [lucideIcon]="folderIcon"&gt;&lt;/svg&gt;
+        &lt;aeris-badge aerisSidebarBadge value="3" /&gt;
+      &lt;/button&gt;
+      &lt;button aerisSidebarItem label="Unavailable" disabled&gt;
+        &lt;svg aerisSidebarIcon [lucideIcon]="settingsIcon"&gt;&lt;/svg&gt;
+      &lt;/button&gt;
+      &lt;div aerisSidebarFooter&gt;
+        &lt;button
+          aerisSidebarItem
+          label="Settings"
+          [active]="active() === 'Settings'"
+          (click)="active.set('Settings')"
+        &gt;
+          &lt;svg aerisSidebarIcon [lucideIcon]="settingsIcon"&gt;&lt;/svg&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/aeris-sidebar&gt;
+    &lt;div class="sidebar-main"&gt;
+      &lt;strong&gt;&#123;&#123; active() &#125;&#125;&lt;/strong&gt;
+      &lt;p&gt;The active item and content are controlled by this example.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+              </app-form-demo>
+              <app-form-demo
+                id="sidebar-collapsed"
+                title="Icon-only navigation"
+                description="Collapse to icons without losing accessible names. Hover or focus an item for its label."
+              >
+                <div preview>
+                  <div class="sidebar-tools">
+                    <button aerisButton [aerisSidebarToggle]="compactSidebar">
+                      Toggle navigation</button
+                    ><span>Collapsed: {{ collapsed() }}</span>
+                  </div>
+                  <div class="sidebar-frame">
+                    <aeris-sidebar
+                      #compactSidebar
+                      mode="desktop"
+                      [(collapsed)]="collapsed"
+                      ariaLabel="Compact example navigation"
+                      width="min(16rem, 55vw)"
+                    >
+                      <strong aerisSidebarHeader class="sidebar-brand">Workspace</strong>
+                      <button aerisSidebarItem label="Overview" active>
+                        <svg aerisSidebarIcon [lucideIcon]="houseIcon"></svg>
+                      </button>
+                      <button aerisSidebarItem label="Projects">
+                        <svg aerisSidebarIcon [lucideIcon]="folderIcon"></svg>
+                      </button>
+                      <div aerisSidebarFooter>
+                        <button aerisSidebarItem label="Settings">
+                          <svg aerisSidebarIcon [lucideIcon]="settingsIcon"></svg>
+                        </button>
+                      </div>
+                    </aeris-sidebar>
+                    <div class="sidebar-main">
+                      <strong>Controlled collapse</strong>
+                      <p>
+                        The same model drives both the external toggle and built-in collapse button.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="sidebar-tools"&gt;
+    &lt;button aerisButton [aerisSidebarToggle]="compactSidebar"&gt;Toggle navigation&lt;/button&gt;
+    &lt;span&gt;Collapsed: &#123;&#123; collapsed() &#125;&#125;&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="sidebar-frame"&gt;
+    &lt;aeris-sidebar
+      #compactSidebar
+      mode="desktop"
+      [(collapsed)]="collapsed"
+      ariaLabel="Compact example navigation"
+      width="min(16rem, 55vw)"
+    &gt;
+      &lt;strong aerisSidebarHeader class="sidebar-brand"&gt;Workspace&lt;/strong&gt;
+      &lt;button aerisSidebarItem label="Overview" active&gt;
+        &lt;svg aerisSidebarIcon [lucideIcon]="houseIcon"&gt;&lt;/svg&gt;
+      &lt;/button&gt;
+      &lt;button aerisSidebarItem label="Projects"&gt;
+        &lt;svg aerisSidebarIcon [lucideIcon]="folderIcon"&gt;&lt;/svg&gt;
+      &lt;/button&gt;
+      &lt;div aerisSidebarFooter&gt;
+        &lt;button aerisSidebarItem label="Settings"&gt;
+          &lt;svg aerisSidebarIcon [lucideIcon]="settingsIcon"&gt;&lt;/svg&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/aeris-sidebar&gt;
+    &lt;div class="sidebar-main"&gt;
+      &lt;strong&gt;Controlled collapse&lt;/strong&gt;
+      &lt;p&gt;The same model drives both the external toggle and built-in collapse button.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+              </app-form-demo>
+              <app-form-demo
+                id="sidebar-groups"
+                title="Groups and long labels"
+                description="Nested disclosures preserve their controlled state. Long labels wrap, and only the middle region scrolls."
+              >
+                <div preview>
+                  <div class="sidebar-frame">
+                    <aeris-sidebar
+                      mode="desktop"
+                      [collapsible]="false"
+                      width="min(19rem, 70vw)"
+                      ariaLabel="Grouped example navigation"
+                    >
+                      <strong aerisSidebarHeader class="sidebar-brand">Navigation groups</strong>
+                      <aeris-sidebar-group label="Workspace" [(expanded)]="groupExpanded">
+                        <button
+                          aerisSidebarItem
+                          label="A project with a longer, descriptive navigation label"
+                        >
+                          <svg aerisSidebarIcon [lucideIcon]="folderIcon"></svg>
+                        </button>
+                        <aeris-sidebar-group label="Archived projects"
+                          ><button aerisSidebarItem label="Previous work">
+                            <svg aerisSidebarIcon [lucideIcon]="folderIcon"></svg></button
+                        ></aeris-sidebar-group>
+                      </aeris-sidebar-group>
+                      <aeris-sidebar-group label="More destinations" [collapsible]="false">
+                        @for (index of [1, 2, 3, 4, 5, 6, 7, 8]; track index) {
+                          <button aerisSidebarItem [label]="'Project ' + index">
+                            <svg aerisSidebarIcon [lucideIcon]="folderIcon"></svg>
+                          </button>
+                        }
+                      </aeris-sidebar-group>
+                      <div aerisSidebarFooter>
+                        <button aerisSidebarItem label="Settings">
+                          <svg aerisSidebarIcon [lucideIcon]="settingsIcon"></svg>
+                        </button>
+                      </div>
+                    </aeris-sidebar>
+                    <div class="sidebar-main">
+                      <strong>Groups</strong>
+                      <p>Workspace expanded: {{ groupExpanded() }}</p>
+                    </div>
+                  </div>
+                </div>
+                <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="sidebar-frame"&gt;
+    &lt;aeris-sidebar
+      mode="desktop"
+      [collapsible]="false"
+      width="min(19rem, 70vw)"
+      ariaLabel="Grouped example navigation"
+    &gt;
+      &lt;strong aerisSidebarHeader class="sidebar-brand"&gt;Navigation groups&lt;/strong&gt;
+      &lt;aeris-sidebar-group label="Workspace" [(expanded)]="groupExpanded"&gt;
+        &lt;button
+          aerisSidebarItem
+          label="A project with a longer, descriptive navigation label"
+        &gt;
+          &lt;svg aerisSidebarIcon [lucideIcon]="folderIcon"&gt;&lt;/svg&gt;
+        &lt;/button&gt;
+        &lt;aeris-sidebar-group label="Archived projects"&gt;
+          &lt;button aerisSidebarItem label="Previous work"&gt;
+            &lt;svg aerisSidebarIcon [lucideIcon]="folderIcon"&gt;&lt;/svg&gt;
+          &lt;/button&gt;
+        &lt;/aeris-sidebar-group&gt;
+      &lt;/aeris-sidebar-group&gt;
+      &lt;aeris-sidebar-group label="More destinations" [collapsible]="false"&gt;
+        &#64;for (index of [1, 2, 3, 4, 5, 6, 7, 8]; track index) &#123;
+          &lt;button aerisSidebarItem [label]="'Project ' + index"&gt;
+            &lt;svg aerisSidebarIcon [lucideIcon]="folderIcon"&gt;&lt;/svg&gt;
+          &lt;/button&gt;
+        &#125;
+      &lt;/aeris-sidebar-group&gt;
+      &lt;div aerisSidebarFooter&gt;
+        &lt;button aerisSidebarItem label="Settings"&gt;
+          &lt;svg aerisSidebarIcon [lucideIcon]="settingsIcon"&gt;&lt;/svg&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/aeris-sidebar&gt;
+    &lt;div class="sidebar-main"&gt;
+      &lt;strong&gt;Groups&lt;/strong&gt;
+      &lt;p&gt;Workspace expanded: &#123;&#123; groupExpanded() &#125;&#125;&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+              </app-form-demo>
+              <app-form-demo
+                id="sidebar-responsive"
+                title="Responsive navigation"
+                data-preview-template="responsiveExample"
+                description="Change the workspace width to see navigation move from a persistent sidebar to an on-demand drawer. This example uses a 560px breakpoint; the library default is 768px."
+              >
+                <div preview>
+                  <div
+                    class="sidebar-preview-controls"
+                    role="group"
+                    aria-label="Preview workspace width"
+                  >
+                    <button
+                      aerisButton
+                      [variant]="compactPreview() ? 'outline' : 'solid'"
+                      [attr.aria-pressed]="!compactPreview()"
+                      (click)="compactPreview.set(false)"
+                    >
+                      Available width
+                    </button>
+                    <button
+                      aerisButton
+                      [variant]="compactPreview() ? 'solid' : 'outline'"
+                      [attr.aria-pressed]="compactPreview()"
+                      (click)="compactPreview.set(true)"
+                    >
+                      Compact width
+                    </button>
+                  </div>
+                  <p class="sidebar-preview-status">
+                    Both layouts run in the workspace below. At 560px or less, use Navigation to
+                    open a drawer over the workspace. On wider screens, navigation stays beside the
+                    content.
+                  </p>
+                  <iframe
+                    class="sidebar-preview-frame"
+                    [class.sidebar-preview-frame--compact]="compactPreview()"
+                    title="Responsive sidebar workspace"
+                    src="components/sidebar?preview=responsive-sidebar"
+                    loading="lazy"
+                  ></iframe>
+                </div>
+                <pre code><code ngNonBindable>&lt;div class="sidebar-workspace"&gt;
+  &lt;aeris-sidebar
+    #responsiveSidebar
+    [breakpoint]="560"
+    width="12rem"
+    ariaLabel="Responsive example navigation"
+  &gt;
+    &lt;strong aerisSidebarHeader class="sidebar-brand"&gt;Workspace&lt;/strong&gt;
+    &lt;button
+      aerisSidebarItem
+      label="Overview"
+      [active]="responsiveActive() === 'Overview'"
+      (click)="responsiveActive.set('Overview')"
+    &gt;
+      &lt;svg aerisSidebarIcon [lucideIcon]="houseIcon"&gt;&lt;/svg&gt;
+    &lt;/button&gt;
+    &lt;button
+      aerisSidebarItem
+      label="Projects"
+      [active]="responsiveActive() === 'Projects'"
+      (click)="responsiveActive.set('Projects')"
+    &gt;
+      &lt;svg aerisSidebarIcon [lucideIcon]="folderIcon"&gt;&lt;/svg&gt;
+    &lt;/button&gt;
+    &lt;div aerisSidebarFooter&gt;
+      &lt;button
+        aerisSidebarItem
+        label="Settings"
+        [active]="responsiveActive() === 'Settings'"
+        (click)="responsiveActive.set('Settings')"
+      &gt;
+        &lt;svg aerisSidebarIcon [lucideIcon]="settingsIcon"&gt;&lt;/svg&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/aeris-sidebar&gt;
+  &lt;div class="sidebar-workspace__main"&gt;
+    &lt;header class="sidebar-workspace__header"&gt;
+      &#64;if (responsiveSidebar.mobile()) &#123;
+        &lt;button aerisButton variant="outline" [aerisSidebarToggle]="responsiveSidebar"&gt;
+          &lt;svg [lucideIcon]="menuIcon" aria-hidden="true"&gt;&lt;/svg&gt;
+          Navigation
+        &lt;/button&gt;
+      &#125;
+      &lt;span role="status"&gt;
+        &#123;&#123; responsiveSidebar.mobile() ? 'Drawer navigation' : 'Persistent navigation' &#125;&#125;
+      &lt;/span&gt;
+    &lt;/header&gt;
+    &lt;main class="sidebar-main"&gt;
+      &lt;h4&gt;&#123;&#123; responsiveActive() &#125;&#125;&lt;/h4&gt;
+      &#64;if (responsiveSidebar.mobile()) &#123;
+        &lt;p&gt;
+          Navigation opens over this content. Select a destination or close the drawer to
+          return here.
+        &lt;/p&gt;
+      &#125; &#64;else &#123;
+        &lt;p&gt;
+          Navigation stays visible beside this content. Select a destination, or use the
+          arrow to collapse it to icons.
+        &lt;/p&gt;
+      &#125;
+    &lt;/main&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+              </app-form-demo>
+              <app-form-demo
+                id="sidebar-mobile"
+                title="Mobile drawer"
+                description="Force drawer mode and control its open state independently of desktop collapse. Disable closeOnNavigate to keep the drawer open when an item is activated."
+              >
+                <div preview>
+                  <button aerisButton [aerisSidebarToggle]="mobileSidebar">
+                    <svg [lucideIcon]="menuIcon" aria-hidden="true"></svg>Open navigation
+                  </button>
+                  <aeris-sidebar
+                    #mobileSidebar
+                    mode="mobile"
+                    side="end"
+                    [closeOnNavigate]="false"
+                    [(open)]="mobileOpen"
+                    ariaLabel="Drawer example navigation"
+                  >
+                    <strong aerisSidebarHeader class="sidebar-brand">Navigation</strong>
+                    <button aerisSidebarItem label="Overview" active>
+                      <svg aerisSidebarIcon [lucideIcon]="houseIcon"></svg>
+                    </button>
+                    <button aerisSidebarItem label="Projects">
+                      <svg aerisSidebarIcon [lucideIcon]="folderIcon"></svg>
+                    </button>
+                    <div aerisSidebarFooter>
+                      <button aerisSidebarItem label="Settings">
+                        <svg aerisSidebarIcon [lucideIcon]="settingsIcon"></svg>
+                      </button>
+                    </div>
+                  </aeris-sidebar>
+                </div>
+                <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton [aerisSidebarToggle]="mobileSidebar"&gt;
+    &lt;svg [lucideIcon]="menuIcon" aria-hidden="true"&gt;&lt;/svg&gt;
+    Open navigation
+  &lt;/button&gt;
+  &lt;aeris-sidebar
+    #mobileSidebar
+    mode="mobile"
+    side="end"
+    [closeOnNavigate]="false"
+    [(open)]="mobileOpen"
+    ariaLabel="Drawer example navigation"
+  &gt;
+    &lt;strong aerisSidebarHeader class="sidebar-brand"&gt;Navigation&lt;/strong&gt;
+    &lt;button aerisSidebarItem label="Overview" active&gt;
+      &lt;svg aerisSidebarIcon [lucideIcon]="houseIcon"&gt;&lt;/svg&gt;
+    &lt;/button&gt;
+    &lt;button aerisSidebarItem label="Projects"&gt;
+      &lt;svg aerisSidebarIcon [lucideIcon]="folderIcon"&gt;&lt;/svg&gt;
+    &lt;/button&gt;
+    &lt;div aerisSidebarFooter&gt;
+      &lt;button aerisSidebarItem label="Settings"&gt;
+        &lt;svg aerisSidebarIcon [lucideIcon]="settingsIcon"&gt;&lt;/svg&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/aeris-sidebar&gt;
+&lt;/div&gt;</code></pre>
+              </app-form-demo>
+            </div>
+            <app-page-toc
+              title="On this page"
+              ariaLabel="Sidebar feature quick links"
+              [links]="featureLinks"
+            />
+          </div>
+        </section>
+      </aeris-tab-panel>
+      <aeris-tab-panel value="api" label="API">
+        <section class="doc-section">
+          <h2>API</h2>
+          <div class="doc-content-layout">
+            <div class="doc-content-main">
+              @for (
+                section of [
+                  { id: 'sidebar-inputs', title: 'Sidebar inputs', rows: inputs },
+                  { id: 'sidebar-state', title: 'Models, outputs, state and methods', rows: state },
+                  { id: 'sidebar-items', title: 'Native items', rows: items },
+                  { id: 'sidebar-group-api', title: 'Groups', rows: groups },
+                  { id: 'sidebar-toggle-api', title: 'Toggle directive', rows: toggles },
+                  { id: 'sidebar-slots', title: 'Projected slots', rows: slots },
+                ];
+                track section.id
+              ) {
+                <section [id]="section.id">
+                  <h3>{{ section.title }}</h3>
+                  <div class="api-table" role="table" [attr.aria-label]="section.title">
+                    <div role="row">
+                      <span role="columnheader">Name</span><span role="columnheader">Type</span
+                      ><span role="columnheader">Default</span
+                      ><span role="columnheader">Description</span>
+                    </div>
+                    @for (row of section.rows; track row.name) {
+                      <div role="row">
+                        <code role="cell">{{ row.name }}</code
+                        ><code role="cell">{{ row.type }}</code
+                        ><code role="cell">{{ row.defaultValue }}</code
+                        ><span role="cell">{{ row.description }}</span>
+                      </div>
+                    }
+                  </div>
+                </section>
+              }
+              <p>
+                For routed links, import RouterLink and RouterLinkActive in your component. Use
+                <code>routerLinkActive #route="routerLinkActive" [active]="route.isActive"</code> on
+                each native sidebar link. Aeris does not read routes, store navigation state or
+                persist preferences. Keep those concerns in your application.
+              </p>
+            </div>
+            <app-page-toc
+              title="On this page"
+              ariaLabel="Sidebar API quick links"
+              [links]="apiLinks"
+            />
+          </div>
+        </section>
+      </aeris-tab-panel>
+      <aeris-tab-panel value="interfaces" label="Interfaces"
+        ><section id="sidebar-interfaces" class="doc-section">
+          <h2>Interfaces</h2>
+          <app-code-block [code]="interfacesCode" language="TypeScript" /></section
+      ></aeris-tab-panel>
+      <aeris-tab-panel value="tokens" label="Tokens"
+        ><section id="sidebar-tokens" class="doc-section">
+          <h2>Design tokens</h2>
+          <p>
+            Items use the shared density, typography, icon, corner and focus tokens. Mobile overlays
+            also use Drawer tokens.
+          </p>
+          <div class="api-table" role="table" aria-label="Sidebar tokens">
+            <div role="row">
+              <span role="columnheader">Token</span><span role="columnheader">Default</span
+              ><span role="columnheader">Description</span>
+            </div>
+            @for (token of tokens; track token[0]) {
+              <div role="row">
+                <code role="cell">{{ token[0] }}</code
+                ><code role="cell">{{ token[1] }}</code
+                ><span role="cell">{{ token[2] }}</span>
+              </div>
+            }
+          </div>
+        </section></aeris-tab-panel
+      >
+      <aeris-tab-panel value="accessibility" label="Accessibility"
+        ><section id="sidebar-accessibility" class="doc-section">
+          <h2>Accessibility</h2>
+          <p>
+            Sidebar uses a named native navigation landmark, links for destinations and buttons for
+            actions. It is not an ARIA command menu: use normal Tab navigation, not menu arrow-key
+            behavior. Supply distinct names for multiple navigation regions.
+          </p>
+          <p>
+            Item labels supply icon-only accessible names and Aeris hover/focus tooltips. Icons are
+            decorative; provide an icon for each item that can collapse. Badges disappear in
+            icon-only mode, so include essential status in the label. Active links expose
+            aria-current="page". Disabled links cannot navigate or receive Tab focus.
+          </p>
+          <p>
+            Group disclosure buttons expose expanded state and their content relationship. Hidden
+            groups remove their descendants from keyboard access. Icon-only mode exposes group items
+            while retaining the expanded model for the next expansion.
+          </p>
+          <p>
+            At the configured viewport breakpoint, a single Drawer replaces desktop navigation. It
+            traps focus, supports Escape/backdrop/swipe dismissal, prevents background scrolling and
+            restores the opening control. Resizing to desktop closes the mobile state and releases
+            scroll locking. Desktop navigation never traps focus. Use aerisSidebarToggle for an
+            external, correctly named and associated button.
+          </p>
+          <p>
+            Use an ancestor dir="rtl" for logical placement and icon direction. Widths and item text
+            can wrap; set a bounded layout height when the navigation body should scroll.
+            Header/footer remain outside that scrolling region. Motion respects reduced-motion
+            preferences.
+          </p>
+          <div class="api-table keyboard-table" role="table" aria-label="Sidebar keyboard support">
+            <div role="row">
+              <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
+            </div>
+            <div role="row">
+              <kbd role="cell">Tab / Shift + Tab</kbd
+              ><span role="cell"
+                >Navigate native links and buttons. Only the open mobile Drawer traps focus.</span
+              >
+            </div>
+            <div role="row">
+              <kbd role="cell">Enter</kbd
+              ><span role="cell">Follow a focused link or activate a button.</span>
+            </div>
+            <div role="row">
+              <kbd role="cell">Space</kbd
+              ><span role="cell">Activate a focused toggle, group disclosure or item button.</span>
+            </div>
+            <div role="row">
+              <kbd role="cell">Escape</kbd
+              ><span role="cell"
+                >Close the topmost mobile Drawer and restore trigger focus. No special desktop
+                behavior.</span
+              >
+            </div>
+          </div>
+        </section></aeris-tab-panel
+      >
+    </aeris-tabs>
+  </article>
+}

@@ -40,16 +40,16 @@ try {
     process.stdout.write(`${HELP}\n`);
   } else {
     const config = args.config ? await readConfiguration(args.config) : {};
-    const presetName = args.preset ?? config.preset ?? 'monochrome';
+    const presetName = args.preset ?? config.preset ?? config.theme?.preset ?? 'monochrome';
     const preset = AERIS_THEME_PRESETS[presetName];
-    if (!preset) {
+    if (!Object.hasOwn(AERIS_THEME_PRESETS, presetName)) {
       throw new Error(
         `Unknown preset "${presetName}". Choose earth, coastal, orchid, or monochrome.`,
       );
     }
 
     const theme = config.theme
-      ? mergeAerisTheme(resolveAerisTheme(preset), config.theme)
+      ? mergeAerisTheme(resolveAerisTheme(preset), { ...config.theme, preset: presetName })
       : resolveAerisTheme(preset);
     const result = compileAerisTheme(theme, {
       expectedDerivationVersion: args.derivationVersion ?? config.derivationVersion,

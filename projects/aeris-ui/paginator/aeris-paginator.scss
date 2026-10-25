@@ -1,10 +1,13 @@
+@use '../src/styles/icon-artwork' as artwork;
+@use '../src/styles/selection-icons' as selection-icons;
+@use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
   --_aeris-chevron-mask: var(
     --aeris-icon-chevron,
-    url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E')
+    url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpath d="m6 9 6 6 6-6"/%3E%3C/svg%3E')
   );
 
   display: block;
@@ -106,58 +109,33 @@ button:focus-visible,
   display: block;
 }
 
-.aeris-paginator__page-icon::before,
-.aeris-paginator__page-icon::after {
+.aeris-paginator__page-icon::before {
   position: absolute;
   inset: 0;
-  background: currentColor;
   content: '';
-  -webkit-mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
-  mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
+  background: currentColor;
+  -webkit-mask: var(--aeris-icon-chevron) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-chevron) center / 100% 100% no-repeat;
 }
-
-.aeris-paginator__page-icon--previous::before,
 .aeris-paginator__page-icon--first::before,
-.aeris-paginator__page-icon--first::after {
+.aeris-paginator__page-icon--last::before {
+  -webkit-mask-image: var(--aeris-icon-chevrons, #{artwork.$chevrons});
+  mask-image: var(--aeris-icon-chevrons, #{artwork.$chevrons});
+}
+.aeris-paginator__page-icon--previous::before,
+.aeris-paginator__page-icon--first::before {
   transform: rotate(90deg);
 }
-
 .aeris-paginator__page-icon--next::before,
-.aeris-paginator__page-icon--last::before,
-.aeris-paginator__page-icon--last::after {
-  transform: rotate(-90deg);
-}
-
-.aeris-paginator__page-icon--previous::after,
-.aeris-paginator__page-icon--next::after {
-  content: none;
-}
-
-.aeris-paginator__page-icon--first::before {
-  translate: -0.18rem 0;
-}
-
-.aeris-paginator__page-icon--first::after {
-  translate: 0.18rem 0;
-}
-
 .aeris-paginator__page-icon--last::before {
-  translate: 0.18rem 0;
-}
-
-.aeris-paginator__page-icon--last::after {
-  translate: -0.18rem 0;
-}
-
-:host-context([dir='rtl']) .aeris-paginator__page-icon--previous::before,
-:host-context([dir='rtl']) .aeris-paginator__page-icon--first::before,
-:host-context([dir='rtl']) .aeris-paginator__page-icon--first::after {
   transform: rotate(-90deg);
 }
-
+:host-context([dir='rtl']) .aeris-paginator__page-icon--previous::before,
+:host-context([dir='rtl']) .aeris-paginator__page-icon--first::before {
+  transform: rotate(-90deg);
+}
 :host-context([dir='rtl']) .aeris-paginator__page-icon--next::before,
-:host-context([dir='rtl']) .aeris-paginator__page-icon--last::before,
-:host-context([dir='rtl']) .aeris-paginator__page-icon--last::after {
+:host-context([dir='rtl']) .aeris-paginator__page-icon--last::before {
   transform: rotate(90deg);
 }
 
@@ -250,14 +228,6 @@ button:focus-visible,
     color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
   }
 }
-.aeris-paginator__check {
-  width: 0.65rem;
-  height: 0.35rem;
-  border-bottom: 1.75px solid currentColor;
-  border-left: 1.75px solid currentColor;
-  transform: rotate(-45deg);
-}
-
 @media (max-width: 42rem) {
   .aeris-paginator {
     align-items: stretch;
@@ -325,3 +295,29 @@ button:focus-visible,
 }
 
 @include aeris-mobile.targets('.aeris-paginator__button');
+
+@include aeris-icons.custom-icon;
+@include aeris-icons.rotate('.aeris-paginator__page-icon--previous', 90deg);
+@include aeris-icons.rotate('.aeris-paginator__page-icon--first', 90deg);
+@include aeris-icons.rotate('.aeris-paginator__page-icon--next', -90deg);
+@include aeris-icons.rotate('.aeris-paginator__page-icon--last', -90deg);
+@include aeris-icons.rotate(
+  ":host-context([dir='rtl']) .aeris-paginator__page-icon--previous",
+  -90deg
+);
+@include aeris-icons.rotate(
+  ":host-context([dir='rtl']) .aeris-paginator__page-icon--first",
+  -90deg
+);
+@include aeris-icons.rotate(":host-context([dir='rtl']) .aeris-paginator__page-icon--next", 90deg);
+@include aeris-icons.rotate(":host-context([dir='rtl']) .aeris-paginator__page-icon--last", 90deg);
+@include aeris-icons.dropdown(
+  '.aeris-paginator__chevron',
+  ".aeris-paginator__rows-trigger[aria-expanded='true']"
+);
+
+:host .aeris-paginator__check[data-aeris-custom-icon] {
+  transform: none;
+}
+
+@include selection-icons.mark('.aeris-paginator__check', 'check');

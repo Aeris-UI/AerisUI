@@ -2,6 +2,7 @@ import { Component, signal, viewChild } from '@angular/core';
 import { AerisBadge } from '@aeris-ui/core/badge';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
+import { AerisKbdModule } from '@aeris-ui/core/kbd';
 import {
   AerisTieredMenu,
   AerisTieredMenuModule,
@@ -50,6 +51,7 @@ interface ApiRow {
     AerisBadge,
     AerisButton,
     AerisTabsModule,
+    AerisKbdModule,
     AerisTieredMenuModule,
     CodeBlockComponent,
     ComponentPageHeaderComponent,
@@ -355,7 +357,6 @@ protected navigate(link: string | readonly (string | number)[]): void {
   white-space: nowrap;
 }
 
-.tiered-menu-item kbd,
 .tiered-menu-status {
   color: var(--text-2);
   font: inherit;
@@ -452,6 +453,13 @@ interface AerisTieredMenuItemTemplateContext<T = unknown> {
   ];
 
   protected readonly inputs: readonly ApiRow[] = [
+    {
+      name: 'submenuIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
     {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",

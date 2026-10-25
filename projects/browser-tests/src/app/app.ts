@@ -1,11 +1,25 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { IconCustomizationFixture } from './icon-customization.fixture';
+import { GlobalIconsFixture } from './global-icons.fixture';
 import { DOCUMENT } from '@angular/common';
-import { dismissTopAerisOverlay, type AerisOverlayDismissResult } from '@aeris-ui/core';
+import {
+  aerisInternalLocalDate,
+  dismissTopAerisOverlay,
+  type AerisOverlayDismissResult,
+} from '@aeris-ui/core';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisPanelModule } from '@aeris-ui/core/panel';
 import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
 import { AerisCheckbox } from '@aeris-ui/core/checkbox';
+import { ChoiceCardsFixture } from './choice-cards.fixture';
+import { NativeChoiceGroupsFixture } from './native-choice-groups.fixture';
+import { ChipRemovalFixture } from './chip-removal.fixture';
+import { DrawerSwipeFixture } from './drawer-swipe.fixture';
+import { DateEntryFixture } from './date-entry.fixture';
+import { ColorPickerAlphaFixture } from './color-picker-alpha.fixture';
+import { HoverOverlayFixture } from './hover-overlay.fixture';
+import { ButtonFoundationFixture } from './button-foundation.fixture';
 import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 import { AerisDialogModule } from '@aeris-ui/core/dialog';
 import { AerisDrawerModule } from '@aeris-ui/core/drawer';
@@ -29,6 +43,11 @@ import { AerisThemeService } from '@aeris-ui/core/theming';
 @Component({
   selector: 'app-root',
   imports: [
+    NativeChoiceGroupsFixture,
+    ButtonFoundationFixture,
+    HoverOverlayFixture,
+    GlobalIconsFixture,
+    IconCustomizationFixture,
     AerisInputGroup,
     AerisSpeedDial,
     AerisScrollTop,
@@ -39,6 +58,11 @@ import { AerisThemeService } from '@aeris-ui/core/theming';
     AerisPanelModule,
     AerisScrollPanelModule,
     AerisCheckbox,
+    ChoiceCardsFixture,
+    ChipRemovalFixture,
+    DrawerSwipeFixture,
+    DateEntryFixture,
+    ColorPickerAlphaFixture,
     AerisDatePicker,
     AerisDialogModule,
     AerisDrawerModule,
@@ -57,6 +81,9 @@ import { AerisThemeService } from '@aeris-ui/core/theming';
   styleUrl: './app.scss',
 })
 export class App {
+  protected readonly foundationMeeting = signal<Date | null>(new Date(2026, 5, 11, 0, 0, 0));
+  protected readonly foundationEarlyDate = signal<Date | null>(aerisInternalLocalDate(42, 5, 11));
+  protected readonly foundationBritishDate = signal<Date | null>(new Date(2026, 5, 11));
   protected readonly mobileSlides = ['Research', 'Design', 'Build'];
   protected readonly dialItems = [{ label: 'Show notification', command: () => this.showToast() }];
   protected readonly mobileImages = [

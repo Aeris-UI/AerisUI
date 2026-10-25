@@ -1,4 +1,11 @@
-export const AERIS_UI_VERSION = '22.0.0-alpha.10';
+export const AERIS_UI_VERSION = '22.0.0-alpha.11';
+
+export {
+  provideAerisIcons,
+  ɵAerisIcon,
+  type AerisIconName,
+  type AerisIconComponents,
+} from './lib/aeris-icons';
 
 export type { AerisSeverity } from './lib/aeris-severity';
 export { aerisInternalDisplayInvalid as ɵaerisDisplayInvalid } from './lib/aeris-validation-state';
@@ -35,6 +42,27 @@ export {
 export { aerisInternalObserveViewport, aerisInternalViewportBounds } from './lib/aeris-viewport';
 
 export {
+  aerisInternalLocalDate,
+  aerisInternalDateAtMidnight,
+  aerisInternalReadDate,
+  aerisInternalReadTime,
+  aerisInternalFormatDateParts,
+  aerisInternalFormatTimeParts,
+  aerisInternalToTwelveHour,
+  aerisInternalFromTwelveHour,
+  aerisInternalCalendarDayIndex,
+  aerisInternalLocaleFirstDay,
+  aerisInternalDaysInMonth,
+  aerisInternalResolveDateDraft,
+  aerisInternalParseDateParts,
+  aerisInternalParseTimeParts,
+  aerisInternalDateFromParts,
+  aerisInternalDateTimeLayout,
+  type AerisInternalDateParts,
+  type AerisInternalTimeParts,
+} from './lib/aeris-date-time';
+
+export {
   aerisInternalFocusableElements,
   aerisInternalFocusInitialElement,
   aerisInternalIsFocusable,
@@ -68,3 +96,12 @@ export {
   aerisInternalCreateFrameScheduler,
   type AerisInternalFrameScheduler,
 } from './lib/aeris-frame-scheduler';
+export { ɵAerisCellEditor, type AerisCellEditor } from './lib/aeris-cell-editor';
+export {
+  ɵAerisTablePinning,
+  aerisInternalOrderPinnedColumns,
+  aerisInternalOrderPinnedRows,
+  aerisInternalPinnedRowSides,
+  type AerisTableColumnPin,
+  type AerisTablePinnedRows,
+} from './lib/aeris-table-pinning';

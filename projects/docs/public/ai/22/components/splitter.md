@@ -2,7 +2,7 @@
 
 > Resizable panel layout with horizontal and vertical orientation, controlled sizes, constraints, and keyboard support.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/splitter`
 - Human-readable documentation: [https://aeris-ui.dev/components/splitter](https://aeris-ui.dev/components/splitter)
@@ -32,7 +32,7 @@ import { AerisSplitterModule } from '@aeris-ui/core/splitter';
 | `orientation` | `AerisSplitterOrientation` | `'horizontal'` | Lays panels out left-to-right or top-to-bottom. Options: 'horizontal', 'vertical'. |
 | `variant` | `AerisSplitterVariant` | `'outlined'` | Applies outlined, filled, or plain surface treatment. |
 | `size` | `AerisSplitterSize` | `'md'` | Controls panel padding and gutter density. Options: 'sm', 'md', 'lg'. |
-| `divider` | `AerisSplitterDivider` | `'handle'` | Displays handle-only separators or full divider lines with handles. Options: 'handle', 'line'. |
+| `showHandle` | `boolean` | `true` | Shows the centered grip. The divider line and keyboard-accessible drag area remain available when false. |
 | `disabled` | `boolean` | `false` | Disables every resize handle. |
 | `fluid` | `boolean` | `true` | Sets the host inline size to 100%. |
 | `step` | `number` | `5` | Keyboard resize increment in percentage points. |
@@ -94,7 +94,6 @@ import { AerisSplitterModule } from '@aeris-ui/core/splitter';
 type AerisSplitterOrientation = 'horizontal' | 'vertical';
 type AerisSplitterVariant = 'outlined' | 'filled' | 'plain';
 type AerisSplitterSize = 'sm' | 'md' | 'lg';
-type AerisSplitterDivider = 'handle' | 'line';
 
 interface AerisSplitterResizeEvent {
   readonly originalEvent: Event | null;
@@ -148,7 +147,7 @@ import { AerisSplitterModule } from '@aeris-ui/core/splitter';
   templateUrl: './splitter-basic.demo.html',
   styleUrl: './splitter-basic.demo.scss'
 })
-export class SplitterBasicBasicDemo {
+export class SplitterBasicDemo {
 }
 ```
 
@@ -182,11 +181,11 @@ export class SplitterBasicBasicDemo {
 }
 
 .splitter-pane strong {
-  color: var(--text);
+  color: var(--aeris-text);
 }
 
 .splitter-pane span {
-  color: var(--text-2);
+  color: var(--aeris-text-2);
   font-size: 0.875rem;
 }
 ```
@@ -207,7 +206,7 @@ import { AerisSplitterModule } from '@aeris-ui/core/splitter';
   templateUrl: './splitter-vertical.demo.html',
   styleUrl: './splitter-vertical.demo.scss'
 })
-export class SplitterVerticalVerticalDemo {
+export class SplitterVerticalDemo {
 }
 ```
 
@@ -219,17 +218,20 @@ export class SplitterVerticalVerticalDemo {
     <aeris-splitter-panel ariaLabel="Charts" [size]="58">
       <div class="dashboard-pane">
         <div class="dashboard-card">
-          <strong>Revenue</strong><span>$42.8k this month</span>
+          <strong>Revenue</strong>
+          <span>$42.8k this month</span>
         </div>
         <div class="dashboard-card">
-          <strong>Conversion</strong><span>7.4% from active campaigns</span>
+          <strong>Conversion</strong>
+          <span>7.4% from active campaigns</span>
         </div>
       </div>
     </aeris-splitter-panel>
     <aeris-splitter-panel ariaLabel="Activity" [size]="42">
       <div class="dashboard-pane">
         <div class="dashboard-card">
-          <strong>Activity</strong><span>12 reviews waiting for approval.</span>
+          <strong>Activity</strong>
+          <span>12 reviews waiting for approval.</span>
         </div>
       </div>
     </aeris-splitter-panel>
@@ -247,20 +249,20 @@ export class SplitterVerticalVerticalDemo {
 
 .dashboard-card {
   padding: 0.75rem;
-  border: 1px solid var(--border);
+  border: 1px solid var(--aeris-border);
   border-radius: var(--aeris-radius-md);
-  background: var(--surface);
+  background: var(--aeris-surface);
 }
 
 .dashboard-card strong {
   display: block;
-  color: var(--text);
+  color: var(--aeris-text);
 }
 ```
 
 ### Divider
 
-Use handle-only separators for minimal layouts or full divider lines when stronger separation is needed.
+The thin divider is always visible. Hide its grip without losing pointer or keyboard resizing.
 
 #### TS
 
@@ -274,7 +276,7 @@ import { AerisSplitterModule } from '@aeris-ui/core/splitter';
   templateUrl: './splitter-divider.demo.html',
   styleUrl: './splitter-divider.demo.scss'
 })
-export class SplitterDividerDividerDemo {
+export class SplitterDividerDemo {
 }
 ```
 
@@ -283,25 +285,33 @@ export class SplitterDividerDividerDemo {
 ```html
 <div>
   <div class="splitter-grid">
-    <aeris-splitter height="10rem" ariaLabel="Handle-only splitter">
-      <aeris-splitter-panel
-        ><div class="splitter-pane">
-          <strong>Handle only</strong><span>Default minimal divider.</span>
-        </div></aeris-splitter-panel>
-      <aeris-splitter-panel
-        ><div class="splitter-pane">
-          <strong>Panel</strong><span>Resize from the handle.</span>
-        </div></aeris-splitter-panel>
+    <aeris-splitter height="10rem" ariaLabel="Splitter with handle">
+      <aeris-splitter-panel>
+        <div class="splitter-pane">
+          <strong>Line and handle</strong>
+          <span>Default centered grip.</span>
+        </div>
+      </aeris-splitter-panel>
+      <aeris-splitter-panel>
+        <div class="splitter-pane">
+          <strong>Panel</strong>
+          <span>Resize from the handle.</span>
+        </div>
+      </aeris-splitter-panel>
     </aeris-splitter>
-    <aeris-splitter height="10rem" divider="line" ariaLabel="Line splitter">
-      <aeris-splitter-panel
-        ><div class="splitter-pane">
-          <strong>Full line</strong><span>Divider line with centered handle.</span>
-        </div></aeris-splitter-panel>
-      <aeris-splitter-panel
-        ><div class="splitter-pane">
-          <strong>Panel</strong><span>Useful for dense surfaces.</span>
-        </div></aeris-splitter-panel>
+    <aeris-splitter height="10rem" [showHandle]="false" ariaLabel="Line splitter">
+      <aeris-splitter-panel>
+        <div class="splitter-pane">
+          <strong>Line only</strong>
+          <span>Resize anywhere along the divider.</span>
+        </div>
+      </aeris-splitter-panel>
+      <aeris-splitter-panel>
+        <div class="splitter-pane">
+          <strong>Panel</strong>
+          <span>Useful for dense surfaces.</span>
+        </div>
+      </aeris-splitter-panel>
     </aeris-splitter>
   </div>
 </div>
@@ -335,32 +345,6 @@ export class SplitterDividerDividerDemo {
       grid-template-columns: 1fr;
     }
 }
-
-.splitter-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-@media (max-width: 52rem) {
-  .splitter-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.splitter-pane {
-  display: grid;
-  gap: 0.5rem;
-}
-
-.splitter-pane strong {
-  color: var(--text);
-}
-
-.splitter-pane span {
-  color: var(--text-2);
-  font-size: 0.875rem;
-}
 ```
 
 ### Controlled
@@ -380,7 +364,7 @@ import { AerisSplitterModule, type AerisSplitterResizeEvent } from '@aeris-ui/co
   templateUrl: './splitter-controlled.demo.html',
   styleUrl: './splitter-controlled.demo.scss'
 })
-export class SplitterControlledControlledDemo {
+export class SplitterControlledDemo {
   protected controlledSizes = signal<readonly number[]>([30, 45, 25]);
   protected lastResize = '30 / 45 / 25';
 
@@ -426,23 +410,24 @@ export class SplitterControlledControlledDemo {
   >
     <aeris-splitter-panel ariaLabel="Folders">
       <div class="splitter-pane">
-        <strong>Folders</strong><span>Inbox, review, archive.</span>
+        <strong>Folders</strong>
+        <span>Inbox, review, archive.</span>
       </div>
     </aeris-splitter-panel>
     <aeris-splitter-panel ariaLabel="Message">
       <div class="splitter-pane">
-        <strong>Message</strong><span>Resize events update the signal.</span>
+        <strong>Message</strong>
+        <span>Resize events update the signal.</span>
       </div>
     </aeris-splitter-panel>
     <aeris-splitter-panel ariaLabel="Inspector">
       <div class="splitter-pane">
-        <strong>Inspector</strong><span>Metadata and actions.</span>
+        <strong>Inspector</strong>
+        <span>Metadata and actions.</span>
       </div>
     </aeris-splitter-panel>
   </aeris-splitter>
-  <p class="splitter-status" role="status" aria-live="polite">
-    Sizes: {{ lastResize }}
-  </p>
+  <p class="splitter-status" role="status" aria-live="polite">Sizes: {{ lastResize }}</p>
 </div>
 ```
 
@@ -475,33 +460,6 @@ export class SplitterControlledControlledDemo {
   color: var(--aeris-text-2);
   font-size: 0.8125rem;
 }
-
-.splitter-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-block-end: 0.875rem;
-}
-
-.splitter-status {
-  margin: 0.75rem 0 0;
-  color: var(--text-2);
-  font-size: 0.8125rem;
-}
-
-.splitter-pane {
-  display: grid;
-  gap: 0.5rem;
-}
-
-.splitter-pane strong {
-  color: var(--text);
-}
-
-.splitter-pane span {
-  color: var(--text-2);
-  font-size: 0.875rem;
-}
 ```
 
 ### Constraints
@@ -520,7 +478,7 @@ import { AerisSplitterModule } from '@aeris-ui/core/splitter';
   templateUrl: './splitter-constraints.demo.html',
   styleUrl: './splitter-constraints.demo.scss'
 })
-export class SplitterConstraintsConstraintsDemo {
+export class SplitterConstraintsDemo {
 }
 ```
 
@@ -536,12 +494,14 @@ export class SplitterConstraintsConstraintsDemo {
       [maxSize]="35"
     >
       <div class="splitter-pane">
-        <strong>20-35%</strong><span>Navigation cannot collapse too far.</span>
+        <strong>20-35%</strong>
+        <span>Navigation cannot collapse too far.</span>
       </div>
     </aeris-splitter-panel>
     <aeris-splitter-panel ariaLabel="Main area" [size]="75" [minSize]="45">
       <div class="splitter-pane">
-        <strong>Minimum 45%</strong><span>Main content keeps readable width.</span>
+        <strong>Minimum 45%</strong>
+        <span>Main content keeps readable width.</span>
       </div>
     </aeris-splitter-panel>
   </aeris-splitter>
@@ -557,11 +517,11 @@ export class SplitterConstraintsConstraintsDemo {
 }
 
 .splitter-pane strong {
-  color: var(--text);
+  color: var(--aeris-text);
 }
 
 .splitter-pane span {
-  color: var(--text-2);
+  color: var(--aeris-text-2);
   font-size: 0.875rem;
 }
 ```
@@ -582,7 +542,7 @@ import { AerisSplitterModule } from '@aeris-ui/core/splitter';
   templateUrl: './splitter-disabled.demo.html',
   styleUrl: './splitter-disabled.demo.scss'
 })
-export class SplitterDisabledDisabledHandlesDemo {
+export class SplitterDisabledDemo {
 }
 ```
 
@@ -591,18 +551,16 @@ export class SplitterDisabledDisabledHandlesDemo {
 ```html
 <div>
   <aeris-splitter height="13rem" ariaLabel="Locked workspace">
-    <aeris-splitter-panel
-      ariaLabel="Locked navigation"
-      [size]="35"
-      [resizable]="false"
-    >
+    <aeris-splitter-panel ariaLabel="Locked navigation" [size]="35" [resizable]="false">
       <div class="splitter-pane">
-        <strong>Locked</strong><span>This panel disables the adjacent handle.</span>
+        <strong>Locked</strong>
+        <span>This panel disables the adjacent handle.</span>
       </div>
     </aeris-splitter-panel>
     <aeris-splitter-panel ariaLabel="Content" [size]="65">
       <div class="splitter-pane">
-        <strong>Content</strong><span>The handle is exposed as disabled.</span>
+        <strong>Content</strong>
+        <span>The handle is exposed as disabled.</span>
       </div>
     </aeris-splitter-panel>
   </aeris-splitter>
@@ -618,11 +576,11 @@ export class SplitterDisabledDisabledHandlesDemo {
 }
 
 .splitter-pane strong {
-  color: var(--text);
+  color: var(--aeris-text);
 }
 
 .splitter-pane span {
-  color: var(--text-2);
+  color: var(--aeris-text-2);
   font-size: 0.875rem;
 }
 ```
@@ -643,7 +601,7 @@ import { AerisSplitterModule } from '@aeris-ui/core/splitter';
   templateUrl: './splitter-nested.demo.html',
   styleUrl: './splitter-nested.demo.scss'
 })
-export class SplitterNestedNestedDemo {
+export class SplitterNestedDemo {
 }
 ```
 
@@ -655,13 +613,16 @@ export class SplitterNestedNestedDemo {
     <aeris-splitter-panel ariaLabel="Message list" [size]="32">
       <div class="mail-pane">
         <div class="mail-row">
-          <strong>Design review</strong><span>Today at 10:30</span>
+          <strong>Design review</strong>
+          <span>Today at 10:30</span>
         </div>
         <div class="mail-row">
-          <strong>Release notes</strong><span>Yesterday at 16:20</span>
+          <strong>Release notes</strong>
+          <span>Yesterday at 16:20</span>
         </div>
         <div class="mail-row">
-          <strong>QA report</strong><span>Monday at 09:15</span>
+          <strong>QA report</strong>
+          <span>Monday at 09:15</span>
         </div>
       </div>
     </aeris-splitter-panel>
@@ -701,14 +662,14 @@ export class SplitterNestedNestedDemo {
 
 .mail-row {
   padding: 0.625rem;
-  border: 1px solid var(--border);
+  border: 1px solid var(--aeris-border);
   border-radius: var(--aeris-radius-md);
-  background: var(--surface);
+  background: var(--aeris-surface);
 }
 
 .mail-row strong {
   display: block;
-  color: var(--text);
+  color: var(--aeris-text);
 }
 
 .mail-detail-splitter {
@@ -733,7 +694,7 @@ import { AerisSplitterModule } from '@aeris-ui/core/splitter';
   templateUrl: './splitter-variants.demo.html',
   styleUrl: './splitter-variants.demo.scss'
 })
-export class SplitterVariantsVariantsDemo {
+export class SplitterVariantsDemo {
 }
 ```
 
@@ -743,34 +704,46 @@ export class SplitterVariantsVariantsDemo {
 <div>
   <div class="splitter-grid">
     <aeris-splitter height="9rem" ariaLabel="Outlined splitter">
-      <aeris-splitter-panel
-        ><div class="splitter-pane">
-          <strong>Outlined</strong><span>Default border.</span>
-        </div></aeris-splitter-panel>
-      <aeris-splitter-panel
-        ><div class="splitter-pane">
-          <strong>Panel</strong><span>Resizable.</span>
-        </div></aeris-splitter-panel>
+      <aeris-splitter-panel>
+        <div class="splitter-pane">
+          <strong>Outlined</strong>
+          <span>Default border.</span>
+        </div>
+      </aeris-splitter-panel>
+      <aeris-splitter-panel>
+        <div class="splitter-pane">
+          <strong>Panel</strong>
+          <span>Resizable.</span>
+        </div>
+      </aeris-splitter-panel>
     </aeris-splitter>
     <aeris-splitter height="9rem" variant="filled" ariaLabel="Filled splitter">
-      <aeris-splitter-panel
-        ><div class="splitter-pane">
-          <strong>Filled</strong><span>Soft surface.</span>
-        </div></aeris-splitter-panel>
-      <aeris-splitter-panel
-        ><div class="splitter-pane">
-          <strong>Panel</strong><span>Resizable.</span>
-        </div></aeris-splitter-panel>
+      <aeris-splitter-panel>
+        <div class="splitter-pane">
+          <strong>Filled</strong>
+          <span>Soft surface.</span>
+        </div>
+      </aeris-splitter-panel>
+      <aeris-splitter-panel>
+        <div class="splitter-pane">
+          <strong>Panel</strong>
+          <span>Resizable.</span>
+        </div>
+      </aeris-splitter-panel>
     </aeris-splitter>
     <aeris-splitter height="9rem" variant="plain" ariaLabel="Plain splitter">
-      <aeris-splitter-panel
-        ><div class="splitter-pane">
-          <strong>Plain</strong><span>No outer border.</span>
-        </div></aeris-splitter-panel>
-      <aeris-splitter-panel
-        ><div class="splitter-pane">
-          <strong>Panel</strong><span>Resizable.</span>
-        </div></aeris-splitter-panel>
+      <aeris-splitter-panel>
+        <div class="splitter-pane">
+          <strong>Plain</strong>
+          <span>No outer border.</span>
+        </div>
+      </aeris-splitter-panel>
+      <aeris-splitter-panel>
+        <div class="splitter-pane">
+          <strong>Panel</strong>
+          <span>Resizable.</span>
+        </div>
+      </aeris-splitter-panel>
     </aeris-splitter>
   </div>
 </div>
@@ -804,32 +777,6 @@ export class SplitterVariantsVariantsDemo {
       grid-template-columns: 1fr;
     }
 }
-
-.splitter-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-@media (max-width: 52rem) {
-  .splitter-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.splitter-pane {
-  display: grid;
-  gap: 0.5rem;
-}
-
-.splitter-pane strong {
-  color: var(--text);
-}
-
-.splitter-pane span {
-  color: var(--text-2);
-  font-size: 0.875rem;
-}
 ```
 
 ### Token customization
@@ -848,7 +795,7 @@ import { AerisSplitterModule } from '@aeris-ui/core/splitter';
   templateUrl: './splitter-tokens.demo.html',
   styleUrl: './splitter-tokens.demo.scss'
 })
-export class SplitterTokensTokenCustomizationDemo {
+export class SplitterTokensDemo {
 }
 ```
 
@@ -859,7 +806,6 @@ export class SplitterTokensTokenCustomizationDemo {
   <aeris-splitter
     class="brand-splitter"
     height="14rem"
-    divider="line"
     ariaLabel="Custom themed splitter"
   >
     <aeris-splitter-panel ariaLabel="Primary panel" [size]="38">
@@ -901,42 +847,17 @@ export class SplitterTokensTokenCustomizationDemo {
   --aeris-splitter-border: color-mix(in srgb, var(--aeris-primary) 70%, var(--aeris-border));
   --aeris-splitter-radius: 1.5rem;
   --aeris-splitter-gutter-size: 1rem;
-  --aeris-splitter-gutter-hover-background: color-mix(in srgb, var(--aeris-primary) 22%, transparent);
+  --aeris-splitter-gutter-hover-background: color-mix(
+    in srgb,
+    var(--aeris-primary) 22%,
+    transparent
+  );
   --aeris-splitter-divider-color: color-mix(in srgb, var(--aeris-primary) 46%, transparent);
-  --aeris-splitter-divider-thickness: 2px;
+  --aeris-splitter-divider-thickness: 1px;
   --aeris-splitter-handle-color: color-mix(in srgb, var(--aeris-primary) 48%, transparent);
   --aeris-splitter-handle-hover-color: var(--aeris-primary-text);
   --aeris-splitter-handle-length: 3rem;
   --aeris-splitter-panel-padding: 1.25rem;
-}
-
-.brand-splitter {
-  --aeris-splitter-background: color-mix(in srgb, var(--aeris-primary) 9%, var(--surface));
-  --aeris-splitter-border-width: 2px;
-  --aeris-splitter-border: color-mix(in srgb, var(--aeris-primary) 70%, var(--border));
-  --aeris-splitter-radius: 1.5rem;
-  --aeris-splitter-gutter-size: 1rem;
-  --aeris-splitter-gutter-hover-background: color-mix(in srgb, var(--aeris-primary) 22%, transparent);
-  --aeris-splitter-divider-color: color-mix(in srgb, var(--aeris-primary) 46%, transparent);
-  --aeris-splitter-divider-thickness: 2px;
-  --aeris-splitter-handle-color: color-mix(in srgb, var(--aeris-primary) 48%, transparent);
-  --aeris-splitter-handle-hover-color: var(--aeris-primary-text);
-  --aeris-splitter-handle-length: 3rem;
-  --aeris-splitter-panel-padding: 1.25rem;
-}
-
-.splitter-pane {
-  display: grid;
-  gap: 0.5rem;
-}
-
-.splitter-pane strong {
-  color: var(--text);
-}
-
-.splitter-pane span {
-  color: var(--text-2);
-  font-size: 0.875rem;
 }
 ```
 

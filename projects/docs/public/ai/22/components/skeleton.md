@@ -2,7 +2,7 @@
 
 > Compose responsive loading placeholders with text, rectangle, and circle shapes plus motion-safe animations.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/skeleton`
 - Human-readable documentation: [https://aeris-ui.dev/components/skeleton](https://aeris-ui.dev/components/skeleton)
@@ -44,6 +44,17 @@ type AerisSkeletonShape = 'text' | 'rectangle' | 'circle';
 type AerisSkeletonAnimation = 'wave' | 'pulse' | 'none';
 ```
 
+## Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-skeleton-background` | `CSS custom property` | `16% --aeris-text mixed with --aeris-surface-2` | Placeholder base color. |
+| `--aeris-skeleton-highlight` | `CSS custom property` | `12% --aeris-text mixed with transparent` | Wave highlight color. |
+| `--aeris-skeleton-radius` | `CSS custom property` | `--aeris-radius-pill` | Text placeholder radius. |
+| `--aeris-skeleton-rectangle-radius` | `CSS custom property` | `--aeris-radius-md` | Rectangle placeholder radius. |
+| `--aeris-skeleton-duration` | `CSS custom property` | `1.45s` | Wave and pulse animation duration. |
+| `--aeris-skeleton-pulse-opacity` | `CSS custom property` | `0.48` | Lowest pulse opacity. |
+
 ## Examples
 
 ### Basic
@@ -59,58 +70,49 @@ import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
 @Component({
   selector: 'app-skeleton-basic-demo',
   imports: [AerisSkeletonModule],
-  templateUrl: './skeleton-basic.demo.html',
-  styleUrl: './skeleton-basic.demo.scss'
-})
-export class SkeletonBasicBasicDemo {
-}
-```
-
-#### HTML
-
-```html
-<div>
-  <section
-    class="skeleton-profile"
-    aria-busy="true"
-    aria-labelledby="profile-loading"
-  >
-    <span id="profile-loading" class="skeleton-status" role="status">
-      Loading profile
-    </span>
-    <aeris-skeleton shape="circle" width="3rem" />
-    <div class="skeleton-profile__lines">
-      <aeris-skeleton width="65%" />
-      <aeris-skeleton width="42%" height="0.625rem" />
+  template: `
+    <div>
+      <section class="skeleton-profile" aria-busy="true" aria-labelledby="profile-loading">
+        <span id="profile-loading" class="skeleton-status" role="status">
+          Loading profile
+        </span>
+        <aeris-skeleton shape="circle" width="3rem" />
+        <div class="skeleton-profile__lines">
+          <aeris-skeleton width="65%" />
+          <aeris-skeleton width="42%" height="0.625rem" />
+        </div>
+      </section>
     </div>
-  </section>
-</div>
-```
+  `,
+  styles: `
+    .skeleton-profile {
+      max-width: 32rem;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 1rem;
+      align-items: center;
+    }
 
-#### CSS
+    .skeleton-profile__lines,
+    .skeleton-card__lines,
+    .skeleton-card__body,
+    .skeleton-list__lines {
+      min-width: 0;
+      display: grid;
+      gap: 0.625rem;
+    }
 
-```css
-.skeleton-profile {
-  max-width: 32rem;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 1rem;
-  align-items: center;
-}
-
-.skeleton-profile__lines {
-  min-width: 0;
-  display: grid;
-  gap: 0.625rem;
-}
-
-.skeleton-status {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
+    .skeleton-status {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  `
+})
+export class SkeletonBasicDemo {
 }
 ```
 
@@ -130,7 +132,7 @@ import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
   templateUrl: './skeleton-shapes.demo.html',
   styleUrl: './skeleton-shapes.demo.scss'
 })
-export class SkeletonShapesShapesDemo {
+export class SkeletonShapesDemo {
 }
 ```
 
@@ -175,7 +177,8 @@ export class SkeletonShapesShapesDemo {
   gap: 0.5rem;
 }
 
-.skeleton-shape span {
+.skeleton-shape span,
+.skeleton-animation-grid span {
   color: var(--aeris-text-2);
   font-size: 0.8125rem;
 }
@@ -197,7 +200,7 @@ import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
   templateUrl: './skeleton-animation.demo.html',
   styleUrl: './skeleton-animation.demo.scss'
 })
-export class SkeletonAnimationAnimationDemo {
+export class SkeletonAnimationDemo {
 }
 ```
 
@@ -225,6 +228,12 @@ export class SkeletonAnimationAnimationDemo {
 #### CSS
 
 ```css
+.skeleton-shape span,
+.skeleton-animation-grid span {
+  color: var(--aeris-text-2);
+  font-size: 0.8125rem;
+}
+
 .skeleton-animation-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -237,15 +246,10 @@ export class SkeletonAnimationAnimationDemo {
   gap: 0.625rem;
 }
 
-.skeleton-animation-grid span {
-  color: var(--aeris-text-2);
-  font-size: 0.8125rem;
-}
-
 @media (max-width: 36rem) {
   .skeleton-animation-grid {
-    grid-template-columns: 1fr;
-  }
+      grid-template-columns: 1fr;
+    }
 }
 ```
 
@@ -265,7 +269,7 @@ import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
   templateUrl: './skeleton-card.demo.html',
   styleUrl: './skeleton-card.demo.scss'
 })
-export class SkeletonCardCardDemo {
+export class SkeletonCardDemo {
 }
 ```
 
@@ -294,6 +298,15 @@ export class SkeletonCardCardDemo {
 #### CSS
 
 ```css
+.skeleton-profile__lines,
+.skeleton-card__lines,
+.skeleton-card__body,
+.skeleton-list__lines {
+  min-width: 0;
+  display: grid;
+  gap: 0.625rem;
+}
+
 .skeleton-card {
   max-width: 24rem;
   display: grid;
@@ -309,13 +322,6 @@ export class SkeletonCardCardDemo {
   grid-template-columns: auto minmax(0, 1fr);
   gap: 0.75rem;
   align-items: center;
-}
-
-.skeleton-card__lines,
-.skeleton-card__body {
-  min-width: 0;
-  display: grid;
-  gap: 0.625rem;
 }
 ```
 
@@ -362,7 +368,7 @@ import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
     }
   `
 })
-export class SkeletonGridGridDemo {
+export class SkeletonGridDemo {
 }
 ```
 
@@ -396,6 +402,15 @@ import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
     </div>
   `,
   styles: `
+    .skeleton-profile__lines,
+    .skeleton-card__lines,
+    .skeleton-card__body,
+    .skeleton-list__lines {
+      min-width: 0;
+      display: grid;
+      gap: 0.625rem;
+    }
+
     .skeleton-list {
       display: grid;
       gap: 0;
@@ -415,13 +430,11 @@ import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
     }
 
     .skeleton-list__lines {
-      min-width: 0;
-      display: grid;
       gap: 0.5rem;
     }
   `
 })
-export class SkeletonListListDemo {
+export class SkeletonListDemo {
 }
 ```
 
@@ -441,7 +454,7 @@ import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
   templateUrl: './skeleton-table.demo.html',
   styleUrl: './skeleton-table.demo.scss'
 })
-export class SkeletonTableTableDemo {
+export class SkeletonTableDemo {
 }
 ```
 
@@ -451,9 +464,7 @@ export class SkeletonTableTableDemo {
 <div>
   <div class="skeleton-table-wrap">
     <table class="skeleton-table" aria-busy="true">
-      <caption class="skeleton-status">
-        Loading product inventory
-      </caption>
+      <caption class="skeleton-status">Loading product inventory</caption>
       <thead>
         <tr>
           <th>Code</th>
@@ -536,22 +547,14 @@ import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
   `,
   styles: `
     .custom-skeleton {
-      --aeris-skeleton-background: color-mix(
-        in srgb,
-        var(--aeris-primary) 16%,
-        var(--aeris-surface)
-      );
-      --aeris-skeleton-highlight: color-mix(
-        in srgb,
-        var(--aeris-primary) 36%,
-        var(--aeris-surface)
-      );
+      --aeris-skeleton-background: color-mix(in srgb, var(--aeris-primary) 16%, var(--aeris-surface));
+      --aeris-skeleton-highlight: color-mix(in srgb, var(--aeris-primary) 36%, var(--aeris-surface));
       --aeris-skeleton-rectangle-radius: 1.25rem;
       --aeris-skeleton-duration: 900ms;
     }
   `
 })
-export class SkeletonTokensTokenCustomizationDemo {
+export class SkeletonTokensDemo {
 }
 ```
 

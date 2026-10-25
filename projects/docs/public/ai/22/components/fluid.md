@@ -2,7 +2,7 @@
 
 > Make compatible Aeris controls fill the available width through one responsive layout wrapper.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/fluid`
 - Human-readable documentation: [https://aeris-ui.dev/components/fluid](https://aeris-ui.dev/components/fluid)
@@ -37,6 +37,13 @@ import { AerisFluidModule } from '@aeris-ui/core/fluid';
 | --- | --- | --- | --- |
 | `default content` | `content projection` | `-` | Layout and compatible Aeris controls that receive fluid sizing. |
 
+## Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-fluid-inline-size` | `CSS custom property` | `100%` | Inline size of the Fluid host and compatible descendants. |
+| `--aeris-fluid-min-inline-size` | `CSS custom property` | `0` | Minimum inline size used to prevent overflow in flexible layouts. |
+
 ## Examples
 
 ### Basic
@@ -58,7 +65,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
   templateUrl: './fluid-basic.demo.html',
   styleUrl: './fluid-basic.demo.scss'
 })
-export class FluidBasicBasicDemo {
+export class FluidBasicDemo {
 }
 ```
 
@@ -100,7 +107,8 @@ export class FluidBasicBasicDemo {
   gap: 0.375rem;
 }
 
-.fluid-field label {
+.fluid-field label,
+.fluid-grid label {
   font-weight: 650;
 }
 ```
@@ -123,7 +131,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './fluid-comparison.demo.html',
   styleUrl: './fluid-comparison.demo.scss'
 })
-export class FluidComparisonComparisonDemo {
+export class FluidComparisonDemo {
 }
 ```
 
@@ -152,11 +160,7 @@ export class FluidComparisonComparisonDemo {
     <aeris-fluid>
       <section class="fluid-example" aria-labelledby="container-title">
         <h4 id="container-title">Fluid wrapper</h4>
-        <input
-          aerisInputText
-          aria-label="Fluid wrapper field"
-          placeholder="Project"
-        />
+        <input aerisInputText aria-label="Fluid wrapper field" placeholder="Project" />
         <button aerisButton type="button">Save</button>
       </section>
     </aeris-fluid>
@@ -206,7 +210,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './fluid-controlled.demo.html',
   styleUrl: './fluid-controlled.demo.scss'
 })
-export class FluidControlledControlledDemo {
+export class FluidControlledDemo {
   protected readonly fluidEnabled = signal(true);
 
   protected toggleFluid(): void {
@@ -279,7 +283,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './fluid-responsive.demo.html',
   styleUrl: './fluid-responsive.demo.scss'
 })
-export class FluidResponsiveResponsiveLayoutDemo {
+export class FluidResponsiveDemo {
 }
 ```
 
@@ -308,6 +312,11 @@ export class FluidResponsiveResponsiveLayoutDemo {
 #### CSS
 
 ```css
+.fluid-field label,
+.fluid-grid label {
+  font-weight: 650;
+}
+
 .fluid-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
@@ -318,7 +327,6 @@ export class FluidResponsiveResponsiveLayoutDemo {
   min-width: 0;
   display: grid;
   gap: 0.375rem;
-  font-weight: 650;
 }
 
 .fluid-grid__action {

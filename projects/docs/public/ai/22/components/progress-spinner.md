@@ -2,7 +2,7 @@
 
 > Communicate determinate or indeterminate process status with responsive circular progress and accessible value text.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/progress-spinner`
 - Human-readable documentation: [https://aeris-ui.dev/components/progress-spinner](https://aeris-ui.dev/components/progress-spinner)
@@ -40,6 +40,7 @@ import { AerisProgressSpinnerModule } from '@aeris-ui/core/progress-spinner';
 | `rounded` | `boolean` | `true` | Uses rounded or square indicator line caps. |
 | `ariaLabel` | `string` | `'Loading'` | Accessible name for the progressbar. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that labels the progressbar. |
+| `ariaDescribedBy` | `string` | `''` | Space-separated IDs of supporting text describing the progressbar. |
 | `ariaValueText` | `string` | `''` | Overrides generated determinate value text. |
 | `valueFormatter` | `((context: AerisProgressSpinnerValueContext) =&gt; string) &#124; null` | `null` | Formats the default visible and accessible value text. |
 
@@ -74,6 +75,20 @@ interface AerisProgressSpinnerValueContext {
 }
 ```
 
+## Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-progress-spinner-size` | `CSS custom property` | `3rem` | Medium or custom spinner diameter. |
+| `--aeris-progress-spinner-sm-size` | `CSS custom property` | `1.75rem` | Small spinner diameter. |
+| `--aeris-progress-spinner-lg-size` | `CSS custom property` | `4.5rem` | Large spinner diameter. |
+| `--aeris-progress-spinner-indicator` | `CSS custom property` | `selected tone` | Indicator stroke color. |
+| `--aeris-progress-spinner-track` | `CSS custom property` | `16% selected tone` | Background track color. |
+| `--aeris-progress-spinner-duration` | `CSS custom property` | `1.1s` | Indeterminate animation duration. |
+| `--aeris-progress-spinner-value-color` | `CSS custom property` | `--aeris-text` | Centered value color. |
+| `--aeris-progress-spinner-value-font-size` | `CSS custom property` | `0.6875rem` | Medium centered value size. |
+| `--aeris-progress-spinner-lg-value-font-size` | `CSS custom property` | `0.875rem` | Large centered value size. |
+
 ## Examples
 
 ### Indeterminate
@@ -95,7 +110,7 @@ import { AerisProgressSpinnerModule } from '@aeris-ui/core/progress-spinner';
     </div>
   `
 })
-export class ProgressSpinnerIndeterminateIndeterminateDemo {
+export class ProgressSpinnerIndeterminateDemo {
 }
 ```
 
@@ -118,7 +133,7 @@ import { AerisProgressSpinnerModule } from '@aeris-ui/core/progress-spinner';
     </div>
   `
 })
-export class ProgressSpinnerDeterminateDeterminateDemo {
+export class ProgressSpinnerDeterminateDemo {
 }
 ```
 
@@ -139,7 +154,7 @@ import { AerisProgressSpinnerModule } from '@aeris-ui/core/progress-spinner';
   templateUrl: './progress-spinner-dynamic.demo.html',
   styleUrl: './progress-spinner-dynamic.demo.scss'
 })
-export class ProgressSpinnerDynamicDynamicDemo {
+export class ProgressSpinnerDynamicDemo {
   protected readonly progress = signal(35);
 
   protected decreaseProgress(): void {
@@ -232,7 +247,7 @@ import { AerisProgressSpinnerModule } from '@aeris-ui/core/progress-spinner';
     }
   `
 })
-export class ProgressSpinnerSizesSizesDemo {
+export class ProgressSpinnerSizesDemo {
 }
 ```
 
@@ -270,7 +285,7 @@ import { AerisProgressSpinnerModule } from '@aeris-ui/core/progress-spinner';
     }
   `
 })
-export class ProgressSpinnerTonesTonesDemo {
+export class ProgressSpinnerTonesDemo {
 }
 ```
 
@@ -302,18 +317,14 @@ import { AerisProgressSpinnerModule } from '@aeris-ui/core/progress-spinner';
     .brand-spinner {
       --aeris-progress-spinner-size: 6rem;
       --aeris-progress-spinner-indicator: var(--aeris-info);
-      --aeris-progress-spinner-track: color-mix(
-        in srgb,
-        var(--aeris-info) 18%,
-        transparent
-      );
+      --aeris-progress-spinner-track: color-mix(in srgb, var(--aeris-info) 18%, transparent);
       --aeris-progress-spinner-value-color: var(--aeris-info);
       --aeris-progress-spinner-value-font-size: 0.875rem;
       --aeris-progress-spinner-duration: 800ms;
     }
   `
 })
-export class ProgressSpinnerCustomCustomizationDemo {
+export class ProgressSpinnerCustomDemo {
 }
 ```
 
@@ -324,7 +335,7 @@ Replace centered determinate content while a formatter supplies concise assistiv
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisProgressSpinnerModule, type AerisProgressSpinnerValueContext } from '@aeris-ui/core/progress-spinner';
 
 @Component({
@@ -333,7 +344,10 @@ import { AerisProgressSpinnerModule, type AerisProgressSpinnerValueContext } fro
   templateUrl: './progress-spinner-template.demo.html',
   styleUrl: './progress-spinner-template.demo.scss'
 })
-export class ProgressSpinnerTemplateValueTemplateDemo {
+export class ProgressSpinnerTemplateDemo {
+  protected readonly progress = signal(35);
+
+
   protected readonly fileFormatter = (
     context: AerisProgressSpinnerValueContext,
   ): string => `${context.value} of ${context.max} files processed`;
@@ -408,17 +422,13 @@ import { AerisProgressSpinnerModule } from '@aeris-ui/core/progress-spinner';
     .token-spinner {
       --aeris-progress-spinner-size: 5.5rem;
       --aeris-progress-spinner-indicator: var(--aeris-success);
-      --aeris-progress-spinner-track: color-mix(
-        in srgb,
-        var(--aeris-success) 22%,
-        transparent
-      );
+      --aeris-progress-spinner-track: color-mix(in srgb, var(--aeris-success) 22%, transparent);
       --aeris-progress-spinner-value-color: var(--aeris-success);
       --aeris-progress-spinner-value-font-size: 0.875rem;
     }
   `
 })
-export class ProgressSpinnerTokensTokenCustomizationDemo {
+export class ProgressSpinnerTokensDemo {
 }
 ```
 
@@ -429,6 +439,7 @@ export class ProgressSpinnerTokensTokenCustomizationDemo {
 - Determinate mode exposes clamped minimum, maximum, current value, and formatted value text.
 - The decorative SVG and centered duplicate text are hidden from assistive technology.
 - The component is non-interactive and never enters the tab order.
+- Use ariaLabelledBy for a visible label and ariaDescribedBy for supporting text (space-separated IDs). Mark the affected region busy while loading. The spinner is not a live region; use one separate status for important phase changes, outside the busy region, rather than announcing every numeric update.
 - Reduced-motion mode stops rotation and retains a static arc so loading remains visually indicated.
 
 ### Keyboard support

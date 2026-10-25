@@ -2,7 +2,7 @@
   <app-component-page-header
     category="Button"
     title="Button Group"
-    description="Visually connects related actions while preserving each button or link's native semantics, state, and keyboard behavior."
+    description="Connect related actions, or opt native buttons into accessible single or multiple selection with forms support."
   />
 
   <section class="import-section" aria-labelledby="button-group-import-title">
@@ -38,6 +38,272 @@
     &lt;button aerisButton variant="solid" severity="primary"&gt;Save&lt;/button&gt;
     &lt;button aerisButton variant="solid" severity="primary"&gt;Preview&lt;/button&gt;
     &lt;button aerisButton variant="solid" severity="primary"&gt;Publish&lt;/button&gt;
+  &lt;/aeris-button-group&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+            <app-button-demo
+              id="group-single"
+              title="Single selection"
+              description="A single-choice segmented group uses radio semantics and one Tab stop. Arrow keys move focus and selection."
+            >
+              <div preview class="stack">
+                <aeris-button-group
+                  selectionMode="single"
+                  ariaLabel="Single selection"
+                  [(value)]="single"
+                >
+                  <button aerisButton aerisButtonGroupItem variant="outline" value="day">
+                    Day
+                  </button>
+                  <button aerisButton aerisButtonGroupItem variant="outline" value="week">
+                    Week
+                  </button>
+                  <button aerisButton aerisButtonGroupItem variant="outline" value="month">
+                    Month
+                  </button>
+                </aeris-button-group>
+                <output>Selected: {{ single() }}</output>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="stack aeris-example-row"&gt;
+  &lt;aeris-button-group
+    selectionMode="single"
+    ariaLabel="Single selection"
+    [(value)]="single"
+  &gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="day"&gt;Day&lt;/button&gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="week"&gt;Week&lt;/button&gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="month"&gt;
+      Month
+    &lt;/button&gt;
+  &lt;/aeris-button-group&gt;
+  &lt;output&gt;Selected: &#123;&#123; single() &#125;&#125;&lt;/output&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+            <app-button-demo
+              id="group-multiple"
+              title="Multiple selection"
+              description="Independent choices expose pressed states. Arrows move focus without changing selection; Space or Enter toggles the focused item."
+            >
+              <div preview class="stack">
+                <aeris-button-group
+                  selectionMode="multiple"
+                  ariaLabel="Multiple selection"
+                  [(value)]="multiple"
+                >
+                  <button aerisButton aerisButtonGroupItem variant="outline" value="bold">
+                    Bold
+                  </button>
+                  <button aerisButton aerisButtonGroupItem variant="outline" value="italic">
+                    Italic
+                  </button>
+                  <button aerisButton aerisButtonGroupItem variant="outline" value="underline">
+                    Underline
+                  </button>
+                </aeris-button-group>
+                <output>Selected: {{ multiple() }}</output>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="stack aeris-example-row"&gt;
+  &lt;aeris-button-group
+    selectionMode="multiple"
+    ariaLabel="Multiple selection"
+    [(value)]="multiple"
+  &gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="bold"&gt;Bold&lt;/button&gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="italic"&gt;
+      Italic
+    &lt;/button&gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="underline"&gt;
+      Underline
+    &lt;/button&gt;
+  &lt;/aeris-button-group&gt;
+  &lt;output&gt;Selected: &#123;&#123; multiple() &#125;&#125;&lt;/output&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+            <app-button-demo
+              id="group-optional"
+              title="Empty selection"
+              description="allowEmpty lets an optional single-choice group clear its selected item. required prevents clearing the final selection."
+            >
+              <div preview class="stack">
+                <aeris-button-group
+                  selectionMode="single"
+                  allowEmpty
+                  ariaLabel="Optional selection"
+                  [(value)]="optional"
+                >
+                  <button aerisButton aerisButtonGroupItem variant="outline" value="start">
+                    Start
+                  </button>
+                  <button aerisButton aerisButtonGroupItem variant="outline" value="end">
+                    End
+                  </button>
+                </aeris-button-group>
+                <output>Selected: {{ optional() ?? 'None' }}</output>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="stack aeris-example-row"&gt;
+  &lt;aeris-button-group
+    selectionMode="single"
+    allowEmpty
+    ariaLabel="Optional selection"
+    [(value)]="optional"
+  &gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="start"&gt;
+      Start
+    &lt;/button&gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="end"&gt;End&lt;/button&gt;
+  &lt;/aeris-button-group&gt;
+  &lt;output&gt;Selected: &#123;&#123; optional() ?? 'None' &#125;&#125;&lt;/output&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+            <app-button-demo
+              id="group-controlled"
+              title="Controlled selection"
+              description="Update selection externally. Disabled and loading members are skipped; vertical groups use Up/Down navigation."
+            >
+              <div preview class="stack">
+                <div class="wrap">
+                  <button aerisButton variant="outline" (click)="controlled.set('four')">
+                    Select fourth
+                  </button>
+                  <button
+                    aerisButton
+                    variant="outline"
+                    (click)="groupDisabled.set(!groupDisabled())"
+                  >
+                    Toggle disabled
+                  </button>
+                </div>
+                <aeris-button-group
+                  selectionMode="single"
+                  orientation="vertical"
+                  ariaLabel="Controlled selection"
+                  [(value)]="controlled"
+                  [disabled]="groupDisabled()"
+                >
+                  <button aerisButton aerisButtonGroupItem variant="outline" value="one">
+                    First
+                  </button>
+                  <button aerisButton aerisButtonGroupItem variant="outline" value="two" disabled>
+                    Second (disabled)
+                  </button>
+                  <button aerisButton aerisButtonGroupItem variant="outline" value="three" loading>
+                    Third (loading)
+                  </button>
+                  <button aerisButton aerisButtonGroupItem variant="outline" value="four">
+                    Fourth
+                  </button>
+                </aeris-button-group>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="stack aeris-example-row"&gt;
+  &lt;div class="wrap"&gt;
+    &lt;button aerisButton variant="outline" (click)="controlled.set('four')"&gt;
+      Select fourth
+    &lt;/button&gt;
+    &lt;button aerisButton variant="outline" (click)="groupDisabled.set(!groupDisabled())"&gt;
+      Toggle disabled
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-button-group
+    selectionMode="single"
+    orientation="vertical"
+    ariaLabel="Controlled selection"
+    [(value)]="controlled"
+    [disabled]="groupDisabled()"
+  &gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="one"&gt;First&lt;/button&gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="two" disabled&gt;
+      Second (disabled)
+    &lt;/button&gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="three" loading&gt;
+      Third (loading)
+    &lt;/button&gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="four"&gt;
+      Fourth
+    &lt;/button&gt;
+  &lt;/aeris-button-group&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+            <app-button-demo
+              id="group-signal-forms"
+              title="Signal Forms"
+              description="Attach the form to the group, not its members. Required pristine fields stay neutral until touched; selecting an item clears the error."
+            >
+              <div preview class="stack">
+                <aeris-button-group
+                  selectionMode="single"
+                  ariaLabel="Required selection"
+                  [formField]="selectionForm.choice"
+                  [ariaDescribedBy]="selectionError() ? 'group-selection-error' : ''"
+                >
+                  <button aerisButton aerisButtonGroupItem variant="outline" value="one">
+                    One
+                  </button>
+                  <button aerisButton aerisButtonGroupItem variant="outline" value="two">
+                    Two
+                  </button>
+                </aeris-button-group>
+                <button
+                  aerisButton
+                  variant="outline"
+                  (click)="selectionForm.choice().markAsTouched()"
+                >
+                  Mark touched
+                </button>
+                @if (selectionError()) {
+                  <aeris-message id="group-selection-error" severity="danger"
+                    >Choose one option.</aeris-message
+                  >
+                }
+                <output>Selected: {{ selectionData().choice ?? 'None' }}</output>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="stack aeris-example-row"&gt;
+  &lt;aeris-button-group
+    selectionMode="single"
+    ariaLabel="Required selection"
+    [formField]="selectionForm.choice"
+    [ariaDescribedBy]="selectionError() ? 'group-selection-error' : ''"
+  &gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="one"&gt;One&lt;/button&gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="two"&gt;Two&lt;/button&gt;
+  &lt;/aeris-button-group&gt;
+  &lt;button aerisButton variant="outline" (click)="selectionForm.choice().markAsTouched()"&gt;
+    Mark touched
+  &lt;/button&gt;
+  &#64;if (selectionError()) &#123;
+    &lt;aeris-message id="group-selection-error" severity="danger"&gt;
+      Choose one option.
+    &lt;/aeris-message&gt;
+  &#125;
+  &lt;output&gt;Selected: &#123;&#123; selectionData().choice ?? 'None' &#125;&#125;&lt;/output&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+            <app-button-demo
+              id="group-reactive-forms"
+              title="Reactive Forms"
+              description="The group also supports formControl, formControlName and ngModel. Use a string or null for single mode and an array for multiple mode."
+            >
+              <div preview>
+                <aeris-button-group
+                  selectionMode="multiple"
+                  ariaLabel="Reactive selection"
+                  [formControl]="selectionControl"
+                >
+                  <button aerisButton aerisButtonGroupItem variant="outline" value="one">
+                    One
+                  </button>
+                  <button aerisButton aerisButtonGroupItem variant="outline" value="two">
+                    Two
+                  </button>
+                </aeris-button-group>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
+  &lt;aeris-button-group
+    selectionMode="multiple"
+    ariaLabel="Reactive selection"
+    [formControl]="selectionControl"
+  &gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="one"&gt;One&lt;/button&gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="two"&gt;Two&lt;/button&gt;
   &lt;/aeris-button-group&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
@@ -98,7 +364,7 @@
                     iconOnly
                     aria-label="Align left"
                   >
-                    <span aria-hidden="true">L</span>
+                    <svg [lucideIcon]="icons.AlignLeft" aria-hidden="true"></svg>
                   </button>
                   <button
                     aerisButton
@@ -107,7 +373,7 @@
                     iconOnly
                     aria-label="Align center"
                   >
-                    <span aria-hidden="true">C</span>
+                    <svg [lucideIcon]="icons.AlignCenter" aria-hidden="true"></svg>
                   </button>
                   <button
                     aerisButton
@@ -116,7 +382,7 @@
                     iconOnly
                     aria-label="Align right"
                   >
-                    <span aria-hidden="true">R</span>
+                    <svg [lucideIcon]="icons.AlignRight" aria-hidden="true"></svg>
                   </button>
                 </aeris-button-group>
               </div>
@@ -129,7 +395,7 @@
       iconOnly
       aria-label="Align left"
     &gt;
-      &lt;span aria-hidden="true"&gt;L&lt;/span&gt;
+      &lt;svg [lucideIcon]="icons.AlignLeft" aria-hidden="true"&gt;&lt;/svg&gt;
     &lt;/button&gt;
     &lt;button
       aerisButton
@@ -138,7 +404,7 @@
       iconOnly
       aria-label="Align center"
     &gt;
-      &lt;span aria-hidden="true"&gt;C&lt;/span&gt;
+      &lt;svg [lucideIcon]="icons.AlignCenter" aria-hidden="true"&gt;&lt;/svg&gt;
     &lt;/button&gt;
     &lt;button
       aerisButton
@@ -147,7 +413,7 @@
       iconOnly
       aria-label="Align right"
     &gt;
-      &lt;span aria-hidden="true"&gt;R&lt;/span&gt;
+      &lt;svg [lucideIcon]="icons.AlignRight" aria-hidden="true"&gt;&lt;/svg&gt;
     &lt;/button&gt;
   &lt;/aeris-button-group&gt;
 &lt;/div&gt;</code></pre>
@@ -232,9 +498,7 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
   &lt;aeris-button-group ariaLabel="Synchronization actions"&gt;
-    &lt;button aerisButton variant="solid" severity="primary" loading disabled&gt;
-      Sync
-    &lt;/button&gt;
+    &lt;button aerisButton variant="solid" severity="primary" loading disabled&gt;Sync&lt;/button&gt;
     &lt;button aerisButton variant="solid" severity="primary"&gt;Retry&lt;/button&gt;
     &lt;button aerisButton variant="solid" severity="primary" disabled&gt;Cancel&lt;/button&gt;
   &lt;/aeris-button-group&gt;
@@ -270,7 +534,9 @@
       href="https://github.com"
       target="_blank"
       rel="noopener noreferrer"
-      &gt;Open GitHub&lt;/a&gt;
+    &gt;
+      Open GitHub
+    &lt;/a&gt;
   &lt;/aeris-button-group&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
@@ -307,11 +573,67 @@
             </div>
 
             <h3 id="group-api-outputs" tabindex="-1">Outputs</h3>
+            <div
+              class="api-table compact"
+              role="table"
+              aria-label="Button Group outputs"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">valueChange</code><span role="cell">AerisButtonGroupValue</span
+                ><span role="cell">Model output; emits when selection changes.</span>
+              </div>
+              <div role="row">
+                <code role="cell">touch</code><span role="cell">void</span
+                ><span role="cell"
+                  >Emits when focus leaves a selectable group. Internal focus moves do not mark it
+                  touched.</span
+                >
+              </div>
+            </div>
             <p>
-              Button Group emits no events. Listen to each child Button output or native event
-              directly.
+              Action-only groups keep native child events. Child click is an activation event; use
+              valueChange for selection changes.
             </p>
+            <h3 id="group-api-items" tabindex="-1">Selection items</h3>
+            <div class="api-table" role="table" aria-label="Button Group item API" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of itemApi; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
 
+            <h3 id="group-api-methods" tabindex="-1">Methods</h3>
+            <div
+              class="api-table compact"
+              role="table"
+              aria-label="Button Group methods"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Method</b><b role="columnheader">Parameters</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">focus(options?)</code><span role="cell">FocusOptions</span
+                ><span role="cell"
+                  >Focuses the selected/active enabled selection member, or the first enabled
+                  member. No-op for action-only, empty or fully disabled groups.</span
+                >
+              </div>
+            </div>
             <h3 id="group-api-content" tabindex="-1">Content</h3>
             <div
               class="api-table compact"
@@ -381,6 +703,28 @@
     <aeris-tab-panel value="accessibility" label="Accessibility">
       <section class="doc-section">
         <h2>Accessibility</h2>
+        <p>
+          By default, ButtonGroup only connects independent actions. Opt-in single selection uses
+          radiogroup/radio and aria-checked; multiple selection uses group/buttons and aria-pressed.
+          Neither mode represents tab panels. Selection members must be direct native button
+          children with unique value strings; wrapper buttons and links are supported only in
+          ordinary action groups.
+        </p>
+        <p>
+          Only one enabled selection member enters the Tab sequence. Home/End move to the first/last
+          enabled item. Horizontal Left/Right follows RTL; vertical groups use Up/Down. Navigation
+          selects in single mode and only focuses in multiple mode. Disabled/loading members are
+          skipped. Controlled values referencing missing/disabled items remain consumer-owned; the
+          next enabled member stays reachable. An all-disabled or empty group has no member Tab
+          stop.
+        </p>
+        <p>
+          Signal Forms forwards invalid and touched automatically; invalid styling and aria-invalid
+          stay synchronized. Manually supplied invalid=true is immediate unless touched=false is
+          supplied. Responsive stacking changes visual layout, not the configured keyboard
+          orientation. For narrow selectable groups, prefer fluid with wrapping labels or explicit
+          vertical orientation.
+        </p>
         <ul>
           <li>
             The host exposes <code>role="group"</code> and should receive <code>ariaLabel</code> or
@@ -388,10 +732,12 @@
           </li>
           <li>
             Every child remains a native button or link and keeps its standard keyboard interaction.
+            In the default selectionMode=none, Button Group does not manage selection or change
+            child roles.
           </li>
           <li>
-            Tab moves through children in DOM order. Arrow keys are not added because these are
-            independent actions.
+            In action-only groups, Tab moves through children in DOM order; no arrow navigation is
+            added.
           </li>
           <li>Icon-only children still require their own accessible names.</li>
           <li>
@@ -412,7 +758,10 @@
           </div>
           <div role="row">
             <span role="cell"><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></span
-            ><span role="cell">Moves through enabled child actions in document order.</span>
+            ><span role="cell"
+              >Action groups: moves through enabled actions. Selection groups: enters/leaves the
+              single enabled member Tab stop.</span
+            >
           </div>
           <div role="row">
             <kbd role="cell">Enter</kbd
@@ -421,6 +770,20 @@
           <div role="row">
             <kbd role="cell">Space</kbd
             ><span role="cell">Activates the focused native button.</span>
+          </div>
+          <div role="row">
+            <span role="cell">Arrow keys</span
+            ><span role="cell"
+              >Selection only: Left/Right horizontally (mirrored in RTL), Up/Down vertically; wraps
+              and skips disabled/loading items. Single mode also selects.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Home / End</span
+            ><span role="cell"
+              >Selection only: focuses first/last enabled member and selects it in single
+              mode.</span
+            >
           </div>
         </div>
       </section>

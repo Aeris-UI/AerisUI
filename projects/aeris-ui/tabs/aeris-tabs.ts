@@ -1,3 +1,4 @@
+import { ɵAerisIcon } from '@aeris-ui/core';
 import { NgTemplateOutlet, isPlatformBrowser } from '@angular/common';
 import {
   PLATFORM_ID,
@@ -128,7 +129,7 @@ export class AerisTabPanel {
       }),
     },
   ],
-  imports: [NgTemplateOutlet],
+  imports: [ɵAerisIcon, NgTemplateOutlet],
   template: `
     <div class="aeris-tabs__panel-source" aria-hidden="true">
       <ng-content />
@@ -143,7 +144,13 @@ export class AerisTabPanel {
           [disabled]="!canScrollPrevious()"
           (click)="scrollTabs(-1)"
         >
-          <span aria-hidden="true"></span>
+          @if (previousIconTemplate(); as customIcon) {
+            <span aria-hidden="true" data-aeris-custom-icon
+              ><ng-container [ngTemplateOutlet]="customIcon"
+            /></span>
+          } @else {
+            <span aerisInternalIcon="chevron" aria-hidden="true"></span>
+          }
         </button>
       }
 
@@ -204,7 +211,13 @@ export class AerisTabPanel {
           [disabled]="!canScrollNext()"
           (click)="scrollTabs(1)"
         >
-          <span aria-hidden="true"></span>
+          @if (nextIconTemplate(); as customIcon) {
+            <span aria-hidden="true" data-aeris-custom-icon
+              ><ng-container [ngTemplateOutlet]="customIcon"
+            /></span>
+          } @else {
+            <span aerisInternalIcon="chevron" aria-hidden="true"></span>
+          }
         </button>
       }
     </div>
@@ -235,6 +248,8 @@ export class AerisTabPanel {
   },
 })
 export class AerisTabs {
+  readonly previousIconTemplate = input<TemplateRef<void>>();
+  readonly nextIconTemplate = input<TemplateRef<void>>();
   private readonly hostElement = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly destroyRef = inject(DestroyRef);

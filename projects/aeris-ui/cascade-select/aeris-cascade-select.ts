@@ -20,7 +20,7 @@ import {
   DestroyRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
+import { ɵAerisIcon, ɵaerisDisplayInvalid } from '@aeris-ui/core';
 import {
   AERIS_OVERLAY_APPEND_TO,
   ɵAerisAppendTo,
@@ -76,7 +76,7 @@ let nextCascadeSelectId = 0;
 
 @Component({
   selector: 'aeris-cascade-select',
-  imports: [NgTemplateOutlet, ɵAerisAppendTo],
+  imports: [ɵAerisIcon, NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     <ng-template #optionList let-items let-level="level">
       <ul class="aeris-cascade-select__options" role="presentation">
@@ -126,7 +126,20 @@ let nextCascadeSelectId = 0;
                   }
                 </span>
                 @if (hasChildren(option)) {
-                  <span class="aeris-cascade-select__option-chevron" aria-hidden="true"></span>
+                  @if (submenuIconTemplate(); as customIcon) {
+                    <span
+                      class="aeris-cascade-select__option-chevron"
+                      aria-hidden="true"
+                      data-aeris-custom-icon
+                      ><ng-container [ngTemplateOutlet]="customIcon"
+                    /></span>
+                  } @else {
+                    <span
+                      aerisInternalIcon="chevron"
+                      class="aeris-cascade-select__option-chevron"
+                      aria-hidden="true"
+                    ></span>
+                  }
                 }
               }
             </button>
@@ -213,11 +226,27 @@ let nextCascadeSelectId = 0;
             [attr.aria-label]="clearButtonAriaLabel()"
             (click)="clear()"
           >
-            <span aria-hidden="true"></span>
+            @if (clearIconTemplate(); as customIcon) {
+              <span aria-hidden="true" data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <span aerisInternalIcon="close" aria-hidden="true"></span>
+            }
           </button>
         }
 
-        <span class="aeris-cascade-select__chevron" aria-hidden="true"></span>
+        @if (dropdownIconTemplate(); as customIcon) {
+          <span class="aeris-cascade-select__chevron" aria-hidden="true" data-aeris-custom-icon
+            ><ng-container [ngTemplateOutlet]="customIcon"
+          /></span>
+        } @else {
+          <span
+            aerisInternalIcon="chevron"
+            class="aeris-cascade-select__chevron"
+            aria-hidden="true"
+          ></span>
+        }
       </div>
 
       @if (open()) {
@@ -266,6 +295,10 @@ let nextCascadeSelectId = 0;
   },
 })
 export class AerisCascadeSelect implements ControlValueAccessor {
+  readonly clearIconTemplate = input<TemplateRef<void>>();
+  readonly dropdownIconTemplate = input<TemplateRef<void>>();
+  readonly submenuIconTemplate = input<TemplateRef<void>>();
+
   protected readonly dismissOverlay = (): boolean => {
     this.closePanel();
     return true;

@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, ElementRef, signal, viewChild } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
 import {
   AerisPopoverModule,
@@ -39,6 +39,12 @@ interface ApiRow {
   styleUrl: './popover.page.scss',
 })
 export class PopoverPage {
+  protected readonly hoverTarget = viewChild<unknown, ElementRef<HTMLButtonElement>>(
+    'hoverButton',
+    {
+      read: ElementRef,
+    },
+  );
   protected readonly controlledOpen = signal(false);
   protected readonly controlledTarget = signal<EventTarget | null>(null);
   protected readonly lastEvent = signal('Popover is closed.');
@@ -47,6 +53,7 @@ export class PopoverPage {
 
   protected readonly featureLinks: readonly PageTocLink[] = [
     { id: 'popover-basic', label: 'Basic' },
+    { id: 'popover-hover', label: 'Hover and focus' },
     { id: 'popover-controlled', label: 'Controlled' },
     { id: 'popover-placement', label: 'Placement' },
     { id: 'popover-templates', label: 'Templates' },
@@ -176,7 +183,8 @@ protected readonly selectedFlight = signal('Aeris 482');`;
 
   protected readonly interfacesCode = `type AerisPopoverPlacement = 'auto' | 'top' | 'right' | 'bottom' | 'left';
 type AerisPopoverAlignment = 'start' | 'center' | 'end';
-type AerisPopoverCloseReason = 'api' | 'close-button' | 'escape' | 'outside';
+type AerisPopoverTrigger = 'manual' | 'hover';
+type AerisPopoverCloseReason = 'api' | 'close-button' | 'escape' | 'outside' | 'interaction';
 type AerisPopoverTarget = Element | EventTarget | Event | null | undefined;
 
 interface AerisPopoverVisibilityChangeEvent {
@@ -195,6 +203,34 @@ interface AerisPopoverTemplateContext {
 
   protected readonly inputs: readonly ApiRow[] = [
     {
+      name: 'trigger',
+      type: 'AerisPopoverTrigger',
+      defaultValue: "'manual'",
+      description:
+        "Options: 'manual', 'hover'. Hover binds pointer and keyboard-focus events to target. Buttons also toggle on click/tap; links keep normal navigation. Hover mode never autofocuses or traps focus.",
+    },
+    {
+      name: 'openDelay',
+      type: 'number',
+      defaultValue: '200',
+      description:
+        'Pointer opening delay in milliseconds in hover mode. Keyboard focus opens immediately. Negative or non-finite values are treated as zero.',
+    },
+    {
+      name: 'closeDelay',
+      type: 'number',
+      defaultValue: '150',
+      description:
+        'Closing delay in milliseconds after pointer and focus leave both regions in hover mode. Safe pointer travel across the gap is allowed first. Negative or non-finite values are treated as zero.',
+    },
+    {
+      name: 'closeIconTemplate',
+      type: 'TemplateRef<AerisPopoverTemplateContext> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Optional close artwork. Takes precedence over the projected close-icon template; Aeris keeps the close button and its accessible name.',
+    },
+    {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
       defaultValue: "global config or 'body'",
@@ -205,7 +241,8 @@ interface AerisPopoverTemplateContext {
       name: 'target',
       type: 'AerisPopoverTarget',
       defaultValue: 'null',
-      description: 'Element or trigger event used when visible is controlled directly.',
+      description:
+        'Element or trigger event used when visible is controlled directly. Required as a stable element reference for automatic hover/focus triggering.',
     },
     { name: 'header', type: 'string', defaultValue: "''", description: 'Visible popover title.' },
     {
@@ -219,7 +256,8 @@ interface AerisPopoverTemplateContext {
       name: 'alignment',
       type: 'AerisPopoverAlignment',
       defaultValue: "'center'",
-      description: "Alignment along the target edge. Options: 'start', 'center', 'end'.",
+      description:
+        "Alignment along the target edge. Horizontal start/end follow the trigger's text direction. Options: 'start', 'center', 'end'.",
     },
     { name: 'width', type: 'string', defaultValue: "''", description: 'Custom popover width.' },
     { name: 'maxWidth', type: 'string', defaultValue: "''", description: 'Custom maximum width.' },
@@ -258,19 +296,21 @@ interface AerisPopoverTemplateContext {
       name: 'focusTrap',
       type: 'boolean',
       defaultValue: 'true',
-      description: 'Keeps Tab navigation inside the popover.',
+      description: 'Keeps Tab navigation inside a manual popover. Ignored in hover mode.',
     },
     {
       name: 'restoreFocus',
       type: 'boolean',
       defaultValue: 'true',
-      description: 'Returns focus to the trigger after close.',
+      description:
+        'Returns focus to the trigger after close. In hover mode, only Escape or closing while focus is inside returns focus; pointer departure and outside clicks never steal focus.',
     },
     {
       name: 'autoFocus',
       type: 'boolean',
       defaultValue: 'true',
-      description: 'Moves focus into the popover after open.',
+      description:
+        'Moves focus into a manual popover after open. Ignored in hover mode; Tab from the trigger enters its content.',
     },
     {
       name: 'initialFocus',
@@ -385,7 +425,7 @@ interface AerisPopoverTemplateContext {
       type: '(Event | null, AerisPopoverCloseReason) => void',
       defaultValue: "reason: 'api'",
       description:
-        "Closes the popover and records the close reason. Options: 'api', 'close-button', 'escape', 'outside'.",
+        "Closes the popover and records the close reason. Options: 'api', 'close-button', 'escape', 'outside', 'interaction'.",
     },
     {
       name: 'toggle(targetOrEvent?, originalEvent?)',

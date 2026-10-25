@@ -2,7 +2,7 @@
 
 > Represent people and entities with images, initials, icons, fallbacks, theme-aware tones, and responsive groups.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/avatar`
 - Human-readable documentation: [https://aeris-ui.dev/components/avatar](https://aeris-ui.dev/components/avatar)
@@ -87,6 +87,29 @@ type AerisAvatarImageLoading = 'eager' | 'lazy';
 type AerisAvatarGroupOverlap = 'subtle' | 'default' | 'strong';
 ```
 
+## Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-avatar-size` | `CSS custom property` | `semantic size token` | Final per-instance size override for every semantic size. |
+| `--aeris-avatar-sm-size` | `CSS custom property` | `control height − 0.625rem` | Small avatar size. |
+| `--aeris-avatar-md-size` | `CSS custom property` | `--aeris-control-height` | Medium avatar size used when no general override is set. |
+| `--aeris-avatar-lg-size` | `CSS custom property` | `control height + 0.75rem` | Large avatar size. |
+| `--aeris-avatar-xl-size` | `CSS custom property` | `control height + 1.75rem` | Extra-large avatar size. |
+| `--aeris-avatar-background` | `CSS custom property` | `tone color mix` | Fallback background. |
+| `--aeris-avatar-color` | `CSS custom property` | `tone color mix` | Fallback text and icon color. |
+| `--aeris-avatar-border` | `CSS custom property` | `tone and border mix` | Avatar border color. |
+| `--aeris-avatar-border-width` | `CSS custom property` | `1px` | Avatar border width. |
+| `--aeris-avatar-radius` | `CSS custom property` | `--aeris-radius-lg` | Rounded shape radius. |
+| `--aeris-avatar-square-radius` | `CSS custom property` | `0.25rem` | Square shape radius. |
+| `--aeris-avatar-font-size` | `CSS custom property` | `0.8125rem` | Default label font size. |
+| `--aeris-avatar-font-weight` | `CSS custom property` | `800` | Label font weight. |
+| `--aeris-avatar-icon-size` | `CSS custom property` | `52%` | Projected icon size. |
+| `--aeris-avatar-shadow` | `CSS custom property` | `subtle shadow` | Avatar surface shadow. |
+| `--aeris-avatar-group-overlap` | `CSS custom property` | `0.65rem` | Default group overlap. |
+| `--aeris-avatar-group-ring-size` | `CSS custom property` | `2px` | Group separation ring width. |
+| `--aeris-avatar-group-ring-color` | `CSS custom property` | `--aeris-surface` | Group separation ring color. |
+
 ## Examples
 
 ### Basic
@@ -115,6 +138,13 @@ import { LucideDynamicIcon, LucideUserRound } from '@lucide/angular';
     </div>
   `,
   styles: `
+    svg:where([lucideIcon]) {
+      width: var(--aeris-icon-size, 1rem);
+      height: var(--aeris-icon-size, 1rem);
+      flex-shrink: 0;
+      stroke-width: 2;
+    }
+
     .avatar-row {
       display: flex;
       flex-wrap: wrap;
@@ -123,8 +153,7 @@ import { LucideDynamicIcon, LucideUserRound } from '@lucide/angular';
     }
   `
 })
-export class AvatarBasicBasicDemo {
-
+export class AvatarBasicDemo {
   protected readonly icons = { UserRound: LucideUserRound };
 }
 ```
@@ -145,7 +174,7 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
   templateUrl: './avatar-images.demo.html',
   styleUrl: './avatar-images.demo.scss'
 })
-export class AvatarImagesImagesDemo {
+export class AvatarImagesDemo {
 }
 ```
 
@@ -199,44 +228,31 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
 @Component({
   selector: 'app-avatar-sizes-demo',
   imports: [AerisAvatarModule],
-  templateUrl: './avatar-sizes.demo.html',
-  styleUrl: './avatar-sizes.demo.scss'
+  template: `
+    <div>
+      <div class="avatar-row">
+        <aeris-avatar label="SM" ariaLabel="Small avatar" size="sm" />
+        <aeris-avatar label="MD" ariaLabel="Medium avatar" />
+        <aeris-avatar label="LG" ariaLabel="Large rounded avatar" size="lg" shape="rounded" />
+        <aeris-avatar
+          label="XL"
+          ariaLabel="Extra-large square avatar"
+          size="xl"
+          shape="square"
+        />
+      </div>
+    </div>
+  `,
+  styles: `
+    .avatar-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+    }
+  `
 })
-export class AvatarSizesSizesAndShapesDemo {
-}
-```
-
-#### HTML
-
-```html
-<div>
-  <div class="avatar-row">
-    <aeris-avatar label="SM" ariaLabel="Small avatar" size="sm" />
-    <aeris-avatar label="MD" ariaLabel="Medium avatar" />
-    <aeris-avatar
-      label="LG"
-      ariaLabel="Large rounded avatar"
-      size="lg"
-      shape="rounded"
-    />
-    <aeris-avatar
-      label="XL"
-      ariaLabel="Extra-large square avatar"
-      size="xl"
-      shape="square"
-    />
-  </div>
-</div>
-```
-
-#### CSS
-
-```css
-.avatar-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 1rem;
+export class AvatarSizesDemo {
 }
 ```
 
@@ -274,7 +290,7 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
     }
   `
 })
-export class AvatarTonesTonesDemo {
+export class AvatarTonesDemo {
 }
 ```
 
@@ -317,7 +333,7 @@ import { AerisBadgeModule } from '@aeris-ui/core/badge';
     }
   `
 })
-export class AvatarBadgeBadgeDemo {
+export class AvatarBadgeDemo {
 }
 ```
 
@@ -341,16 +357,12 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
         <aeris-avatar imageSrc="/puppies/puppy6.jpg" imageAlt="Luna" />
         <aeris-avatar imageSrc="/puppies/puppy7.jpg" imageAlt="Archie" />
         <aeris-avatar imageSrc="/puppies/puppy8.jpg" imageAlt="Daisy" />
-        <aeris-avatar
-          label="+4"
-          ariaLabel="Four more design team members"
-          tone="neutral"
-        />
+        <aeris-avatar label="+4" ariaLabel="Four more design team members" tone="neutral" />
       </aeris-avatar-group>
     </div>
   `
 })
-export class AvatarGroupGroupDemo {
+export class AvatarGroupDemo {
 }
 ```
 
@@ -390,10 +402,18 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
 
     .avatar-fallback-demo p {
       margin: 0;
+      color: var(--aeris-text-2);
+    }
+
+    @media (max-width: 30rem) {
+      .avatar-fallback-demo {
+          align-items: flex-start;
+          flex-direction: column;
+        }
     }
   `
 })
-export class AvatarFallbackImageFallbackDemo {
+export class AvatarFallbackDemo {
   protected readonly imageStatus = signal(
     'Waiting for the image.',
   );
@@ -436,7 +456,7 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
     }
   `
 })
-export class AvatarCustomTokenCustomizationDemo {
+export class AvatarCustomDemo {
 }
 ```
 

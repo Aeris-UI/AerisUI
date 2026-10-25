@@ -1,3 +1,4 @@
+@use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 aeris-menu,
@@ -294,6 +295,8 @@ aeris-menu,
   }
 }
 
+@include aeris-icons.custom-icon;
+
 @media (prefers-reduced-motion: reduce) {
   .aeris-menu__panel[data-positioned='true'] {
     animation: none;
@@ -306,4 +309,10 @@ aeris-menu,
   .aeris-menu__item {
     transition: none;
   }
+}
+
+.aeris-menu__chevron:not([data-aeris-custom-icon]) {
+  background: currentColor;
+  -webkit-mask: var(--aeris-icon-chevron) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-chevron) center / 100% 100% no-repeat;
 }

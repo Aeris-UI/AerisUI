@@ -8,6 +8,7 @@ const COMPONENT_ROOT = 'projects/docs/src/app/pages/components';
 const CATALOG_PATH = 'projects/docs/src/app/data/component-catalog.ts';
 const DEMO_CODE_PATH = 'projects/docs/src/app/shared/demo-code.ts';
 const GENERATED_STYLES_PATH = 'projects/docs/src/app/shared/generated-example-styles.ts';
+const GENERATED_CODE_PATH = 'projects/docs/src/app/shared/generated-example-code.ts';
 const GUIDE_DATA_PATH = 'projects/docs/src/app/pages/guides/guide-data.ts';
 const RELEASE_DATA_PATH = 'projects/docs/src/app/pages/guides/release-data.ts';
 const PALETTE_DATA_PATH = 'projects/docs/src/app/data/docs-palettes.ts';
@@ -21,13 +22,19 @@ const shouldCheck = process.argv.includes('--check') || !shouldWrite;
 const parser = new HtmlParser();
 const unsupported = Symbol('unsupported');
 
-const [{ COMPONENT_CATALOG, COMPONENT_CATEGORIES }, { buildAngularDemoSources }, stylesModule] =
-  await Promise.all([
-    loadSelfContainedModule(CATALOG_PATH),
-    loadSelfContainedModule(DEMO_CODE_PATH),
-    loadSelfContainedModule(GENERATED_STYLES_PATH),
-  ]);
+const [
+  { COMPONENT_CATALOG, COMPONENT_CATEGORIES },
+  { buildAngularDemoSources },
+  stylesModule,
+  codeModule,
+] = await Promise.all([
+  loadSelfContainedModule(CATALOG_PATH),
+  loadSelfContainedModule(DEMO_CODE_PATH),
+  loadSelfContainedModule(GENERATED_STYLES_PATH),
+  loadSelfContainedModule(GENERATED_CODE_PATH),
+]);
 const DOC_EXAMPLE_STYLES = stylesModule.DOC_EXAMPLE_STYLES;
+const DOC_EXAMPLE_CODE = codeModule.DOC_EXAMPLE_CODE;
 const packageJson = JSON.parse(await readFile(PACKAGE_PATH, 'utf8'));
 const angularMajor = packageJson.version.split('.')[0];
 const JSON_OUTPUT_PATH = `projects/docs/public/ai/${angularMajor}/aeris-docs.json`;
@@ -84,6 +91,7 @@ for (const catalogItem of COMPONENT_CATALOG) {
     .map(([name, entries]) => ({ name, kind: classifyApiGroup(name), entries }));
   const designTokens = uniqueApiEntries([
     ...apiArrays.filter((group) => group.kind === 'token').flatMap((group) => group.entries),
+    ...extractTokenArrays(values),
     ...extractStaticTokens(parsed.rootNodes),
   ]);
   const api = apiArrays
@@ -282,14 +290,15 @@ function extractExamples(nodes, values, buildSources) {
     );
     const classCode = resolveAttribute(demo, 'tsCode', values);
     const explicitCss = resolveAttribute(demo, 'cssCode', values);
-    const cssCode = [DOC_EXAMPLE_STYLES[id], explicitCss]
-      .filter((value) => typeof value === 'string' && value.trim())
-      .join('\n\n');
+    const cssCode = DOC_EXAMPLE_STYLES[id] ?? explicitCss;
     const sources = buildSources({
       anchor: id,
       title,
       template,
-      classCode: typeof classCode === 'string' ? classCode : undefined,
+      classCode:
+        [DOC_EXAMPLE_CODE[id], classCode]
+          .filter((value) => typeof value === 'string' && value.trim())
+          .join('\n\n') || undefined,
       cssCode: cssCode || undefined,
     });
     result.push({ id, title, description, sources });
@@ -325,6 +334,42 @@ function extractAccessibility(nodes) {
     guidance: uniqueBy(guidance, (item) => item),
     keyboard,
   };
+}
+
+function extractTokenArrays(values) {
+  const entries = [];
+  for (const [name, value] of values) {
+    if (!/token/i.test(name) || !Array.isArray(value) || isApiEntryArray(value)) continue;
+    for (const row of value) {
+      if (
+        Array.isArray(row) &&
+        row.length === 3 &&
+        row.every((cell) => typeof cell === 'string') &&
+        row[0].startsWith('--aeris-')
+      ) {
+        entries.push({
+          name: row[0],
+          type: 'CSS custom property',
+          defaultValue: row[1],
+          description: row[2],
+        });
+      } else if (
+        isRecord(row) &&
+        typeof row.name === 'string' &&
+        row.name.startsWith('--aeris-') &&
+        typeof row.purpose === 'string' &&
+        typeof row.fallback === 'string'
+      ) {
+        entries.push({
+          name: row.name,
+          type: 'CSS custom property',
+          defaultValue: row.fallback,
+          description: row.purpose,
+        });
+      }
+    }
+  }
+  return entries;
 }
 
 function extractStaticTokens(nodes) {
@@ -986,7 +1031,8 @@ function renderLlms(documentation, major) {
     '',
     `- [Installation](${DOCS_ORIGIN}/guides/installation): Install and configure Aeris, including global styles and the theme provider.`,
     `- [Configuration](${DOCS_ORIGIN}/guides/configuration): Configure runtime behavior, themes, direction, density, and corners.`,
-    `- [Theming](${DOCS_ORIGIN}/guides/theming): Use built-in themes, custom palettes, runtime theming, and build-time generation.`,
+    `- [Theming](${DOCS_ORIGIN}/guides/theming): Choose a preset, apply a brand color, and adjust appearance.`,
+    `- [Theme reference](${DOCS_ORIGIN}/guides/theme-reference): Look up inheritance, exact colors, tokens, validation, and build-time generation.`,
     `- [Accessibility](${DOCS_ORIGIN}/guides/accessibility): Understand the Aeris accessibility contract and consumer responsibilities.`,
     `- [Canonical JSON](${DOCS_ORIGIN}/ai/${major}/aeris-docs.json): Versioned structured documentation for programmatic retrieval.`,
     `- [Full LLM context](${DOCS_ORIGIN}/llms-full.txt): All Aeris guides and component references in one Markdown document.`,

@@ -99,8 +99,9 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="field-row"&gt;
   &lt;aeris-toggle-switch [checked]="true"&gt;Label at end&lt;/aeris-toggle-switch&gt;
-  &lt;aeris-toggle-switch [checked]="true" labelPosition="start"
-    &gt;Label at start&lt;/aeris-toggle-switch&gt;
+  &lt;aeris-toggle-switch [checked]="true" labelPosition="start"&gt;
+    Label at start
+  &lt;/aeris-toggle-switch&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -144,8 +145,9 @@
   &lt;aeris-toggle-switch&gt;Unchecked&lt;/aeris-toggle-switch&gt;
   &lt;aeris-toggle-switch [checked]="true"&gt;Checked&lt;/aeris-toggle-switch&gt;
   &lt;aeris-toggle-switch disabled&gt;Disabled&lt;/aeris-toggle-switch&gt;
-  &lt;aeris-toggle-switch [checked]="true" disabled
-    &gt;Checked and disabled&lt;/aeris-toggle-switch&gt;
+  &lt;aeris-toggle-switch [checked]="true" disabled&gt;
+    Checked and disabled
+  &lt;/aeris-toggle-switch&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -194,11 +196,11 @@
     class="validation-message"
     [class.error]="consentInvalid()"
     aria-live="polite"
-    &gt;&#123;&#123;
-      consentInvalid()
-        ? 'Enable this setting to continue.'
-        : 'This setting is required.'
-    &#125;&#125;&lt;/small&gt;
+  &gt;
+    &#123;&#123;
+      consentInvalid() ? 'Enable this setting to continue.' : 'This setting is required.'
+    &#125;&#125;
+  &lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 

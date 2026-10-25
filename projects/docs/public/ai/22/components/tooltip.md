@@ -2,7 +2,7 @@
 
 > Advisory target text with hover, focus, delays, templates, and accessible tooltip semantics.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/tooltip`
 - Human-readable documentation: [https://aeris-ui.dev/components/tooltip](https://aeris-ui.dev/components/tooltip)
@@ -143,12 +143,19 @@ import { AerisTooltipModule, type AerisTooltipVisibilityEvent } from '@aeris-ui/
     .demo-status {
       width: 100%;
       margin: 0.875rem 0 0;
-      color: var(--text-3);
+      color: var(--aeris-text-3);
+      font-size: 0.8125rem;
+    }
+
+    .demo-status {
+      width: 100%;
+      margin: 0.875rem 0 0;
+      color: var(--aeris-text-3);
       font-size: 0.8125rem;
     }
   `
 })
-export class TooltipBasicBasicDemo {
+export class TooltipBasicDemo {
   protected readonly lastTooltipEvent = signal('Tooltip has not opened yet.');
 
   protected recordTooltip(event: AerisTooltipVisibilityEvent): void {
@@ -176,7 +183,7 @@ import { AerisTooltipModule } from '@aeris-ui/core/tooltip';
   templateUrl: './tooltip-position.demo.html',
   styleUrl: './tooltip-position.demo.scss'
 })
-export class TooltipPositionPositionDemo {
+export class TooltipPositionDemo {
 }
 ```
 
@@ -241,8 +248,21 @@ export class TooltipPositionPositionDemo {
 .demo-status {
   width: 100%;
   margin: 0.875rem 0 0;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
+}
+
+.position-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+  width: min(100%, 34rem);
+}
+
+@media (max-width: 42rem) {
+  .position-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 ```
 
@@ -263,7 +283,7 @@ import { AerisTooltipModule } from '@aeris-ui/core/tooltip';
   templateUrl: './tooltip-delay.demo.html',
   styleUrl: './tooltip-delay.demo.scss'
 })
-export class TooltipDelayDelayDemo {
+export class TooltipDelayDemo {
 }
 ```
 
@@ -312,8 +332,15 @@ export class TooltipDelayDelayDemo {
 .demo-status {
   width: 100%;
   margin: 0.875rem 0 0;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
+}
+
+.demo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
 }
 ```
 
@@ -334,7 +361,7 @@ import { AerisTooltipModule } from '@aeris-ui/core/tooltip';
   templateUrl: './tooltip-events.demo.html',
   styleUrl: './tooltip-events.demo.scss'
 })
-export class TooltipEventsEventsDemo {
+export class TooltipEventsDemo {
 }
 ```
 
@@ -391,8 +418,15 @@ export class TooltipEventsEventsDemo {
 .demo-status {
   width: 100%;
   margin: 0.875rem 0 0;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
+}
+
+.demo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
 }
 ```
 
@@ -410,58 +444,53 @@ import { AerisTooltipModule } from '@aeris-ui/core/tooltip';
 @Component({
   selector: 'app-tooltip-methods-demo',
   imports: [AerisButton, AerisTooltipModule],
-  templateUrl: './tooltip-methods.demo.html',
-  styleUrl: './tooltip-methods.demo.scss'
+  template: `
+    <div>
+      <div class="demo-actions">
+        <button
+          aerisButton
+          #manualTooltip="aerisTooltip"
+          type="button"
+          aerisTooltip="Controlled from the buttons beside the target."
+        >
+          Manual target
+        </button>
+        <button aerisButton type="button" (click)="manualTooltip.show($event)">Show</button>
+        <button aerisButton type="button" (click)="manualTooltip.hide($event)">Hide</button>
+      </div>
+    </div>
+  `,
+  styles: `
+    .demo-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .position-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.5rem;
+      width: min(100%, 34rem);
+    }
+
+    .demo-status {
+      width: 100%;
+      margin: 0.875rem 0 0;
+      color: var(--aeris-text-3);
+      font-size: 0.8125rem;
+    }
+
+    .demo-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  `
 })
-export class TooltipMethodsMethodsDemo {
-}
-```
-
-#### HTML
-
-```html
-<div>
-  <div class="demo-actions">
-    <button
-      aerisButton
-      #manualTooltip="aerisTooltip"
-      type="button"
-      aerisTooltip="Controlled from the buttons beside the target."
-    >
-      Manual target
-    </button>
-    <button aerisButton type="button" (click)="manualTooltip.show($event)">
-      Show
-    </button>
-    <button aerisButton type="button" (click)="manualTooltip.hide($event)">
-      Hide
-    </button>
-  </div>
-</div>
-```
-
-#### CSS
-
-```css
-.demo-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.position-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.5rem;
-  width: min(100%, 34rem);
-}
-
-.demo-status {
-  width: 100%;
-  margin: 0.875rem 0 0;
-  color: var(--text-3);
-  font-size: 0.8125rem;
+export class TooltipMethodsDemo {
 }
 ```
 
@@ -482,7 +511,7 @@ import { AerisTooltipModule } from '@aeris-ui/core/tooltip';
   templateUrl: './tooltip-template.demo.html',
   styleUrl: './tooltip-template.demo.scss'
 })
-export class TooltipTemplateTemplateDemo {
+export class TooltipTemplateDemo {
 }
 ```
 
@@ -511,40 +540,6 @@ export class TooltipTemplateTemplateDemo {
 #### CSS
 
 ```css
-.tooltip-card {
-  display: grid;
-  gap: 0.35rem;
-}
-
-.tooltip-card strong {
-  color: var(--aeris-tooltip-color, currentColor);
-}
-
-.tooltip-card p {
-  margin: 0;
-}
-
-.demo-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.position-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.5rem;
-  width: min(100%, 34rem);
-}
-
-.demo-status {
-  width: 100%;
-  margin: 0.875rem 0 0;
-  color: var(--text-3);
-  font-size: 0.8125rem;
-}
-
 .tooltip-card {
   display: grid;
   gap: 0.35rem;
@@ -604,12 +599,12 @@ import { AerisTooltipModule } from '@aeris-ui/core/tooltip';
     .demo-status {
       width: 100%;
       margin: 0.875rem 0 0;
-      color: var(--text-3);
+      color: var(--aeris-text-3);
       font-size: 0.8125rem;
     }
   `
 })
-export class TooltipOptionsOptionsDemo {
+export class TooltipOptionsDemo {
 }
 ```
 

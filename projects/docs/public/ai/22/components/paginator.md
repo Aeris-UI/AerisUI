@@ -2,7 +2,7 @@
 
 > Navigate large record sets with page links, row count selection, and controlled state.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/paginator`
 - Human-readable documentation: [https://aeris-ui.dev/components/paginator](https://aeris-ui.dev/components/paginator)
@@ -29,6 +29,12 @@ import { AerisPaginator } from '@aeris-ui/core/paginator';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `firstIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the first icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `previousIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the previous icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `nextIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the next icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `lastIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the last icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `dropdownIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the dropdown icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `checkIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the check icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the rows-per-page menu locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the rows menu inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `first` | `number (model)` | `0` | Index of the first record in the current page. |
@@ -98,7 +104,7 @@ import { AerisPaginator } from '@aeris-ui/core/paginator';
     }
   `
 })
-export class PaginatorBasicBasicDemo {
+export class PaginatorBasicDemo {
 }
 ```
 
@@ -135,7 +141,7 @@ import { AerisPaginator } from '@aeris-ui/core/paginator';
     }
   `
 })
-export class PaginatorRowsRowsPerPageDemo {
+export class PaginatorRowsDemo {
 }
 ```
 
@@ -181,7 +187,7 @@ import { AerisPaginator, type AerisPaginatorPageEvent } from '@aeris-ui/core/pag
     }
   `
 })
-export class PaginatorControlledControlledStateDemo {
+export class PaginatorControlledDemo {
   protected readonly first = signal(0);
   protected readonly rows = signal(10);
   protected readonly eventText = signal('No page change yet');
@@ -226,7 +232,7 @@ import { AerisPaginator } from '@aeris-ui/core/paginator';
     }
   `
 })
-export class PaginatorLinksPageLinkCountDemo {
+export class PaginatorLinksDemo {
 }
 ```
 

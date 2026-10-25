@@ -55,6 +55,24 @@
             </app-form-demo>
 
             <app-form-demo
+              id="input-component"
+              title="Component value"
+              description="Use the component's value model for two-way string binding. Unfinished IME input stays visible in the field, while the bound value updates once composition finishes."
+              [tsCode]="componentCode"
+            >
+              <div preview class="field">
+                <label for="component-text">Text</label>
+                <aeris-input-text inputId="component-text" [(value)]="componentText" fluid />
+                <small aria-live="polite">Committed value: {{ componentText() || 'Empty' }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="component-text"&gt;Text&lt;/label&gt;
+  &lt;aeris-input-text inputId="component-text" [(value)]="componentText" fluid /&gt;
+  &lt;small aria-live="polite"&gt;Committed value: &#123;&#123; componentText() || 'Empty' &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
               id="input-types"
               title="Input types"
               description="The directive supports applicable native single-line input types without changing browser behavior."
@@ -100,12 +118,7 @@
               <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
   &lt;div class="field"&gt;
     &lt;label for="input-text-type"&gt;Text&lt;/label&gt;
-    &lt;input
-      id="input-text-type"
-      aerisInputText
-      type="text"
-      placeholder="Project name"
-    /&gt;
+    &lt;input id="input-text-type" aerisInputText type="text" placeholder="Project name" /&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;
     &lt;label for="input-email-type"&gt;Email&lt;/label&gt;
@@ -313,57 +326,36 @@
 
             <app-form-demo
               id="input-affixes"
-              title="Icons and affixes"
-              description="Compose decorative icons and actions around the native input. Focus-within keeps the group visually unified."
-              [cssCode]="affixCssCode"
+              title="Icon composition"
+              description="Use IconField for the shared shell and InputText's built-in clear action. No custom field styling is needed."
             >
               <div preview class="field">
                 <label for="project-search">Search projects</label>
-                <span class="input-affix">
-                  <svg [lucideIcon]="icons.Search"></svg>
-                  <input
-                    #searchInput
-                    id="project-search"
-                    aerisInputText
+                <aeris-icon-field fluid>
+                  <svg aerisIcon [lucideIcon]="icons.Search"></svg>
+                  <aeris-input-text
+                    inputId="project-search"
                     type="search"
                     placeholder="Search by name"
+                    clearable
+                    clearButtonAriaLabel="Clear search"
+                    fluid
                   />
-                  <button
-                    aerisButton
-                    variant="ghost"
-                    size="sm"
-                    iconOnly
-                    type="button"
-                    aria-label="Clear search"
-                    (click)="clearSearch(searchInput)"
-                  >
-                    <svg [lucideIcon]="icons.X"></svg>
-                  </button>
-                </span>
+                </aeris-icon-field>
               </div>
               <pre code><code ngNonBindable>&lt;div class="field"&gt;
   &lt;label for="project-search"&gt;Search projects&lt;/label&gt;
-  &lt;span class="input-affix"&gt;
-    &lt;svg [lucideIcon]="icons.Search"&gt;&lt;/svg&gt;
-    &lt;input
-      #searchInput
-      id="project-search"
-      aerisInputText
+  &lt;aeris-icon-field fluid&gt;
+    &lt;svg aerisIcon [lucideIcon]="icons.Search"&gt;&lt;/svg&gt;
+    &lt;aeris-input-text
+      inputId="project-search"
       type="search"
       placeholder="Search by name"
+      clearable
+      clearButtonAriaLabel="Clear search"
+      fluid
     /&gt;
-    &lt;button
-      aerisButton
-      variant="ghost"
-      size="sm"
-      iconOnly
-      type="button"
-      aria-label="Clear search"
-      (click)="clearSearch(searchInput)"
-    &gt;
-      &lt;svg [lucideIcon]="icons.X"&gt;&lt;/svg&gt;
-    &lt;/button&gt;
-  &lt;/span&gt;
+  &lt;/aeris-icon-field&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -428,6 +420,38 @@
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
+            <app-form-demo
+              id="input-search"
+              title="Search form"
+              description="Compose a normal search form with a clearable InputText. Enter and the submit button use native form submission; the application owns searching and timing. Text composition is buffered until it completes."
+            >
+              <form preview class="field" role="search" (submit)="submitSearch($event)">
+                <label for="search-form-query">Search query</label>
+                <aeris-input-text
+                  inputId="search-form-query"
+                  type="search"
+                  clearable
+                  fluid
+                  [(value)]="searchQuery"
+                />
+                <button aerisButton type="submit">Search</button>
+                <small role="status">Submitted: {{ submittedSearch() }}</small>
+              </form>
+              <pre
+                code
+              ><code ngNonBindable>&lt;form class="field" role="search" (submit)="submitSearch($event)"&gt;
+  &lt;label for="search-form-query"&gt;Search query&lt;/label&gt;
+  &lt;aeris-input-text
+    inputId="search-form-query"
+    type="search"
+    clearable
+    fluid
+    [(value)]="searchQuery"
+  /&gt;
+  &lt;button aerisButton type="submit"&gt;Search&lt;/button&gt;
+  &lt;small role="status"&gt;Submitted: &#123;&#123; submittedSearch() &#125;&#125;&lt;/small&gt;
+&lt;/form&gt;</code></pre>
+            </app-form-demo>
             <app-form-demo
               id="input-angular-forms"
               title="Reactive and template-driven forms"
@@ -615,6 +639,13 @@
       <section class="doc-section">
         <h2>Accessibility</h2>
         <ul>
+          <li>
+            The component buffers IME edits until composition ends, avoiding partial model and form
+            updates. Applications that require intermediate updates can provide Angular's
+            <code>COMPOSITION_BUFFER_MODE</code> token with <code>false</code>. The native directive
+            keeps Angular's native value-accessor behavior. Aeris does not add an Enter-to-submit
+            policy.
+          </li>
           <li>
             InputText preserves native input semantics, keyboard behavior, autofill, selection, and
             form submission.

@@ -2,7 +2,7 @@
 
 > Right-click action menu with target or global triggers, nested submenus, templates, commands, and keyboard navigation.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/context-menu`
 - Human-readable documentation: [https://aeris-ui.dev/components/context-menu](https://aeris-ui.dev/components/context-menu)
@@ -29,6 +29,7 @@ import { AerisContextMenuModule } from '@aeris-ui/core/context-menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `submenuIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the menu overlay locally, in document.body, or in the supplied DOM/template target. |
 | `id` | `string` | `generated id` | Root menu ID used for menu and submenu relationships. |
 | `model` | `readonly AerisContextMenuItem&lt;T&gt;[]` | `[]` | Menu item model including separators, disabled state, commands, links, and nested children. |
@@ -187,16 +188,16 @@ import { AerisContextMenuModule, type AerisContextMenuItem } from '@aeris-ui/cor
       gap: 0.75rem;
       place-items: center;
       min-height: 9rem;
-      border: 1px dashed var(--border);
+      border: 1px dashed var(--aeris-border);
       border-radius: 1rem;
       background: color-mix(in srgb, var(--aeris-primary) 8%, transparent);
-      color: var(--text-2);
+      color: var(--aeris-text-2);
       font-weight: 700;
       text-align: center;
     }
   `
 })
-export class ContextMenuBasicBasicDemo {
+export class ContextMenuBasicDemo {
   protected readonly basicItems: readonly AerisContextMenuItem[] = [
     { label: 'Open' },
     { label: 'Rename' },
@@ -237,16 +238,16 @@ import { AerisContextMenuModule, type AerisContextMenuItem } from '@aeris-ui/cor
       gap: 0.75rem;
       place-items: center;
       min-height: 9rem;
-      border: 1px dashed var(--border);
+      border: 1px dashed var(--aeris-border);
       border-radius: 1rem;
       background: color-mix(in srgb, var(--aeris-primary) 8%, transparent);
-      color: var(--text-2);
+      color: var(--aeris-text-2);
       font-weight: 700;
       text-align: center;
     }
   `
 })
-export class ContextMenuSubmenusSubmenusDemo {
+export class ContextMenuSubmenusDemo {
   protected readonly submenuItems: readonly AerisContextMenuItem[] = [
     {
       label: 'New',
@@ -281,6 +282,13 @@ import { Component } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisContextMenuModule, type AerisContextMenuItem } from '@aeris-ui/core/context-menu';
 
+interface ApiRow {
+  readonly name: string;
+  readonly type: string;
+  readonly defaultValue: string;
+  readonly description: string;
+}
+
 @Component({
   selector: 'app-context-menu-global-demo',
   imports: [AerisButton, AerisContextMenuModule],
@@ -305,16 +313,128 @@ import { AerisContextMenuModule, type AerisContextMenuItem } from '@aeris-ui/cor
       gap: 0.75rem;
       place-items: center;
       min-height: 9rem;
-      border: 1px dashed var(--border);
+      border: 1px dashed var(--aeris-border);
       border-radius: 1rem;
       background: color-mix(in srgb, var(--aeris-primary) 8%, transparent);
-      color: var(--text-2);
+      color: var(--aeris-text-2);
       font-weight: 700;
       text-align: center;
     }
   `
 })
-export class ContextMenuGlobalGlobalDemo {
+export class ContextMenuGlobalDemo {
+  protected readonly tokens: readonly ApiRow[] = [
+      {
+        name: '--aeris-context-menu-z-index',
+        type: 'number',
+        defaultValue: '1060',
+        description: 'Floating layer z-index.',
+      },
+      {
+        name: '--aeris-context-menu-width',
+        type: 'length',
+        defaultValue: '14rem',
+        description: 'Default panel width.',
+      },
+      {
+        name: '--aeris-context-menu-max-width',
+        type: 'length',
+        defaultValue: 'min(22rem, calc(100vw - 1rem))',
+        description: 'Panel max width.',
+      },
+      {
+        name: '--aeris-context-menu-max-height',
+        type: 'length',
+        defaultValue: 'min(26rem, calc(100vh - 1rem))',
+        description: 'Root menu max height.',
+      },
+      {
+        name: '--aeris-context-menu-padding',
+        type: 'length',
+        defaultValue: '--aeris-overlay-padding',
+        description: 'Panel padding.',
+      },
+      {
+        name: '--aeris-context-menu-border',
+        type: 'color',
+        defaultValue: '--aeris-border',
+        description: 'Panel border color.',
+      },
+      {
+        name: '--aeris-context-menu-radius',
+        type: 'length',
+        defaultValue: '--aeris-radius-overlay',
+        description: 'Panel radius shared by Aeris overlay surfaces.',
+      },
+      {
+        name: '--aeris-context-menu-background',
+        type: 'color',
+        defaultValue: '--aeris-surface',
+        description: 'Panel background.',
+      },
+      {
+        name: '--aeris-context-menu-color',
+        type: 'color',
+        defaultValue: '--aeris-text',
+        description: 'Panel text color.',
+      },
+      {
+        name: '--aeris-context-menu-shadow',
+        type: 'shadow',
+        defaultValue: 'overlay shadow',
+        description: 'Panel and submenu shadow.',
+      },
+      {
+        name: '--aeris-context-menu-item-gap',
+        type: 'length',
+        defaultValue: '0.625rem',
+        description: 'Gap inside item rows.',
+      },
+      {
+        name: '--aeris-context-menu-item-min-height',
+        type: 'length',
+        defaultValue: '2.25rem',
+        description: 'Default item height.',
+      },
+      {
+        name: '--aeris-context-menu-item-radius',
+        type: 'length',
+        defaultValue: '--aeris-radius-item',
+        description: 'Item radius shared across root items and nested submenus.',
+      },
+      {
+        name: '--aeris-context-menu-item-hover-background',
+        type: 'color',
+        defaultValue: 'primary mix',
+        description: 'Hover and active item background.',
+      },
+      {
+        name: '--aeris-context-menu-icon-size',
+        type: 'length',
+        defaultValue: '--aeris-icon-size',
+        description: 'Default icon box size.',
+      },
+      {
+        name: '--aeris-context-menu-disabled-opacity',
+        type: 'number',
+        defaultValue: '0.52',
+        description: 'Disabled item opacity.',
+      },
+      {
+        name: '--aeris-context-menu-separator-color',
+        type: 'color',
+        defaultValue: '--aeris-border',
+        description: 'Separator color.',
+      },
+      {
+        name: '--aeris-context-menu-submenu-width',
+        type: 'length',
+        defaultValue: '14rem',
+        description: 'Submenu width.',
+      },
+    ];
+
+
   protected readonly globalItems: readonly AerisContextMenuItem[] = [
     { label: 'Refresh view' },
     { label: 'Copy page link' },
@@ -343,7 +463,7 @@ import { AerisContextMenuModule, type AerisContextMenuItem } from '@aeris-ui/cor
   templateUrl: './context-menu-template.demo.html',
   styleUrl: './context-menu-template.demo.scss'
 })
-export class ContextMenuTemplateTemplateDemo {
+export class ContextMenuTemplateDemo {
   protected readonly templateItems: readonly AerisContextMenuItem[] = [
     { label: 'Aeris Button', badge: 'New' },
     { label: 'Aeris ContextMenu', badge: 'New' },
@@ -408,28 +528,6 @@ export class ContextMenuTemplateTemplateDemo {
   gap: 0.75rem;
   width: 100%;
 }
-
-.context-menu-custom-item {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 0.75rem;
-  width: 100%;
-}
-
-
-.context-menu-target {
-  display: grid;
-  gap: 0.75rem;
-  place-items: center;
-  min-height: 9rem;
-  border: 1px dashed var(--border);
-  border-radius: 1rem;
-  background: color-mix(in srgb, var(--aeris-primary) 8%, transparent);
-  color: var(--text-2);
-  font-weight: 700;
-  text-align: center;
-}
 ```
 
 ### Command
@@ -455,9 +553,7 @@ import { AerisContextMenuModule, type AerisContextMenuItem, type AerisContextMen
         [model]="commandItems"
         ariaLabel="Editor actions"
       />
-      <p class="context-menu-status" aria-live="polite">
-        Last action: {{ selectedAction }}
-      </p>
+      <p class="context-menu-status" aria-live="polite">Last action: {{ selectedAction }}</p>
     </div>
   `,
   styles: `
@@ -479,28 +575,9 @@ import { AerisContextMenuModule, type AerisContextMenuItem, type AerisContextMen
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
     }
-
-    .context-menu-target {
-      display: grid;
-      gap: 0.75rem;
-      place-items: center;
-      min-height: 9rem;
-      border: 1px dashed var(--border);
-      border-radius: 1rem;
-      background: color-mix(in srgb, var(--aeris-primary) 8%, transparent);
-      color: var(--text-2);
-      font-weight: 700;
-      text-align: center;
-    }
-
-    .context-menu-status {
-      margin: 0.75rem 0 0;
-      color: var(--text-2);
-      font-size: 0.8125rem;
-    }
   `
 })
-export class ContextMenuCommandCommandDemo {
+export class ContextMenuCommandDemo {
   protected selectedAction = 'None';
 
   protected readonly commandItems: readonly AerisContextMenuItem[] = [
@@ -532,14 +609,12 @@ import { AerisContextMenu, AerisContextMenuModule, type AerisContextMenuItem } f
   imports: [AerisButton, AerisContextMenuModule],
   template: `
     <div>
-      <button aerisButton type="button" (click)="openManualMenu($event)">
-        Open menu
-      </button>
+      <button aerisButton type="button" (click)="openManualMenu($event)">Open menu</button>
       <aeris-context-menu #manualMenu [model]="manualItems" ariaLabel="Manual actions" />
     </div>
   `
 })
-export class ContextMenuProgrammaticProgrammaticDemo {
+export class ContextMenuProgrammaticDemo {
   protected readonly manualMenu = viewChild<AerisContextMenu>('manualMenu');
 
   protected readonly manualItems: readonly AerisContextMenuItem[] = [

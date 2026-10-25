@@ -2,7 +2,7 @@
 
 > Composable field shell for placing icons around native and Aeris form controls.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/icon-field`
 - Human-readable documentation: [https://aeris-ui.dev/components/icon-field](https://aeris-ui.dev/components/icon-field)
@@ -90,7 +90,7 @@ import { LucideDynamicIcon, LucideSearch } from '@lucide/angular';
   templateUrl: './icon-field-basic.demo.html',
   styleUrl: './icon-field-basic.demo.scss'
 })
-export class IconFieldBasicBasicDemo {
+export class IconFieldBasicDemo {
 
   protected readonly icons = { Search: LucideSearch };
 
@@ -146,6 +146,17 @@ export class IconFieldBasicBasicDemo {
 .field small.error {
   color: var(--aeris-danger);
 }
+
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
+.field {
+  width: min(100%, 34rem);
+}
 ```
 
 ### Icon position
@@ -166,7 +177,7 @@ import { LucideDynamicIcon, LucideMail, LucideSearch } from '@lucide/angular';
   templateUrl: './icon-field-position.demo.html',
   styleUrl: './icon-field-position.demo.scss'
 })
-export class IconFieldPositionIconPositionDemo {
+export class IconFieldPositionDemo {
 
   protected readonly icons = { Mail: LucideMail, Search: LucideSearch };
 }
@@ -193,13 +204,7 @@ export class IconFieldPositionIconPositionDemo {
     <label for="right-icon">Right icon</label>
     <aeris-icon-field iconPosition="right" fluid>
       <svg aerisIcon [lucideIcon]="icons.Search"></svg>
-      <input
-        aerisInputText
-        id="right-icon"
-        type="search"
-        placeholder="Search"
-        fluid
-      />
+      <input aerisInputText id="right-icon" type="search" placeholder="Search" fluid />
     </aeris-icon-field>
   </div>
 </div>
@@ -211,7 +216,7 @@ export class IconFieldPositionIconPositionDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -241,10 +246,21 @@ export class IconFieldPositionIconPositionDemo {
   color: var(--aeris-danger);
 }
 
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 @media (max-width: 42rem) {
   .field-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.field {
+  width: min(100%, 34rem);
 }
 ```
 
@@ -305,9 +321,20 @@ import { LucideDynamicIcon, LucidePackage, LucideSearch } from '@lucide/angular'
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    svg:where([lucideIcon]) {
+      width: var(--aeris-icon-size, 1rem);
+      height: var(--aeris-icon-size, 1rem);
+      flex-shrink: 0;
+      stroke-width: 2;
+    }
+
+    .field {
+      width: min(100%, 34rem);
+    }
   `
 })
-export class IconFieldMultipleMultipleIconsDemo {
+export class IconFieldMultipleDemo {
 
   protected readonly icons = { Package: LucidePackage, Search: LucideSearch };
 }
@@ -368,9 +395,20 @@ import { LucideDynamicIcon, LucideSearch } from '@lucide/angular';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    svg:where([lucideIcon]) {
+      width: var(--aeris-icon-size, 1rem);
+      height: var(--aeris-icon-size, 1rem);
+      flex-shrink: 0;
+      stroke-width: 2;
+    }
+
+    .field {
+      width: min(100%, 34rem);
+    }
   `
 })
-export class IconFieldAerisInputAerisInputDemo {
+export class IconFieldAerisInputDemo {
 
   protected readonly icons = { Search: LucideSearch };
 }
@@ -394,7 +432,7 @@ import { LucideDynamicIcon, LucideSearch } from '@lucide/angular';
   templateUrl: './icon-field-sizes.demo.html',
   styleUrl: './icon-field-sizes.demo.scss'
 })
-export class IconFieldSizesSizesDemo {
+export class IconFieldSizesDemo {
 
   protected readonly icons = { Search: LucideSearch };
 }
@@ -404,51 +442,52 @@ export class IconFieldSizesSizesDemo {
 
 ```html
 <div class="size-grid">
-  <label
-    ><span>Extra small</span>
-    <aeris-icon-field size="xs"
-      ><svg aerisIcon [lucideIcon]="icons.Search"></svg>
+  <label>
+    <span>Extra small</span>
+    <aeris-icon-field size="xs">
+      <svg aerisIcon [lucideIcon]="icons.Search"></svg>
       <input
         aerisInputText
         size="xs"
         aria-label="Extra small search"
-        placeholder="Search" /></aeris-icon-field>
-        </label>
-  <label
-    ><span>Small</span>
-    <aeris-icon-field size="sm"
-      ><svg aerisIcon [lucideIcon]="icons.Search"></svg>
-      <input
-        aerisInputText
-        size="sm"
-        aria-label="Small search"
-        placeholder="Search" /></aeris-icon-field>
-        </label>
-  <label
-    ><span>Medium</span>
-    <aeris-icon-field
-      ><svg aerisIcon [lucideIcon]="icons.Search"></svg>
-      <input
-        aerisInputText
-        aria-label="Medium search"
-        placeholder="Search" /></aeris-icon-field>
-        </label>
-  <label
-    ><span>Large</span>
-    <aeris-icon-field size="lg"
-      ><svg aerisIcon [lucideIcon]="icons.Search"></svg>
-      <input
-        aerisInputText
-        size="lg"
-        aria-label="Large search"
-        placeholder="Search" /></aeris-icon-field>
-        </label>
+        placeholder="Search"
+      />
+    </aeris-icon-field>
+  </label>
+  <label>
+    <span>Small</span>
+    <aeris-icon-field size="sm">
+      <svg aerisIcon [lucideIcon]="icons.Search"></svg>
+      <input aerisInputText size="sm" aria-label="Small search" placeholder="Search" />
+    </aeris-icon-field>
+  </label>
+  <label>
+    <span>Medium</span>
+    <aeris-icon-field>
+      <svg aerisIcon [lucideIcon]="icons.Search"></svg>
+      <input aerisInputText aria-label="Medium search" placeholder="Search" />
+    </aeris-icon-field>
+  </label>
+  <label>
+    <span>Large</span>
+    <aeris-icon-field size="lg">
+      <svg aerisIcon [lucideIcon]="icons.Search"></svg>
+      <input aerisInputText size="lg" aria-label="Large search" placeholder="Search" />
+    </aeris-icon-field>
+  </label>
 </div>
 ```
 
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .size-grid {
   width: 100%;
   display: grid;
@@ -492,7 +531,7 @@ import { LucideAlertTriangle, LucideDynamicIcon, LucideMail, LucideSearch } from
   templateUrl: './icon-field-states.demo.html',
   styleUrl: './icon-field-states.demo.scss'
 })
-export class IconFieldStatesAppearancesAndStatesDemo {
+export class IconFieldStatesDemo {
 
   protected readonly icons = { AlertTriangle: LucideAlertTriangle, Mail: LucideMail, Search: LucideSearch };
 }
@@ -504,41 +543,43 @@ export class IconFieldStatesAppearancesAndStatesDemo {
 <div class="field-grid">
   <div class="field">
     <span>Filled</span>
-    <aeris-icon-field appearance="filled" fluid
-      ><svg aerisIcon [lucideIcon]="icons.Mail"></svg>
-      <input aerisInputText aria-label="Filled email" placeholder="Email" fluid
-    /></aeris-icon-field>
+    <aeris-icon-field appearance="filled" fluid>
+      <svg aerisIcon [lucideIcon]="icons.Mail"></svg>
+      <input aerisInputText aria-label="Filled email" placeholder="Email" fluid />
+    </aeris-icon-field>
   </div>
   <div class="field">
     <span>Compact</span>
-    <aeris-icon-field density="compact" fluid
-      ><svg aerisIcon [lucideIcon]="icons.Search"></svg>
-      <input aerisInputText aria-label="Compact search" placeholder="Search" fluid
-    /></aeris-icon-field>
+    <aeris-icon-field density="compact" fluid>
+      <svg aerisIcon [lucideIcon]="icons.Search"></svg>
+      <input aerisInputText aria-label="Compact search" placeholder="Search" fluid />
+    </aeris-icon-field>
   </div>
   <div class="field">
     <span>Disabled</span>
-    <aeris-icon-field disabled fluid
-      ><svg aerisIcon [lucideIcon]="icons.Search"></svg>
+    <aeris-icon-field disabled fluid>
+      <svg aerisIcon [lucideIcon]="icons.Search"></svg>
       <input
         aerisInputText
         aria-label="Disabled search"
         placeholder="Search"
         disabled
         fluid
-    /></aeris-icon-field>
+      />
+    </aeris-icon-field>
   </div>
   <div class="field">
     <span>Invalid</span>
-    <aeris-icon-field invalid fluid
-      ><svg aerisIcon [lucideIcon]="icons.AlertTriangle"></svg>
+    <aeris-icon-field invalid fluid>
+      <svg aerisIcon [lucideIcon]="icons.AlertTriangle"></svg>
       <input
         aerisInputText
         aria-label="Invalid email"
         value="alex@"
         aria-invalid="true"
         fluid
-    /></aeris-icon-field>
+      />
+    </aeris-icon-field>
   </div>
 </div>
 ```
@@ -549,7 +590,7 @@ export class IconFieldStatesAppearancesAndStatesDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -579,10 +620,21 @@ export class IconFieldStatesAppearancesAndStatesDemo {
   color: var(--aeris-danger);
 }
 
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 @media (max-width: 42rem) {
   .field-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.field {
+  width: min(100%, 34rem);
 }
 ```
 
@@ -641,9 +693,20 @@ import { LucideDynamicIcon, LucideEdit } from '@lucide/angular';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    svg:where([lucideIcon]) {
+      width: var(--aeris-icon-size, 1rem);
+      height: var(--aeris-icon-size, 1rem);
+      flex-shrink: 0;
+      stroke-width: 2;
+    }
+
+    .field {
+      width: min(100%, 34rem);
+    }
   `
 })
-export class IconFieldTextareaTextareaDemo {
+export class IconFieldTextareaDemo {
 
   protected readonly icons = { Edit: LucideEdit };
 }
@@ -667,7 +730,7 @@ import { LucideDynamicIcon, LucideMail } from '@lucide/angular';
   templateUrl: './icon-field-validation.demo.html',
   styleUrl: './icon-field-validation.demo.scss'
 })
-export class IconFieldValidationValidationDemo {
+export class IconFieldValidationDemo {
 
   protected readonly icons = { Mail: LucideMail };
 
@@ -701,8 +764,9 @@ export class IconFieldValidationValidationDemo {
     />
   </aeris-icon-field>
   @if (emailInvalid()) {
-    <small id="icon-email-message" class="error state-message"
-      >Enter a valid email address.</small>
+    <small id="icon-email-message" class="error state-message">
+      Enter a valid email address.
+    </small>
   } @else {
     <small id="icon-email-message" class="state-message">Use your work email.</small>
   }
@@ -738,8 +802,15 @@ export class IconFieldValidationValidationDemo {
   color: var(--aeris-danger);
 }
 
-.field small.error {
-  color: var(--aeris-danger);
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
+.field {
+  width: min(100%, 34rem);
 }
 
 .state-message {
@@ -766,7 +837,7 @@ import { LucideDynamicIcon, LucideSearch } from '@lucide/angular';
   templateUrl: './icon-field-forms.demo.html',
   styleUrl: './icon-field-forms.demo.scss'
 })
-export class IconFieldFormsReactiveAndTemplateDrivenFormsDemo {
+export class IconFieldFormsDemo {
 
   protected readonly icons = { Search: LucideSearch };
 
@@ -817,7 +888,7 @@ export class IconFieldFormsReactiveAndTemplateDrivenFormsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -847,10 +918,21 @@ export class IconFieldFormsReactiveAndTemplateDrivenFormsDemo {
   color: var(--aeris-danger);
 }
 
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 @media (max-width: 42rem) {
   .field-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.field {
+  width: min(100%, 34rem);
 }
 ```
 

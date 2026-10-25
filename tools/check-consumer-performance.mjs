@@ -4,10 +4,22 @@ import { spawnSync } from 'node:child_process';
 import { gzipSync } from 'node:zlib';
 import { createServer } from 'node:http';
 import { performance } from 'node:perf_hooks';
+import { budgetRows, reportPerformance } from './performance-budget.mjs';
 
 const root = resolve('.');
 const workspace = resolve('.angular/consumer-performance');
 const benchmark = process.argv.includes('--benchmark');
+const measureOnly = process.argv.includes('--measure-only');
+if (measureOnly && process.env.CI)
+  throw new Error('Measurement-only mode cannot bypass CI budgets.');
+if (
+  !readFileSync(resolve('dist/aeris-ui/fesm2022/aeris-ui-core-toolbar.mjs'), 'utf8').includes(
+    'ɵɵngDeclareComponent',
+  )
+)
+  throw new Error(
+    'Consumer budgets require a production library. Stop the watcher and run npm run build:lib.',
+  );
 const scenarios = [
   {
     name: 'baseline',
@@ -25,6 +37,13 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';`,
       '<label>Name <input aerisInputText /></label><textarea aerisTextarea aria-label="Notes"></textarea><button aerisButton>Save</button>',
   },
   {
+    name: 'native-select',
+    imports: `import { AerisNativeSelect } from '@aeris-ui/core/select/native';`,
+    modules: 'AerisNativeSelect',
+    template:
+      '<label>Region <select aerisNativeSelect><option value="rs">Serbia</option></select></label>',
+  },
+  {
     name: 'forms',
     imports: `import { AerisSelect } from '@aeris-ui/core/select';
 import { AerisDatePicker } from '@aeris-ui/core/date-picker';`,
@@ -32,6 +51,12 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';`,
     template:
       '<aeris-select ariaLabel="Team" [options]="options" filter /><aeris-date-picker ariaLabel="Start date" />',
     data: `readonly options = Array.from({length: 10000}, (_, i) => ({label: 'Team ' + i, value: String(i)}));`,
+  },
+  {
+    name: 'editable-date-picker',
+    imports: `import { AerisDatePicker } from '@aeris-ui/core/date-picker';`,
+    modules: 'AerisDatePicker',
+    template: '<aeris-date-picker editable ariaLabel="Appointment" />',
   },
   {
     name: 'data-overlays',
@@ -53,6 +78,24 @@ readonly rows = Array.from({length: 10000}, (_, i) => ({id: i, name: 'Item ' + i
     data: `readonly chartData = {labels: ['Week 1'], datasets: [{label: 'Delivered', data: [12]}]};`,
   },
   {
+    name: 'runtime-theme',
+    imports: `import { provideAeris } from '@aeris-ui/core/theming';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisInputText } from '@aeris-ui/core/input-text';
+import { AerisTextarea } from '@aeris-ui/core/textarea';`,
+    providers: 'provideAeris({mode: "system", themeModeStorageKey: false})',
+    modules: 'AerisButton, AerisInputText, AerisTextarea',
+    template:
+      '<label>Name <input aerisInputText /></label><textarea aerisTextarea aria-label="Notes"></textarea><button aerisButton>Save</button>',
+  },
+  {
+    name: 'code-block',
+    imports: `import { AerisCodeBlock } from '@aeris-ui/core/code-block';`,
+    modules: 'AerisCodeBlock',
+    template: '<aeris-code-block [sources]="sources" ariaLabel="Code example" />',
+    data: `readonly sources = [{language: 'typescript', label: 'TypeScript', code: 'const answer: number = 42;'}, {language: 'html', label: 'HTML', code: '<button>Save</button>'}];`,
+  },
+  {
     name: 'editor',
     imports: `import { AerisEditor } from '@aeris-ui/core/editor';`,
     modules: 'AerisEditor',
@@ -65,6 +108,7 @@ const budgets = JSON.parse(
   readFileSync(resolve('tools/consumer-performance-budgets.json'), 'utf8'),
 );
 const results = [];
+const budgetResults = [];
 for (const scenario of scenarios) {
   const directory = resolve(workspace, scenario.name);
   mkdirSync(directory, { recursive: true });
@@ -123,7 +167,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 ${scenario.imports}
 @Component({selector: 'app-root', imports: [${scenario.modules}], template: \`${scenario.template}\`})
 class App { ${scenario.data ?? ''} }
-bootstrapApplication(App).catch(console.error);
+bootstrapApplication(App, {providers: [${scenario.providers ?? ''}]}).catch(console.error);
 `,
   );
   const started = performance.now();
@@ -141,13 +185,26 @@ bootstrapApplication(App).catch(console.error);
     : resolve(directory, 'output/browser-stats.json');
   const stats = JSON.parse(readFileSync(statsPath, 'utf8'));
   const inputs = Object.keys(stats.inputs);
+  if (
+    inputs.some((input) =>
+      /node_modules\/(?:@lucide\/|lucide-angular\/)/.test(input.replaceAll('\\', '/')),
+    )
+  )
+    throw new Error(`${scenario.name} pulled documentation-only Lucide into a consumer bundle.`);
   const optional = inputs.filter((name) =>
-    /node_modules\/(?:chart\.js|(?:@lexical\/|lexical\/)|(?:shiki\/|@shikijs\/))/.test(name.replaceAll('\\', '/')),
+    /node_modules\/(?:chart\.js|(?:@lexical\/|lexical\/)|(?:shiki\/|@shikijs\/))/.test(
+      name.replaceAll('\\', '/'),
+    ),
   );
-  if (!['chart', 'editor'].includes(scenario.name) && optional.length)
+  if (!['chart', 'editor', 'code-block'].includes(scenario.name) && optional.length)
     throw new Error(`${scenario.name} pulled in optional dependencies: ${optional.join(', ')}`);
-  if (optional.some((name) => /\/(?:shiki|@shikijs)\//.test(name.replaceAll('\\', '/'))))
-    throw new Error(`${scenario.name} pulled in CodeBlock syntax highlighting without using CodeBlock.`);
+  if (
+    scenario.name !== 'code-block' &&
+    optional.some((name) => /\/(?:shiki|@shikijs)\//.test(name.replaceAll('\\', '/')))
+  )
+    throw new Error(
+      `${scenario.name} pulled in CodeBlock syntax highlighting without using CodeBlock.`,
+    );
   if (scenario.name === 'chart' && !optional.some((name) => name.includes('chart.js')))
     throw new Error('Chart fixture did not include Chart.js.');
   if (scenario.name === 'editor' && !optional.some((name) => name.includes('lexical')))
@@ -156,9 +213,24 @@ bootstrapApplication(App).catch(console.error);
     throw new Error('Chart pulled in Lexical.');
   if (scenario.name === 'editor' && optional.some((name) => name.includes('chart.js')))
     throw new Error('Editor pulled in Chart.js.');
+  if (scenario.name === 'code-block') {
+    if (!optional.some((name) => /\/(?:shiki|@shikijs)\//.test(name.replaceAll('\\', '/'))))
+      throw new Error('CodeBlock fixture did not include Shiki.');
+    if (optional.some((name) => /chart\.js|lexical/.test(name)))
+      throw new Error('CodeBlock pulled in unrelated Chart.js or Lexical dependencies.');
+  }
   const entryPoints = inputs
     .filter((name) => /fesm2022\/.+\.mjs$/.test(name.replaceAll('\\', '/')))
     .map((name) => name.split(/[\\/]/).at(-1));
+  if (scenario.name === 'runtime-theme' && !entryPoints.includes('aeris-ui-core-theming.mjs'))
+    throw new Error('Runtime theme fixture did not include provideAeris().');
+  if (
+    scenario.name === 'native-select' &&
+    entryPoints.some((name) =>
+      /aeris-ui-core-(?:select|date-picker|dialog|popover)\.mjs$/.test(name),
+    )
+  )
+    throw new Error('Native Select pulled in popup component machinery.');
   for (const unrelated of ['galleria', 'tree-table', 'mega-menu']) {
     if (entryPoints.some((name) => name === `aeris-ui-core-${unrelated}.mjs`))
       throw new Error(`${scenario.name} pulled in unrelated ${unrelated}.`);
@@ -174,6 +246,15 @@ bootstrapApplication(App).catch(console.error);
   };
   for (const [name, data] of Object.entries(stats.outputs))
     if (data.entryPoint?.endsWith('main.ts')) visit(name);
+  if (
+    scenario.name === 'code-block' &&
+    [...initialOutputs].some((name) =>
+      Object.keys(stats.outputs[name]?.inputs ?? {}).some((input) =>
+        /\/(?:shiki|@shikijs)\//.test(input.replaceAll('\\', '/')),
+      ),
+    )
+  )
+    throw new Error('CodeBlock eagerly loaded Shiki instead of keeping highlighting deferred.');
   const initialJs = { raw: 0, gzip: 0 };
   for (const name of initialOutputs) {
     if (!name.endsWith('.js')) continue;
@@ -183,15 +264,24 @@ bootstrapApplication(App).catch(console.error);
   }
   const baseline = scenario.name === 'baseline' ? js : results[0].js;
   const incremental = { raw: js.raw - baseline.raw, gzip: js.gzip - baseline.gzip };
-  if (scenario.name !== 'baseline') {
+  if (scenario.name !== 'baseline' && !measureOnly) {
     const budget = budgets.scenarios[scenario.name];
-    for (const key of ['raw', 'gzip'])
-      if (incremental[key] > budget[key])
-        throw new Error(
-          `${scenario.name} incremental ${key} ${incremental[key]} exceeds ${budget[key]}.`,
-        );
-    if (css.gzip > budgets.sharedCssGzip)
-      throw new Error(`${scenario.name} CSS exceeds shared CSS gzip budget.`);
+    if (!budget) throw new Error(`Missing reviewed budget for ${scenario.name}.`);
+    budgetResults.push(
+      ...budgetRows(`${scenario.name} incremental JavaScript`, incremental, budget),
+    );
+    // Bound eager forms code separately from the optional segmented editor's deferred chunk.
+    if (budget.initial)
+      budgetResults.push(
+        ...budgetRows(
+          `${scenario.name} initial incremental JavaScript`,
+          {
+            raw: initialJs.raw - results[0].initialJs.raw,
+            gzip: initialJs.gzip - results[0].initialJs.gzip,
+          },
+          budget.initial,
+        ),
+      );
   }
   results.push({
     name: scenario.name,
@@ -207,6 +297,21 @@ bootstrapApplication(App).catch(console.error);
   );
 }
 
+if (!measureOnly)
+  budgetResults.push(
+    ...budgetRows(
+      'Shared CSS (maximum across consumers)',
+      results.reduce(
+        (size, result) => ({
+          raw: Math.max(size.raw, result.css.raw),
+          gzip: Math.max(size.gzip, result.css.gzip),
+        }),
+        { raw: 0, gzip: 0 },
+      ),
+      budgets.sharedCss,
+    ),
+  );
+
 const report = {
   node: process.version,
   angular: JSON.parse(readFileSync(resolve('node_modules/@angular/core/package.json'), 'utf8'))
@@ -218,6 +323,15 @@ const report = {
 if (benchmark) report.interactions = await runBenchmarks();
 writeJson(resolve(workspace, 'report.json'), report);
 console.log(`Report: ${relative(root, resolve(workspace, 'report.json'))}`);
+if (
+  !measureOnly &&
+  !reportPerformance('consumer', budgetResults, [
+    report.methodology,
+    'Optional-dependency isolation is enforced independently of size limits.',
+    'The runtime-theme scenario uses the same controls as basic, plus provideAeris(). CodeBlock includes deferred Shiki grammars; its startup budget is checked separately.',
+  ])
+)
+  process.exitCode = 1;
 
 async function runBenchmarks() {
   const { chromium } = await import('@playwright/test');

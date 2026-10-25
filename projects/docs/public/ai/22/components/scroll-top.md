@@ -2,7 +2,7 @@
 
 > Floating action that returns long pages to the top with accessible controls.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/scroll-top`
 - Human-readable documentation: [https://aeris-ui.dev/components/scroll-top](https://aeris-ui.dev/components/scroll-top)
@@ -29,6 +29,7 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `iconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces the upward icon artwork. Keep it decorative and non-interactive; Aeris retains scrolling and the button accessible name. |
 | `threshold` | `number` | `320` | Vertical scroll offset in pixels before the button is shown. |
 | `behavior` | `AerisScrollTopBehavior` | `'smooth'` | Scroll behavior passed to the browser scroll API. Options: 'auto', 'smooth'. |
 | `position` | `AerisScrollTopPosition` | `'bottom-right'` | Fixed viewport placement. Options: 'bottom-right', 'bottom-left', 'top-right', 'top-left'. |
@@ -128,7 +129,7 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
     }
   `
 })
-export class ScrollTopBasicBasicDemo {
+export class ScrollTopBasicDemo {
 }
 ```
 
@@ -148,7 +149,7 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
   templateUrl: './scroll-top-positions.demo.html',
   styleUrl: './scroll-top-positions.demo.scss'
 })
-export class ScrollTopPositionsPositionsDemo {
+export class ScrollTopPositionsDemo {
 }
 ```
 
@@ -162,7 +163,8 @@ export class ScrollTopPositionsPositionsDemo {
       strategy="absolute"
       position="bottom-right"
       ariaLabel="Bottom right scroll top"
-    /><span>Bottom right</span>
+    />
+    <span>Bottom right</span>
   </div>
   <div>
     <aeris-scroll-top
@@ -170,7 +172,8 @@ export class ScrollTopPositionsPositionsDemo {
       strategy="absolute"
       position="bottom-left"
       ariaLabel="Bottom left scroll top"
-    /><span>Bottom left</span>
+    />
+    <span>Bottom left</span>
   </div>
   <div>
     <aeris-scroll-top
@@ -178,7 +181,8 @@ export class ScrollTopPositionsPositionsDemo {
       strategy="absolute"
       position="top-right"
       ariaLabel="Top right scroll top"
-    /><span>Top right</span>
+    />
+    <span>Top right</span>
   </div>
   <div>
     <aeris-scroll-top
@@ -186,7 +190,8 @@ export class ScrollTopPositionsPositionsDemo {
       strategy="absolute"
       position="top-left"
       ariaLabel="Top left scroll top"
-    /><span>Top left</span>
+    />
+    <span>Top left</span>
   </div>
 </div>
 ```
@@ -248,7 +253,7 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
   templateUrl: './scroll-top-sizes.demo.html',
   styleUrl: './scroll-top-sizes.demo.scss'
 })
-export class ScrollTopSizesSizesDemo {
+export class ScrollTopSizesDemo {
 }
 ```
 
@@ -256,26 +261,28 @@ export class ScrollTopSizesSizesDemo {
 
 ```html
 <div class="scroll-top-size-row">
-  <span
-    ><aeris-scroll-top
+  <span>
+    <aeris-scroll-top
       alwaysVisible
       strategy="absolute"
       size="sm"
       ariaLabel="Small scroll top"
-    />Small</span>
-  <span
-    ><aeris-scroll-top
-      alwaysVisible
-      strategy="absolute"
-      ariaLabel="Medium scroll top"
-    />Medium</span>
-  <span
-    ><aeris-scroll-top
+    />
+    Small
+  </span>
+  <span>
+    <aeris-scroll-top alwaysVisible strategy="absolute" ariaLabel="Medium scroll top" />
+    Medium
+  </span>
+  <span>
+    <aeris-scroll-top
       alwaysVisible
       strategy="absolute"
       size="lg"
       ariaLabel="Large scroll top"
-    />Large</span>
+    />
+    Large
+  </span>
 </div>
 ```
 
@@ -396,7 +403,7 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
     }
   `
 })
-export class ScrollTopEventsEventsDemo {
+export class ScrollTopEventsDemo {
   protected readonly visibilityLog = signal(
     'Visibility has not changed in this demo yet.',
   );

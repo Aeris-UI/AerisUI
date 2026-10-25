@@ -43,6 +43,7 @@ export interface AerisThemeBuildResult {
 
 export interface AerisThemeGenerationIssue {
   readonly code:
+    | 'invalid-preset'
     | 'contrast-failed'
     | 'contrast-unresolved'
     | 'invalid-css-value'
@@ -128,6 +129,12 @@ function validateGeneration(
   generation: ResolvedGenerationOptions,
 ): readonly AerisThemeGenerationIssue[] {
   const issues: AerisThemeGenerationIssue[] = [];
+  if (!['monochrome', 'earth', 'coastal', 'orchid'].includes(theme.preset)) {
+    issues.push({
+      code: 'invalid-preset',
+      message: 'Choose monochrome, earth, coastal, or orchid as the theme preset.',
+    });
+  }
 
   if (!isSafeSelector(selector)) {
     issues.push({

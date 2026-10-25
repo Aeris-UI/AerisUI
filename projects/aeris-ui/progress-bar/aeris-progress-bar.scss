@@ -80,10 +80,12 @@
   min-inline-size: 0;
   border-radius: inherit;
   background: var(--aeris-progress-bar-fill, var(--_accent));
-  transition: inline-size var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
+  transition:
+    inline-size var(--aeris-motion-emphasized, 320ms) var(--aeris-ease-enter, ease-out),
+    opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
-:host([data-striped='true']) .aeris-progress-bar__fill {
+:host([data-striped='true']) :is(.aeris-progress-bar__fill, .aeris-progress-bar__sweep) {
   background:
     linear-gradient(
       45deg,
@@ -99,14 +101,49 @@
   background-size: 1.2rem 1.2rem;
 }
 
-:host([data-striped='true'][data-animated='true']) .aeris-progress-bar__fill {
+:host([data-mode='determinate'][data-striped='true'][data-animated='true'])
+  .aeris-progress-bar__fill {
   animation: aeris-progress-bar-stripes 900ms linear infinite;
 }
 
 :host([data-mode='indeterminate']) .aeris-progress-bar__fill {
+  opacity: 0;
+}
+
+.aeris-progress-bar__activity {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    visibility 0s var(--aeris-motion-normal, 150ms);
+}
+
+:host([data-mode='indeterminate']) .aeris-progress-bar__activity {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.aeris-progress-bar__sweep {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
   inline-size: 42%;
-  min-inline-size: 42%;
+  border-radius: inherit;
+  background: var(--aeris-progress-bar-fill, var(--_accent));
   animation: aeris-progress-bar-indeterminate 1.25s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+:host([data-mode='indeterminate']) .aeris-progress-bar__sweep {
+  animation-play-state: running;
+}
+
+:host(:dir(rtl)) .aeris-progress-bar__sweep {
+  animation-name: aeris-progress-bar-indeterminate-rtl;
 }
 
 .aeris-progress-bar__value {
@@ -130,7 +167,7 @@
 .aeris-progress-bar__steps {
   position: relative;
   display: block;
-  min-block-size: 2rem;
+  min-block-size: 2.75rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -183,27 +220,33 @@
 }
 
 .aeris-progress-bar__step-marker {
-  inline-size: var(--aeris-progress-bar-step-marker-size, 0.75rem);
-  block-size: var(--aeris-progress-bar-step-marker-size, 0.75rem);
-  border: 2px solid var(--aeris-progress-bar-step-border, var(--aeris-border, #efefef));
-  border-radius: var(--aeris-radius-pill, 999px);
-  background: var(--aeris-progress-bar-step-background, var(--aeris-surface, #fff));
-  box-shadow: 0 0 0 2px var(--aeris-progress-bar-step-ring, var(--aeris-surface, #fff));
+  display: block;
+  inline-size: var(--aeris-progress-bar-step-marker-size, 1.25rem);
+  block-size: var(--aeris-progress-bar-step-marker-size, 1.25rem);
+  overflow: hidden;
+}
+
+.aeris-progress-bar__step-dot {
+  fill: var(--aeris-progress-bar-step-background, var(--aeris-surface, #fff));
+  stroke: var(--aeris-progress-bar-step-border, var(--aeris-border, #efefef));
+  stroke-width: 2;
+  transition:
+    fill var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    stroke var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
+}
+
+.aeris-progress-bar__step-selected {
+  fill: var(--_accent);
+  stroke: none;
 }
 
 .aeris-progress-bar__step[data-complete='true'] {
   color: var(--aeris-progress-bar-step-complete-text, var(--aeris-text, #111111));
 }
 
-.aeris-progress-bar__step[data-complete='true'] .aeris-progress-bar__step-marker {
-  border-color: var(--_accent);
-  background: var(--_accent);
-}
-
-.aeris-progress-bar__step[data-active='true'] .aeris-progress-bar__step-marker {
-  box-shadow:
-    0 0 0 2px var(--aeris-progress-bar-step-ring, var(--aeris-surface, #fff)),
-    0 0 0 5px color-mix(in srgb, var(--_accent) 22%, transparent);
+.aeris-progress-bar__step[data-complete='true'] .aeris-progress-bar__step-dot {
+  stroke: var(--_accent);
+  fill: var(--_accent);
 }
 
 @keyframes aeris-progress-bar-indeterminate {
@@ -217,6 +260,20 @@
 
   100% {
     transform: translateX(245%);
+  }
+}
+
+@keyframes aeris-progress-bar-indeterminate-rtl {
+  0% {
+    transform: translateX(115%);
+  }
+
+  55% {
+    transform: translateX(-80%);
+  }
+
+  100% {
+    transform: translateX(-245%);
   }
 }
 
@@ -241,7 +298,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .aeris-progress-bar__fill {
+  .aeris-progress-bar__fill,
+  .aeris-progress-bar__activity,
+  .aeris-progress-bar__sweep,
+  .aeris-progress-bar__step-dot {
     transition: none;
     animation: none !important;
   }

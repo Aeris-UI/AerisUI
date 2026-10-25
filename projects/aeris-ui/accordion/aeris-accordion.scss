@@ -3,7 +3,7 @@
 :host {
   --_aeris-chevron-mask: var(
     --aeris-icon-chevron,
-    url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E')
+    url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpath d="m6 9 6 6 6-6"/%3E%3C/svg%3E')
   );
 
   --_trigger-min-height: var(--aeris-control-height, 2.625rem);
@@ -148,12 +148,34 @@
   transform: translate(-50%, -50%) rotate(180deg);
 }
 
+.aeris-accordion__body {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition:
+    grid-template-rows var(--aeris-motion-slow, 220ms) var(--aeris-ease-standard, ease),
+    visibility 0s linear var(--aeris-motion-slow, 220ms);
+}
+
+.aeris-accordion__body[data-expanded] {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
 .aeris-accordion__panel {
   min-width: 0;
+  min-block-size: 0;
+  overflow: hidden;
   padding: var(--_panel-padding-block) var(--_panel-padding-inline);
+  transition: padding-block var(--aeris-motion-slow, 220ms) var(--aeris-ease-standard, ease);
   color: var(--aeris-accordion-panel-color, var(--aeris-text-2, #454545));
   font-size: var(--aeris-font-size-lg, 0.875rem);
   line-height: 1.6;
+}
+
+.aeris-accordion__body:not([data-expanded]) > .aeris-accordion__panel {
+  padding-block: 0;
 }
 
 .aeris-accordion__panel:focus-visible {
@@ -224,6 +246,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .aeris-accordion__body,
+  .aeris-accordion__panel,
   .aeris-accordion__default-icon::before {
     transition: none;
   }

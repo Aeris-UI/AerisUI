@@ -2,7 +2,7 @@
 
 > Display syntax-highlighted code with source tabs, line numbers, focused lines, and accessible copy actions.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/code-block`
 - Human-readable documentation: [https://aeris-ui.dev/components/code-block](https://aeris-ui.dev/components/code-block)
@@ -29,6 +29,8 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `copyIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Optional copy-button artwork; the native button retains its clipboard action and accessible name. |
+| `copiedIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Optional artwork displayed after a successful copy. |
 | `code` | `string` | `''` | Source text for a single code block. Rendered as text, never executed or interpreted as HTML. |
 | `language` | `string` | `text` | Case-insensitive language: html, typescript, javascript, css, scss, json, shell, or text. Aliases: ts, js, angular, xml, bash, sh. Unknown languages use plain text. |
 | `label` | `string` | `''` | Single-source header label, such as a filename. Defaults to language. |
@@ -91,6 +93,22 @@ interface AerisCodeCopyEvent {
 }
 ```
 
+## Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-code-block-background` | `CSS custom property` | `--aeris-surface-2` | Code surface. |
+| `--aeris-code-block-color` | `CSS custom property` | `--aeris-text` | Uncolored text. |
+| `--aeris-code-block-border` | `CSS custom property` | `--aeris-border` | Outer and header borders. |
+| `--aeris-code-block-radius` | `CSS custom property` | `--aeris-radius-surface` | Outer corners. |
+| `--aeris-code-block-padding` | `CSS custom property` | `--aeris-surface-padding` | Code area padding. |
+| `--aeris-code-block-max-height` | `CSS custom property` | `min(34rem, 68dvh)` | Default desktop scroll height; maxHeight input overrides it. |
+| `--aeris-code-block-font-size` | `CSS custom property` | `0.8125rem` | Code font size. |
+| `--aeris-code-block-font-family` | `CSS custom property` | `ui-monospace, SFMono-Regular, Consolas, monospace` | Monospace stack. |
+| `--aeris-code-block-line-height` | `CSS custom property` | `1.75` | Line height. |
+| `--aeris-code-block-line-highlight` | `CSS custom property` | `--aeris-primary-soft` | Emphasized line background. |
+| `--aeris-code-block-token-color` | `CSS custom property` | `Shiki GitHub light / dark token colors` | Override all Shiki token colors; omit to retain syntax themes. |
+
 ## Examples
 
 ### Basic
@@ -110,7 +128,14 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
     <div><aeris-code-block [code]="exampleCode" language="typescript" /></div>
   `
 })
-export class CodeBlockBasicBasicDemo {
+export class CodeBlockBasicDemo {
+  protected readonly exampleCode = `export interface Greeting {
+    readonly message: string;
+  }
+
+  export function greet(name: string): Greeting {
+    return { message: 'Hello, ' + name };
+  }`;
 }
 ```
 
@@ -122,7 +147,7 @@ Group related files without hiding empty source files. Use left and right arrows
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
+import { AerisCodeBlockModule, type AerisCodeSource } from '@aeris-ui/core/code-block';
 
 @Component({
   selector: 'app-code-block-sources-demo',
@@ -131,7 +156,16 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
     <div><aeris-code-block [sources]="sourceFiles" /></div>
   `
 })
-export class CodeBlockSourcesSourceTabsDemo {
+export class CodeBlockSourcesDemo {
+  protected readonly sourceFiles: readonly AerisCodeSource[] = [
+      { label: 'greeting.html', language: 'html', code: '<h1>{{ greeting }}</h1>' },
+      {
+        label: 'greeting.ts',
+        language: 'typescript',
+        code: "export class Greeting {\n  readonly greeting = 'Hello, Aeris';\n}",
+      },
+      { label: 'greeting.scss', language: 'scss', code: 'h1 {\n  color: var(--aeris-text);\n}' },
+    ];
 }
 ```
 
@@ -159,7 +193,14 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
     </div>
   `
 })
-export class CodeBlockLinesLineNumbersAndFocusedLinesDemo {
+export class CodeBlockLinesDemo {
+  protected readonly exampleCode = `export interface Greeting {
+    readonly message: string;
+  }
+
+  export function greet(name: string): Greeting {
+    return { message: 'Hello, ' + name };
+  }`;
 }
 ```
 
@@ -182,7 +223,12 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
     </div>
   `
 })
-export class CodeBlockWrapWrappingDemo {
+export class CodeBlockWrapDemo {
+  protected readonly longCode = Array.from(
+      { length: 28 },
+      (_, index) =>
+        `const result${index + 1} = 'A long line of code can be read without forcing its parent layout to become wider.';`,
+    ).join('\n');
 }
 ```
 
@@ -205,7 +251,12 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
     </div>
   `
 })
-export class CodeBlockScrollScrollingDemo {
+export class CodeBlockScrollDemo {
+  protected readonly longCode = Array.from(
+      { length: 28 },
+      (_, index) =>
+        `const result${index + 1} = 'A long line of code can be read without forcing its parent layout to become wider.';`,
+    ).join('\n');
 }
 ```
 
@@ -216,8 +267,8 @@ Customize visible labels and react to successful or failed copies.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
+import { Component, signal } from '@angular/core';
+import { AerisCodeBlockModule, type AerisCodeCopyEvent } from '@aeris-ui/core/code-block';
 
 @Component({
   selector: 'app-code-block-copy-demo',
@@ -244,7 +295,24 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
     }
   `
 })
-export class CodeBlockCopyCopyEventsAndLabelsDemo {
+export class CodeBlockCopyDemo {
+  protected readonly exampleCode = `export interface Greeting {
+    readonly message: string;
+  }
+
+  export function greet(name: string): Greeting {
+    return { message: 'Hello, ' + name };
+  }`;
+
+  protected readonly copyMessage = signal('Copy the example to see its result.');
+
+  protected onCopied(event: AerisCodeCopyEvent): void {
+      this.copyMessage.set('Copied ' + event.language + ' source.');
+    }
+
+  protected onCopyError(): void {
+      this.copyMessage.set('Clipboard access is unavailable. Select and copy the code manually.');
+    }
 }
 ```
 
@@ -272,7 +340,7 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
     </div>
   `
 })
-export class CodeBlockPlainPlainTextDemo {
+export class CodeBlockPlainDemo {
 }
 ```
 
@@ -308,7 +376,14 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
     }
   `
 })
-export class CodeBlockCustomTokenCustomizationDemo {
+export class CodeBlockCustomDemo {
+  protected readonly exampleCode = `export interface Greeting {
+    readonly message: string;
+  }
+
+  export function greet(name: string): Greeting {
+    return { message: 'Hello, ' + name };
+  }`;
 }
 ```
 

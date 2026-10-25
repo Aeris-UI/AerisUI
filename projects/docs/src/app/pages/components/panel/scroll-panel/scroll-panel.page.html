@@ -84,23 +84,23 @@
                 </aeris-scroll-panel>
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
-  &lt;aeris-scroll-panel
-    orientation="horizontal"
-    height="9rem"
-    ariaLabel="Project cards"
-  &gt;
+  &lt;aeris-scroll-panel orientation="horizontal" height="9rem" ariaLabel="Project cards"&gt;
     &lt;div class="horizontal-cards"&gt;
       &lt;article class="horizontal-card"&gt;
-        &lt;strong&gt;Design&lt;/strong&gt;&lt;span&gt;Tokens, states, and spacing.&lt;/span&gt;
+        &lt;strong&gt;Design&lt;/strong&gt;
+        &lt;span&gt;Tokens, states, and spacing.&lt;/span&gt;
       &lt;/article&gt;
       &lt;article class="horizontal-card"&gt;
-        &lt;strong&gt;Build&lt;/strong&gt;&lt;span&gt;Standalone Angular components.&lt;/span&gt;
+        &lt;strong&gt;Build&lt;/strong&gt;
+        &lt;span&gt;Standalone Angular components.&lt;/span&gt;
       &lt;/article&gt;
       &lt;article class="horizontal-card"&gt;
-        &lt;strong&gt;Test&lt;/strong&gt;&lt;span&gt;API and accessibility coverage.&lt;/span&gt;
+        &lt;strong&gt;Test&lt;/strong&gt;
+        &lt;span&gt;API and accessibility coverage.&lt;/span&gt;
       &lt;/article&gt;
       &lt;article class="horizontal-card"&gt;
-        &lt;strong&gt;Ship&lt;/strong&gt;&lt;span&gt;Docs, examples, and migration notes.&lt;/span&gt;
+        &lt;strong&gt;Ship&lt;/strong&gt;
+        &lt;span&gt;Docs, examples, and migration notes.&lt;/span&gt;
       &lt;/article&gt;
     &lt;/div&gt;
   &lt;/aeris-scroll-panel&gt;
@@ -267,57 +267,55 @@
   &lt;div class="scroll-panel-grid"&gt;
     &lt;section&gt;
       &lt;h4&gt;Auto&lt;/h4&gt;
-      &lt;aeris-scroll-panel variant="auto" height="10rem" ariaLabel="Auto scrollbars"
-        &gt;&lt;ul class="brand-list"&gt;
+      &lt;aeris-scroll-panel variant="auto" height="10rem" ariaLabel="Auto scrollbars"&gt;
+        &lt;ul class="brand-list"&gt;
           &#64;for (brand of brands; track brand.name) &#123;
             &lt;li&gt;
               &lt;span&gt;&#123;&#123; brand.name &#125;&#125;&lt;/span&gt;
               &lt;strong&gt;&#123;&#123; brand.count &#125;&#125;&lt;/strong&gt;
             &lt;/li&gt;
           &#125;
-        &lt;/ul&gt;&lt;/aeris-scroll-panel&gt;
+        &lt;/ul&gt;
+      &lt;/aeris-scroll-panel&gt;
     &lt;/section&gt;
     &lt;section&gt;
       &lt;h4&gt;Hover&lt;/h4&gt;
-      &lt;aeris-scroll-panel variant="hover" height="10rem" ariaLabel="Hover scrollbars"
-        &gt;&lt;ul class="brand-list"&gt;
+      &lt;aeris-scroll-panel variant="hover" height="10rem" ariaLabel="Hover scrollbars"&gt;
+        &lt;ul class="brand-list"&gt;
           &#64;for (brand of brands; track brand.name) &#123;
             &lt;li&gt;
               &lt;span&gt;&#123;&#123; brand.name &#125;&#125;&lt;/span&gt;
               &lt;strong&gt;&#123;&#123; brand.count &#125;&#125;&lt;/strong&gt;
             &lt;/li&gt;
           &#125;
-        &lt;/ul&gt;&lt;/aeris-scroll-panel&gt;
+        &lt;/ul&gt;
+      &lt;/aeris-scroll-panel&gt;
     &lt;/section&gt;
     &lt;section&gt;
       &lt;h4&gt;Always&lt;/h4&gt;
-      &lt;aeris-scroll-panel
-        variant="always"
-        height="10rem"
-        ariaLabel="Always scrollbars"
-        &gt;&lt;ul class="brand-list"&gt;
+      &lt;aeris-scroll-panel variant="always" height="10rem" ariaLabel="Always scrollbars"&gt;
+        &lt;ul class="brand-list"&gt;
           &#64;for (brand of brands; track brand.name) &#123;
             &lt;li&gt;
               &lt;span&gt;&#123;&#123; brand.name &#125;&#125;&lt;/span&gt;
               &lt;strong&gt;&#123;&#123; brand.count &#125;&#125;&lt;/strong&gt;
             &lt;/li&gt;
           &#125;
-        &lt;/ul&gt;&lt;/aeris-scroll-panel&gt;
+        &lt;/ul&gt;
+      &lt;/aeris-scroll-panel&gt;
     &lt;/section&gt;
     &lt;section&gt;
       &lt;h4&gt;Hidden&lt;/h4&gt;
-      &lt;aeris-scroll-panel
-        variant="hidden"
-        height="10rem"
-        ariaLabel="Hidden scrollbars"
-        &gt;&lt;ul class="brand-list"&gt;
+      &lt;aeris-scroll-panel variant="hidden" height="10rem" ariaLabel="Hidden scrollbars"&gt;
+        &lt;ul class="brand-list"&gt;
           &#64;for (brand of brands; track brand.name) &#123;
             &lt;li&gt;
               &lt;span&gt;&#123;&#123; brand.name &#125;&#125;&lt;/span&gt;
               &lt;strong&gt;&#123;&#123; brand.count &#125;&#125;&lt;/strong&gt;
             &lt;/li&gt;
           &#125;
-        &lt;/ul&gt;&lt;/aeris-scroll-panel&gt;
+        &lt;/ul&gt;
+      &lt;/aeris-scroll-panel&gt;
     &lt;/section&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>

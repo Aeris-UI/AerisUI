@@ -127,6 +127,8 @@ async function findConstrainedInputs(paths) {
 
     visit(sourceFile, (node) => {
       if (!ts.isPropertyDeclaration(node) || !node.initializer || !node.name) return;
+      // Internal presentation classes are not consumer APIs of their containing entry point.
+      if (node.parent?.name?.text?.startsWith('ɵ')) return;
       const call = unwrapInputCall(node.initializer);
       const typeNode = call?.typeArguments?.[0];
       if (!call || !typeNode) return;

@@ -2,7 +2,7 @@
 
 > Filter values and typed collections with locale-aware built-ins, nested fields, and custom match constraints.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/filter-service`
 - Human-readable documentation: [https://aeris-ui.dev/components/filter-service](https://aeris-ui.dev/components/filter-service)
@@ -96,7 +96,17 @@ interface Product {
   templateUrl: './filter-service-basic.demo.html',
   styleUrl: './filter-service-basic.demo.scss'
 })
-export class FilterServiceBasicCollectionFilteringDemo {
+export class FilterServiceBasicDemo {
+  protected readonly basicResults = computed(() =>
+      this.filterService.filter(this.products, {
+        query: this.query(),
+        fields: ['name', 'category'],
+        mode: 'contains',
+      }),
+    );
+
+
+
   private readonly filterService = inject(AerisFilterService);
 
   protected readonly products: readonly Product[] = [
@@ -192,6 +202,61 @@ export class FilterServiceBasicCollectionFilteringDemo {
     gap: 0.25rem;
   }
 }
+
+.filter-demo {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.filter-demo > label {
+  font-weight: 650;
+}
+
+.filter-summary {
+  margin: 0.5rem 0 0 0;
+  color: var(--aeris-text-muted);
+}
+
+.filter-demo p {
+  margin: 0;
+  color: var(--aeris-text-muted);
+}
+
+app-form-demo .filter-results {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.filter-results li {
+  min-width: 0;
+}
+
+.filter-result-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.filter-result-row > * {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.filter-results span {
+  color: var(--aeris-text-muted);
+}
+
+@media (max-width: 42rem) {
+  .filter-result-row {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+}
 ```
 
 ### Match modes
@@ -242,9 +307,48 @@ import { AerisFilterService, type AerisFilterMode } from '@aeris-ui/core/filter-
     .filter-results li {
       min-width: 0;
     }
+
+    .filter-demo {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .filter-demo > label {
+      font-weight: 650;
+    }
+
+    .filter-demo p {
+      margin: 0;
+      color: var(--aeris-text-muted);
+    }
+
+    app-form-demo .filter-results {
+      display: grid;
+      gap: 0.5rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .filter-results li {
+      min-width: 0;
+    }
+
+    .filter-results span {
+      color: var(--aeris-text-muted);
+    }
+
+    .filter-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.625rem;
+    }
   `
 })
-export class FilterServiceModesMatchModesDemo {
+export class FilterServiceModesDemo {
+  protected readonly query = signal('light');
+
+
   private readonly filterService = inject(AerisFilterService);
   protected readonly selectedMode = signal<AerisFilterMode>('starts-with');
   protected readonly modeQuery = signal('lu');
@@ -283,7 +387,10 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
   templateUrl: './filter-service-comparisons.demo.html',
   styleUrl: './filter-service-comparisons.demo.scss'
 })
-export class FilterServiceComparisonsNumbersAndDatesDemo {
+export class FilterServiceComparisonsDemo {
+  protected readonly query = signal('light');
+
+
   private readonly filterService = inject(AerisFilterService);
   protected readonly products = [
     { id: 1, name: 'Halo desk lamp', price: 68, added: '2026-01-12' },
@@ -383,6 +490,11 @@ export class FilterServiceComparisonsNumbersAndDatesDemo {
 #### CSS
 
 ```css
+.filter-summary {
+  margin: 0.5rem 0 0 0;
+  color: var(--aeris-text-muted);
+}
+
 .comparison-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -400,24 +512,18 @@ export class FilterServiceComparisonsNumbersAndDatesDemo {
   font-weight: 650;
 }
 
-.filter-summary {
-  margin: 0;
-  color: var(--aeris-text-muted);
-}
-
 .comparison-grid ul {
   display: grid;
   gap: 0.375rem;
   margin: 0;
-  margin-block-end: 0;
   padding: 0;
   list-style: none;
 }
 
 @media (max-width: 42rem) {
   .comparison-grid {
-    grid-template-columns: 1fr;
-  }
+      grid-template-columns: 1fr;
+    }
 }
 ```
 
@@ -438,11 +544,6 @@ import { AerisFilterService, type AerisFilterFieldOperator } from '@aeris-ui/cor
     {{ fieldQuery() }}
   `,
   styles: `
-    .filter-summary {
-      margin: 0.5rem 0 0 0;
-      color: var(--aeris-text-muted);
-    }
-
     .filter-demo {
       display: grid;
       gap: 0.75rem;
@@ -493,9 +594,73 @@ import { AerisFilterService, type AerisFilterFieldOperator } from '@aeris-ui/cor
         gap: 0.25rem;
       }
     }
+
+    .filter-demo {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .filter-demo > label {
+      font-weight: 650;
+    }
+
+    .filter-summary {
+      margin: 0.5rem 0 0 0;
+      color: var(--aeris-text-muted);
+    }
+
+    .filter-demo p {
+      margin: 0;
+      color: var(--aeris-text-muted);
+    }
+
+    app-form-demo .filter-results {
+      display: grid;
+      gap: 0.5rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .filter-results li {
+      min-width: 0;
+    }
+
+    .filter-result-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      min-width: 0;
+    }
+
+    .filter-result-row > * {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .filter-results span {
+      color: var(--aeris-text-muted);
+    }
+
+    .filter-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.625rem;
+    }
+
+    @media (max-width: 42rem) {
+      .filter-result-row {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+    }
   `
 })
-export class FilterServiceFieldsFieldsAndOperatorsDemo {
+export class FilterServiceFieldsDemo {
+  protected readonly query = signal('light');
+
+
   private readonly filterService = inject(AerisFilterService);
   protected readonly fieldProducts = [
     { id: 1, name: 'Denmark desk lamp', category: 'Lighting', price: 68, added: '2026-01-12', supplier: { country: 'Denmark' } },
@@ -534,7 +699,16 @@ import { AerisMessageModule } from '@aeris-ui/core/message';
   templateUrl: './filter-service-custom.demo.html',
   styleUrl: './filter-service-custom.demo.scss'
 })
-export class FilterServiceCustomCustomConstraintDemo {
+export class FilterServiceCustomDemo {
+  protected readonly customCode = signal('UI-314');
+
+  protected readonly customCodes = ['AE-103', 'AE-208', 'UI-314', 'UI-420'] as const;
+
+  protected readonly customMatches = computed(() =>
+      this.filterService.matches(this.customCode(), true, 'even-suffix'),
+    );
+
+
   private readonly filterService = inject(AerisFilterService);
   private readonly destroyRef = inject(DestroyRef);
   protected readonly code = signal('UI-314');
@@ -600,6 +774,11 @@ export class FilterServiceCustomCustomConstraintDemo {
   font-weight: 650;
 }
 
+.filter-demo p {
+  margin: 0;
+  color: var(--aeris-text-muted);
+}
+
 .filter-actions {
   display: flex;
   flex-wrap: wrap;
@@ -619,13 +798,41 @@ import { AerisFilterService } from '@aeris-ui/core/filter-service';
 import { AerisInputText } from '@aeris-ui/core/input-text';
 import { AerisTableModule, type AerisTableColumn } from '@aeris-ui/core/table';
 
+interface Product {
+  readonly [key: string]: unknown;
+  readonly id: number;
+  readonly name: string;
+  readonly category: string;
+  readonly price: number;
+  readonly added: string;
+  readonly supplier: {
+    readonly country: string;
+  };
+}
+
 @Component({
   selector: 'app-filter-service-table-demo',
   imports: [AerisInputText, AerisTableModule],
   templateUrl: './filter-service-table.demo.html',
   styleUrl: './filter-service-table.demo.scss'
 })
-export class FilterServiceTableTableIntegrationDemo {
+export class FilterServiceTableDemo {
+  protected readonly tableQuery = signal('');
+
+  protected readonly tableRows = computed(() =>
+      this.filterService.filter(this.products, {
+        query: this.tableQuery(),
+        fields: ['name', 'category', 'supplier.country'],
+      }),
+    );
+
+  protected readonly tableColumns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Product', width: '50%' },
+      { field: 'category', header: 'Category', width: '32%' },
+      { field: 'price', header: 'Price', align: 'end', width: '7rem' },
+    ];
+
+
   private readonly filterService = inject(AerisFilterService);
   protected readonly query = signal('');
   protected readonly products = [
@@ -679,6 +886,11 @@ export class FilterServiceTableTableIntegrationDemo {
 
 .filter-demo > label {
   font-weight: 650;
+}
+
+.filter-demo p {
+  margin: 0;
+  color: var(--aeris-text-muted);
 }
 ```
 

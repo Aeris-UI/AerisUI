@@ -1,5 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormField, form, required, submit } from '@angular/forms/signals';
+import { AerisButton } from '@aeris-ui/core/button';
 import {
   AerisDatePicker,
   type AerisDatePickerChangeEvent,
@@ -27,6 +29,8 @@ interface ApiRow {
   selector: 'app-date-picker-page',
   imports: [
     AerisDatePicker,
+    AerisButton,
+    FormField,
     FormsModule,
     ReactiveFormsModule,
     AerisTabsModule,
@@ -40,6 +44,17 @@ interface ApiRow {
   styleUrl: './date-picker.page.scss',
 })
 export class DatePickerPage {
+  protected readonly profile = signal<{ birthday: Date | null }>({ birthday: null });
+  protected readonly profileForm = form(this.profile, (path) => required(path.birthday));
+  protected readonly savedDate = signal('Not saved yet');
+  protected saveProfile(event: Event): void {
+    event.preventDefault();
+    void submit(this.profileForm, async () => {
+      this.savedDate.set(this.profile().birthday?.toLocaleDateString() || 'No date');
+    });
+  }
+
+  protected readonly typedDate = signal<AerisDatePickerValue>(new Date(2026, 5, 11));
   protected readonly basicDate = signal<AerisDatePickerValue>(new Date(2026, 5, 18));
   protected readonly meetingDate = signal<AerisDatePickerValue>(new Date(2026, 5, 18, 14, 30));
   protected readonly reminderTime = signal<AerisDatePickerValue>(new Date(2026, 5, 18, 9, 15));
@@ -70,6 +85,8 @@ export class DatePickerPage {
 
   protected readonly featureLinks: readonly PageTocLink[] = [
     { id: 'date-picker-basic', label: 'Basic' },
+    { id: 'date-picker-editable', label: 'Typed entry' },
+    { id: 'date-picker-signal-forms', label: 'Signal Forms' },
     { id: 'date-picker-collision', label: 'Constrained viewport' },
     { id: 'date-picker-time', label: 'Date and time' },
     { id: 'date-picker-selection', label: 'Selection modes' },
@@ -91,6 +108,16 @@ export class DatePickerPage {
   ];
 
   protected readonly importCode = `import { AerisDatePicker } from '@aeris-ui/core/date-picker';`;
+
+  protected readonly signalFormsCode = `protected readonly profile = signal<{ birthday: Date | null }>({ birthday: null });
+protected readonly profileForm = form(this.profile, (path) => required(path.birthday));
+protected readonly savedDate = signal('Not saved yet');
+protected saveProfile(event: Event): void {
+  event.preventDefault();
+  void submit(this.profileForm, async () => {
+    this.savedDate.set(this.profile().birthday?.toLocaleDateString() || 'No date');
+  });
+}`;
 
   protected readonly basicCode = `protected readonly basicDate =
   signal<AerisDatePickerValue>(
@@ -217,6 +244,41 @@ interface AerisDatePickerChangeEvent {
 
   protected readonly inputs: readonly ApiRow[] = [
     {
+      name: 'clearIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'calendarIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the calendar icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'dropdownIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the dropdown icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'previousIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the previous icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'nextIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the next icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
       defaultValue: "global config or 'self'",
@@ -234,7 +296,8 @@ interface AerisDatePickerChangeEvent {
       name: 'value',
       type: 'AerisDatePickerValue (model)',
       defaultValue: 'null',
-      description: 'Selected Date, date array, or range according to selectionMode.',
+      description:
+        'Selected local Date, date array, or range according to selectionMode. Time-only mode still uses a Date as a clock-value carrier; it does not return a time string. Null clears the selection.',
     },
     {
       name: 'selectionMode',
@@ -247,14 +310,29 @@ interface AerisDatePickerChangeEvent {
       name: 'view',
       type: 'AerisDatePickerView',
       defaultValue: "'day'",
-      description: 'Chooses day, month, or year selection granularity.',
+      description:
+        'Chooses day, month, or year selection granularity. The trigger matches that precision; month selections use day 1 and year selections use January 1. The model remains a local Date.',
+    },
+    {
+      name: 'editable',
+      type: 'boolean',
+      defaultValue: 'false',
+      description:
+        'Enables locale-ordered typed date, date-time or time segments for non-inline single selection, including month/year views, 12/24-hour cycles and optional seconds. The popup remains available from its button or Alt+Down. Range and multiple modes retain their existing presentation. Incomplete drafts preserve the last valid Date but block submission. Hidden seconds are retained when editing.',
+    },
+    {
+      name: 'readonly',
+      type: 'boolean',
+      defaultValue: 'false',
+      description:
+        'Prevents user editing, clearing and opening the calendar. Editable segments remain inspectable and copyable.',
     },
     {
       name: 'mode',
       type: 'AerisDatePickerMode',
       defaultValue: "'date'",
       description:
-        "Chooses date-only, date-and-time, or time-only entry. Options: 'date', 'dateTime', 'time'.",
+        "Chooses date-only, date-and-time, or time-only entry. Use dateTime/time with selectionMode single; multiple and range are calendar-date workflows. Options: 'date', 'dateTime', 'time'.",
     },
     {
       name: 'inputId',
@@ -323,31 +401,35 @@ interface AerisDatePickerChangeEvent {
       type: 'AerisDatePickerDateStyle',
       defaultValue: "'medium'",
       description:
-        "Intl.DateTimeFormat date style used in the trigger. Options: 'short', 'medium', 'long', 'full'.",
+        "Intl.DateTimeFormat date style used in the trigger for day selection. Month and year views show only their selected precision. Options: 'short', 'medium', 'long', 'full'.",
     },
     {
       name: 'hourCycle',
       type: 'AerisDatePickerHourCycle',
       defaultValue: "'24'",
-      description: 'Formats and edits time with 24-hour or 12-hour controls. Options: 12, 24.',
+      description:
+        'Formats and edits time with 00–23 hours in 24-hour mode, or 1–12 hours and AM/PM in 12-hour mode, including midnight. Options: 12, 24.',
     },
     {
       name: 'showSeconds',
       type: 'boolean',
       defaultValue: 'false',
-      description: 'Adds a seconds field to date-time and time-only modes.',
+      description:
+        'Adds a seconds field to date-time and time-only modes, including editable entry. Existing hidden seconds are retained when editable entry changes other parts.',
     },
     {
       name: 'minuteStep',
       type: 'number',
       defaultValue: '1',
-      description: 'Native step value for the minute input, clamped from 1 through 59.',
+      description:
+        'Minute increment for native popup stepping and editable Arrow Up/Down, clamped from 1 through 59. Valid typed values are not rounded. An empty intermediate edit does not overwrite the committed time.',
     },
     {
       name: 'secondStep',
       type: 'number',
       defaultValue: '1',
-      description: 'Native step value for the seconds input, clamped from 1 through 59.',
+      description:
+        'Second increment for native popup stepping and editable Arrow Up/Down, clamped from 1 through 59. Valid typed values are not rounded.',
     },
     {
       name: 'firstDayOfWeek',
@@ -359,13 +441,15 @@ interface AerisDatePickerChangeEvent {
       name: 'minDate',
       type: 'Date | undefined',
       defaultValue: 'undefined',
-      description: 'Earliest selectable date.',
+      description:
+        'Earliest selectable local calendar day, inclusive. The clock portion is ignored; this is not a minimum time constraint.',
     },
     {
       name: 'maxDate',
       type: 'Date | undefined',
       defaultValue: 'undefined',
-      description: 'Latest selectable date.',
+      description:
+        'Latest selectable local calendar day, inclusive. The clock portion is ignored; this is not a maximum time constraint.',
     },
     {
       name: 'disabledDates',

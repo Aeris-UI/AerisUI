@@ -2,7 +2,7 @@
 
 > Themeable native scroll container with styled scrollbars, overflow modes, fade masks, events, and scroll methods.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/scroll-panel`
 - Human-readable documentation: [https://aeris-ui.dev/components/scroll-panel](https://aeris-ui.dev/components/scroll-panel)
@@ -129,6 +129,11 @@ Create a keyboard-focusable vertical scroll region with theme-aware scrollbars.
 import { Component } from '@angular/core';
 import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
 
+interface BrandItem {
+  readonly name: string;
+  readonly count: number;
+}
+
 @Component({
   selector: 'app-scroll-panel-basic-demo',
   imports: [AerisScrollPanelModule],
@@ -160,13 +165,35 @@ import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
       justify-content: space-between;
       gap: 1rem;
       padding: 0.5rem 0.625rem;
-      border: 1px solid var(--border);
+      border: 1px solid var(--aeris-border);
       border-radius: var(--aeris-radius-md);
-      background: var(--surface);
+      background: var(--aeris-surface);
     }
   `
 })
-export class ScrollPanelBasicBasicDemo {
+export class ScrollPanelBasicDemo {
+  protected readonly brands: readonly BrandItem[] = [
+      { name: 'Audi', count: 200 },
+      { name: 'BMW', count: 350 },
+      { name: 'Mercedes-Benz', count: 420 },
+      { name: 'Volkswagen', count: 510 },
+      { name: 'Toyota', count: 610 },
+      { name: 'Honda', count: 280 },
+      { name: 'Hyundai', count: 390 },
+      { name: 'Kia', count: 260 },
+      { name: 'Ford', count: 470 },
+      { name: 'Renault', count: 530 },
+      { name: 'Peugeot', count: 410 },
+      { name: 'Citroen', count: 190 },
+      { name: 'Skoda', count: 360 },
+      { name: 'Seat', count: 210 },
+      { name: 'Opel', count: 440 },
+      { name: 'Fiat', count: 620 },
+      { name: 'Dacia', count: 380 },
+      { name: 'Volvo', count: 140 },
+      { name: 'Mazda', count: 120 },
+      { name: 'Nissan', count: 330 },
+    ];
 }
 ```
 
@@ -186,7 +213,7 @@ import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
   templateUrl: './scroll-panel-horizontal.demo.html',
   styleUrl: './scroll-panel-horizontal.demo.scss'
 })
-export class ScrollPanelHorizontalHorizontalDemo {
+export class ScrollPanelHorizontalDemo {
 }
 ```
 
@@ -194,23 +221,23 @@ export class ScrollPanelHorizontalHorizontalDemo {
 
 ```html
 <div>
-  <aeris-scroll-panel
-    orientation="horizontal"
-    height="9rem"
-    ariaLabel="Project cards"
-  >
+  <aeris-scroll-panel orientation="horizontal" height="9rem" ariaLabel="Project cards">
     <div class="horizontal-cards">
       <article class="horizontal-card">
-        <strong>Design</strong><span>Tokens, states, and spacing.</span>
+        <strong>Design</strong>
+        <span>Tokens, states, and spacing.</span>
       </article>
       <article class="horizontal-card">
-        <strong>Build</strong><span>Standalone Angular components.</span>
+        <strong>Build</strong>
+        <span>Standalone Angular components.</span>
       </article>
       <article class="horizontal-card">
-        <strong>Test</strong><span>API and accessibility coverage.</span>
+        <strong>Test</strong>
+        <span>API and accessibility coverage.</span>
       </article>
       <article class="horizontal-card">
-        <strong>Ship</strong><span>Docs, examples, and migration notes.</span>
+        <strong>Ship</strong>
+        <span>Docs, examples, and migration notes.</span>
       </article>
     </div>
   </aeris-scroll-panel>
@@ -228,15 +255,15 @@ export class ScrollPanelHorizontalHorizontalDemo {
 .horizontal-card {
   flex: 0 0 13rem;
   padding: 1rem;
-  border: 1px solid var(--border);
+  border: 1px solid var(--aeris-border);
   border-radius: var(--aeris-radius-lg);
-  background: var(--surface);
+  background: var(--aeris-surface);
 }
 
 .horizontal-card strong {
   display: block;
   margin-bottom: 0.375rem;
-  color: var(--text);
+  color: var(--aeris-text);
 }
 ```
 
@@ -250,13 +277,34 @@ Enable both vertical and horizontal scrolling for dense content.
 import { Component } from '@angular/core';
 import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
 
+interface CityRow {
+  readonly city: string;
+  readonly state: string;
+  readonly population: string;
+  readonly area: string;
+}
+
 @Component({
   selector: 'app-scroll-panel-both-demo',
   imports: [AerisScrollPanelModule],
   templateUrl: './scroll-panel-both.demo.html',
   styleUrl: './scroll-panel-both.demo.scss'
 })
-export class ScrollPanelBothBothAxesDemo {
+export class ScrollPanelBothDemo {
+  protected readonly cities: readonly CityRow[] = [
+      { city: 'New York', state: 'NY', population: '8,419,600', area: '783.8' },
+      { city: 'Los Angeles', state: 'CA', population: '3,980,400', area: '1,214.9' },
+      { city: 'Chicago', state: 'IL', population: '2,716,000', area: '589.6' },
+      { city: 'Houston', state: 'TX', population: '2,328,000', area: '1,651.1' },
+      { city: 'Phoenix', state: 'AZ', population: '1,690,000', area: '1,340.6' },
+      { city: 'Philadelphia', state: 'PA', population: '1,584,200', area: '369.6' },
+      { city: 'San Antonio', state: 'TX', population: '1,547,200', area: '1,194.0' },
+      { city: 'San Diego', state: 'CA', population: '1,423,800', area: '964.5' },
+      { city: 'Dallas', state: 'TX', population: '1,341,100', area: '882.9' },
+      { city: 'San Jose', state: 'CA', population: '1,035,300', area: '469.7' },
+      { city: 'Austin', state: 'TX', population: '1,010,000', area: '704.0' },
+      { city: 'Jacksonville', state: 'FL', population: '949,600', area: '2,265.3' },
+    ];
 }
 ```
 
@@ -301,13 +349,13 @@ export class ScrollPanelBothBothAxesDemo {
 .city-table th,
 .city-table td {
   padding: 0.625rem 0.75rem;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--aeris-border);
   text-align: left;
   white-space: nowrap;
 }
 
 .city-table th {
-  color: var(--text);
+  color: var(--aeris-text);
   font-size: 0.75rem;
   text-transform: uppercase;
 }
@@ -322,6 +370,11 @@ Use fade masks to communicate that additional content continues beyond the visib
 ```ts
 import { Component } from '@angular/core';
 import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
+
+interface BrandItem {
+  readonly name: string;
+  readonly count: number;
+}
 
 @Component({
   selector: 'app-scroll-panel-fade-demo',
@@ -354,13 +407,35 @@ import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
       justify-content: space-between;
       gap: 1rem;
       padding: 0.5rem 0.625rem;
-      border: 1px solid var(--border);
+      border: 1px solid var(--aeris-border);
       border-radius: var(--aeris-radius-md);
-      background: var(--surface);
+      background: var(--aeris-surface);
     }
   `
 })
-export class ScrollPanelFadeScrollFadeDemo {
+export class ScrollPanelFadeDemo {
+  protected readonly brands: readonly BrandItem[] = [
+      { name: 'Audi', count: 200 },
+      { name: 'BMW', count: 350 },
+      { name: 'Mercedes-Benz', count: 420 },
+      { name: 'Volkswagen', count: 510 },
+      { name: 'Toyota', count: 610 },
+      { name: 'Honda', count: 280 },
+      { name: 'Hyundai', count: 390 },
+      { name: 'Kia', count: 260 },
+      { name: 'Ford', count: 470 },
+      { name: 'Renault', count: 530 },
+      { name: 'Peugeot', count: 410 },
+      { name: 'Citroen', count: 190 },
+      { name: 'Skoda', count: 360 },
+      { name: 'Seat', count: 210 },
+      { name: 'Opel', count: 440 },
+      { name: 'Fiat', count: 620 },
+      { name: 'Dacia', count: 380 },
+      { name: 'Volvo', count: 140 },
+      { name: 'Mazda', count: 120 },
+      { name: 'Nissan', count: 330 },
+    ];
 }
 ```
 
@@ -374,13 +449,40 @@ Choose how visible the styled native scrollbars should be.
 import { Component } from '@angular/core';
 import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
 
+interface BrandItem {
+  readonly name: string;
+  readonly count: number;
+}
+
 @Component({
   selector: 'app-scroll-panel-variants-demo',
   imports: [AerisScrollPanelModule],
   templateUrl: './scroll-panel-variants.demo.html',
   styleUrl: './scroll-panel-variants.demo.scss'
 })
-export class ScrollPanelVariantsVariantsDemo {
+export class ScrollPanelVariantsDemo {
+  protected readonly brands: readonly BrandItem[] = [
+      { name: 'Audi', count: 200 },
+      { name: 'BMW', count: 350 },
+      { name: 'Mercedes-Benz', count: 420 },
+      { name: 'Volkswagen', count: 510 },
+      { name: 'Toyota', count: 610 },
+      { name: 'Honda', count: 280 },
+      { name: 'Hyundai', count: 390 },
+      { name: 'Kia', count: 260 },
+      { name: 'Ford', count: 470 },
+      { name: 'Renault', count: 530 },
+      { name: 'Peugeot', count: 410 },
+      { name: 'Citroen', count: 190 },
+      { name: 'Skoda', count: 360 },
+      { name: 'Seat', count: 210 },
+      { name: 'Opel', count: 440 },
+      { name: 'Fiat', count: 620 },
+      { name: 'Dacia', count: 380 },
+      { name: 'Volvo', count: 140 },
+      { name: 'Mazda', count: 120 },
+      { name: 'Nissan', count: 330 },
+    ];
 }
 ```
 
@@ -391,57 +493,55 @@ export class ScrollPanelVariantsVariantsDemo {
   <div class="scroll-panel-grid">
     <section>
       <h4>Auto</h4>
-      <aeris-scroll-panel variant="auto" height="10rem" ariaLabel="Auto scrollbars"
-        ><ul class="brand-list">
+      <aeris-scroll-panel variant="auto" height="10rem" ariaLabel="Auto scrollbars">
+        <ul class="brand-list">
           @for (brand of brands; track brand.name) {
             <li>
               <span>{{ brand.name }}</span>
               <strong>{{ brand.count }}</strong>
             </li>
           }
-        </ul></aeris-scroll-panel>
+        </ul>
+      </aeris-scroll-panel>
     </section>
     <section>
       <h4>Hover</h4>
-      <aeris-scroll-panel variant="hover" height="10rem" ariaLabel="Hover scrollbars"
-        ><ul class="brand-list">
+      <aeris-scroll-panel variant="hover" height="10rem" ariaLabel="Hover scrollbars">
+        <ul class="brand-list">
           @for (brand of brands; track brand.name) {
             <li>
               <span>{{ brand.name }}</span>
               <strong>{{ brand.count }}</strong>
             </li>
           }
-        </ul></aeris-scroll-panel>
+        </ul>
+      </aeris-scroll-panel>
     </section>
     <section>
       <h4>Always</h4>
-      <aeris-scroll-panel
-        variant="always"
-        height="10rem"
-        ariaLabel="Always scrollbars"
-        ><ul class="brand-list">
+      <aeris-scroll-panel variant="always" height="10rem" ariaLabel="Always scrollbars">
+        <ul class="brand-list">
           @for (brand of brands; track brand.name) {
             <li>
               <span>{{ brand.name }}</span>
               <strong>{{ brand.count }}</strong>
             </li>
           }
-        </ul></aeris-scroll-panel>
+        </ul>
+      </aeris-scroll-panel>
     </section>
     <section>
       <h4>Hidden</h4>
-      <aeris-scroll-panel
-        variant="hidden"
-        height="10rem"
-        ariaLabel="Hidden scrollbars"
-        ><ul class="brand-list">
+      <aeris-scroll-panel variant="hidden" height="10rem" ariaLabel="Hidden scrollbars">
+        <ul class="brand-list">
           @for (brand of brands; track brand.name) {
             <li>
               <span>{{ brand.name }}</span>
               <strong>{{ brand.count }}</strong>
             </li>
           }
-        </ul></aeris-scroll-panel>
+        </ul>
+      </aeris-scroll-panel>
     </section>
   </div>
 </div>
@@ -483,40 +583,6 @@ export class ScrollPanelVariantsVariantsDemo {
       grid-template-columns: 1fr;
     }
 }
-
-.scroll-panel-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-.scroll-panel-grid h4 {
-  margin: 0 0 0.5rem;
-}
-
-@media (max-width: 42rem) {
-  .scroll-panel-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.brand-list {
-  display: grid;
-  gap: 0.5rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.brand-list li {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.5rem 0.625rem;
-  border: 1px solid var(--border);
-  border-radius: var(--aeris-radius-md);
-  background: var(--surface);
-}
 ```
 
 ### Events and methods
@@ -530,13 +596,42 @@ import { Component } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisScrollPanelModule, type AerisScrollPanelEvent } from '@aeris-ui/core/scroll-panel';
 
+interface BrandItem {
+  readonly name: string;
+  readonly count: number;
+}
+
 @Component({
   selector: 'app-scroll-panel-methods-demo',
   imports: [AerisButton, AerisScrollPanelModule],
   templateUrl: './scroll-panel-methods.demo.html',
   styleUrl: './scroll-panel-methods.demo.scss'
 })
-export class ScrollPanelMethodsEventsAndMethodsDemo {
+export class ScrollPanelMethodsDemo {
+  protected readonly brands: readonly BrandItem[] = [
+      { name: 'Audi', count: 200 },
+      { name: 'BMW', count: 350 },
+      { name: 'Mercedes-Benz', count: 420 },
+      { name: 'Volkswagen', count: 510 },
+      { name: 'Toyota', count: 610 },
+      { name: 'Honda', count: 280 },
+      { name: 'Hyundai', count: 390 },
+      { name: 'Kia', count: 260 },
+      { name: 'Ford', count: 470 },
+      { name: 'Renault', count: 530 },
+      { name: 'Peugeot', count: 410 },
+      { name: 'Citroen', count: 190 },
+      { name: 'Skoda', count: 360 },
+      { name: 'Seat', count: 210 },
+      { name: 'Opel', count: 440 },
+      { name: 'Fiat', count: 620 },
+      { name: 'Dacia', count: 380 },
+      { name: 'Volvo', count: 140 },
+      { name: 'Mazda', count: 120 },
+      { name: 'Nissan', count: 330 },
+    ];
+
+
   protected bottomReached = false;
   protected lastScrollPosition = '0px';
 
@@ -630,37 +725,6 @@ export class ScrollPanelMethodsEventsAndMethodsDemo {
   color: var(--aeris-text-2);
   font-size: 0.8125rem;
 }
-
-.scroll-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-block-end: 0.875rem;
-}
-
-.scroll-status {
-  margin: 0.75rem 0 0;
-  color: var(--text-2);
-  font-size: 0.8125rem;
-}
-
-.brand-list {
-  display: grid;
-  gap: 0.5rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.brand-list li {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.5rem 0.625rem;
-  border: 1px solid var(--border);
-  border-radius: var(--aeris-radius-md);
-  background: var(--surface);
-}
 ```
 
 ### Token customization
@@ -673,13 +737,40 @@ Use component tokens to tune the surface, border, fades, and native scrollbar co
 import { Component } from '@angular/core';
 import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
 
+interface BrandItem {
+  readonly name: string;
+  readonly count: number;
+}
+
 @Component({
   selector: 'app-scroll-panel-custom-demo',
   imports: [AerisScrollPanelModule],
   templateUrl: './scroll-panel-custom.demo.html',
   styleUrl: './scroll-panel-custom.demo.scss'
 })
-export class ScrollPanelCustomTokenCustomizationDemo {
+export class ScrollPanelCustomDemo {
+  protected readonly brands: readonly BrandItem[] = [
+      { name: 'Audi', count: 200 },
+      { name: 'BMW', count: 350 },
+      { name: 'Mercedes-Benz', count: 420 },
+      { name: 'Volkswagen', count: 510 },
+      { name: 'Toyota', count: 610 },
+      { name: 'Honda', count: 280 },
+      { name: 'Hyundai', count: 390 },
+      { name: 'Kia', count: 260 },
+      { name: 'Ford', count: 470 },
+      { name: 'Renault', count: 530 },
+      { name: 'Peugeot', count: 410 },
+      { name: 'Citroen', count: 190 },
+      { name: 'Skoda', count: 360 },
+      { name: 'Seat', count: 210 },
+      { name: 'Opel', count: 440 },
+      { name: 'Fiat', count: 620 },
+      { name: 'Dacia', count: 380 },
+      { name: 'Volvo', count: 140 },
+      { name: 'Mazda', count: 120 },
+      { name: 'Nissan', count: 330 },
+    ];
 }
 ```
 
@@ -739,38 +830,6 @@ export class ScrollPanelCustomTokenCustomizationDemo {
   --aeris-scroll-panel-track-always: color-mix(in srgb, var(--aeris-primary) 18%, transparent);
   --aeris-scroll-panel-padding: 1.125rem;
   --aeris-scroll-panel-fade-size: 2.75rem;
-}
-
-.brand-scroll-panel {
-  --aeris-scroll-panel-background: color-mix(in srgb, var(--aeris-primary) 10%, var(--surface));
-  --aeris-scroll-panel-border-width: 2px;
-  --aeris-scroll-panel-border: color-mix(in srgb, var(--aeris-primary) 72%, var(--border));
-  --aeris-scroll-panel-radius: 1.5rem;
-  --aeris-scroll-panel-thumb: var(--aeris-primary);
-  --aeris-scroll-panel-thumb-hover: var(--aeris-primary-text);
-  --aeris-scroll-panel-thumb-always: var(--aeris-primary);
-  --aeris-scroll-panel-track: color-mix(in srgb, var(--aeris-primary) 16%, transparent);
-  --aeris-scroll-panel-track-always: color-mix(in srgb, var(--aeris-primary) 18%, transparent);
-  --aeris-scroll-panel-padding: 1.125rem;
-  --aeris-scroll-panel-fade-size: 2.75rem;
-}
-
-.brand-list {
-  display: grid;
-  gap: 0.5rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.brand-list li {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.5rem 0.625rem;
-  border: 1px solid var(--border);
-  border-radius: var(--aeris-radius-md);
-  background: var(--surface);
 }
 ```
 

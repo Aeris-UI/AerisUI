@@ -2,7 +2,7 @@
 
 > Visualize multiple scalar contributions within a known range using responsive segments, legends, templates, and meter semantics.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/meter-group`
 - Human-readable documentation: [https://aeris-ui.dev/components/meter-group](https://aeris-ui.dev/components/meter-group)
@@ -42,6 +42,7 @@ import { AerisMeterGroupModule } from '@aeris-ui/core/meter-group';
 | `valueSuffix` | `string` | `'%'` | Suffix used by the default item-value formatter. |
 | `ariaLabel` | `string` | `'Meter group'` | Accessible name for the meter track. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that labels the meter track. |
+| `ariaDescribedBy` | `string` | `''` | Space-separated IDs of supporting text describing the inner meter track. |
 | `ariaValueText` | `string` | `''` | Overrides the generated combined measurement summary. |
 | `valueFormatter` | `((context: AerisMeterGroupItemContext) =&gt; string) &#124; null` | `null` | Formats visible and accessible item values. |
 
@@ -99,6 +100,28 @@ interface AerisMeterGroupSummaryContext {
 }
 ```
 
+## Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-meter-group-track-size` | `CSS custom property` | `0.875rem` | Medium track thickness. |
+| `--aeris-meter-group-sm-track-size` | `CSS custom property` | `0.5rem` | Small track thickness. |
+| `--aeris-meter-group-lg-track-size` | `CSS custom property` | `1.25rem` | Large track thickness. |
+| `--aeris-meter-group-vertical-size` | `CSS custom property` | `14rem` | Vertical track height. |
+| `--aeris-meter-group-gap` | `CSS custom property` | `0.875rem` | Gap between header, layout, and footer. |
+| `--aeris-meter-group-layout-gap` | `CSS custom property` | `1rem` | Gap between track and legend. |
+| `--aeris-meter-group-radius` | `CSS custom property` | `--aeris-radius-control` | Non-pill track radius. |
+| `--aeris-meter-group-track-background` | `CSS custom property` | `--aeris-surface-2` | Unfilled track background. |
+| `--aeris-meter-group-track-border` | `CSS custom property` | `--aeris-border` | Track border color. |
+| `--aeris-meter-group-track-shadow` | `CSS custom property` | `inset subtle shadow` | Track inset shadow. |
+| `--aeris-meter-group-legend-gap` | `CSS custom property` | `0.625rem 1rem` | Legend row and column gaps. |
+| `--aeris-meter-group-label-gap` | `CSS custom property` | `0.4375rem` | Gap within a legend item. |
+| `--aeris-meter-group-marker-size` | `CSS custom property` | `0.625rem` | Legend marker size. |
+| `--aeris-meter-group-marker-radius` | `CSS custom property` | `50%` | Legend marker radius. |
+| `--aeris-meter-group-label-font-size` | `CSS custom property` | `0.8125rem` | Legend label size. |
+| `--aeris-meter-group-label-text` | `CSS custom property` | `--aeris-text-2` | Legend label color. |
+| `--aeris-meter-group-value-text` | `CSS custom property` | `--aeris-text` | Legend value color. |
+
 ## Examples
 
 ### Basic
@@ -120,10 +143,79 @@ import { AerisMeterGroupModule, type AerisMeterGroupItem } from '@aeris-ui/core/
     </div>
   `
 })
-export class MeterGroupBasicBasicDemo {
+export class MeterGroupBasicDemo {
   protected readonly basicItems: readonly AerisMeterGroupItem[] = [
     { label: 'Space used', value: 45, tone: 'primary' },
   ];
+}
+```
+
+### Capacity
+
+Measure storage in GB instead of percentages. Clear or restore sample cache to update the segments, legend, accessible summary, and remaining capacity.
+
+#### TS
+
+```ts
+import { Component, computed, signal } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisMeterGroupModule, type AerisMeterGroupItem, type AerisMeterGroupItemContext } from '@aeris-ui/core/meter-group';
+
+@Component({
+  selector: 'app-meter-group-capacity-demo',
+  imports: [AerisButton, AerisMeterGroupModule],
+  templateUrl: './meter-group-capacity.demo.html',
+  styleUrl: './meter-group-capacity.demo.scss'
+})
+export class MeterGroupCapacityDemo {
+  protected readonly includeCache = signal(true);
+  protected readonly capacityItems = computed<readonly AerisMeterGroupItem[]>(() => [
+    { label: 'Projects', value: 48, tone: 'primary' },
+    { label: 'Assets', value: 32, tone: 'info' },
+    { label: 'Cache', value: this.includeCache() ? 16 : 0, tone: 'warning' },
+  ]);
+  protected readonly capacityFormatter = ({ value }: AerisMeterGroupItemContext): string => `${value} GB`;
+}
+```
+
+#### HTML
+
+```html
+<div>
+  <div class="meter-stack">
+    <strong id="capacity-title">Workspace storage</strong>
+    <aeris-meter-group
+      [items]="capacityItems()"
+      [max]="128"
+      valueSuffix=" GB"
+      [valueFormatter]="capacityFormatter"
+      ariaLabelledBy="capacity-title"
+      ariaDescribedBy="capacity-help"
+    >
+      <ng-template aerisMeterGroupFooter let-remaining="remaining">
+        <p id="capacity-help">{{ remaining }} GB available out of 128 GB.</p>
+      </ng-template>
+    </aeris-meter-group>
+    <div>
+      <button
+        aerisButton
+        type="button"
+        variant="outline"
+        (click)="includeCache.set(!includeCache())"
+      >
+        {{ includeCache() ? 'Clear sample cache' : 'Restore sample cache' }}
+      </button>
+    </div>
+  </div>
+</div>
+```
+
+#### CSS
+
+```css
+.meter-stack {
+  display: grid;
+  gap: 1.25rem;
 }
 ```
 
@@ -146,7 +238,7 @@ import { AerisMeterGroupModule, type AerisMeterGroupItem } from '@aeris-ui/core/
     </div>
   `
 })
-export class MeterGroupMultipleMultipleDemo {
+export class MeterGroupMultipleDemo {
   protected readonly storageItems: readonly AerisMeterGroupItem[] = [
     { label: 'Applications', value: 14, tone: 'primary' },
     { label: 'Messages', value: 12, tone: 'info' },
@@ -180,7 +272,7 @@ import { AerisMeterGroupModule, type AerisMeterGroupItem } from '@aeris-ui/core/
     </div>
   `
 })
-export class MeterGroupColorsColorsDemo {
+export class MeterGroupColorsDemo {
   protected readonly colorItems: readonly AerisMeterGroupItem[] = [
     { label: 'Violet', value: 12, color: '#8b5cf6' },
     { label: 'Emerald', value: 14, color: '#10b981' },
@@ -208,9 +300,14 @@ import { LucideAppWindow, LucideDynamicIcon, LucideImage, LucideMessageCircle, L
   templateUrl: './meter-group-icons.demo.html',
   styleUrl: './meter-group-icons.demo.scss'
 })
-export class MeterGroupIconsIconsDemo {
+export class MeterGroupIconsDemo {
+  protected readonly icons = {
+      AppWindow: LucideAppWindow,
+      Image: LucideImage,
+      MessageCircle: LucideMessageCircle,
+      Settings: LucideSettings,
+    };
 
-  protected readonly icons = { AppWindow: LucideAppWindow, Image: LucideImage, MessageCircle: LucideMessageCircle, Settings: LucideSettings };
 
   protected readonly storageItems: readonly AerisMeterGroupItem[] = [
     { label: 'Applications', value: 14, tone: 'primary' },
@@ -257,6 +354,13 @@ export class MeterGroupIconsIconsDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .meter-icon-label {
   display: inline-flex;
   align-items: center;
@@ -285,7 +389,7 @@ import { AerisMeterGroupModule, type AerisMeterGroupItem } from '@aeris-ui/core/
   templateUrl: './meter-group-labels.demo.html',
   styleUrl: './meter-group-labels.demo.scss'
 })
-export class MeterGroupLabelsLegendLayoutsDemo {
+export class MeterGroupLabelsDemo {
   protected readonly storageItems: readonly AerisMeterGroupItem[] = [
     { label: 'Applications', value: 14, tone: 'primary' },
     { label: 'Messages', value: 12, tone: 'info' },
@@ -353,7 +457,7 @@ import { AerisMeterGroupModule, type AerisMeterGroupItem } from '@aeris-ui/core/
     </div>
   `
 })
-export class MeterGroupVerticalVerticalDemo {
+export class MeterGroupVerticalDemo {
   protected readonly storageItems: readonly AerisMeterGroupItem[] = [
     { label: 'Applications', value: 14, tone: 'primary' },
     { label: 'Messages', value: 12, tone: 'info' },
@@ -392,7 +496,7 @@ import { AerisMeterGroupModule, type AerisMeterGroupItem } from '@aeris-ui/core/
     </div>
   `
 })
-export class MeterGroupRangeRangeDemo {
+export class MeterGroupRangeDemo {
   protected readonly rangeItems: readonly AerisMeterGroupItem[] = [
     { label: 'Projects', value: 32, tone: 'primary' },
     { label: 'Assets', value: 18, tone: 'info' },
@@ -436,7 +540,7 @@ import { AerisMeterGroupModule, type AerisMeterGroupItem } from '@aeris-ui/core/
     }
   `
 })
-export class MeterGroupOptionsSizesAndCornersDemo {
+export class MeterGroupOptionsDemo {
   protected readonly storageItems: readonly AerisMeterGroupItem[] = [
     { label: 'Applications', value: 14, tone: 'primary' },
     { label: 'Messages', value: 12, tone: 'info' },
@@ -467,7 +571,7 @@ import { AerisMeterGroupModule, type AerisMeterGroupItem, type AerisMeterGroupIt
   templateUrl: './meter-group-templates.demo.html',
   styleUrl: './meter-group-templates.demo.scss'
 })
-export class MeterGroupTemplatesTemplatesDemo {
+export class MeterGroupTemplatesDemo {
   protected readonly templateItems: readonly AerisMeterGroupItem[] = [
     { label: 'Projects', value: 25, tone: 'primary' },
     { label: 'Messages', value: 15, tone: 'info' },
@@ -542,11 +646,7 @@ export class MeterGroupTemplatesTemplatesDemo {
 .meter-segment-pattern {
   width: 100%;
   height: 100%;
-  background: repeating-linear-gradient(
-    135deg,
-    transparent 0 4px,
-    rgb(255 255 255 / 18%) 4px 7px
-  );
+  background: repeating-linear-gradient(135deg, transparent 0 4px, rgba(255, 255, 255, 0.18) 4px 7px);
 }
 ```
 
@@ -591,7 +691,7 @@ import { AerisMeterGroupModule, type AerisMeterGroupItem } from '@aeris-ui/core/
     }
   `
 })
-export class MeterGroupTokensTokenCustomizationDemo {
+export class MeterGroupTokensDemo {
   protected readonly storageItems: readonly AerisMeterGroupItem[] = [
     { label: 'Applications', value: 14, tone: 'primary' },
     { label: 'Messages', value: 12, tone: 'info' },
@@ -613,6 +713,7 @@ export class MeterGroupTokensTokenCustomizationDemo {
 - Custom label icons are decorative; the generated accessible item text remains available to assistive technology.
 - Values that exceed capacity are visually capped without hiding their original legend values.
 - MeterGroup is non-interactive and does not enter the tab order.
+- Use ariaLabelledBy and ariaDescribedBy to associate visible labels and supporting text with the inner meter. It describes capacity or measurements, not task completion; use ProgressBar or ProgressSpinner for ongoing work. Value changes do not create automatic live announcements.
 - Logical layout supports RTL, and segment reveal animation is disabled under reduced motion.
 
 ### Keyboard support

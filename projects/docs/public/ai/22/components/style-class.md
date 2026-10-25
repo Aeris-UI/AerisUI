@@ -2,7 +2,7 @@
 
 > Toggle application classes and coordinate enter or leave transitions declaratively.
 
-Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.11 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/style-class`
 - Human-readable documentation: [https://aeris-ui.dev/components/style-class](https://aeris-ui.dev/components/style-class)
@@ -128,7 +128,7 @@ import { AerisStyleClassModule } from '@aeris-ui/core/style-class';
   templateUrl: './style-class-toggle.demo.html',
   styleUrl: './style-class-toggle.demo.scss'
 })
-export class StyleClassToggleToggleClassesDemo {
+export class StyleClassToggleDemo {
 }
 ```
 
@@ -181,6 +181,48 @@ export class StyleClassToggleToggleClassesDemo {
     transition: none;
   }
 }
+
+.style-toggle-demo,
+.style-animation-demo,
+.style-resize-demo,
+.style-method-demo {
+  display: grid;
+  gap: 0.875rem;
+}
+
+.style-toggle-demo,
+.style-animation-demo,
+.style-resize-demo {
+  justify-items: start;
+}
+
+.style-toggle-card,
+.style-animation-panel,
+.style-resize-panel,
+.style-method-notice {
+  width: min(100%, 34rem);
+  padding: 1rem;
+  border-radius: var(--aeris-radius-lg);
+}
+
+.style-toggle-card,
+.style-animation-panel,
+.style-resize-panel {
+  border: 1px solid var(--aeris-border);
+  background: var(--aeris-surface-2);
+}
+
+.style-toggle-card {
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .style-toggle-card,
+    .style-enter-active,
+    .style-leave-active {
+      transition: none;
+    }
+}
 ```
 
 ### Animation
@@ -200,7 +242,7 @@ import { AerisStyleClassModule } from '@aeris-ui/core/style-class';
   templateUrl: './style-class-animation.demo.html',
   styleUrl: './style-class-animation.demo.scss'
 })
-export class StyleClassAnimationAnimationDemo {
+export class StyleClassAnimationDemo {
 }
 ```
 
@@ -281,6 +323,41 @@ export class StyleClassAnimationAnimationDemo {
     transition: none;
   }
 }
+
+.style-toggle-demo,
+.style-animation-demo,
+.style-resize-demo,
+.style-method-demo {
+  display: grid;
+  gap: 0.875rem;
+}
+
+.style-toggle-demo,
+.style-animation-demo,
+.style-resize-demo {
+  justify-items: start;
+}
+
+.style-toggle-card,
+.style-animation-panel,
+.style-resize-panel,
+.style-method-notice {
+  width: min(100%, 34rem);
+  padding: 1rem;
+  border-radius: var(--aeris-radius-lg);
+}
+
+.style-toggle-card,
+.style-animation-panel,
+.style-resize-panel {
+  border: 1px solid var(--aeris-border);
+  background: var(--aeris-surface-2);
+}
+
+.style-animation-panel {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
 ```
 
 ### Target selectors
@@ -300,7 +377,7 @@ import { AerisStyleClassModule } from '@aeris-ui/core/style-class';
   templateUrl: './style-class-selectors.demo.html',
   styleUrl: './style-class-selectors.demo.scss'
 })
-export class StyleClassSelectorsTargetSelectorsDemo {
+export class StyleClassSelectorsDemo {
 }
 ```
 
@@ -396,6 +473,31 @@ export class StyleClassSelectorsTargetSelectorsDemo {
     grid-template-columns: 1fr;
   }
 }
+
+.style-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.875rem;
+}
+
+.style-selector-case,
+.style-selector-target {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.875rem;
+  border: 1px solid var(--aeris-border);
+  border-radius: var(--aeris-radius-lg);
+}
+
+.style-selector-target {
+  background: var(--aeris-surface-2);
+}
+
+@media (max-width: 40rem) {
+  .style-selector-grid {
+      grid-template-columns: 1fr;
+    }
+}
 ```
 
 ### Resize dismissal
@@ -415,7 +517,7 @@ import { AerisStyleClassModule } from '@aeris-ui/core/style-class';
   templateUrl: './style-class-resize.demo.html',
   styleUrl: './style-class-resize.demo.scss'
 })
-export class StyleClassResizeResizeDismissalDemo {
+export class StyleClassResizeDemo {
 }
 ```
 
@@ -468,6 +570,41 @@ export class StyleClassResizeResizeDismissalDemo {
 .style-resize-panel--visible {
   display: block;
 }
+
+.style-toggle-demo,
+.style-animation-demo,
+.style-resize-demo,
+.style-method-demo {
+  display: grid;
+  gap: 0.875rem;
+}
+
+.style-toggle-demo,
+.style-animation-demo,
+.style-resize-demo {
+  justify-items: start;
+}
+
+.style-toggle-card,
+.style-animation-panel,
+.style-resize-panel,
+.style-method-notice {
+  width: min(100%, 34rem);
+  padding: 1rem;
+  border-radius: var(--aeris-radius-lg);
+}
+
+.style-toggle-card,
+.style-animation-panel,
+.style-resize-panel {
+  border: 1px solid var(--aeris-border);
+  background: var(--aeris-surface-2);
+}
+
+.style-resize-panel,
+.style-method-notice {
+  display: none;
+}
 ```
 
 ### Methods and events
@@ -487,7 +624,7 @@ import { AerisStyleClassModule, type AerisStyleClassEvent } from '@aeris-ui/core
   templateUrl: './style-class-methods.demo.html',
   styleUrl: './style-class-methods.demo.scss'
 })
-export class StyleClassMethodsMethodsAndEventsDemo {
+export class StyleClassMethodsDemo {
   protected readonly methodStatus = signal('The notice is hidden.');
 
   protected recordMethodShown(event: AerisStyleClassEvent): void {
@@ -517,16 +654,18 @@ export class StyleClassMethodsMethodsAndEventsDemo {
         (shown)="recordMethodShown($event)"
         (hidden)="recordMethodHidden($event)"
       >
-        Toggle notice</button>
-        <button
+        Toggle notice
+      </button>
+      <button
         aerisButton
         type="button"
         variant="solid"
         severity="secondary"
         (click)="methodController.show()"
       >
-        Show</button>
-        <button
+        Show
+      </button>
+      <button
         aerisButton
         type="button"
         variant="solid"
@@ -584,6 +723,50 @@ export class StyleClassMethodsMethodsAndEventsDemo {
   .style-method-actions > button {
     width: 100%;
   }
+}
+
+.style-toggle-demo,
+.style-animation-demo,
+.style-resize-demo,
+.style-method-demo {
+  display: grid;
+  gap: 0.875rem;
+}
+
+.style-toggle-card,
+.style-animation-panel,
+.style-resize-panel,
+.style-method-notice {
+  width: min(100%, 34rem);
+  padding: 1rem;
+  border-radius: var(--aeris-radius-lg);
+}
+
+.style-resize-panel,
+.style-method-notice {
+  display: none;
+}
+
+.style-method-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+.style-method-notice {
+  border: 1px solid color-mix(in srgb, var(--aeris-primary) 36%, var(--aeris-border));
+  background: var(--aeris-primary-soft);
+}
+
+.style-method-status {
+  margin: 0;
+  color: var(--aeris-text-2);
+}
+
+@media (max-width: 30rem) {
+  .style-method-actions > button {
+      width: 100%;
+    }
 }
 ```
 

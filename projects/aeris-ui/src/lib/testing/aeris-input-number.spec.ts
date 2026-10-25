@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { FormField, form, min, max, readonly, disabled } from '@angular/forms/signals';
 
 import { AerisInputNumber } from '../../../input-number/aeris-input-number';
 
@@ -33,7 +34,90 @@ class InputNumberTestHost {
   readonly lastInput = signal<number | null>(null);
 }
 
+@Component({
+  imports: [AerisInputNumber, FormField],
+  template: `
+    <aeris-input-number
+      inputId="compact"
+      ariaLabel="Numeric value"
+      [formField]="numberForm.amount"
+      [step]="1"
+      [maxFractionDigits]="0"
+      [allowEmpty]="false"
+      size="sm"
+      showButtons
+      buttonLayout="horizontal"
+      [buttonTabIndex]="0"
+      incrementButtonAriaLabel="Increase amount"
+      decrementButtonAriaLabel="Decrease amount"
+    />
+  `,
+})
+class SignalNumberHost {
+  readonly numberModel = signal({ amount: 3 as number | null });
+  readonly readonly = signal(false);
+  readonly disabled = signal(false);
+  readonly numberForm = form(this.numberModel, (path) => {
+    min(path.amount, 1);
+    max(path.amount, 5);
+    readonly(path.amount, { when: () => this.readonly() });
+    disabled(path.amount, { when: () => this.disabled() });
+  });
+}
+
 describe('AerisInputNumber', () => {
+  it('supports a Signal Forms stepper with named buttons and bounded values', async () => {
+    const fixture = TestBed.createComponent(SignalNumberHost);
+    await fixture.whenStable();
+    const host = fixture.nativeElement as HTMLElement;
+    const input = host.querySelector('input') as HTMLInputElement;
+    const add = host.querySelector('[aria-label="Increase amount"]') as HTMLButtonElement;
+    const remove = host.querySelector('[aria-label="Decrease amount"]') as HTMLButtonElement;
+    expect(add.tabIndex).toBe(0);
+    expect(remove.tabIndex).toBe(0);
+    expect(input.inputMode).toBe('decimal');
+    add.click();
+    add.click();
+    await fixture.whenStable();
+    expect(fixture.componentInstance.numberModel().amount).toBe(5);
+    expect(add.disabled).toBe(true);
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Home', bubbles: true }));
+    await fixture.whenStable();
+    expect(fixture.componentInstance.numberModel().amount).toBe(1);
+    expect(remove.disabled).toBe(true);
+    fixture.componentInstance.numberModel.set({ amount: 4 });
+    await fixture.whenStable();
+    expect(input.value).toBe('4');
+    input.dispatchEvent(new FocusEvent('focus'));
+    input.value = '99 amount';
+    input.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertFromPaste' }));
+    await fixture.whenStable();
+    expect(input.value).toBe('99');
+    input.dispatchEvent(new FocusEvent('blur'));
+    await fixture.whenStable();
+    expect(fixture.componentInstance.numberModel().amount).toBe(5);
+    expect(fixture.componentInstance.numberForm.amount().touched()).toBe(true);
+  });
+
+  it('keeps compact read-only and disabled steppers non-interactive', async () => {
+    const fixture = TestBed.createComponent(SignalNumberHost);
+    await fixture.whenStable();
+    const input = fixture.nativeElement.querySelector('input') as HTMLInputElement;
+    const buttons = Array.from(
+      fixture.nativeElement.querySelectorAll('button'),
+    ) as HTMLButtonElement[];
+    fixture.componentInstance.readonly.set(true);
+    await fixture.whenStable();
+    expect(input.readOnly).toBe(true);
+    expect(buttons.every((button) => button.disabled)).toBe(true);
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp', bubbles: true }));
+    expect(fixture.componentInstance.numberModel().amount).toBe(3);
+    fixture.componentInstance.readonly.set(false);
+    fixture.componentInstance.disabled.set(true);
+    await fixture.whenStable();
+    expect(input.disabled).toBe(true);
+    expect(buttons.every((button) => button.disabled)).toBe(true);
+  });
   it('formats the model and exposes native spinbutton semantics', async () => {
     const fixture = TestBed.createComponent(InputNumberTestHost);
     await fixture.whenStable();
