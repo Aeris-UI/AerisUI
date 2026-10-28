@@ -191,6 +191,18 @@ describe('AerisToast', () => {
     expect(fixture.componentInstance.closedEvents.at(-1)?.reason).toBe('timeout');
   });
 
+  it('does not treat touchscreen pointer entry as a persistent hover', () => {
+    const fixture = TestBed.createComponent(ToastHost);
+    fixture.detectChanges();
+    service.show({ group: 'workspace', detail: 'Timed', life: 1000 });
+    fixture.detectChanges();
+    const region = fixture.nativeElement.querySelector('.aeris-toast__region') as HTMLElement;
+    region.dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'touch' }));
+    vi.advanceTimersByTime(1000);
+    fixture.detectChanges();
+    expect(service.messages()).toHaveLength(0);
+  });
+
   it('supports custom content and icon templates with close context', () => {
     const fixture = TestBed.createComponent(CustomToastHost);
     fixture.detectChanges();
@@ -463,6 +475,86 @@ describe('AerisToast', () => {
 
     expect(messages[0].getAttribute('data-primary')).toBe('true');
     expect(messages.map((message) => message.textContent?.trim())).toEqual(['One', 'Two', 'Three']);
+  });
+
+  it('does not interrupt stack animations for a touch tap or minor finger jitter', () => {
+    const fixture = TestBed.createComponent(StackedToastHost);
+    fixture.detectChanges();
+    service.showAll([
+      { group: 'stack', detail: 'First', sticky: true },
+      { group: 'stack', detail: 'Second', sticky: true },
+    ]);
+    fixture.detectChanges();
+    const item = fixture.nativeElement.querySelector('.aeris-toast__item') as HTMLElement;
+    const region = fixture.nativeElement.querySelector('.aeris-toast__region') as HTMLElement;
+    item.dispatchEvent(
+      new PointerEvent('pointerdown', {
+        pointerId: 4,
+        pointerType: 'touch',
+        clientX: 50,
+        clientY: 50,
+      }),
+    );
+    item.dispatchEvent(
+      new PointerEvent('pointermove', {
+        pointerId: 4,
+        pointerType: 'touch',
+        clientX: 51,
+        clientY: 50,
+      }),
+    );
+    vi.advanceTimersByTime(20);
+    fixture.detectChanges();
+    expect(item.hasAttribute('data-swiping')).toBe(false);
+    item.dispatchEvent(
+      new PointerEvent('lostpointercapture', { pointerId: 4, pointerType: 'touch' }),
+    );
+    fixture.detectChanges();
+    expect(region.dataset['mode']).toBe('stacked');
+    expect(service.messages()).toHaveLength(2);
+    item.dispatchEvent(new PointerEvent('pointerdown', { pointerId: 5, pointerType: 'touch' }));
+    item.dispatchEvent(new PointerEvent('pointerup', { pointerId: 5, pointerType: 'touch' }));
+    fixture.detectChanges();
+    expect(region.dataset['mode']).toBe('expanded');
+  });
+
+  it('counts the first touch movement and the final release when dismissing', () => {
+    const fixture = TestBed.createComponent(ToastHost);
+    fixture.detectChanges();
+    service.show({ group: 'workspace', detail: 'Swipe', sticky: true });
+    fixture.detectChanges();
+    const item = fixture.nativeElement.querySelector('.aeris-toast__item') as HTMLElement;
+    item.dispatchEvent(
+      new PointerEvent('pointerdown', {
+        pointerId: 2,
+        pointerType: 'touch',
+        clientX: 50,
+        clientY: 50,
+      }),
+    );
+    item.dispatchEvent(
+      new PointerEvent('pointermove', {
+        pointerId: 2,
+        pointerType: 'touch',
+        clientX: 80,
+        clientY: 50,
+      }),
+    );
+    vi.advanceTimersByTime(20);
+    fixture.detectChanges();
+    expect(item.style.getPropertyValue('--aeris-toast-swipe-x')).toBe('30px');
+    item.dispatchEvent(
+      new PointerEvent('pointerup', {
+        pointerId: 2,
+        pointerType: 'touch',
+        clientX: 120,
+        clientY: 50,
+      }),
+    );
+    fixture.detectChanges();
+    expect(item.hasAttribute('data-swipe-dismissing')).toBe(true);
+    vi.advanceTimersByTime(20);
+    expect(service.messages()).toHaveLength(0);
   });
 
   it('dismisses a toast with a pointer swipe and reports the swipe reason', () => {
