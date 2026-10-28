@@ -1,5 +1,6 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { IconCustomizationFixture } from './icon-customization.fixture';
+import { MultiSelectOverlayFixture } from './multi-select-overlay.fixture';
 import { GlobalIconsFixture } from './global-icons.fixture';
 import { DOCUMENT } from '@angular/common';
 import {
@@ -43,6 +44,7 @@ import { AerisThemeService } from '@aeris-ui/core/theming';
 @Component({
   selector: 'app-root',
   imports: [
+    MultiSelectOverlayFixture,
     NativeChoiceGroupsFixture,
     ButtonFoundationFixture,
     HoverOverlayFixture,

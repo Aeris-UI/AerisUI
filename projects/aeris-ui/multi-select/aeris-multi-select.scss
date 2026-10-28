@@ -19,41 +19,42 @@
   width: 100%;
 }
 .aeris-multi-select {
-  --_height: var(--aeris-control-height, 2.625rem);
-  --_font: var(--aeris-font-size-lg, 0.875rem);
-  --_gap: var(--aeris-density-gap, 0.5rem);
-  --_padding-x: var(--aeris-control-padding-x, 0.75rem);
+  // appendTo preserves namespaced tokens when the panel leaves this wrapper.
+  --_aeris-multi-select-height: var(--aeris-control-height, 2.625rem);
+  --_aeris-multi-select-font: var(--aeris-font-size-lg, 0.875rem);
+  --_aeris-multi-select-gap: var(--aeris-density-gap, 0.5rem);
+  --_aeris-multi-select-padding-x: var(--aeris-control-padding-x, 0.75rem);
   position: relative;
   width: 100%;
 }
 .aeris-multi-select[data-size='xs'] {
-  --_height: 1.875rem;
-  --_font: var(--aeris-font-size-sm, 0.75rem);
+  --_aeris-multi-select-height: 1.875rem;
+  --_aeris-multi-select-font: var(--aeris-font-size-sm, 0.75rem);
 }
 .aeris-multi-select[data-size='sm'] {
-  --_height: 2.25rem;
-  --_font: var(--aeris-font-size-md, 0.8125rem);
+  --_aeris-multi-select-height: 2.25rem;
+  --_aeris-multi-select-font: var(--aeris-font-size-md, 0.8125rem);
 }
 .aeris-multi-select[data-size='lg'] {
-  --_height: 3rem;
-  --_font: var(--aeris-font-size-xl, 0.9375rem);
+  --_aeris-multi-select-height: 3rem;
+  --_aeris-multi-select-font: var(--aeris-font-size-xl, 0.9375rem);
 }
 .aeris-multi-select__control {
   position: relative;
 }
 .aeris-multi-select__trigger {
   width: 100%;
-  min-height: var(--_height);
+  min-height: var(--_aeris-multi-select-height);
   display: flex;
   align-items: center;
   padding: calc(var(--aeris-item-padding-y, 0.5rem) * 0.6) 3rem
-    calc(var(--aeris-item-padding-y, 0.5rem) * 0.6) var(--_padding-x);
+    calc(var(--aeris-item-padding-y, 0.5rem) * 0.6) var(--_aeris-multi-select-padding-x);
   border: 1px solid var(--aeris-border, #efefef);
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: var(--aeris-surface, #fff);
   color: inherit;
   font: inherit;
-  font-size: var(--_font);
+  font-size: var(--_aeris-multi-select-font);
   text-align: left;
   cursor: pointer;
   transition:
@@ -112,7 +113,7 @@
   min-width: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: calc(var(--_gap) * 0.5);
+  gap: calc(var(--_aeris-multi-select-gap) * 0.5);
 }
 .aeris-multi-select__chip {
   display: inline-flex;
@@ -189,7 +190,7 @@
 .aeris-multi-select__chevron {
   position: absolute;
   top: 50%;
-  right: var(--_padding-x);
+  right: var(--_aeris-multi-select-padding-x);
   width: 1rem;
   height: 1rem;
   color: var(--aeris-text-2, #454545);
@@ -219,7 +220,7 @@
   left: 0;
   min-width: 100%;
   max-width: calc(100vw - 2rem);
-  padding: var(--aeris-overlay-padding, calc(var(--_gap) * 0.75));
+  padding: var(--aeris-overlay-padding, calc(var(--_aeris-multi-select-gap) * 0.75));
   border: 1px solid var(--aeris-border);
   border-radius: var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem));
   background: var(--aeris-surface, #fff);
@@ -242,7 +243,7 @@
   min-height: var(--aeris-item-height, 2.5rem);
   display: flex;
   align-items: center;
-  gap: var(--_gap);
+  gap: var(--_aeris-multi-select-gap);
   padding: var(--aeris-item-padding-y, 0.5rem) var(--aeris-item-padding-x, 0.75rem);
   border: 0;
   border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
@@ -263,11 +264,11 @@
 }
 .aeris-multi-select__filter-wrap {
   position: relative;
-  min-height: max(2rem, calc(var(--_height) - 0.25rem));
+  min-height: max(2rem, calc(var(--_aeris-multi-select-height) - 0.25rem));
   display: flex;
   align-items: center;
-  gap: var(--_gap);
-  margin: calc(var(--_gap) * 0.5) 0;
+  gap: var(--_aeris-multi-select-gap);
+  margin: calc(var(--_aeris-multi-select-gap) * 0.5) 0;
   padding: 0 2.5rem 0 var(--aeris-item-padding-x, 0.75rem);
   border: 1px solid var(--aeris-border, #efefef);
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
@@ -288,7 +289,7 @@
 .aeris-multi-select__filter {
   min-width: 0;
   width: 100%;
-  min-height: max(1.75rem, calc(var(--_height) - 0.375rem));
+  min-height: max(1.75rem, calc(var(--_aeris-multi-select-height) - 0.375rem));
   padding: 0;
   border: 0;
   outline: 0;
@@ -348,7 +349,7 @@
   min-height: var(--aeris-item-height, 2.5rem);
   display: flex;
   align-items: center;
-  gap: var(--_gap);
+  gap: var(--_aeris-multi-select-gap);
   padding: var(--aeris-item-padding-y, 0.5rem) var(--aeris-item-padding-x, 0.75rem);
   border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
   color: var(--aeris-text-2, #454545);
@@ -398,7 +399,7 @@
 .aeris-multi-select__option-content {
   min-width: 0;
   display: grid;
-  gap: calc(var(--_gap) * 0.2);
+  gap: calc(var(--_aeris-multi-select-gap) * 0.2);
 }
 .aeris-multi-select__option-content small {
   color: var(--aeris-text-2, #454545);
