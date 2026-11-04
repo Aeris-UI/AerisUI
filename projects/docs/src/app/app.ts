@@ -212,10 +212,12 @@ export class App {
   protected handleViewportResize(): void {
     const width = this.document.defaultView?.innerWidth ?? 0;
     const sidebar = this.navigation()?.sidebar();
+    // The media-query listener may update mobile() before this resize event runs.
+    // Transfer focus based on the navigation being hidden, not that signal's timing.
     if (
       width <= this.navigationBreakpoint &&
       sidebar &&
-      !sidebar.mobile() &&
+      !this.sidebarOpen() &&
       this.document.getElementById(sidebar.navigationId)?.contains(this.document.activeElement)
     ) {
       this.navigationTrigger()?.nativeElement.focus({ preventScroll: true });

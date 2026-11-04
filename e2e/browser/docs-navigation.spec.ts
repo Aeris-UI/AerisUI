@@ -208,6 +208,9 @@ test('documentation navigation shares the header breakpoint and survives RTL and
   await expect(dialog).toBeVisible();
   await page.setViewportSize({ width: 1050, height: 900 });
   await expect(dialog).toBeVisible();
+  await expect
+    .poll(() => dialog.evaluate((element) => element.contains(document.activeElement)))
+    .toBe(true);
   await page.evaluate(() => (document.documentElement.dir = 'rtl'));
   await expect(dialog).toHaveAttribute('data-position', 'right');
   await page.setViewportSize({ width: 1440, height: 1000 });
@@ -217,6 +220,7 @@ test('documentation navigation shares the header breakpoint and survives RTL and
   await expect(navigation).toBeVisible();
   expect(await page.evaluate(() => document.body.style.overflow)).not.toBe('hidden');
   await navigation.getByRole('link', { name: 'Button', exact: true }).focus();
+  await expect(navigation.getByRole('link', { name: 'Button', exact: true })).toBeFocused();
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(launcher).toBeVisible();
   await expect(launcher).toBeFocused();
