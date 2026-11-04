@@ -22,9 +22,17 @@ const bundles = readdirSync(bundleDirectory)
   .filter((name) => name.endsWith('.mjs'))
   .map((name) => {
     const source = readFileSync(resolve(bundleDirectory, name));
-    return { name, raw: source.byteLength, gzip: gzipSync(source, { level: 9 }).byteLength };
+    // ng-packagr hashes this private deferred chunk; its identity and limits are stable.
+    const key = name.replace(
+      /^(aeris-ui-core-date-picker-aeris-date-picker-input)-[A-Za-z0-9_-]{8}\.mjs$/,
+      '$1.mjs',
+    );
+    return { name: key, raw: source.byteLength, gzip: gzipSync(source, { level: 9 }).byteLength };
   });
 const failures = [];
+if (new Set(bundles.map((bundle) => bundle.name)).size !== bundles.length) {
+  failures.push('Multiple bundles resolve to the same reviewed identity.');
+}
 const rows = [];
 const total = bundles.reduce(
   (size, bundle) => ({ raw: size.raw + bundle.raw, gzip: size.gzip + bundle.gzip }),

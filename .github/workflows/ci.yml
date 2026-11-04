@@ -100,6 +100,8 @@ jobs:
     name: browser build
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    outputs:
+      playwright-version: ${{ steps.playwright.outputs.version }}
 
     steps:
       - name: Check out repository
@@ -120,6 +122,12 @@ jobs:
       - name: Build browser applications
         run: npm run test:browser-server && npm run build:browser-apps
 
+      - name: Resolve browser runtime version
+        id: playwright
+        run: |
+          version=$(node -p "require('@playwright/test/package.json').version")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
       - name: Upload browser applications
         uses: actions/upload-artifact@v7
         with:
@@ -134,6 +142,9 @@ jobs:
     name: browser shard (${{ matrix.shard }}/8)
     needs: browser-build
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v${{ needs.browser-build.outputs.playwright-version }}-noble
+      options: --ipc=host
     timeout-minutes: 20
     strategy:
       fail-fast: false
@@ -141,6 +152,7 @@ jobs:
         shard: [1, 2, 3, 4, 5, 6, 7, 8]
     env:
       AERIS_E2E_BUILT_APPS: 'true'
+      HOME: /root
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
@@ -154,8 +166,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install browser engines
-        run: npx playwright install --with-deps chromium firefox webkit
+      - name: Verify browser runtime
+        run: npx playwright --version
 
       - name: Download browser applications
         uses: actions/download-artifact@v8

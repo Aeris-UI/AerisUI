@@ -177,7 +177,14 @@ test('Every Navbar example updates its own active item', async ({ page }) => {
       const project = navbar.getByRole('button', { name: 'Projects', exact: true });
       await project.focus();
       await project.press('Enter');
-      if (await toggle.isVisible()) await toggle.click();
+      if ((await navbar.getAttribute('data-mobile')) !== null) {
+        // Wait for selection to close the compact menu before reopening it.
+        await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+        await toggle.click();
+        await expect(
+          navbar.getByRole('button', { name: 'Close navigation', exact: true }),
+        ).toHaveAttribute('aria-expanded', 'true');
+      }
       await expect(project).toHaveAttribute('aria-current', 'page');
       await expect(
         navbar.getByRole('button', { name: 'Overview', exact: true }),
