@@ -88,7 +88,11 @@ test('press, release and cancellation preserve geometry and activate once throug
     });
   const before = await geometry();
   await page.mouse.down();
-  expect(await geometry()).toEqual(before);
+  const pressed = await geometry();
+  // DOM rectangles can differ by floating-point rounding while paint stays unchanged.
+  for (const key of ['top', 'width', 'height', 'iconWidth', 'iconHeight'] as const) {
+    expect(pressed[key]).toBeCloseTo(before[key], 2);
+  }
   await expect(output).toHaveText('0');
   await page.mouse.up();
   await expect(output).toHaveText('1');
