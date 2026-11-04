@@ -19,6 +19,7 @@ test('browser CI builds once and requires every bounded shard without reducing c
   );
   const browserJob = workflow.split('  browser-tests:')[1].split('\n  browser:')[0];
   assert.doesNotMatch(browserJob, /playwright install|apt-get/);
+  assert.match(browserJob, /HOME: \/root/);
   assert.match(browserJob, /Run browser regression shard/);
   assert.match(
     workflow,
