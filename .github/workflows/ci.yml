@@ -152,6 +152,7 @@ jobs:
         shard: [1, 2, 3, 4, 5, 6, 7, 8]
     env:
       AERIS_E2E_BUILT_APPS: 'true'
+      HOME: /root
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
