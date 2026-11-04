@@ -12,6 +12,14 @@ test('browser CI builds once and requires every bounded shard without reducing c
   assert.equal((workflow.match(/npm run build:browser-apps/g) ?? []).length, 1);
   assert.match(workflow, /shard: \[1, 2, 3, 4, 5, 6, 7, 8\]/);
   assert.match(workflow, /fail-fast: false/);
+  assert.match(workflow, /playwright-version: \$\{\{ steps.playwright.outputs.version \}\}/);
+  assert.match(
+    workflow,
+    /image: mcr\.microsoft\.com\/playwright:v\$\{\{ needs.browser-build.outputs.playwright-version \}\}-noble/,
+  );
+  const browserJob = workflow.split('  browser-tests:')[1].split('\n  browser:')[0];
+  assert.doesNotMatch(browserJob, /playwright install|apt-get/);
+  assert.match(browserJob, /Run browser regression shard/);
   assert.match(
     workflow,
     /npm run test:e2e:critical -- --shard=\$\{\{ matrix.shard \}\}\/8 --workers=2 --global-timeout=900000/,

@@ -88,3 +88,31 @@ test('a hard package ceiling still fails', () => {
   assert.equal(result.status, 1);
   assert.match(result.stderr, /above.*budget/);
 });
+
+test('private deferred chunk hashes do not change their reviewed identity or limits', () => {
+  for (const hash of ['jAhzMzLQ', '66V2U8rC']) {
+    const result = runCheck((sources, budgets) => {
+      sources[`aeris-ui-core-date-picker-aeris-date-picker-input-${hash}.mjs`] =
+        'export const deferred = 1;';
+      budgets.entryPoints['aeris-ui-core-date-picker-aeris-date-picker-input.mjs'] = {
+        raw: 100,
+        gzip: 100,
+        baseline: { raw: 24, gzip: 44 },
+      };
+    });
+    assert.equal(result.status, 0, result.stderr);
+  }
+  const duplicate = runCheck((sources, budgets) => {
+    for (const hash of ['jAhzMzLQ', '66V2U8rC']) {
+      sources[`aeris-ui-core-date-picker-aeris-date-picker-input-${hash}.mjs`] =
+        'export const deferred = 1;';
+    }
+    budgets.entryPoints['aeris-ui-core-date-picker-aeris-date-picker-input.mjs'] = {
+      raw: 100,
+      gzip: 100,
+      baseline: { raw: 24, gzip: 44 },
+    };
+  });
+  assert.equal(duplicate.status, 1);
+  assert.match(duplicate.stderr, /Multiple bundles/);
+});
