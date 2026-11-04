@@ -48,23 +48,22 @@ for (const direction of ['ltr', 'rtl']) {
   });
 }
 
-test('Signal Forms example remains accessible across preset schemes', async ({ page }) => {
-  test.setTimeout(120_000);
-  await page.goto('/components/input-number');
-  for (const palette of ['monochrome', 'earth', 'coastal', 'orchid']) {
-    for (const mode of ['light', 'dark']) {
-      await page.evaluate(
+for (const palette of ['monochrome', 'earth', 'coastal', 'orchid']) {
+  for (const mode of ['light', 'dark']) {
+    test(`Signal Forms example remains accessible with ${palette} in ${mode}`, async ({ page }) => {
+      // Set the scheme before Angular starts; reloading during lazy-route imports cancels them.
+      await page.addInitScript(
         ({ palette, mode }) => {
           localStorage.setItem('aeris-docs-palette', palette);
           localStorage.setItem('aeris-ui-theme-mode', mode);
         },
         { palette, mode },
       );
-      await page.reload();
+      await page.goto('/components/input-number');
       await expect(page.locator('#number-signal')).toHaveValue('3');
       expect(
         (await new AxeBuilder({ page }).include('#number-signals').analyze()).violations,
       ).toEqual([]);
-    }
+    });
   }
-});
+}
