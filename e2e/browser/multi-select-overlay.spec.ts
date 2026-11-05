@@ -1,5 +1,16 @@
 import { expect, test } from './fixtures';
 
+test('MultiSelect fixture controls have usable click targets', async ({ page }) => {
+  await page.goto('/');
+  const controls = page.locator('[data-fixture="multi-select-overlay"]').getByRole('button');
+  await expect(controls).toHaveCount(8);
+  for (const control of await controls.all()) {
+    const bounds = await control.boundingBox();
+    expect(bounds?.width).toBeGreaterThanOrEqual(24);
+    expect(bounds?.height).toBeGreaterThanOrEqual(24);
+  }
+});
+
 test('MultiSelect keeps checkbox-label spacing on a narrow RTL screen', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/?direction=rtl');
