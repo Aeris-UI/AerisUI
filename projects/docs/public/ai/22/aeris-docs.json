@@ -3,7 +3,7 @@
   "schemaVersion": 1,
   "library": {
     "name": "@aeris-ui/core",
-    "version": "22.0.0-alpha.11",
+    "version": "22.0.0-alpha.12",
     "status": "alpha",
     "angularPeerRange": ">=22.0.6 <23.0.0",
     "documentationUrl": "https://aeris-ui.dev",
@@ -351,7 +351,7 @@
           "id": "alpha-status",
           "title": "Alpha status",
           "paragraphs": [
-            "Aeris 22.0.0-alpha.11 is an active-development alpha release. It is not production ready and should not be used for critical or production applications yet.",
+            "Aeris 22.0.0-alpha.12 is an active-development alpha release. It is not production ready and should not be used for critical or production applications yet.",
             "Public APIs, styling contracts, component behavior, and migration requirements may change before the first stable release as consumer testing uncovers improvements."
           ],
           "bullets": [
@@ -387,7 +387,7 @@
             {
               "label": "Pinned alpha (recommended)",
               "language": "Shell",
-              "code": "ng add @aeris-ui/core@22.0.0-alpha.11"
+              "code": "ng add @aeris-ui/core@22.0.0-alpha.12"
             },
             {
               "label": "Newest alpha",
@@ -506,7 +506,7 @@
             {
               "label": "Terminal",
               "language": "Shell",
-              "code": "ng add @aeris-ui/core@22.0.0-alpha.11 --config=aeris.setup.json"
+              "code": "ng add @aeris-ui/core@22.0.0-alpha.12 --config=aeris.setup.json"
             }
           ]
         },
@@ -521,7 +521,7 @@
             {
               "label": "Terminal",
               "language": "Shell",
-              "code": "ng add @aeris-ui/core@22.0.0-alpha.11 --project=web --surface=\"#f1f4f8\" --primary=\"#2d63a8\" --secondary=\"#546b89\" --accent=\"#368678\" --contrast=\"#39404a\" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts"
+              "code": "ng add @aeris-ui/core@22.0.0-alpha.12 --project=web --surface=\"#f1f4f8\" --primary=\"#2d63a8\" --secondary=\"#546b89\" --accent=\"#368678\" --contrast=\"#39404a\" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts"
             },
             {
               "label": "aeris.setup.json",
@@ -542,7 +542,7 @@
             {
               "label": "Terminal",
               "language": "Shell",
-              "code": "npm install @aeris-ui/core@22.0.0-alpha.11"
+              "code": "npm install @aeris-ui/core@22.0.0-alpha.12"
             }
           ]
         },
@@ -2854,7 +2854,7 @@
           "bullets": [
             "Node.js 20 or newer for the local MCP process.",
             "An AI editor, CLI, or desktop application that supports local stdio MCP servers.",
-            "Use @aeris-ui/mcp 22.0.0-alpha.11 with @aeris-ui/core 22.0.0-alpha.11.",
+            "Use @aeris-ui/mcp 22.0.0-alpha.12 with @aeris-ui/core 22.0.0-alpha.12.",
             "Restart or reload the AI client after changing its MCP configuration."
           ],
           "note": "Pin the MCP and core packages to the same exact alpha version."
@@ -2871,7 +2871,7 @@
             {
               "label": "Generic MCP client configuration",
               "language": "JSON",
-              "code": "{\n  \"mcpServers\": {\n    \"aeris\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"@aeris-ui/mcp@22.0.0-alpha.11\"]\n    }\n  }\n}"
+              "code": "{\n  \"mcpServers\": {\n    \"aeris\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"@aeris-ui/mcp@22.0.0-alpha.12\"]\n    }\n  }\n}"
             }
           ],
           "note": "Do not add @aeris-ui/mcp to the Angular application dependencies. It belongs in the AI client configuration, not application source or runtime code.",
@@ -2893,7 +2893,7 @@
             {
               "label": "Install the MCP executable",
               "language": "Shell",
-              "code": "npm install --global @aeris-ui/mcp@22.0.0-alpha.11"
+              "code": "npm install --global @aeris-ui/mcp@22.0.0-alpha.12"
             },
             {
               "label": "Global installation configuration",
@@ -3364,7 +3364,7 @@
       "group": "Releases and updates",
       "title": "Version compatibility",
       "description": "Choose an Aeris release line that is verified for the Angular version used by your application.",
-      "summary": "The current package is Aeris 22.0.0-alpha.11, an alpha that is not production ready. Its Angular peer dependencies use >=22.0.6 <23.0.0, keeping the evaluated range within Angular 22.",
+      "summary": "The current package is Aeris 22.0.0-alpha.12, an alpha that is not production ready. Its Angular peer dependencies use >=22.0.6 <23.0.0, keeping the evaluated range within Angular 22.",
       "sections": [
         {
           "id": "matrix",
@@ -3402,7 +3402,7 @@
             {
               "label": "Shell",
               "language": "Shell",
-              "code": "npm view @aeris-ui/core@22.0.0-alpha.11 peerDependencies"
+              "code": "npm view @aeris-ui/core@22.0.0-alpha.12 peerDependencies"
             }
           ]
         },
@@ -3487,7 +3487,7 @@
             {
               "label": "Shell",
               "language": "Shell",
-              "code": "npm install @aeris-ui/core@22.0.0-alpha.11"
+              "code": "npm install @aeris-ui/core@22.0.0-alpha.12"
             }
           ]
         },
@@ -3501,7 +3501,7 @@
             {
               "label": "Shell",
               "language": "Shell",
-              "code": "ng update @angular/core@22 @angular/cli@22\nnpm install @aeris-ui/core@22.0.0-alpha.11"
+              "code": "ng update @angular/core@22 @angular/cli@22\nnpm install @aeris-ui/core@22.0.0-alpha.12"
             }
           ],
           "note": "The commands show the currently supported Angular major. Replace the major only after it appears in the compatibility matrix."
@@ -3537,7 +3537,7 @@
           "id": "release-specific",
           "title": "Release-specific migration notes",
           "paragraphs": [
-            "Aeris 22.0.0-alpha.11 renders ordinary Tabs panel content eagerly. Applications that relied on alpha.4 creating only the active panel must choose an explicit deferred template strategy.",
+            "Aeris 22.0.0-alpha.12 renders ordinary Tabs panel content eagerly. Applications that relied on alpha.4 creating only the active panel must choose an explicit deferred template strategy.",
             "Use a bare aerisTabContent template to initialize expensive content on first activation and preserve its state. Set the directive to active to destroy and recreate the content whenever selection changes."
           ],
           "code": [
@@ -3611,6 +3611,21 @@
               "href": "https://github.com/Aeris-UI/AerisUI/releases",
               "external": true
             }
+          ]
+        },
+        {
+          "id": "version-22.0.0-alpha.12",
+          "title": "Aeris 22.0.0-alpha.12",
+          "paragraphs": [
+            "Alpha · 5 November 2026"
+          ],
+          "bullets": [
+            "Preserve MultiSelect checkbox-label spacing, dropdown padding, and filter sizing when panels are appended to the document body, a custom container, or automatically moved to avoid clipping.",
+            "Stabilize Toast touch gestures and stack animations. Taps no longer interrupt entry animations, swipes track the initial touch position, and cancelled gestures restore the stack correctly.",
+            "Prevent touch focus from keeping Toast stacks expanded while preserving keyboard interaction.",
+            "Update the Angular development toolchain to 22.2.4/22.2.5 and refresh compatible dependencies, including MCP SDK 1.32.2 and development-tool security fixes.",
+            "Improve cross-browser CI reliability and accessibility regression coverage without relaxing test assertions, screenshot references, or bundle-size limits.",
+            "No public API changes. Aeris remains alpha software and is not yet recommended for production."
           ]
         },
         {
