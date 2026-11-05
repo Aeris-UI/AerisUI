@@ -7,6 +7,25 @@ release line.
 
 ## [Unreleased]
 
+## [22.0.0-alpha.12] - 2026-11-05
+
+### Fixed
+
+- Preserve MultiSelect checkbox-label spacing, dropdown padding, and filter sizing when panels
+  are appended to the document body, a custom container, or automatically moved to avoid clipping.
+- Stabilize Toast touch gestures and stack animations. Taps no longer interrupt entry animations,
+  swipes track the initial touch position, and cancelled gestures restore the stack correctly.
+- Prevent touch focus from keeping Toast stacks expanded while preserving keyboard interaction.
+
+### Changed
+
+- Update the Angular development toolchain to 22.2.4/22.2.5 and refresh compatible dependencies,
+  including MCP SDK 1.32.2 and development-tool security fixes.
+- Improve cross-browser CI reliability and accessibility regression coverage without relaxing
+  test assertions, screenshot references, or bundle-size limits.
+
+No public API changes. Aeris remains alpha software and is not yet recommended for production.
+
 ## [22.0.0-alpha.11] - 2026-10-25
 
 ### Added
@@ -409,7 +428,10 @@ Aeris remains alpha software and is not yet recommended for production.
 - Align the published Lexical peer range with the version Aeris uses and declare the required
   Angular platform-browser and RxJS peers.
 
-[Unreleased]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.9...HEAD
+[Unreleased]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.12...HEAD
+[22.0.0-alpha.12]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.11...v22.0.0-alpha.12
+[22.0.0-alpha.11]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.10...v22.0.0-alpha.11
+[22.0.0-alpha.10]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.9...v22.0.0-alpha.10
 [22.0.0-alpha.9]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.8...v22.0.0-alpha.9
 [22.0.0-alpha.8]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.7...v22.0.0-alpha.8
 [22.0.0-alpha.7]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.6...v22.0.0-alpha.7
