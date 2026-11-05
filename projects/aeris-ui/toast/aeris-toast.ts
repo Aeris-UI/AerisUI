@@ -109,7 +109,7 @@ interface AerisToastSwipeVisual {
   readonly x: number;
   readonly y: number;
   readonly direction: AerisToastSwipeDirection | undefined;
-  readonly phase: 'dragging' | 'dismissing';
+  readonly phase: 'pending' | 'dragging' | 'dismissing';
 }
 
 interface AerisToastSwipeSession {
@@ -119,8 +119,8 @@ interface AerisToastSwipeSession {
   readonly tapStartX: number;
   readonly tapStartY: number;
   tapMoved: boolean;
-  startX: number;
-  startY: number;
+  readonly startX: number;
+  readonly startY: number;
   lastX: number;
   lastY: number;
   baselineX: number;
@@ -129,7 +129,6 @@ interface AerisToastSwipeSession {
   deltaY: number;
   visualX: number;
   visualY: number;
-  firstMove: boolean;
   realSwipe: boolean;
   lockedAxis: 'horizontal' | 'vertical' | null;
   intendedDirection: AerisToastSwipeDirection | undefined;
@@ -316,8 +315,8 @@ export class AerisToastService {
       [attr.data-overflow]="hiddenCount() > 0 || null"
       [attr.data-stack-width]="stackWidthLocked() || null"
       [style.--aeris-toast-stack-size]="visibleStackSize()"
-      (pointerenter)="pauseVisible()"
-      (pointerleave)="resumeVisible()"
+      (pointerenter)="pauseVisible($event)"
+      (pointerleave)="resumeVisible($event)"
       (focusin)="pauseVisible()"
       (focusout)="resumeVisible()"
     >
@@ -341,6 +340,7 @@ export class AerisToastService {
           (pointermove)="handlePointerMove($event)"
           (pointerup)="handlePointerEnd($event)"
           (pointercancel)="handlePointerEnd($event)"
+          (lostpointercapture)="handlePointerEnd($event)"
         >
           <article
             class="aeris-toast__message"
@@ -436,7 +436,7 @@ export class AerisToast {
   private static readonly fallbackHeight = 72;
   private static readonly swipeRemovalDelay = 550;
   private static readonly reverseCancelThreshold = 10;
-  private static readonly minimumDragThreshold = 1;
+  private static readonly minimumDragThreshold = 8;
   private readonly toastService = inject(AerisToastService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly messageElements = viewChildren<ElementRef<HTMLElement>>('toastMessage');
@@ -630,13 +630,15 @@ export class AerisToast {
     this.toastService.remove(message.id, 'close-button');
   }
 
-  protected pauseVisible(): void {
+  protected pauseVisible(event?: PointerEvent): void {
+    if (event?.pointerType === 'touch') return;
     this.stackHovered.set(true);
     if (!this.pauseOnHover()) return;
     for (const message of this.visibleMessages()) this.toastService.pause(message.id);
   }
 
-  protected resumeVisible(): void {
+  protected resumeVisible(event?: PointerEvent): void {
+    if (event?.pointerType === 'touch') return;
     this.stackHovered.set(false);
     if (!this.pauseOnHover() || this.touchExpanded()) return;
     const gestureIds = new Set(Object.keys(this.swipeVisuals()));
@@ -678,19 +680,13 @@ export class AerisToast {
       deltaY: 0,
       visualX: 0,
       visualY: 0,
-      firstMove: true,
       realSwipe: false,
       lockedAxis: null,
       intendedDirection: undefined,
       maxDisplacement: 0,
       cancelled: false,
     };
-    this.setSwipeVisual(message.id, {
-      x: 0,
-      y: 0,
-      direction: undefined,
-      phase: 'dragging',
-    });
+    this.setSwipeVisual(message.id, { x: 0, y: 0, direction: undefined, phase: 'pending' });
   }
 
   protected handlePointerMove(event: PointerEvent): void {
@@ -700,7 +696,7 @@ export class AerisToast {
     if (this.resolvedSwipeDirections().length === 0) return;
     event.preventDefault();
     this.updateSwipeSession(session, event.clientX, event.clientY);
-    this.swipeFrame.schedule();
+    if (session.realSwipe) this.swipeFrame.schedule();
   }
 
   protected handlePointerEnd(event: PointerEvent): void {
@@ -708,15 +704,14 @@ export class AerisToast {
     if (!session || event.pointerId !== session.pointerId) return;
     this.trackTapMovement(session, event);
 
-    const target = event.currentTarget as HTMLElement;
-    if (target.hasPointerCapture?.(event.pointerId)) target.releasePointerCapture(event.pointerId);
-
     this.swipeFrame.cancel();
-    if (!session.firstMove) this.updateSwipeSession(session, event.clientX, event.clientY);
-    this.flushSwipeVisual();
+    if (event.type === 'pointerup') {
+      this.updateSwipeSession(session, event.clientX, event.clientY);
+      if (session.realSwipe) this.flushSwipeVisual();
+    }
 
     const dismissDirection =
-      event.type === 'pointercancel' || session.cancelled
+      event.type !== 'pointerup' || session.cancelled
         ? undefined
         : this.resolvedSwipeDirections().find(
             (direction) =>
@@ -725,6 +720,8 @@ export class AerisToast {
           );
 
     this.swipeSession = null;
+    const target = event.currentTarget as HTMLElement;
+    if (target.hasPointerCapture?.(event.pointerId)) target.releasePointerCapture(event.pointerId);
     if (dismissDirection) {
       this.setSwipeVisual(session.message.id, {
         x: session.visualX,
@@ -741,6 +738,7 @@ export class AerisToast {
       event.type === 'pointerup' &&
       session.pointerType === 'touch' &&
       !session.tapMoved &&
+      !session.realSwipe &&
       this.mode() === 'stacked'
     ) {
       this.touchExpanded.update((expanded) => !expanded);
@@ -782,17 +780,6 @@ export class AerisToast {
     clientX: number,
     clientY: number,
   ): void {
-    if (session.firstMove) {
-      session.startX = clientX;
-      session.startY = clientY;
-      session.lastX = clientX;
-      session.lastY = clientY;
-      session.baselineX = clientX;
-      session.baselineY = clientY;
-      session.firstMove = false;
-      return;
-    }
-
     const movementX = clientX - session.lastX;
     const movementY = clientY - session.lastY;
     session.lastX = clientX;
@@ -829,6 +816,7 @@ export class AerisToast {
         }
       }
     }
+    if (!session.realSwipe) return;
 
     if (!session.intendedDirection) {
       const candidate = this.swipeCandidate(session.lockedAxis, deltaX, deltaY);
