@@ -187,7 +187,7 @@
             <app-form-demo
               id="date-picker-time"
               title="Date and time"
-              description="Enable editable for typed date-time or time-only entry. Type or paste a complete value, adjust segments with arrow keys, and change AM/PM explicitly in 12-hour mode. Minute steps affect arrow keys, not valid typed values."
+              description="Enable editable for typed date-time or time-only entry. The popup has styled time steppers on desktop and compact single-row number wheels on touch devices. Drag vertically to adjust the time, or tap AM/PM to toggle the period. Minute steps affect steppers and wheels, not valid typed values."
               [tsCode]="timeCode"
             >
               <div preview class="field-grid">
@@ -774,8 +774,12 @@
             only its day number.
           </li>
           <li>
-            Date-time mode keeps the calendar semantics and adds labelled native time fields.
-            Time-only mode removes the calendar grid and focuses the hour field when opened.
+            Date-time mode keeps the calendar semantics and adds labelled time controls. Desktop
+            users can type values or use the stepper buttons; touch devices show draggable number
+            single-row wheels with spinbutton semantics. Time-only mode focuses the hour control
+            when opened. Tap or click the period button to toggle AM/PM. Wheel gestures commit on
+            release and cancelled gestures keep the previous value. Reduced motion disables the snap
+            transition.
           </li>
           <li>
             Visible labels should use <code>inputId</code>. Otherwise provide
@@ -907,11 +911,18 @@
             ><span role="cell">Moves to the first or last option in the visible period.</span>
           </div>
           <div role="row">
-            <span role="cell">Native input keys in time fields</span
+            <span role="cell">Arrow Up / Down in popup time controls</span
             ><span role="cell"
-              >Edit hours, minutes, seconds, or AM/PM using browser-native number and select
-              behavior.</span
+              >Increase or decrease by the configured step, wrapping at the range boundary.</span
             >
+          </div>
+          <div role="row">
+            <span role="cell">Home / End in popup time controls</span>
+            <span role="cell">Select the minimum or maximum value for that control.</span>
+          </div>
+          <div role="row">
+            <span role="cell">Enter / Space on the period button</span>
+            <span role="cell">Toggle between AM and PM without closing the popup.</span>
           </div>
           <div role="row">
             <kbd role="cell">Escape</kbd

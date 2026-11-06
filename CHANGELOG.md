@@ -7,6 +7,15 @@ release line.
 
 ## [Unreleased]
 
+### Changed
+
+- Style DatePicker popup time steppers with Aeris chevrons and replace the native AM/PM menu with
+  a period toggle. Touch devices use animated, draggable time wheels with keyboard support.
+
+### Fixed
+
+- Keep DatePicker time controls open when their buttons are activated in Safari.
+
 ## [22.0.0-alpha.12] - 2026-11-05
 
 ### Fixed

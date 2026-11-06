@@ -31,6 +31,7 @@ import {
 } from '@angular/forms';
 import { transformedValue, type TransformedValueSignal } from '@angular/forms/signals';
 import { ɵAerisDatePickerInput } from './aeris-date-picker-input';
+import { ɵAerisDatePickerTimeControl } from './aeris-date-picker-time-control';
 import type { AerisDatePickerInputEditEvent } from './aeris-date-picker-input.utils';
 import {
   ɵAerisIcon,
@@ -112,7 +113,13 @@ let datePickerId = 0;
 
 @Component({
   selector: 'aeris-date-picker',
-  imports: [ɵAerisIcon, NgTemplateOutlet, ɵAerisAppendTo, ɵAerisDatePickerInput],
+  imports: [
+    ɵAerisIcon,
+    NgTemplateOutlet,
+    ɵAerisAppendTo,
+    ɵAerisDatePickerInput,
+    ɵAerisDatePickerTimeControl,
+  ],
   template: `
     <div
       class="aeris-date-picker"
@@ -449,68 +456,57 @@ let datePickerId = 0;
               role="group"
               [attr.aria-label]="timeAriaLabel()"
               [attr.data-time-only]="timeOnly() || null"
+              (mousedown)="handleTimeMouseDown($event)"
             >
-              <label class="aeris-date-picker__time-field">
-                <span>{{ hourLabel() }}</span>
-                <input
-                  #hourInput
-                  type="number"
-                  inputmode="numeric"
-                  [min]="hourMinimum()"
-                  [max]="hourMaximum()"
-                  step="1"
-                  [value]="timeDisplayParts().hour"
-                  [disabled]="effectiveDisabled()"
-                  (input)="handleHourInput($event)"
-                />
-              </label>
+              <aeris-internal-date-picker-time-control
+                #hourControl
+                [label]="hourLabel()"
+                [labelId]="panelId + '-hour'"
+                [min]="hourMinimum()"
+                [max]="hourMaximum()"
+                [value]="displayHour()"
+                [disabled]="effectiveDisabled()"
+                (changed)="handleTimeChange('hours', $event.value, $event.originalEvent)"
+              />
 
               <span class="aeris-date-picker__time-separator" aria-hidden="true">:</span>
 
-              <label class="aeris-date-picker__time-field">
-                <span>{{ minuteLabel() }}</span>
-                <input
-                  type="number"
-                  inputmode="numeric"
-                  min="0"
-                  max="59"
-                  [step]="normalizedMinuteStep()"
-                  [value]="timeDisplayParts().minute"
-                  [disabled]="effectiveDisabled()"
-                  (input)="handleMinuteInput($event)"
-                />
-              </label>
+              <aeris-internal-date-picker-time-control
+                [label]="minuteLabel()"
+                [labelId]="panelId + '-minute'"
+                [step]="normalizedMinuteStep()"
+                [value]="timeValue().minutes"
+                [disabled]="effectiveDisabled()"
+                (changed)="handleTimeChange('minutes', $event.value, $event.originalEvent)"
+              />
 
               @if (showSeconds()) {
                 <span class="aeris-date-picker__time-separator" aria-hidden="true">:</span>
 
-                <label class="aeris-date-picker__time-field">
-                  <span>{{ secondLabel() }}</span>
-                  <input
-                    type="number"
-                    inputmode="numeric"
-                    min="0"
-                    max="59"
-                    [step]="normalizedSecondStep()"
-                    [value]="timeDisplayParts().second"
-                    [disabled]="effectiveDisabled()"
-                    (input)="handleSecondInput($event)"
-                  />
-                </label>
+                <aeris-internal-date-picker-time-control
+                  [label]="secondLabel()"
+                  [labelId]="panelId + '-second'"
+                  [step]="normalizedSecondStep()"
+                  [value]="timeValue().seconds"
+                  [disabled]="effectiveDisabled()"
+                  (changed)="handleTimeChange('seconds', $event.value, $event.originalEvent)"
+                />
               }
 
               @if (hourCycle() === '12') {
-                <label class="aeris-date-picker__time-field aeris-date-picker__time-field--period">
-                  <span>{{ periodLabel() }}</span>
-                  <select
-                    [value]="timePeriod()"
+                <div class="aeris-date-picker__time-field aeris-date-picker__time-field--period">
+                  <span [id]="panelId + '-period'">{{ periodLabel() }}</span>
+                  <button
+                    type="button"
+                    class="aeris-date-picker__period"
+                    [attr.aria-labelledby]="panelId + '-period ' + panelId + '-period-value'"
+                    [attr.aria-pressed]="timePeriod() === 'PM'"
                     [disabled]="effectiveDisabled()"
-                    (change)="handlePeriodChange($event)"
+                    (click)="togglePeriod($event)"
                   >
-                    <option value="AM">AM</option>
-                    <option value="PM">PM</option>
-                  </select>
-                </label>
+                    <span [id]="panelId + '-period-value'">{{ timePeriod() }}</span>
+                  </button>
+                </div>
               }
             </div>
           }
@@ -807,15 +803,9 @@ export class AerisDatePicker implements ControlValueAccessor, Validator {
     return isValidDate(value) ? timeFromDate(value) : this.fallbackTime();
   });
   protected readonly timePeriod = computed(() => (this.timeValue().hours >= 12 ? 'PM' : 'AM'));
-  protected readonly timeDisplayParts = computed(() => {
-    const time = this.timeValue();
-    const hour = this.hourCycle() === '12' ? toTwelveHour(time.hours) : time.hours;
-    return {
-      hour: String(hour).padStart(2, '0'),
-      minute: String(time.minutes).padStart(2, '0'),
-      second: String(time.seconds).padStart(2, '0'),
-    };
-  });
+  protected readonly displayHour = computed(() =>
+    this.hourCycle() === '12' ? toTwelveHour(this.timeValue().hours) : this.timeValue().hours,
+  );
 
   protected readonly panelId = `aeris-date-picker-panel-${++datePickerId}`;
   protected readonly resolvedInputId = computed(() => this.inputId() || `${this.panelId}-trigger`);
@@ -825,7 +815,7 @@ export class AerisDatePicker implements ControlValueAccessor, Validator {
   private readonly datePickerInput = viewChild<ɵAerisDatePickerInput>('datePickerInput');
   private readonly panelRoot = viewChild<ElementRef<HTMLElement>>('panelRoot');
   private readonly panelPortal = viewChild(ɵAerisAppendTo);
-  private readonly hourInput = viewChild<ElementRef<HTMLInputElement>>('hourInput');
+  private readonly hourControl = viewChild<ɵAerisDatePickerTimeControl>('hourControl');
   private readonly dayButtons = viewChildren<ElementRef<HTMLButtonElement>>('dayButton');
   private readonly choiceButtons = viewChildren<ElementRef<HTMLButtonElement>>('choiceButton');
   private readonly injector = inject(Injector);
@@ -1116,30 +1106,27 @@ export class AerisDatePicker implements ControlValueAccessor, Validator {
     this.moveChoiceFocus(targetIndex);
   }
 
-  protected handleHourInput(event: Event): void {
-    const rawValue = this.numberFromEvent(event);
-    if (rawValue === null) return;
-    const displayHour = this.clamp(rawValue, this.hourMinimum(), this.hourMaximum());
-    const hours =
-      this.hourCycle() === '12' ? fromTwelveHour(displayHour, this.timePeriod()) : displayHour;
-    this.updateTime({ ...this.timeValue(), hours }, event);
+  protected handleTimeChange(part: keyof AerisTimeValue, value: number, event: Event): void {
+    const resolved =
+      part === 'hours' && this.hourCycle() === '12'
+        ? fromTwelveHour(value, this.timePeriod())
+        : value;
+    this.updateTime({ ...this.timeValue(), [part]: resolved }, event);
   }
 
-  protected handleMinuteInput(event: Event): void {
-    const rawValue = this.numberFromEvent(event);
-    if (rawValue === null) return;
-    this.updateTime({ ...this.timeValue(), minutes: this.clamp(rawValue, 0, 59) }, event);
+  protected handleTimeMouseDown(event: MouseEvent): void {
+    if (event.button !== 0 || !(event.target instanceof Element)) return;
+    const button = event.target.closest('button');
+    // Safari does not focus buttons on pointer activation. Keep focus inside the popup
+    // so its focus-leave dismissal does not treat stepper and period clicks as outside.
+    if (button && !button.disabled && (event.currentTarget as HTMLElement).contains(button)) {
+      event.preventDefault();
+      button.focus({ preventScroll: true });
+    }
   }
 
-  protected handleSecondInput(event: Event): void {
-    const rawValue = this.numberFromEvent(event);
-    if (rawValue === null) return;
-    this.updateTime({ ...this.timeValue(), seconds: this.clamp(rawValue, 0, 59) }, event);
-  }
-
-  protected handlePeriodChange(event: Event): void {
-    const select = event.target as HTMLSelectElement | null;
-    const period = select?.value === 'PM' ? 'PM' : 'AM';
+  protected togglePeriod(event: Event): void {
+    const period = this.timePeriod() === 'PM' ? 'AM' : 'PM';
     const displayHour = toTwelveHour(this.timeValue().hours);
     this.updateTime({ ...this.timeValue(), hours: fromTwelveHour(displayHour, period) }, event);
   }
@@ -1422,14 +1409,6 @@ export class AerisDatePicker implements ControlValueAccessor, Validator {
     return aerisInternalFormatTimeParts(timeFromDate(date), this.showSeconds());
   }
 
-  private numberFromEvent(event: Event): number | null {
-    const inputElement = event.target as HTMLInputElement | null;
-    const rawValue = inputElement?.value;
-    if (!rawValue?.trim()) return null;
-    const value = Number(rawValue);
-    return Number.isFinite(value) ? Math.trunc(value) : null;
-  }
-
   private normalizeStep(value: number): number {
     return this.clamp(Math.trunc(value) || 1, 1, 59);
   }
@@ -1486,7 +1465,7 @@ export class AerisDatePicker implements ControlValueAccessor, Validator {
   }
 
   private scheduleTimeFocus(): void {
-    afterNextRender(() => this.hourInput()?.nativeElement.focus(), { injector: this.injector });
+    afterNextRender(() => this.hourControl()?.focus(), { injector: this.injector });
   }
 
   private prepareChoiceFocus(view: 'month' | 'year'): void {

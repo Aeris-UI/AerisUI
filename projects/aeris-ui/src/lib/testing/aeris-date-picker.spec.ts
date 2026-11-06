@@ -476,13 +476,12 @@ describe('AerisDatePicker', () => {
       '.aeris-date-picker__time input',
     ) as NodeListOf<HTMLInputElement>;
     const period = fixture.nativeElement.querySelector(
-      '.aeris-date-picker__time select',
-    ) as HTMLSelectElement;
+      '.aeris-date-picker__period',
+    ) as HTMLButtonElement;
 
     inputs.item(0).value = '03';
     inputs.item(0).dispatchEvent(new Event('input', { bubbles: true }));
-    period.value = 'AM';
-    period.dispatchEvent(new Event('change', { bubbles: true }));
+    period.click();
     inputs.item(1).value = '45';
     inputs.item(1).dispatchEvent(new Event('input', { bubbles: true }));
     inputs.item(2).value = '20';

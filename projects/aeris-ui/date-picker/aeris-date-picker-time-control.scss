@@ -1,0 +1,153 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
+:host {
+  display: grid;
+  min-inline-size: 0;
+  flex: 1 1 0;
+  gap: 0.3125rem;
+  color: var(--aeris-text-2, #454545);
+  font: inherit;
+}
+
+.time-label {
+  font-size: var(--aeris-font-size-xs, 0.6875rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
+}
+
+.stepper {
+  display: flex;
+  min-inline-size: 0;
+  overflow: hidden;
+  border: 1px solid var(--aeris-date-picker-border, var(--aeris-border, #efefef));
+  border-radius: var(--aeris-radius-control, 0.4375rem);
+  background: var(--aeris-date-picker-background, var(--aeris-surface, #fff));
+}
+
+input {
+  inline-size: 100%;
+  min-inline-size: 0;
+  padding: 0 0.125rem;
+  border: 0;
+  outline: 0;
+  appearance: textfield;
+  -moz-appearance: textfield;
+  background: transparent;
+  color: var(--aeris-text, #111);
+  font: inherit;
+  font-size: var(--aeris-font-size-lg, 0.875rem);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+.stepper-actions {
+  display: grid;
+  flex: 0 0 1.5rem;
+}
+.stepper-actions button {
+  display: grid;
+  place-items: center;
+  min-block-size: 1.5rem;
+  inline-size: 1.5rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--aeris-text-2, #454545);
+  cursor: pointer;
+}
+.stepper-actions span {
+  inline-size: 0.875rem;
+  block-size: 0.875rem;
+  position: relative;
+}
+.stepper-actions span::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  -webkit-mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
+  mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
+}
+.chevron-up {
+  rotate: 180deg;
+}
+@media (hover: hover) and (pointer: fine) {
+  .stepper-actions button:hover:not(:disabled) {
+    background: var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3));
+    color: var(--aeris-text, #111);
+  }
+}
+.stepper:has(:focus-visible),
+.wheel:focus-visible {
+  outline: var(--aeris-focus-ring-width, 3px) solid
+    var(--aeris-control-focus-ring-color, var(--aeris-focus-ring-color, transparent));
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
+  border-color: var(
+    --aeris-date-picker-focus,
+    var(--aeris-control-focus-border, var(--aeris-focus, #{aeris-fallbacks.$focus}))
+  );
+}
+button:focus-visible {
+  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline-offset: -2px;
+}
+input:disabled,
+button:disabled,
+.wheel[aria-disabled] {
+  opacity: var(--aeris-disabled-opacity, 0.5);
+  cursor: not-allowed;
+}
+
+.wheel {
+  --_row-height: 2.75rem;
+  display: none;
+  position: relative;
+  block-size: var(--_row-height);
+  box-sizing: content-box;
+  overflow: hidden;
+  border: 1px solid var(--aeris-date-picker-border, var(--aeris-border, #efefef));
+  border-radius: var(--aeris-radius-control, 0.4375rem);
+  background: var(--aeris-date-picker-background, var(--aeris-surface, #fff));
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+}
+.wheel[data-dragging] {
+  cursor: grabbing;
+}
+.wheel-track {
+  position: relative;
+  margin-block-start: calc(-1 * var(--_row-height));
+  transition: translate var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
+}
+.wheel[data-dragging] .wheel-track {
+  transition: none;
+}
+.wheel-row {
+  display: grid;
+  place-items: center;
+  block-size: var(--_row-height);
+  color: var(--aeris-text, #111);
+  font-size: var(--aeris-font-size-xl, 1rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--aeris-font-weight-bold, 700);
+}
+@media (pointer: coarse) {
+  .stepper {
+    display: none;
+  }
+  .wheel {
+    display: block;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wheel-track {
+    transition: none;
+  }
+}

@@ -493,7 +493,7 @@ export class DatePickerCollisionDemo {
 
 ### Date and time
 
-Enable editable for typed date-time or time-only entry. Type or paste a complete value, adjust segments with arrow keys, and change AM/PM explicitly in 12-hour mode. Minute steps affect arrow keys, not valid typed values.
+Enable editable for typed date-time or time-only entry. The popup has styled time steppers on desktop and compact single-row number wheels on touch devices. Drag vertically to adjust the time, or tap AM/PM to toggle the period. Minute steps affect steppers and wheels, not valid typed values.
 
 #### TS
 
@@ -1319,7 +1319,7 @@ export class DatePickerFormsDemo {
 - The day calendar uses grid, row, and gridcell semantics with one roving tab stop.
 - Selected dates use aria-selected, today uses aria-current="date", and unavailable dates use native disabled behavior.
 - Every date receives a complete locale-formatted accessible name rather than exposing only its day number.
-- Date-time mode keeps the calendar semantics and adds labelled native time fields. Time-only mode removes the calendar grid and focuses the hour field when opened.
+- Date-time mode keeps the calendar semantics and adds labelled time controls. Desktop users can type values or use the stepper buttons; touch devices show draggable number single-row wheels with spinbutton semantics. Time-only mode focuses the hour control when opened. Tap or click the period button to toggle AM/PM. Wheel gestures commit on release and cancelled gestures keep the previous value. Reduced motion disables the snap transition.
 - Visible labels should use inputId. Otherwise provide ariaLabel or ariaLabelledBy.
 - Use ariaDescribedBy for help and validation messages. Required and invalid state are synchronized with ARIA.
 - Multiple-month layouts collapse on narrow screens and all pointer targets retain clear focus indicators.
@@ -1350,6 +1350,8 @@ export class DatePickerFormsDemo {
 | `Shift + Page Down` | Moves focus to the next year. |
 | `Arrow keys in month or year view` | Moves through the month or year options using the visual grid direction. |
 | `Home / End in month or year view` | Moves to the first or last option in the visible period. |
-| `Native input keys in time fields` | Edit hours, minutes, seconds, or AM/PM using browser-native number and select behavior. |
+| `Arrow Up / Down in popup time controls` | Increase or decrease by the configured step, wrapping at the range boundary. |
+| `Home / End in popup time controls` | Select the minimum or maximum value for that control. |
+| `Enter / Space on the period button` | Toggle between AM and PM without closing the popup. |
 | `Escape` | Closes a popup calendar and restores focus to its trigger. |
 | `Tab` | Moves through the popup controls. The popup closes after focus leaves it. |
