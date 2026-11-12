@@ -182,7 +182,7 @@ let nextCascadeSelectId = 0;
       (focusout)="handleFocusOut($event)"
     >
       @if (name() && value() !== null) {
-        <input type="hidden" [name]="name()" [value]="value()" />
+        <input type="hidden" [name]="name()" [value]="value()" [disabled]="effectiveDisabled()" />
       }
 
       <div #control class="aeris-cascade-select__control">

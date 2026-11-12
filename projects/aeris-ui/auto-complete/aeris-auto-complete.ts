@@ -114,7 +114,7 @@ let nextAutoCompleteId = 0;
       (focusout)="handleFocusOut($event)"
     >
       @if (name()) {
-        <input type="hidden" [name]="name()" [value]="value()" />
+        <input type="hidden" [name]="name()" [value]="value()" [disabled]="effectiveDisabled()" />
       }
 
       <div #control class="aeris-auto-complete__control">

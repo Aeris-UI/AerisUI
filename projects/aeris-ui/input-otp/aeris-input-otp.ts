@@ -73,7 +73,12 @@ let inputOtpId = 0;
       (focusout)="handleFocusOut($event)"
     >
       @if (name()) {
-        <input type="hidden" [name]="name()" [value]="normalizedValue()" />
+        <input
+          type="hidden"
+          [name]="name()"
+          [value]="normalizedValue()"
+          [disabled]="effectiveDisabled()"
+        />
       }
 
       @for (slot of slots(); track slot.index) {

@@ -114,7 +114,12 @@ let treeSelectId = 0;
       (focusout)="handleFocusOut($event)"
     >
       @if (name() && serializedValue()) {
-        <input type="hidden" [name]="name()" [value]="serializedValue()" />
+        <input
+          type="hidden"
+          [name]="name()"
+          [value]="serializedValue()"
+          [disabled]="effectiveDisabled()"
+        />
       }
 
       <div #control class="aeris-tree-select__control">

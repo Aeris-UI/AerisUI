@@ -38,7 +38,12 @@ let ratingId = 0;
       [style.--aeris-rating-max]="maxStars()"
     >
       @if (name()) {
-        <input type="hidden" [name]="name()" [value]="normalizedValue()" />
+        <input
+          type="hidden"
+          [name]="name()"
+          [value]="normalizedValue()"
+          [disabled]="effectiveDisabled()"
+        />
       }
 
       <button

@@ -109,7 +109,12 @@ let multiSelectId = 0;
       (focusout)="handleFocusOut($event)"
     >
       @if (name() && value().length) {
-        <input type="hidden" [name]="name()" [value]="value().join(valueSeparator())" />
+        <input
+          type="hidden"
+          [name]="name()"
+          [value]="value().join(valueSeparator())"
+          [disabled]="effectiveDisabled()"
+        />
       }
 
       <div #control class="aeris-multi-select__control">

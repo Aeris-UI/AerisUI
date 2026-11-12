@@ -972,7 +972,7 @@ let editorId = 0;
       </div>
 
       @if (name()) {
-        <input type="hidden" [name]="name()" [value]="value()" />
+        <input type="hidden" [name]="name()" [value]="value()" [disabled]="effectiveDisabled()" />
       }
     </div>
   `,
