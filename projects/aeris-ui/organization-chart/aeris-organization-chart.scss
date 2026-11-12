@@ -53,6 +53,7 @@
 }
 
 .aeris-organization-chart__branch {
+  outline: none;
   position: relative;
   display: grid;
   justify-items: center;
@@ -103,7 +104,9 @@
   color: var(--aeris-primary-text, #{aeris-fallbacks.$focus});
 }
 
-.aeris-organization-chart__node:focus-visible,
+.aeris-organization-chart__branch:focus-visible
+  > .aeris-organization-chart__node-shell
+  > .aeris-organization-chart__node,
 .aeris-organization-chart__toggle:focus-visible {
   outline: 0;
   box-shadow:

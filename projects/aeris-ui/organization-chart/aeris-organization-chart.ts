@@ -75,23 +75,25 @@ export class AerisOrganizationChartEmptyTemplate {
       @if (value().length) {
         <div class="aeris-organization-chart__viewport" tabindex="0">
           <ng-template #nodeTemplate let-node let-key="key" let-level="level">
-            <li class="aeris-organization-chart__branch">
+            <li
+              #nodeElement
+              class="aeris-organization-chart__branch"
+              role="treeitem"
+              tabindex="0"
+              [attr.aria-label]="nodeAriaLabel(node)"
+              [attr.aria-selected]="selectionMode() ? isSelected(key) : null"
+              [attr.aria-expanded]="hasChildren(node) ? !isCollapsed(key) : null"
+              [attr.data-aeris-key]="key"
+              (click)="selectNode(node, key, $event)"
+              (keydown)="handleNodeKeydown($event, node, key)"
+            >
               <div class="aeris-organization-chart__node-shell">
                 <div
-                  #nodeElement
                   class="aeris-organization-chart__node"
-                  role="treeitem"
-                  tabindex="0"
-                  [attr.aria-label]="nodeAriaLabel(node)"
-                  [attr.aria-selected]="selectionMode() ? isSelected(key) : null"
-                  [attr.aria-expanded]="hasChildren(node) ? !isCollapsed(key) : null"
                   [attr.data-selected]="isSelected(key) || null"
                   [attr.data-selectable]="isNodeSelectable(node) || null"
                   [attr.data-type]="node.type || null"
-                  [attr.data-aeris-key]="key"
                   [style.--aeris-org-level]="level"
-                  (click)="selectNode(node, key, $event)"
-                  (keydown)="handleNodeKeydown($event, node, key)"
                 >
                   @if (nodeTemplateDirective(); as customNode) {
                     <ng-container
@@ -256,6 +258,7 @@ export class AerisOrganizationChart<TData = unknown> {
     key: string,
     originalEvent: Event,
   ): void {
+    originalEvent.stopPropagation();
     if (!this.isNodeSelectable(node)) return;
 
     const wasSelected = this.isSelected(key);
@@ -300,6 +303,7 @@ export class AerisOrganizationChart<TData = unknown> {
     node: AerisOrganizationChartNode<TData>,
     key: string,
   ): void {
+    if (event.target !== event.currentTarget) return;
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       this.selectNode(node, key, event);
