@@ -13,14 +13,15 @@ version-controlled `vercel.json` supplies the important settings:
 | ---------------- | ----------------------------- |
 | Framework        | Angular                       |
 | Install command  | `npm ci`                      |
-| Build command    | `npm run build`               |
+| Build command    | `npm run build:site`          |
 | Output directory | `dist/docs/browser`           |
 | Node.js          | Latest Vercel Node 24 release |
 
-The full build command checks version metadata and builds the library before the documentation.
-This ensures each deployment documents the library produced from the same commit. The SPA rewrite
-serves `index.html` for client-side routes while Vercel continues to serve existing static files
-directly.
+The site build checks version metadata and builds the library before the documentation. This
+ensures each deployment documents the library produced from the same commit. CI separately
+verifies packages, consumer installation, and release tooling; `npm run build` runs the full
+build-verification pipeline locally. Vercel does not need to repeat it. The SPA rewrite serves
+`index.html` for client-side routes while Vercel continues to serve existing static files directly.
 
 Set `main` as the production branch. Keep Vercel preview deployments enabled for pull requests so
 navigation, responsive behavior, themes, and documentation examples can be reviewed before a
@@ -46,7 +47,8 @@ to the domain, preserve its MX and related TXT records when changing DNS provide
 Before promoting a deployment:
 
 - Confirm the Git commit matches the intended library and documentation state.
-- Confirm `npm run build`, `npm run test:lib`, and the moderate-threshold dependency audit pass.
+- Confirm the required CI checks and moderate-threshold dependency audit pass, and that Vercel's
+  `npm run build:site` deployment succeeds.
 - Test light, dark, RTL, palettes, density, corner styles, narrow layouts, keyboard navigation, and
   important deep links on the Vercel preview URL.
 - Confirm response headers and HTTPS are present.

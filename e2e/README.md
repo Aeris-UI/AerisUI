@@ -7,8 +7,8 @@ documentation page to catch integration and runtime failures.
 
 Run the complete suite with `npm run test:e2e`. If the library is already built, use
 `npm run test:e2e:run`. CI runs `npm run test:e2e:critical`, which deliberately uses no retries.
-Failed tests retain a Playwright trace, screenshot, and video in `test-results/`; open a trace with
-`npx playwright show-trace <trace.zip>`.
+Failed tests retain a Playwright trace and screenshot in `test-results/`; open a trace with
+`npx playwright show-trace <trace.zip>`. Video recording is disabled.
 
 Use Node 24.15.0 (matching CI) for reproducible browser verification, and install the matching
 test engines with `npx playwright install chromium firefox webkit`. The local Firefox engine has

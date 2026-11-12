@@ -223,7 +223,7 @@ import { AerisButton } from '@aeris-ui/core/button';
 
 ```html
 <button aerisButton>Save changes</button>
-<button aerisButton variant="secondary" size="sm">Cancel</button>
+<button aerisButton severity="secondary" size="sm">Cancel</button>
 ```
 
 ## License
