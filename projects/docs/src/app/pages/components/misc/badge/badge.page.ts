@@ -4,6 +4,7 @@ import { AerisBadgeModule } from '@aeris-ui/core/badge';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
+import { ReferenceTableImports } from '../../../../shared/documentation/reference-table.component';
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
 import {
@@ -23,6 +24,7 @@ interface ApiRow {
 @Component({
   selector: 'app-badge-page',
   imports: [
+    ReferenceTableImports,
     AerisAvatar,
     AerisBadgeModule,
     AerisButton,

@@ -120,11 +120,12 @@ Add or remove one or more application classes on a related target.
 ```ts
 import { Component } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisStyleClassModule } from '@aeris-ui/core/style-class';
 
 @Component({
   selector: 'app-style-class-toggle-demo',
-  imports: [AerisButton, AerisStyleClassModule],
+  imports: [AerisButton, AerisCardModule, AerisStyleClassModule],
   templateUrl: './style-class-toggle.demo.html',
   styleUrl: './style-class-toggle.demo.scss'
 })
@@ -145,9 +146,9 @@ export class StyleClassToggleDemo {
     >
       Toggle emphasis
     </button>
-    <article class="style-toggle-card">
+    <aeris-card class="style-toggle-card">
       This card is styled by a class on the next sibling target.
-    </article>
+    </aeris-card>
   </div>
 </div>
 ```
@@ -161,23 +162,18 @@ export class StyleClassToggleDemo {
   justify-items: start;
 }
 
-.style-toggle-card {
-  width: min(100%, 34rem);
-  padding: 1rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-lg);
-  background: var(--aeris-surface-2);
+.style-toggle-card { width: min(100%, 34rem);
   transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
 }
 
 .style-toggle-card--active {
-  border-color: var(--aeris-primary);
-  background: var(--aeris-primary-soft);
+  --aeris-card-border: var(--aeris-primary);
+  --aeris-card-background: var(--aeris-primary-soft);
   transform: translateY(-0.125rem);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .style-toggle-card {
+  .style-toggle-card { width: min(100%, 34rem);
     transition: none;
   }
 }
@@ -196,32 +192,9 @@ export class StyleClassToggleDemo {
   justify-items: start;
 }
 
-.style-toggle-card,
-.style-animation-panel,
-.style-resize-panel,
-.style-method-notice {
-  width: min(100%, 34rem);
-  padding: 1rem;
-  border-radius: var(--aeris-radius-lg);
-}
-
-.style-toggle-card,
-.style-animation-panel,
-.style-resize-panel {
-  border: 1px solid var(--aeris-border);
-  background: var(--aeris-surface-2);
-}
-
 .style-toggle-card {
+  width: min(100%, 34rem);
   transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .style-toggle-card,
-    .style-enter-active,
-    .style-leave-active {
-      transition: none;
-    }
 }
 ```
 
@@ -338,7 +311,6 @@ export class StyleClassAnimationDemo {
   justify-items: start;
 }
 
-.style-toggle-card,
 .style-animation-panel,
 .style-resize-panel,
 .style-method-notice {
@@ -347,7 +319,6 @@ export class StyleClassAnimationDemo {
   border-radius: var(--aeris-radius-lg);
 }
 
-.style-toggle-card,
 .style-animation-panel,
 .style-resize-panel {
   border: 1px solid var(--aeris-border);
@@ -585,7 +556,6 @@ export class StyleClassResizeDemo {
   justify-items: start;
 }
 
-.style-toggle-card,
 .style-animation-panel,
 .style-resize-panel,
 .style-method-notice {
@@ -594,7 +564,6 @@ export class StyleClassResizeDemo {
   border-radius: var(--aeris-radius-lg);
 }
 
-.style-toggle-card,
 .style-animation-panel,
 .style-resize-panel {
   border: 1px solid var(--aeris-border);
@@ -733,7 +702,6 @@ export class StyleClassMethodsDemo {
   gap: 0.875rem;
 }
 
-.style-toggle-card,
 .style-animation-panel,
 .style-resize-panel,
 .style-method-notice {

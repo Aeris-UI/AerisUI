@@ -368,80 +368,105 @@
         <div class="doc-content-layout">
           <div class="doc-content-main">
             <h3 id="tree-api-inputs" tabindex="-1">Inputs</h3>
-            <div class="api-table" role="table" aria-label="Tree inputs" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="Tree inputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of inputs; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
             <h3 id="tree-api-models" tabindex="-1">Models</h3>
-            <div class="api-table" role="table" aria-label="Tree models" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="Tree models">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of models; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
             <h3 id="tree-api-outputs" tabindex="-1">Outputs</h3>
-            <div class="api-table" role="table" aria-label="Tree outputs" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Payload</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="Tree outputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Payload" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of outputs; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
             <h3 id="tree-api-templates" tabindex="-1">Templates</h3>
-            <div class="api-table" role="table" aria-label="Tree templates" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Context</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="Tree templates">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Context" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of templates; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
             <h3 id="tree-api-methods" tabindex="-1">Methods</h3>
-            <div class="api-table" role="table" aria-label="Tree methods" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Returns</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="Tree methods">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Returns" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of methods; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
           </div>
           <app-page-toc title="API" ariaLabel="Tree API on this page" [links]="apiLinks" />
         </div>
@@ -457,85 +482,97 @@
     <aeris-tab-panel value="tokens" label="Tokens"
       ><section class="doc-section">
         <h2>Design tokens</h2>
-        <div class="api-table compact" role="table" aria-label="Tree design tokens" tabindex="0">
-          <div class="api-head" role="row">
-            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
-            ><b role="columnheader">Fallback</b>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-tree-min-width</code
-            ><span role="cell">Minimum tree width before responsive override.</span
-            ><code role="cell">16rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-tree-max-height</code
-            ><span role="cell">Maximum scrollable node viewport height.</span
-            ><code role="cell">24rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-tree-padding</code><span role="cell">Outer tree padding.</span
-            ><code role="cell">--aeris-overlay-padding</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-tree-border</code><span role="cell">Outer border color.</span
-            ><code role="cell">--aeris-border</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-tree-radius</code><span role="cell">Outer corner radius.</span
-            ><code role="cell">--aeris-radius-surface</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-tree-background</code
-            ><span role="cell">Tree surface color.</span><code role="cell">--aeris-surface</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-tree-color</code
-            ><span role="cell">Default node text color.</span><code role="cell">--aeris-text</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-tree-indent</code
-            ><span role="cell">Indent added for each hierarchy level.</span
-            ><code role="cell">1.25rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-tree-indent-mobile</code
-            ><span role="cell">Hierarchy indent on narrow screens.</span
-            ><code role="cell">0.875rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-tree-node-height</code
-            ><span role="cell">Minimum node row height.</span><code role="cell">2.375rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-tree-node-padding</code
-            ><span role="cell">Node row padding.</span><code role="cell">0.4375rem 0.625rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-tree-node-radius</code
-            ><span role="cell">Node radius shared with other Aeris selectable rows.</span
-            ><code role="cell">--aeris-radius-item</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-tree-node-hover</code
-            ><span role="cell">Hover and active node surface.</span
-            ><code role="cell">--aeris-surface-2</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-tree-node-selected</code
-            ><span role="cell">Selected node surface.</span
-            ><code role="cell">--aeris-primary-soft</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-tree-drop-indicator</code
-            ><span role="cell">Drop line and inside-target outline.</span
-            ><code role="cell">--aeris-primary-text</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-tree-drop-background</code
-            ><span role="cell">Inside-target background.</span
-            ><code role="cell">--aeris-primary-soft</code>
-          </div>
-        </div>
+        <app-reference-table class="api-table compact" caption="Tree design tokens">
+          <ng-template appReferenceHeader="Token" />
+          <ng-template appReferenceHeader="Purpose" />
+          <ng-template appReferenceHeader="Fallback" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-tree-min-width</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Minimum tree width before responsive override.</span></ng-template
+            ><ng-template appReferenceCell><code>16rem</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-tree-max-height</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Maximum scrollable node viewport height.</span></ng-template
+            ><ng-template appReferenceCell><code>24rem</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-tree-padding</code></ng-template
+            ><ng-template appReferenceCell><span>Outer tree padding.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-overlay-padding</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-tree-border</code></ng-template
+            ><ng-template appReferenceCell><span>Outer border color.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-border</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-tree-radius</code></ng-template
+            ><ng-template appReferenceCell><span>Outer corner radius.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-radius-surface</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-tree-background</code></ng-template
+            ><ng-template appReferenceCell><span>Tree surface color.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-surface</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-tree-color</code></ng-template
+            ><ng-template appReferenceCell><span>Default node text color.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-text</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-tree-indent</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Indent added for each hierarchy level.</span></ng-template
+            ><ng-template appReferenceCell><code>1.25rem</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-tree-indent-mobile</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Hierarchy indent on narrow screens.</span></ng-template
+            ><ng-template appReferenceCell><code>0.875rem</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-tree-node-height</code></ng-template
+            ><ng-template appReferenceCell><span>Minimum node row height.</span></ng-template
+            ><ng-template appReferenceCell><code>2.375rem</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-tree-node-padding</code></ng-template
+            ><ng-template appReferenceCell><span>Node row padding.</span></ng-template
+            ><ng-template appReferenceCell><code>0.4375rem 0.625rem</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-tree-node-radius</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Node radius shared with other Aeris selectable rows.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-radius-item</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-tree-node-hover</code></ng-template
+            ><ng-template appReferenceCell><span>Hover and active node surface.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-surface-2</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-tree-node-selected</code></ng-template
+            ><ng-template appReferenceCell><span>Selected node surface.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-primary-soft</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-tree-drop-indicator</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Drop line and inside-target outline.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-primary-text</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-tree-drop-background</code></ng-template
+            ><ng-template appReferenceCell><span>Inside-target background.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-primary-soft</code></ng-template>
+          </ng-container>
+        </app-reference-table>
       </section></aeris-tab-panel
     >
 
@@ -574,73 +611,95 @@
           </li>
         </ul>
         <h3>Keyboard support</h3>
-        <div
-          class="api-table keyboard-table"
-          role="table"
-          aria-label="Tree keyboard support"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Key</b><b role="columnheader">Function</b>
-          </div>
-          <div role="row">
-            <kbd role="cell">Tab</kbd
-            ><span role="cell"
-              >Moves to the optional filter and then the active tree item; a second Tab leaves the
-              tree.</span
+        <app-reference-table class="api-table keyboard-table" caption="Tree keyboard support">
+          <ng-template appReferenceHeader="Key" />
+          <ng-template appReferenceHeader="Function" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Tab</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves to the optional filter and then the active tree item; a second Tab leaves the
+                tree.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>ArrowDown</kbd> / <kbd>ArrowUp</kbd></span
-            ><span role="cell"
-              >Moves focus to the next or previous visible node. ArrowDown from the filter enters
-              the tree.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>ArrowDown</kbd> / <kbd>ArrowUp</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves focus to the next or previous visible node. ArrowDown from the filter enters
+                the tree.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <kbd role="cell">ArrowRight</kbd
-            ><span role="cell"
-              >Expands a collapsed branch, then moves to its first child when already
-              expanded.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>ArrowRight</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Expands a collapsed branch, then moves to its first child when already
+                expanded.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <kbd role="cell">ArrowLeft</kbd
-            ><span role="cell">Collapses an expanded branch, otherwise moves to its parent.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Home</kbd> / <kbd>End</kbd></span
-            ><span role="cell">Moves focus to the first or last visible node.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
-            ><span role="cell"
-              >Toggles selection when enabled; otherwise toggles the focused branch.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>ArrowLeft</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Collapses an expanded branch, otherwise moves to its parent.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell">Printable characters</span
-            ><span role="cell"
-              >Moves focus to the next visible node whose label starts with the typed
-              characters.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Home</kbd> / <kbd>End</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Moves focus to the first or last visible node.</span></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Alt</kbd> + <kbd>ArrowUp</kbd> / <kbd>ArrowDown</kbd></span
-            ><span role="cell">Moves the focused node before or after an adjacent sibling.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Alt</kbd> + <kbd>ArrowRight</kbd></span
-            ><span role="cell"
-              >Moves the focused node into its previous sibling when that node accepts
-              children.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Enter</kbd> / <kbd>Space</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Toggles selection when enabled; otherwise toggles the focused branch.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Alt</kbd> + <kbd>ArrowLeft</kbd></span
-            ><span role="cell">Moves the focused node out of its current parent.</span>
-          </div>
-        </div>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><span>Printable characters</span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves focus to the next visible node whose label starts with the typed
+                characters.</span
+              ></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Alt</kbd> + <kbd>ArrowUp</kbd> / <kbd>ArrowDown</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Moves the focused node before or after an adjacent sibling.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Alt</kbd> + <kbd>ArrowRight</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves the focused node into its previous sibling when that node accepts
+                children.</span
+              ></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Alt</kbd> + <kbd>ArrowLeft</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Moves the focused node out of its current parent.</span></ng-template
+            >
+          </ng-container>
+        </app-reference-table>
       </section></aeris-tab-panel
     >
   </aeris-tabs>

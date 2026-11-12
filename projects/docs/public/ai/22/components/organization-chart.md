@@ -569,11 +569,12 @@ Custom node content can show richer people cards while Aeris keeps connectors, s
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisAvatarModule } from '@aeris-ui/core/avatar';
 import { AerisOrganizationChartModule } from '@aeris-ui/core/organization-chart';
 
 @Component({
   selector: 'app-organization-chart-template-demo',
-  imports: [AerisOrganizationChartModule],
+  imports: [AerisAvatarModule, AerisOrganizationChartModule],
   templateUrl: './organization-chart-template.demo.html',
   styleUrl: './organization-chart-template.demo.scss'
 })
@@ -591,9 +592,9 @@ export class OrganizationChartTemplateDemo {
   [value]="chart"
   [(selectionKeys)]="selectedSingle"
 >
-  <ng-template aerisOrganizationChartNode let-node let-selected="selected">
-    <span class="person-card" [attr.data-tone]="node.data?.tone" [attr.data-selected]="selected || null">
-      <span class="person-card__avatar">{{ initials(node.data?.name) }}</span>
+  <ng-template aerisOrganizationChartNode let-node>
+    <span class="person-card">
+      <aeris-avatar class="person-card__avatar" size="sm" [label]="initials(node.data?.name)" [ariaLabel]="node.data?.name ?? 'Team member'" />
       <span>
         <strong>{{ node.data?.name }}</strong>
         <small>{{ node.data?.role }}</small>
@@ -606,23 +607,26 @@ export class OrganizationChartTemplateDemo {
 #### CSS
 
 ```css
+.people-chart {
+  --aeris-organization-chart-node-min-width: 11.5rem;
+}
+
 .person-card {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  text-align: left;
+  text-align: start;
 }
 
-.person-card__avatar {
-  width: 2.25rem;
-  height: 2.25rem;
-  display: grid;
-  place-items: center;
-  border-radius: 999px;
-  background: var(--aeris-primary-soft);
-  color: var(--aeris-primary-text);
+.person-card__avatar { flex: 0 0 auto; }
+
+.person-card strong,
+.person-card small { display: block; }
+
+.person-card small {
+  color: var(--aeris-text-3);
   font-size: 0.75rem;
-  font-weight: 800;
+  font-weight: 600;
 }
 ```
 

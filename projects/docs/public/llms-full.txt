@@ -34018,11 +34018,12 @@ Custom node content can show richer people cards while Aeris keeps connectors, s
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisAvatarModule } from '@aeris-ui/core/avatar';
 import { AerisOrganizationChartModule } from '@aeris-ui/core/organization-chart';
 
 @Component({
   selector: 'app-organization-chart-template-demo',
-  imports: [AerisOrganizationChartModule],
+  imports: [AerisAvatarModule, AerisOrganizationChartModule],
   templateUrl: './organization-chart-template.demo.html',
   styleUrl: './organization-chart-template.demo.scss'
 })
@@ -34040,9 +34041,9 @@ export class OrganizationChartTemplateDemo {
   [value]="chart"
   [(selectionKeys)]="selectedSingle"
 >
-  <ng-template aerisOrganizationChartNode let-node let-selected="selected">
-    <span class="person-card" [attr.data-tone]="node.data?.tone" [attr.data-selected]="selected || null">
-      <span class="person-card__avatar">{{ initials(node.data?.name) }}</span>
+  <ng-template aerisOrganizationChartNode let-node>
+    <span class="person-card">
+      <aeris-avatar class="person-card__avatar" size="sm" [label]="initials(node.data?.name)" [ariaLabel]="node.data?.name ?? 'Team member'" />
       <span>
         <strong>{{ node.data?.name }}</strong>
         <small>{{ node.data?.role }}</small>
@@ -34055,23 +34056,26 @@ export class OrganizationChartTemplateDemo {
 ###### CSS
 
 ```css
+.people-chart {
+  --aeris-organization-chart-node-min-width: 11.5rem;
+}
+
 .person-card {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  text-align: left;
+  text-align: start;
 }
 
-.person-card__avatar {
-  width: 2.25rem;
-  height: 2.25rem;
-  display: grid;
-  place-items: center;
-  border-radius: 999px;
-  background: var(--aeris-primary-soft);
-  color: var(--aeris-primary-text);
+.person-card__avatar { flex: 0 0 auto; }
+
+.person-card strong,
+.person-card small { display: block; }
+
+.person-card small {
+  color: var(--aeris-text-3);
   font-size: 0.75rem;
-  font-weight: 800;
+  font-weight: 600;
 }
 ```
 
@@ -38389,6 +38393,8 @@ Use the marker template and markerColor to render custom visual markers for each
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisBadgeModule } from '@aeris-ui/core/badge';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisTimelineModule, type AerisTimelineItem } from '@aeris-ui/core/timeline';
 import { LucideBlocks, LucideClipboardCheck, LucideDynamicIcon, LucidePackageCheck, LucideShieldCheck, type LucideIconInput } from '@lucide/angular';
 
@@ -38400,7 +38406,7 @@ interface CustomReleaseData {
 
 @Component({
   selector: 'app-timeline-templates-demo',
-  imports: [AerisTimelineModule, LucideDynamicIcon],
+  imports: [AerisBadgeModule, AerisCardModule, AerisTimelineModule, LucideDynamicIcon],
   templateUrl: './timeline-templates.demo.html',
   styleUrl: './timeline-templates.demo.scss'
 })
@@ -38466,12 +38472,12 @@ export class TimelineTemplatesDemo {
   </ng-template>
 
   <ng-template aerisTimelineContent let-item let-state="state">
-    <article class="release-card">
-      <span class="release-card__state">{{ state }}</span>
+    <aeris-card class="release-card">
+      <aeris-badge [value]="state" severity="neutral" variant="soft" size="sm" />
       <h3>{{ $any(item).title }}</h3>
       <p>{{ $any(item).description }}</p>
       <small>{{ $any(item).data.owner }} - {{ $any(item).data.version }}</small>
-    </article>
+    </aeris-card>
   </ng-template>
 </aeris-timeline>
 ```
@@ -38509,20 +38515,6 @@ svg:where([lucideIcon]) {
 
 .release-date {
   font-weight: 650;
-}
-
-.release-card {
-  padding: 0.875rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-md);
-  background: var(--aeris-surface);
-}
-
-.release-card__state {
-  color: var(--aeris-primary-text);
-  font-size: 0.6875rem;
-  font-weight: 700;
-  text-transform: uppercase;
 }
 
 .release-card h3 {
@@ -45069,11 +45061,12 @@ Use horizontal orientation for content that extends beyond the inline viewport.
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
 
 @Component({
   selector: 'app-scroll-panel-horizontal-demo',
-  imports: [AerisScrollPanelModule],
+  imports: [AerisCardModule, AerisScrollPanelModule],
   templateUrl: './scroll-panel-horizontal.demo.html',
   styleUrl: './scroll-panel-horizontal.demo.scss'
 })
@@ -45087,22 +45080,22 @@ export class ScrollPanelHorizontalDemo {
 <div>
   <aeris-scroll-panel orientation="horizontal" height="9rem" ariaLabel="Project cards">
     <div class="horizontal-cards">
-      <article class="horizontal-card">
+      <aeris-card class="horizontal-card">
         <strong>Design</strong>
         <span>Tokens, states, and spacing.</span>
-      </article>
-      <article class="horizontal-card">
+      </aeris-card>
+      <aeris-card class="horizontal-card">
         <strong>Build</strong>
         <span>Standalone Angular components.</span>
-      </article>
-      <article class="horizontal-card">
+      </aeris-card>
+      <aeris-card class="horizontal-card">
         <strong>Test</strong>
         <span>API and accessibility coverage.</span>
-      </article>
-      <article class="horizontal-card">
+      </aeris-card>
+      <aeris-card class="horizontal-card">
         <strong>Ship</strong>
         <span>Docs, examples, and migration notes.</span>
-      </article>
+      </aeris-card>
     </div>
   </aeris-scroll-panel>
 </div>
@@ -45118,10 +45111,6 @@ export class ScrollPanelHorizontalDemo {
 
 .horizontal-card {
   flex: 0 0 13rem;
-  padding: 1rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-lg);
-  background: var(--aeris-surface);
 }
 
 .horizontal-card strong {
@@ -45140,8 +45129,9 @@ Enable both vertical and horizontal scrolling for dense content.
 ```ts
 import { Component } from '@angular/core';
 import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
+import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
 
-interface CityRow {
+interface CityRow extends AerisTableData {
   readonly city: string;
   readonly state: string;
   readonly population: string;
@@ -45150,11 +45140,35 @@ interface CityRow {
 
 @Component({
   selector: 'app-scroll-panel-both-demo',
-  imports: [AerisScrollPanelModule],
-  templateUrl: './scroll-panel-both.demo.html',
-  styleUrl: './scroll-panel-both.demo.scss'
+  imports: [AerisScrollPanelModule, AerisTableModule],
+  template: `
+    <div>
+      <aeris-scroll-panel orientation="both" height="13rem" ariaLabel="City statistics">
+        <aeris-table
+          class="city-table"
+          caption="City statistics"
+          [data]="cities"
+          [columns]="cityColumns"
+          [hoverable]="false"
+          [rowNavigation]="false"
+        />
+      </aeris-scroll-panel>
+    </div>
+  `,
+  styles: `
+    .city-table {
+      inline-size: 46rem;
+    }
+  `
 })
 export class ScrollPanelBothDemo {
+  protected readonly cityColumns: readonly AerisTableColumn[] = [
+      { field: 'city', header: 'City' },
+      { field: 'state', header: 'State' },
+      { field: 'population', header: 'Population' },
+      { field: 'area', header: 'Area km²' },
+    ];
+
   protected readonly cities: readonly CityRow[] = [
       { city: 'New York', state: 'NY', population: '8,419,600', area: '783.8' },
       { city: 'Los Angeles', state: 'CA', population: '3,980,400', area: '1,214.9' },
@@ -45169,59 +45183,6 @@ export class ScrollPanelBothDemo {
       { city: 'Austin', state: 'TX', population: '1,010,000', area: '704.0' },
       { city: 'Jacksonville', state: 'FL', population: '949,600', area: '2,265.3' },
     ];
-}
-```
-
-###### HTML
-
-```html
-<div>
-  <aeris-scroll-panel orientation="both" height="13rem" ariaLabel="City statistics">
-    <table class="city-table">
-      <thead>
-        <tr>
-          <th>City</th>
-          <th>State</th>
-          <th>Population</th>
-          <th>Area km²</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (city of cities; track city.city) {
-          <tr>
-            <td>{{ city.city }}</td>
-            <td>{{ city.state }}</td>
-            <td>{{ city.population }}</td>
-            <td>{{ city.area }}</td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </aeris-scroll-panel>
-</div>
-```
-
-###### CSS
-
-```css
-.city-table {
-  min-width: 42rem;
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.city-table th,
-.city-table td {
-  padding: 0.625rem 0.75rem;
-  border-bottom: 1px solid var(--aeris-border);
-  text-align: left;
-  white-space: nowrap;
-}
-
-.city-table th {
-  color: var(--aeris-text);
-  font-size: 0.75rem;
-  text-transform: uppercase;
 }
 ```
 
@@ -47422,12 +47383,13 @@ A bare aerisTabContent template creates Statistics only the first time it opens.
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
 @Component({
   selector: 'app-tabs-lazy-demo',
-  imports: [AerisChartModule, AerisTabsModule],
+  imports: [AerisCardModule, AerisChartModule, AerisTabsModule],
   templateUrl: './tabs-lazy.demo.html',
   styleUrl: './tabs-lazy.demo.scss'
 })
@@ -47479,7 +47441,7 @@ export class TabsLazyDemo {
     <aeris-tab-panel value="statistics" label="Statistics">
       <ng-template aerisTabContent>
         <div class="statistics-grid">
-          <section class="statistics-card">
+          <aeris-card class="statistics-card">
             <h4>Weekly traffic</h4>
             <aeris-chart
               type="line"
@@ -47489,8 +47451,8 @@ export class TabsLazyDemo {
               ariaLabel="Weekly sessions"
               ariaDescription="Sessions rise overall from Monday to Sunday."
             />
-          </section>
-          <section class="statistics-card">
+          </aeris-card>
+          <aeris-card class="statistics-card">
             <h4>Conversions by source</h4>
             <aeris-chart
               type="bar"
@@ -47500,7 +47462,7 @@ export class TabsLazyDemo {
               ariaLabel="Conversions by traffic source"
               ariaDescription="Search produces the most conversions."
             />
-          </section>
+          </aeris-card>
         </div>
       </ng-template>
     </aeris-tab-panel>
@@ -47524,13 +47486,6 @@ export class TabsLazyDemo {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
-}
-
-.statistics-card {
-  min-width: 0;
-  padding: 1rem;
-  border-radius: var(--aeris-radius-container);
-  background: var(--aeris-surface-2);
 }
 
 .statistics-card h4 {
@@ -66980,6 +66935,7 @@ Render a collection with a custom item template and optional header and footer r
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisCarouselModule } from '@aeris-ui/core/carousel';
 
 interface Destination {
@@ -66990,7 +66946,7 @@ interface Destination {
 
 @Component({
   selector: 'app-carousel-basic-demo',
-  imports: [AerisCarouselModule],
+  imports: [AerisCardModule, AerisCarouselModule],
   templateUrl: './carousel-basic.demo.html',
   styleUrl: './carousel-basic.demo.scss'
 })
@@ -67017,10 +66973,16 @@ export class CarouselBasicDemo {
       </div>
     </ng-template>
     <ng-template aerisCarouselItem let-item>
-      <article class="destination-card" [attr.data-tone]="$any(item).tone">
-        <strong>{{ $any(item).name }}</strong>
-        <span>{{ $any(item).detail }}</span>
-      </article>
+      <aeris-card padding="none">
+        <div
+          aerisCardMedia
+          class="destination-card__media"
+          [attr.data-tone]="$any(item).tone"
+        >
+          <strong>{{ $any(item).name }}</strong>
+          <span>{{ $any(item).detail }}</span>
+        </div>
+      </aeris-card>
     </ng-template>
     <ng-template aerisCarouselFooter>
       <small class="carousel-footer">Curated for unhurried weekends.</small>
@@ -67041,18 +67003,20 @@ export class CarouselBasicDemo {
   font-size: 1rem;
 }
 
-.carousel-title span, .carousel-footer, .carousel-actions span {
+.carousel-title span,
+.carousel-footer,
+.carousel-actions span {
   color: var(--aeris-text-2);
   font-size: 0.875rem;
 }
 
-.destination-card {
+.destination-card__media {
   position: relative;
   display: grid;
   align-content: end;
   min-height: 19rem;
   padding: 1.25rem;
-  border-radius: var(--aeris-radius-lg);
+  border-radius: inherit;
   background-color: var(--aeris-surface-2);
   background-position: center;
   background-size: cover;
@@ -67060,45 +67024,46 @@ export class CarouselBasicDemo {
   overflow: hidden;
 }
 
-.destination-card::before {
+.destination-card__media::before {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));
   content: "";
 }
 
-.destination-card strong, .destination-card span {
+.destination-card__media strong,
+.destination-card__media span {
   position: relative;
   display: block;
 }
 
-.destination-card strong {
+.destination-card__media strong {
   font-size: 1.25rem;
 }
 
-.destination-card span {
+.destination-card__media span {
   margin-top: 0.35rem;
   color: rgba(255, 255, 255, 0.86);
   line-height: 1.5;
 }
 
-.destination-card[data-tone=sage] {
+.destination-card__media[data-tone=sage] {
   background-image: url("/puppies/puppy1.jpg");
 }
 
-.destination-card[data-tone=blue] {
+.destination-card__media[data-tone=blue] {
   background-image: url("/puppies/puppy2.jpg");
 }
 
-.destination-card[data-tone=gold] {
+.destination-card__media[data-tone=gold] {
   background-image: url("/puppies/puppy3.jpg");
 }
 
-.destination-card[data-tone=rose] {
+.destination-card__media[data-tone=rose] {
   background-image: url("/puppies/puppy4.jpg");
 }
 
-.destination-card[data-tone=sky] {
+.destination-card__media[data-tone=sky] {
   background-image: url("/puppies/puppy5.jpg");
 }
 ```
@@ -67111,6 +67076,7 @@ Adapt visible and scroll counts to the carousel’s available width.
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisCarouselModule, type AerisCarouselResponsiveOption } from '@aeris-ui/core/carousel';
 
 interface Destination {
@@ -67121,7 +67087,7 @@ interface Destination {
 
 @Component({
   selector: 'app-carousel-responsive-demo',
-  imports: [AerisCarouselModule],
+  imports: [AerisCardModule, AerisCarouselModule],
   templateUrl: './carousel-responsive.demo.html',
   styleUrl: './carousel-responsive.demo.scss'
 })
@@ -67153,10 +67119,16 @@ export class CarouselResponsiveDemo {
     ariaLabel="Responsive puppies"
   >
     <ng-template aerisCarouselItem let-item>
-      <article class="destination-card" [attr.data-tone]="$any(item).tone">
-        <strong>{{ $any(item).name }}</strong>
-        <span>{{ $any(item).detail }}</span>
-      </article>
+      <aeris-card padding="none">
+        <div
+          aerisCardMedia
+          class="destination-card__media"
+          [attr.data-tone]="$any(item).tone"
+        >
+          <strong>{{ $any(item).name }}</strong>
+          <span>{{ $any(item).detail }}</span>
+        </div>
+      </aeris-card>
     </ng-template>
   </aeris-carousel>
 </div>
@@ -67165,13 +67137,13 @@ export class CarouselResponsiveDemo {
 ###### CSS
 
 ```css
-.destination-card {
+.destination-card__media {
   position: relative;
   display: grid;
   align-content: end;
   min-height: 19rem;
   padding: 1.25rem;
-  border-radius: var(--aeris-radius-lg);
+  border-radius: inherit;
   background-color: var(--aeris-surface-2);
   background-position: center;
   background-size: cover;
@@ -67179,45 +67151,46 @@ export class CarouselResponsiveDemo {
   overflow: hidden;
 }
 
-.destination-card::before {
+.destination-card__media::before {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));
   content: "";
 }
 
-.destination-card strong, .destination-card span {
+.destination-card__media strong,
+.destination-card__media span {
   position: relative;
   display: block;
 }
 
-.destination-card strong {
+.destination-card__media strong {
   font-size: 1.25rem;
 }
 
-.destination-card span {
+.destination-card__media span {
   margin-top: 0.35rem;
   color: rgba(255, 255, 255, 0.86);
   line-height: 1.5;
 }
 
-.destination-card[data-tone=sage] {
+.destination-card__media[data-tone=sage] {
   background-image: url("/puppies/puppy1.jpg");
 }
 
-.destination-card[data-tone=blue] {
+.destination-card__media[data-tone=blue] {
   background-image: url("/puppies/puppy2.jpg");
 }
 
-.destination-card[data-tone=gold] {
+.destination-card__media[data-tone=gold] {
   background-image: url("/puppies/puppy3.jpg");
 }
 
-.destination-card[data-tone=rose] {
+.destination-card__media[data-tone=rose] {
   background-image: url("/puppies/puppy4.jpg");
 }
 
-.destination-card[data-tone=sky] {
+.destination-card__media[data-tone=sky] {
   background-image: url("/puppies/puppy5.jpg");
 }
 ```
@@ -67231,6 +67204,7 @@ Bind page to application state and react to every page change.
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisCarouselModule, type AerisCarouselPageEvent } from '@aeris-ui/core/carousel';
 
 interface Destination {
@@ -67241,7 +67215,7 @@ interface Destination {
 
 @Component({
   selector: 'app-carousel-controlled-demo',
-  imports: [AerisButton, AerisCarouselModule],
+  imports: [AerisButton, AerisCardModule, AerisCarouselModule],
   templateUrl: './carousel-controlled.demo.html',
   styleUrl: './carousel-controlled.demo.scss'
 })
@@ -67285,10 +67259,16 @@ export class CarouselControlledDemo {
     ariaLabel="Controlled puppy carousel"
   >
     <ng-template aerisCarouselItem let-item>
-      <article class="destination-card" [attr.data-tone]="$any(item).tone">
-        <strong>{{ $any(item).name }}</strong>
-        <span>{{ $any(item).detail }}</span>
-      </article>
+      <aeris-card padding="none">
+        <div
+          aerisCardMedia
+          class="destination-card__media"
+          [attr.data-tone]="$any(item).tone"
+        >
+          <strong>{{ $any(item).name }}</strong>
+          <span>{{ $any(item).detail }}</span>
+        </div>
+      </aeris-card>
     </ng-template>
   </aeris-carousel>
 </div>
@@ -67297,7 +67277,9 @@ export class CarouselControlledDemo {
 ###### CSS
 
 ```css
-.carousel-title span, .carousel-footer, .carousel-actions span {
+.carousel-title span,
+.carousel-footer,
+.carousel-actions span {
   color: var(--aeris-text-2);
   font-size: 0.875rem;
 }
@@ -67310,13 +67292,13 @@ export class CarouselControlledDemo {
   margin-bottom: 0.875rem;
 }
 
-.destination-card {
+.destination-card__media {
   position: relative;
   display: grid;
   align-content: end;
   min-height: 19rem;
   padding: 1.25rem;
-  border-radius: var(--aeris-radius-lg);
+  border-radius: inherit;
   background-color: var(--aeris-surface-2);
   background-position: center;
   background-size: cover;
@@ -67324,45 +67306,46 @@ export class CarouselControlledDemo {
   overflow: hidden;
 }
 
-.destination-card::before {
+.destination-card__media::before {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));
   content: "";
 }
 
-.destination-card strong, .destination-card span {
+.destination-card__media strong,
+.destination-card__media span {
   position: relative;
   display: block;
 }
 
-.destination-card strong {
+.destination-card__media strong {
   font-size: 1.25rem;
 }
 
-.destination-card span {
+.destination-card__media span {
   margin-top: 0.35rem;
   color: rgba(255, 255, 255, 0.86);
   line-height: 1.5;
 }
 
-.destination-card[data-tone=sage] {
+.destination-card__media[data-tone=sage] {
   background-image: url("/puppies/puppy1.jpg");
 }
 
-.destination-card[data-tone=blue] {
+.destination-card__media[data-tone=blue] {
   background-image: url("/puppies/puppy2.jpg");
 }
 
-.destination-card[data-tone=gold] {
+.destination-card__media[data-tone=gold] {
   background-image: url("/puppies/puppy3.jpg");
 }
 
-.destination-card[data-tone=rose] {
+.destination-card__media[data-tone=rose] {
   background-image: url("/puppies/puppy4.jpg");
 }
 
-.destination-card[data-tone=sky] {
+.destination-card__media[data-tone=sky] {
   background-image: url("/puppies/puppy5.jpg");
 }
 ```
@@ -67375,6 +67358,7 @@ Wrap continuously and advance automatically; hover or focus pauses the timer.
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisCarouselModule } from '@aeris-ui/core/carousel';
 
 interface Destination {
@@ -67385,7 +67369,7 @@ interface Destination {
 
 @Component({
   selector: 'app-carousel-circular-demo',
-  imports: [AerisCarouselModule],
+  imports: [AerisCardModule, AerisCarouselModule],
   templateUrl: './carousel-circular.demo.html',
   styleUrl: './carousel-circular.demo.scss'
 })
@@ -67412,10 +67396,16 @@ export class CarouselCircularDemo {
     ariaLabel="Autoplay puppies"
   >
     <ng-template aerisCarouselItem let-item>
-      <article class="destination-card" [attr.data-tone]="$any(item).tone">
-        <strong>{{ $any(item).name }}</strong>
-        <span>{{ $any(item).detail }}</span>
-      </article>
+      <aeris-card padding="none">
+        <div
+          aerisCardMedia
+          class="destination-card__media"
+          [attr.data-tone]="$any(item).tone"
+        >
+          <strong>{{ $any(item).name }}</strong>
+          <span>{{ $any(item).detail }}</span>
+        </div>
+      </aeris-card>
     </ng-template>
   </aeris-carousel>
 </div>
@@ -67424,13 +67414,13 @@ export class CarouselCircularDemo {
 ###### CSS
 
 ```css
-.destination-card {
+.destination-card__media {
   position: relative;
   display: grid;
   align-content: end;
   min-height: 19rem;
   padding: 1.25rem;
-  border-radius: var(--aeris-radius-lg);
+  border-radius: inherit;
   background-color: var(--aeris-surface-2);
   background-position: center;
   background-size: cover;
@@ -67438,45 +67428,46 @@ export class CarouselCircularDemo {
   overflow: hidden;
 }
 
-.destination-card::before {
+.destination-card__media::before {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));
   content: "";
 }
 
-.destination-card strong, .destination-card span {
+.destination-card__media strong,
+.destination-card__media span {
   position: relative;
   display: block;
 }
 
-.destination-card strong {
+.destination-card__media strong {
   font-size: 1.25rem;
 }
 
-.destination-card span {
+.destination-card__media span {
   margin-top: 0.35rem;
   color: rgba(255, 255, 255, 0.86);
   line-height: 1.5;
 }
 
-.destination-card[data-tone=sage] {
+.destination-card__media[data-tone=sage] {
   background-image: url("/puppies/puppy1.jpg");
 }
 
-.destination-card[data-tone=blue] {
+.destination-card__media[data-tone=blue] {
   background-image: url("/puppies/puppy2.jpg");
 }
 
-.destination-card[data-tone=gold] {
+.destination-card__media[data-tone=gold] {
   background-image: url("/puppies/puppy3.jpg");
 }
 
-.destination-card[data-tone=rose] {
+.destination-card__media[data-tone=rose] {
   background-image: url("/puppies/puppy4.jpg");
 }
 
-.destination-card[data-tone=sky] {
+.destination-card__media[data-tone=sky] {
   background-image: url("/puppies/puppy5.jpg");
 }
 ```
@@ -67489,6 +67480,7 @@ Browse one puppy slide at a time with indicators between the slide and down cont
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisCarouselModule } from '@aeris-ui/core/carousel';
 
 interface Destination {
@@ -67499,7 +67491,7 @@ interface Destination {
 
 @Component({
   selector: 'app-carousel-vertical-demo',
-  imports: [AerisCarouselModule],
+  imports: [AerisCardModule, AerisCarouselModule],
   templateUrl: './carousel-vertical.demo.html',
   styleUrl: './carousel-vertical.demo.scss'
 })
@@ -67525,10 +67517,16 @@ export class CarouselVerticalDemo {
     ariaLabel="Vertical puppy carousel"
   >
     <ng-template aerisCarouselItem let-item>
-      <article class="destination-card" [attr.data-tone]="$any(item).tone">
-        <strong>{{ $any(item).name }}</strong>
-        <span>{{ $any(item).detail }}</span>
-      </article>
+      <aeris-card padding="none">
+        <div
+          aerisCardMedia
+          class="destination-card__media"
+          [attr.data-tone]="$any(item).tone"
+        >
+          <strong>{{ $any(item).name }}</strong>
+          <span>{{ $any(item).detail }}</span>
+        </div>
+      </aeris-card>
     </ng-template>
   </aeris-carousel>
 </div>
@@ -67537,13 +67535,13 @@ export class CarouselVerticalDemo {
 ###### CSS
 
 ```css
-.destination-card {
+.destination-card__media {
   position: relative;
   display: grid;
   align-content: end;
   min-height: 19rem;
   padding: 1.25rem;
-  border-radius: var(--aeris-radius-lg);
+  border-radius: inherit;
   background-color: var(--aeris-surface-2);
   background-position: center;
   background-size: cover;
@@ -67551,45 +67549,46 @@ export class CarouselVerticalDemo {
   overflow: hidden;
 }
 
-.destination-card::before {
+.destination-card__media::before {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));
   content: "";
 }
 
-.destination-card strong, .destination-card span {
+.destination-card__media strong,
+.destination-card__media span {
   position: relative;
   display: block;
 }
 
-.destination-card strong {
+.destination-card__media strong {
   font-size: 1.25rem;
 }
 
-.destination-card span {
+.destination-card__media span {
   margin-top: 0.35rem;
   color: rgba(255, 255, 255, 0.86);
   line-height: 1.5;
 }
 
-.destination-card[data-tone=sage] {
+.destination-card__media[data-tone=sage] {
   background-image: url("/puppies/puppy1.jpg");
 }
 
-.destination-card[data-tone=blue] {
+.destination-card__media[data-tone=blue] {
   background-image: url("/puppies/puppy2.jpg");
 }
 
-.destination-card[data-tone=gold] {
+.destination-card__media[data-tone=gold] {
   background-image: url("/puppies/puppy3.jpg");
 }
 
-.destination-card[data-tone=rose] {
+.destination-card__media[data-tone=rose] {
   background-image: url("/puppies/puppy4.jpg");
 }
 
-.destination-card[data-tone=sky] {
+.destination-card__media[data-tone=sky] {
   background-image: url("/puppies/puppy5.jpg");
 }
 ```
@@ -67602,6 +67601,7 @@ Hide navigators or indicators when adjacent controls already manage the collecti
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisCarouselModule } from '@aeris-ui/core/carousel';
 
 interface Destination {
@@ -67612,7 +67612,7 @@ interface Destination {
 
 @Component({
   selector: 'app-carousel-minimal-demo',
-  imports: [AerisCarouselModule],
+  imports: [AerisCardModule, AerisCarouselModule],
   templateUrl: './carousel-minimal.demo.html',
   styleUrl: './carousel-minimal.demo.scss'
 })
@@ -67639,10 +67639,16 @@ export class CarouselMinimalDemo {
     ariaLabel="Minimal destinations"
   >
     <ng-template aerisCarouselItem let-item>
-      <article class="destination-card" [attr.data-tone]="$any(item).tone">
-        <strong>{{ $any(item).name }}</strong>
-        <span>{{ $any(item).detail }}</span>
-      </article>
+      <aeris-card padding="none">
+        <div
+          aerisCardMedia
+          class="destination-card__media"
+          [attr.data-tone]="$any(item).tone"
+        >
+          <strong>{{ $any(item).name }}</strong>
+          <span>{{ $any(item).detail }}</span>
+        </div>
+      </aeris-card>
     </ng-template>
   </aeris-carousel>
 </div>
@@ -67651,13 +67657,13 @@ export class CarouselMinimalDemo {
 ###### CSS
 
 ```css
-.destination-card {
+.destination-card__media {
   position: relative;
   display: grid;
   align-content: end;
   min-height: 19rem;
   padding: 1.25rem;
-  border-radius: var(--aeris-radius-lg);
+  border-radius: inherit;
   background-color: var(--aeris-surface-2);
   background-position: center;
   background-size: cover;
@@ -67665,45 +67671,46 @@ export class CarouselMinimalDemo {
   overflow: hidden;
 }
 
-.destination-card::before {
+.destination-card__media::before {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));
   content: "";
 }
 
-.destination-card strong, .destination-card span {
+.destination-card__media strong,
+.destination-card__media span {
   position: relative;
   display: block;
 }
 
-.destination-card strong {
+.destination-card__media strong {
   font-size: 1.25rem;
 }
 
-.destination-card span {
+.destination-card__media span {
   margin-top: 0.35rem;
   color: rgba(255, 255, 255, 0.86);
   line-height: 1.5;
 }
 
-.destination-card[data-tone=sage] {
+.destination-card__media[data-tone=sage] {
   background-image: url("/puppies/puppy1.jpg");
 }
 
-.destination-card[data-tone=blue] {
+.destination-card__media[data-tone=blue] {
   background-image: url("/puppies/puppy2.jpg");
 }
 
-.destination-card[data-tone=gold] {
+.destination-card__media[data-tone=gold] {
   background-image: url("/puppies/puppy3.jpg");
 }
 
-.destination-card[data-tone=rose] {
+.destination-card__media[data-tone=rose] {
   background-image: url("/puppies/puppy4.jpg");
 }
 
-.destination-card[data-tone=sky] {
+.destination-card__media[data-tone=sky] {
   background-image: url("/puppies/puppy5.jpg");
 }
 ```
@@ -74789,11 +74796,12 @@ Mirror the final card hierarchy to minimize layout movement when content arrives
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
 
 @Component({
   selector: 'app-skeleton-card-demo',
-  imports: [AerisSkeletonModule],
+  imports: [AerisCardModule, AerisSkeletonModule],
   templateUrl: './skeleton-card.demo.html',
   styleUrl: './skeleton-card.demo.scss'
 })
@@ -74805,21 +74813,28 @@ export class SkeletonCardDemo {
 
 ```html
 <div>
-  <article class="skeleton-card" aria-busy="true" aria-label="Loading article card">
-    <aeris-skeleton shape="rectangle" height="10rem" />
-    <div class="skeleton-card__header">
-      <aeris-skeleton shape="circle" width="2.5rem" />
-      <div class="skeleton-card__lines">
-        <aeris-skeleton width="55%" />
-        <aeris-skeleton width="35%" height="0.625rem" />
+  <aeris-card
+    class="skeleton-card"
+    role="article"
+    aria-busy="true"
+    ariaLabel="Loading article card"
+  >
+    <div class="skeleton-card__body">
+      <aeris-skeleton shape="rectangle" height="10rem" />
+      <div class="skeleton-card__header">
+        <aeris-skeleton shape="circle" width="2.5rem" />
+        <div class="skeleton-card__lines">
+          <aeris-skeleton width="55%" />
+          <aeris-skeleton width="35%" height="0.625rem" />
+        </div>
+      </div>
+      <div class="skeleton-card__body">
+        <aeris-skeleton />
+        <aeris-skeleton width="92%" />
+        <aeris-skeleton width="68%" />
       </div>
     </div>
-    <div class="skeleton-card__body">
-      <aeris-skeleton />
-      <aeris-skeleton width="92%" />
-      <aeris-skeleton width="68%" />
-    </div>
-  </article>
+  </aeris-card>
 </div>
 ```
 
@@ -74837,12 +74852,6 @@ export class SkeletonCardDemo {
 
 .skeleton-card {
   max-width: 24rem;
-  display: grid;
-  gap: 1rem;
-  padding: 1rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-lg);
-  background: var(--aeris-surface);
 }
 
 .skeleton-card__header {
@@ -74861,42 +74870,54 @@ Responsive grid cells retain their intended dimensions at narrow widths.
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
 
 @Component({
   selector: 'app-skeleton-grid-demo',
-  imports: [AerisSkeletonModule],
-  template: `
-    <div>
-      <div class="skeleton-grid" aria-busy="true" aria-label="Loading project grid">
-        @for (item of [1, 2, 3]; track item) {
-          <div class="skeleton-grid__card">
-            <aeris-skeleton shape="rectangle" height="7rem" />
-            <aeris-skeleton width="72%" />
-            <aeris-skeleton width="48%" height="0.625rem" />
-          </div>
-        }
-      </div>
-    </div>
-  `,
-  styles: `
-    .skeleton-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
-      gap: 1rem;
-    }
-
-    .skeleton-grid__card {
-      min-width: 0;
-      display: grid;
-      gap: 0.75rem;
-      padding: 0.875rem;
-      border: 1px solid var(--aeris-border);
-      border-radius: var(--aeris-radius-lg);
-    }
-  `
+  imports: [AerisCardModule, AerisSkeletonModule],
+  templateUrl: './skeleton-grid.demo.html',
+  styleUrl: './skeleton-grid.demo.scss'
 })
 export class SkeletonGridDemo {
+}
+```
+
+###### HTML
+
+```html
+<div>
+  <div
+    class="skeleton-grid"
+    role="group"
+    aria-busy="true"
+    aria-label="Loading project grid"
+  >
+    @for (item of [1, 2, 3]; track item) {
+      <aeris-card>
+        <div class="skeleton-grid__content">
+          <aeris-skeleton shape="rectangle" height="7rem" />
+          <aeris-skeleton width="72%" />
+          <aeris-skeleton width="48%" height="0.625rem" />
+        </div>
+      </aeris-card>
+    }
+  </div>
+</div>
+```
+
+###### CSS
+
+```css
+.skeleton-grid__content {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  gap: 1rem;
 }
 ```
 
@@ -74975,83 +74996,44 @@ Preserve real table semantics and contain dense layouts on mobile.
 ```ts
 import { Component } from '@angular/core';
 import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
+import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
 
 @Component({
   selector: 'app-skeleton-table-demo',
-  imports: [AerisSkeletonModule],
-  templateUrl: './skeleton-table.demo.html',
-  styleUrl: './skeleton-table.demo.scss'
+  imports: [AerisSkeletonModule, AerisTableModule],
+  template: `
+    <div>
+      <aeris-table
+        caption="Loading product inventory"
+        aria-busy="true"
+        [data]="tableRows"
+        [columns]="tableColumns"
+        [hoverable]="false"
+        [rowNavigation]="false"
+      >
+        <ng-template aerisTableCell let-column="column">
+          <aeris-skeleton [width]="tableWidths[column.field]" />
+        </ng-template>
+      </aeris-table>
+    </div>
+  `
 })
 export class SkeletonTableDemo {
-}
-```
+  protected readonly tableRows: readonly AerisTableData[] = [{ id: 1 }, { id: 2 }, { id: 3 }];
 
-###### HTML
+  protected readonly tableColumns: readonly AerisTableColumn[] = [
+      { field: 'code', header: 'Code' },
+      { field: 'name', header: 'Name' },
+      { field: 'category', header: 'Category' },
+      { field: 'quantity', header: 'Quantity' },
+    ];
 
-```html
-<div>
-  <div class="skeleton-table-wrap">
-    <table class="skeleton-table" aria-busy="true">
-      <caption class="skeleton-status">Loading product inventory</caption>
-      <thead>
-        <tr>
-          <th>Code</th>
-          <th>Name</th>
-          <th>Category</th>
-          <th>Quantity</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (item of [1, 2, 3]; track item) {
-          <tr>
-            <td><aeris-skeleton width="5rem" /></td>
-            <td><aeris-skeleton width="9rem" /></td>
-            <td><aeris-skeleton width="7rem" /></td>
-            <td><aeris-skeleton width="3rem" /></td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-</div>
-```
-
-###### CSS
-
-```css
-.skeleton-status {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-.skeleton-table-wrap {
-  max-width: 100%;
-  overflow-x: auto;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-lg);
-}
-
-.skeleton-table {
-  width: 100%;
-  min-width: 34rem;
-  border-collapse: collapse;
-}
-
-.skeleton-table th,
-.skeleton-table td {
-  padding: 0.875rem;
-  border-bottom: 1px solid var(--aeris-border);
-  text-align: start;
-}
-
-.skeleton-table th {
-  color: var(--aeris-text-2);
-  font-size: 0.75rem;
-  text-transform: uppercase;
+  protected readonly tableWidths: Readonly<Record<string, string>> = {
+      code: '5rem',
+      name: '9rem',
+      category: '7rem',
+      quantity: '3rem',
+    };
 }
 ```
 
@@ -79132,11 +79114,12 @@ Add or remove one or more application classes on a related target.
 ```ts
 import { Component } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisStyleClassModule } from '@aeris-ui/core/style-class';
 
 @Component({
   selector: 'app-style-class-toggle-demo',
-  imports: [AerisButton, AerisStyleClassModule],
+  imports: [AerisButton, AerisCardModule, AerisStyleClassModule],
   templateUrl: './style-class-toggle.demo.html',
   styleUrl: './style-class-toggle.demo.scss'
 })
@@ -79157,9 +79140,9 @@ export class StyleClassToggleDemo {
     >
       Toggle emphasis
     </button>
-    <article class="style-toggle-card">
+    <aeris-card class="style-toggle-card">
       This card is styled by a class on the next sibling target.
-    </article>
+    </aeris-card>
   </div>
 </div>
 ```
@@ -79173,23 +79156,18 @@ export class StyleClassToggleDemo {
   justify-items: start;
 }
 
-.style-toggle-card {
-  width: min(100%, 34rem);
-  padding: 1rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-lg);
-  background: var(--aeris-surface-2);
+.style-toggle-card { width: min(100%, 34rem);
   transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
 }
 
 .style-toggle-card--active {
-  border-color: var(--aeris-primary);
-  background: var(--aeris-primary-soft);
+  --aeris-card-border: var(--aeris-primary);
+  --aeris-card-background: var(--aeris-primary-soft);
   transform: translateY(-0.125rem);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .style-toggle-card {
+  .style-toggle-card { width: min(100%, 34rem);
     transition: none;
   }
 }
@@ -79208,32 +79186,9 @@ export class StyleClassToggleDemo {
   justify-items: start;
 }
 
-.style-toggle-card,
-.style-animation-panel,
-.style-resize-panel,
-.style-method-notice {
-  width: min(100%, 34rem);
-  padding: 1rem;
-  border-radius: var(--aeris-radius-lg);
-}
-
-.style-toggle-card,
-.style-animation-panel,
-.style-resize-panel {
-  border: 1px solid var(--aeris-border);
-  background: var(--aeris-surface-2);
-}
-
 .style-toggle-card {
+  width: min(100%, 34rem);
   transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .style-toggle-card,
-    .style-enter-active,
-    .style-leave-active {
-      transition: none;
-    }
 }
 ```
 
@@ -79350,7 +79305,6 @@ export class StyleClassAnimationDemo {
   justify-items: start;
 }
 
-.style-toggle-card,
 .style-animation-panel,
 .style-resize-panel,
 .style-method-notice {
@@ -79359,7 +79313,6 @@ export class StyleClassAnimationDemo {
   border-radius: var(--aeris-radius-lg);
 }
 
-.style-toggle-card,
 .style-animation-panel,
 .style-resize-panel {
   border: 1px solid var(--aeris-border);
@@ -79597,7 +79550,6 @@ export class StyleClassResizeDemo {
   justify-items: start;
 }
 
-.style-toggle-card,
 .style-animation-panel,
 .style-resize-panel,
 .style-method-notice {
@@ -79606,7 +79558,6 @@ export class StyleClassResizeDemo {
   border-radius: var(--aeris-radius-lg);
 }
 
-.style-toggle-card,
 .style-animation-panel,
 .style-resize-panel {
   border: 1px solid var(--aeris-border);
@@ -79745,7 +79696,6 @@ export class StyleClassMethodsDemo {
   gap: 0.875rem;
 }
 
-.style-toggle-card,
 .style-animation-panel,
 .style-resize-panel,
 .style-method-notice {

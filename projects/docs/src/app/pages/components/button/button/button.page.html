@@ -360,66 +360,74 @@
               Applied to <code>button[aerisButton]</code> and <code>a[aerisButton]</code>. Native
               properties and events remain available directly.
             </p>
-            <div
-              class="api-table"
-              role="table"
-              aria-label="AerisButton directive inputs"
-              tabindex="0"
-            >
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="AerisButton directive inputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of directiveInputs; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
 
             <h3 id="api-component-inputs" tabindex="-1">AerisButtonComponent inputs</h3>
-            <div
-              class="api-table"
-              role="table"
-              aria-label="AerisButtonComponent inputs"
-              tabindex="0"
-            >
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="AerisButtonComponent inputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of componentInputs; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
 
             <h3 id="api-emitters" tabindex="-1">Emitters</h3>
-            <div class="api-table compact" role="table" aria-label="Button emitters" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Description</b>
-              </div>
-              <div role="row">
-                <code role="cell">clicked</code><span role="cell">MouseEvent</span
-                ><span role="cell">Emits when the wrapper's native button is activated.</span>
-              </div>
-              <div role="row">
-                <code role="cell">focused</code><span role="cell">FocusEvent</span
-                ><span role="cell">Emits when the internal button receives focus.</span>
-              </div>
-              <div role="row">
-                <code role="cell">blurred</code><span role="cell">FocusEvent</span
-                ><span role="cell">Emits when the internal button loses focus.</span>
-              </div>
-            </div>
+            <app-reference-table class="api-table compact" caption="Button emitters">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Description" />
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>clicked</code></ng-template
+                ><ng-template appReferenceCell><span>MouseEvent</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Emits when the wrapper's native button is activated.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>focused</code></ng-template
+                ><ng-template appReferenceCell><span>FocusEvent</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Emits when the internal button receives focus.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>blurred</code></ng-template
+                ><ng-template appReferenceCell><span>FocusEvent</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Emits when the internal button loses focus.</span></ng-template
+                >
+              </ng-container>
+            </app-reference-table>
 
             <h3 id="api-toggle" tabindex="-1">Toggle directive</h3>
             <p>
@@ -434,42 +442,53 @@
               exposes aria-pressed, not checkbox semantics. Do not register both a group form
               control and child toggle form controls.
             </p>
-            <div class="api-table" role="table" aria-label="Button toggle API" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="Button toggle API">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of toggleApi; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
             <h3 id="api-templates" tabindex="-1">Templates</h3>
-            <div class="api-table compact" role="table" aria-label="Button templates" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Context</b
-                ><b role="columnheader">Description</b>
-              </div>
-              <div role="row">
-                <code role="cell">contentTemplate</code
-                ><span role="cell">AerisButtonContentTemplateContext</span
-                ><span role="cell">Replaces label, icon, badge, and projected content.</span>
-              </div>
-              <div role="row">
-                <code role="cell">iconTemplate</code
-                ><span role="cell">AerisButtonIconTemplateContext</span
-                ><span role="cell">Renders the idle icon.</span>
-              </div>
-              <div role="row">
-                <code role="cell">loadingIconTemplate</code
-                ><span role="cell">AerisButtonIconTemplateContext</span
-                ><span role="cell">Replaces the default loading spinner.</span>
-              </div>
-            </div>
+            <app-reference-table class="api-table compact" caption="Button templates">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Context" />
+              <ng-template appReferenceHeader="Description" />
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>contentTemplate</code></ng-template
+                ><ng-template appReferenceCell
+                  ><span>AerisButtonContentTemplateContext</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Replaces label, icon, badge, and projected content.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>iconTemplate</code></ng-template
+                ><ng-template appReferenceCell
+                  ><span>AerisButtonIconTemplateContext</span></ng-template
+                ><ng-template appReferenceCell><span>Renders the idle icon.</span></ng-template>
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>loadingIconTemplate</code></ng-template
+                ><ng-template appReferenceCell
+                  ><span>AerisButtonIconTemplateContext</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Replaces the default loading spinner.</span></ng-template
+                >
+              </ng-container>
+            </app-reference-table>
           </div>
           <app-page-toc title="API" ariaLabel="Button API on this page" [links]="apiLinks" />
         </div>
@@ -486,109 +505,124 @@
     <aeris-tab-panel value="tokens" label="Tokens">
       <section id="tokens" class="doc-section">
         <h2>Design tokens</h2>
-        <div
-          class="api-table compact"
-          role="table"
-          aria-label="Button selection tokens"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
-            ><b role="columnheader">Fallback</b>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-button-selected-background</code
-            ><span role="cell">Selected toggle/group item background.</span
-            ><code role="cell">severity active fill</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-button-selected-color</code
-            ><span role="cell">Selected toggle/group item foreground.</span
-            ><code role="cell">severity on-active</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-button-selected-border</code
-            ><span role="cell">Selected toggle/group item boundary.</span
-            ><code role="cell">severity boundary</code>
-          </div>
-        </div>
-        <div class="api-table compact" role="table" aria-label="Button design tokens" tabindex="0">
-          <div class="api-head" role="row">
-            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
-            ><b role="columnheader">Fallback</b>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-primary</code
-            ><span role="cell">Primary button background.</span><code role="cell">#2c694b</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-primary-boundary</code
-            ><span role="cell"
-              >Solid and outline button boundary, independently configurable for inverse
-              treatments.</span
-            ><code role="cell">--aeris-primary</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-primary-hover</code
-            ><span role="cell">Primary hover background, derived from the primary base.</span
-            ><code role="cell">derived</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-primary-active</code
-            ><span role="cell">Primary pressed background.</span><code role="cell">derived</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-on-primary</code
-            ><span role="cell">Contrasting foreground on the primary base.</span
-            ><code role="cell">calculated</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-on-primary-hover</code
-            ><span role="cell">Contrasting foreground on the primary hover background.</span
-            ><code role="cell">calculated</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-primary-text</code
-            ><span role="cell"
-              >Readable primary-colored text for outline, ghost, and link variants.</span
-            ><code role="cell">calculated</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-primary-soft</code
-            ><span role="cell">Low-emphasis primary background used by ghost hover states.</span
-            ><code role="cell">derived</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-on-primary-soft</code
-            ><span role="cell">Readable foreground on the primary soft background.</span
-            ><code role="cell">calculated</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-success-* / --aeris-info-* / ...</code
-            ><span role="cell"
-              >The same state roles are available for secondary, success, info, warning, danger, and
-              contrast.</span
-            ><code role="cell">derived</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-control-height</code
-            ><span role="cell">Medium control height and density anchor.</span
-            ><code role="cell">2.625rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-button-icon-size</code
-            ><span role="cell">Projected SVG, image, or marked custom icon size.</span
-            ><code role="cell">--aeris-icon-size</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-radius-control</code
-            ><span role="cell">Default button radius.</span><code role="cell">0.4375rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-focus</code><span role="cell">Visible focus indicator.</span
-            ><code role="cell">#536437</code>
-          </div>
-        </div>
+        <app-reference-table class="api-table compact" caption="Button selection tokens">
+          <ng-template appReferenceHeader="Token" />
+          <ng-template appReferenceHeader="Purpose" />
+          <ng-template appReferenceHeader="Fallback" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-button-selected-background</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Selected toggle/group item background.</span></ng-template
+            ><ng-template appReferenceCell><code>severity active fill</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-button-selected-color</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Selected toggle/group item foreground.</span></ng-template
+            ><ng-template appReferenceCell><code>severity on-active</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-button-selected-border</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Selected toggle/group item boundary.</span></ng-template
+            ><ng-template appReferenceCell><code>severity boundary</code></ng-template>
+          </ng-container>
+        </app-reference-table>
+        <app-reference-table class="api-table compact" caption="Button design tokens">
+          <ng-template appReferenceHeader="Token" />
+          <ng-template appReferenceHeader="Purpose" />
+          <ng-template appReferenceHeader="Fallback" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-primary</code></ng-template
+            ><ng-template appReferenceCell><span>Primary button background.</span></ng-template
+            ><ng-template appReferenceCell><code>#2c694b</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-primary-boundary</code></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Solid and outline button boundary, independently configurable for inverse
+                treatments.</span
+              ></ng-template
+            ><ng-template appReferenceCell><code>--aeris-primary</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-primary-hover</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Primary hover background, derived from the primary base.</span></ng-template
+            ><ng-template appReferenceCell><code>derived</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-primary-active</code></ng-template
+            ><ng-template appReferenceCell><span>Primary pressed background.</span></ng-template
+            ><ng-template appReferenceCell><code>derived</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-on-primary</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Contrasting foreground on the primary base.</span></ng-template
+            ><ng-template appReferenceCell><code>calculated</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-on-primary-hover</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Contrasting foreground on the primary hover background.</span></ng-template
+            ><ng-template appReferenceCell><code>calculated</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-primary-text</code></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Readable primary-colored text for outline, ghost, and link variants.</span
+              ></ng-template
+            ><ng-template appReferenceCell><code>calculated</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-primary-soft</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Low-emphasis primary background used by ghost hover states.</span></ng-template
+            ><ng-template appReferenceCell><code>derived</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-on-primary-soft</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Readable foreground on the primary soft background.</span></ng-template
+            ><ng-template appReferenceCell><code>calculated</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-success-* / --aeris-info-* / ...</code></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >The same state roles are available for secondary, success, info, warning, danger,
+                and contrast.</span
+              ></ng-template
+            ><ng-template appReferenceCell><code>derived</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-control-height</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Medium control height and density anchor.</span></ng-template
+            ><ng-template appReferenceCell><code>2.625rem</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-button-icon-size</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Projected SVG, image, or marked custom icon size.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-icon-size</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-radius-control</code></ng-template
+            ><ng-template appReferenceCell><span>Default button radius.</span></ng-template
+            ><ng-template appReferenceCell><code>0.4375rem</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-focus</code></ng-template
+            ><ng-template appReferenceCell><span>Visible focus indicator.</span></ng-template
+            ><ng-template appReferenceCell><code>#536437</code></ng-template>
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
 
@@ -624,29 +658,31 @@
           <li>Do not communicate meaning through severity color alone.</li>
         </ul>
         <h3>Keyboard support</h3>
-        <div
-          class="api-table keyboard-table"
-          role="table"
-          aria-label="Button keyboard support"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Key</b><b role="columnheader">Function</b>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></span
-            ><span role="cell">Moves focus to the next or previous enabled button or link.</span>
-          </div>
-          <div role="row">
-            <kbd role="cell">Enter</kbd><span role="cell">Activates a focused button or link.</span>
-          </div>
-          <div role="row">
-            <kbd role="cell">Space</kbd
-            ><span role="cell"
-              >Activates a focused native button. Links retain native link behavior.</span
+        <app-reference-table class="api-table keyboard-table" caption="Button keyboard support">
+          <ng-template appReferenceHeader="Key" />
+          <ng-template appReferenceHeader="Function" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Moves focus to the next or previous enabled button or link.</span></ng-template
             >
-          </div>
-        </div>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Enter</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span>Activates a focused button or link.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Space</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Activates a focused native button. Links retain native link behavior.</span
+              ></ng-template
+            >
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
   </aeris-tabs>

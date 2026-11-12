@@ -240,7 +240,13 @@
               description="Keep one selectedKeys model for counts and bulk actions across pages and filters. Use the column menu to hide or restore fields, or reorder visible headers with their keyboard controls."
             >
               <div preview class="selection-workflow">
-                <aeris-toolbar fluid wrap variant="plain" role="group" ariaLabel="Member bulk actions">
+                <aeris-toolbar
+                  fluid
+                  wrap
+                  variant="plain"
+                  role="group"
+                  ariaLabel="Member bulk actions"
+                >
                   <span aerisToolbarStart aria-live="polite"
                     >{{ workflowSelected().length }} selected across all pages</span
                   >
@@ -1163,76 +1169,98 @@
         <div class="doc-content-layout">
           <div class="doc-content-main">
             <h3 id="table-api-inputs" tabindex="-1">Inputs</h3>
-            <div class="api-table" role="table" aria-label="Table inputs" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="Table inputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of inputs; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
 
             <h3 id="table-api-outputs" tabindex="-1">Outputs</h3>
-            <div class="api-table" role="table" aria-label="Table outputs" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Payload</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="Table outputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Payload" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of outputs; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
 
             <h3 id="table-api-templates" tabindex="-1">Templates</h3>
-            <div class="api-table compact" role="table" aria-label="Table templates" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Directive</b><b role="columnheader">Context</b
-                ><b role="columnheader">Description</b>
-              </div>
-              <div role="row">
-                <code role="cell">aerisTableHeader</code><span role="cell">column</span
-                ><span role="cell">Custom header content.</span>
-              </div>
-              <div role="row">
-                <code role="cell">aerisTableCell</code
-                ><span role="cell">value, row, column, rowIndex</span
-                ><span role="cell"
-                  >Custom body content outside editing. Use aerisTableEditor to replace the editing
-                  view.</span
+            <app-reference-table class="api-table compact" caption="Table templates">
+              <ng-template appReferenceHeader="Directive" />
+              <ng-template appReferenceHeader="Context" />
+              <ng-template appReferenceHeader="Description" />
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>aerisTableHeader</code></ng-template
+                ><ng-template appReferenceCell><span>column</span></ng-template
+                ><ng-template appReferenceCell><span>Custom header content.</span></ng-template>
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>aerisTableCell</code></ng-template
+                ><ng-template appReferenceCell
+                  ><span>value, row, column, rowIndex</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Custom body content outside editing. Use aerisTableEditor to replace the
+                    editing view.</span
+                  ></ng-template
                 >
-              </div>
-              <div role="row">
-                <code role="cell">aerisTableEditor</code
-                ><span role="cell">editor ($implicit), row, column, rowIndex</span>
-                <span role="cell"
-                  >Custom editing view. Included in AerisTableModule and
-                  AerisTableContextMenuModule; no additional table import.</span
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>aerisTableEditor</code></ng-template
+                ><ng-template appReferenceCell
+                  ><span>editor ($implicit), row, column, rowIndex</span></ng-template
                 >
-              </div>
-              <div role="row">
-                <code role="cell">aerisTableExpansion</code><span role="cell">row, rowIndex</span
-                ><span role="cell">Expandable detail row content.</span>
-              </div>
-              <div role="row">
-                <code role="cell">aerisTableEmpty</code><span role="cell">none</span
-                ><span role="cell">Custom empty state.</span>
-              </div>
-              <div role="row">
-                <code role="cell">aerisTableLoading</code><span role="cell">none</span
-                ><span role="cell">Custom loading state.</span>
-              </div>
-            </div>
+                <ng-template appReferenceCell
+                  ><span
+                    >Custom editing view. Included in AerisTableModule and
+                    AerisTableContextMenuModule; no additional table import.</span
+                  ></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>aerisTableExpansion</code></ng-template
+                ><ng-template appReferenceCell><span>row, rowIndex</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Expandable detail row content.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>aerisTableEmpty</code></ng-template
+                ><ng-template appReferenceCell><span>none</span></ng-template
+                ><ng-template appReferenceCell><span>Custom empty state.</span></ng-template>
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>aerisTableLoading</code></ng-template
+                ><ng-template appReferenceCell><span>none</span></ng-template
+                ><ng-template appReferenceCell><span>Custom loading state.</span></ng-template>
+              </ng-container>
+            </app-reference-table>
 
             <h3>Custom editor state</h3>
             <p>
@@ -1243,58 +1271,76 @@
               new cell immediately. Portaled controls must link their panels with aria-controls or
               aria-owns.
             </p>
-            <div class="api-table" role="table" aria-label="Table custom editor state" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Member</b><b role="columnheader">Type</b
-                ><b role="columnheader">Behavior</b>
-              </div>
-              <div role="row">
-                <code role="cell">value</code><code role="cell">WritableSignal&lt;unknown&gt;</code
-                ><span role="cell"
-                  >Draft value. Replace it with value.set(next); preserve number, boolean, Date,
-                  array, object, or null types.</span
+            <app-reference-table class="api-table" caption="Table custom editor state">
+              <ng-template appReferenceHeader="Member" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Behavior" />
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>value</code></ng-template
+                ><ng-template appReferenceCell
+                  ><code>WritableSignal&lt;unknown&gt;</code></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Draft value. Replace it with value.set(next); preserve number, boolean, Date,
+                    array, object, or null types.</span
+                  ></ng-template
                 >
-              </div>
-              <div role="row">
-                <code role="cell">originalValue</code><code role="cell">unknown</code
-                ><span role="cell"
-                  >Value at edit start. Treat objects and dates as immutable; no deep cloning is
-                  performed.</span
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>originalValue</code></ng-template
+                ><ng-template appReferenceCell><code>unknown</code></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Value at edit start. Treat objects and dates as immutable; no deep cloning is
+                    performed.</span
+                  ></ng-template
                 >
-              </div>
-              <div role="row">
-                <code role="cell">valid</code><code role="cell">WritableSignal&lt;boolean&gt;</code>
-                <span role="cell"
-                  >Whether the draft may commit. Defaults to true. Update this from your form
-                  validation; invalid drafts stay open on blur and are discarded when switching
-                  cells.</span
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>valid</code></ng-template
+                ><ng-template appReferenceCell
+                  ><code>WritableSignal&lt;boolean&gt;</code></ng-template
                 >
-              </div>
-              <div role="row">
-                <code role="cell">ariaLabel</code><code role="cell">string</code
-                ><span role="cell"
-                  >Default accessible name: Edit followed by the column header. Bind it to your
-                  editor control.</span
+                <ng-template appReferenceCell
+                  ><span
+                    >Whether the draft may commit. Defaults to true. Update this from your form
+                    validation; invalid drafts stay open on blur and are discarded when switching
+                    cells.</span
+                  ></ng-template
                 >
-              </div>
-              <div role="row">
-                <code role="cell">commit(event?)</code
-                ><code role="cell">(event?: Event) =&gt; void</code
-                ><span role="cell"
-                  >Saves a valid draft and finishes editing. Also runs automatically when focus or a
-                  pointer leaves the owned editor, or on an unconsumed Enter outside multiline
-                  fields.</span
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>ariaLabel</code></ng-template
+                ><ng-template appReferenceCell><code>string</code></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Default accessible name: Edit followed by the column header. Bind it to your
+                    editor control.</span
+                  ></ng-template
                 >
-              </div>
-              <div role="row">
-                <code role="cell">cancel(event?)</code
-                ><code role="cell">(event?: Event) =&gt; void</code
-                ><span role="cell"
-                  >Discards the draft and finishes editing. Escape also cancels unless a child
-                  control consumes it or has an open picker.</span
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>commit(event?)</code></ng-template
+                ><ng-template appReferenceCell><code>(event?: Event) =&gt; void</code></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Saves a valid draft and finishes editing. Also runs automatically when focus or
+                    a pointer leaves the owned editor, or on an unconsumed Enter outside multiline
+                    fields.</span
+                  ></ng-template
                 >
-              </div>
-            </div>
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>cancel(event?)</code></ng-template
+                ><ng-template appReferenceCell><code>(event?: Event) =&gt; void</code></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Discards the draft and finishes editing. Escape also cancels unless a child
+                    control consumes it or has an open picker.</span
+                  ></ng-template
+                >
+              </ng-container>
+            </app-reference-table>
             <h3 id="table-api-methods" tabindex="-1">Methods</h3>
             <p>
               Row reordering requires a unique, non-empty string or finite number in rowKeyField for
@@ -1304,86 +1350,127 @@
               row order: persist the data array in your application. TreeTable hierarchical
               reordering is not supported.
             </p>
-            <div class="api-table compact" role="table" aria-label="Table methods" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Returns</b
-                ><b role="columnheader">Description</b>
-              </div>
-              <div role="row">
-                <code role="cell">moveRow(fromIndex, toIndex, originalEvent?)</code
-                ><span role="cell">boolean</span
-                ><span role="cell"
-                  >Moves a row using zero-based data indices; returns false without events for
-                  invalid, disabled, or unsupported moves. The optional Event defaults to
-                  null.</span
+            <app-reference-table class="api-table compact" caption="Table methods">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Returns" />
+              <ng-template appReferenceHeader="Description" />
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell
+                  ><code>moveRow(fromIndex, toIndex, originalEvent?)</code></ng-template
+                ><ng-template appReferenceCell><span>boolean</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Moves a row using zero-based data indices; returns false without events for
+                    invalid, disabled, or unsupported moves. The optional Event defaults to
+                    null.</span
+                  ></ng-template
                 >
-              </div>
-              <div role="row">
-                <code role="cell">reset()</code><span role="cell">void</span
-                ><span role="cell"
-                  >Clears sort, filter, pagination, selection, and expansion state.</span
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>reset()</code></ng-template
+                ><ng-template appReferenceCell><span>void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Clears sort, filter, pagination, selection, and expansion state.</span
+                  ></ng-template
                 >
-              </div>
-              <div role="row">
-                <code role="cell">clearSort()</code><span role="cell">void</span
-                ><span role="cell">Clears the current sort state and emits sorted.</span>
-              </div>
-              <div role="row">
-                <code role="cell">clearFilters()</code><span role="cell">void</span
-                ><span role="cell"
-                  >Clears global and column filters, resets to first page, and emits filtered.</span
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>clearSort()</code></ng-template
+                ><ng-template appReferenceCell><span>void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Clears the current sort state and emits sorted.</span></ng-template
                 >
-              </div>
-              <div role="row">
-                <code role="cell">clearSelection()</code><span role="cell">void</span
-                ><span role="cell">Clears selected row keys.</span>
-              </div>
-              <div role="row">
-                <code role="cell">clearContextMenuRow()</code><span role="cell">void</span
-                ><span role="cell">Clears the row associated with the bound context menu.</span>
-              </div>
-              <div role="row">
-                <code role="cell">clearExpandedRows()</code><span role="cell">void</span
-                ><span role="cell">Closes every expanded row.</span>
-              </div>
-              <div role="row">
-                <code role="cell">selectRows(keys)</code><span role="cell">void</span
-                ><span role="cell"
-                  >Selects rows by key when the keys exist in the current data.</span
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>clearFilters()</code></ng-template
+                ><ng-template appReferenceCell><span>void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Clears global and column filters, resets to first page, and emits
+                    filtered.</span
+                  ></ng-template
                 >
-              </div>
-              <div role="row">
-                <code role="cell">expandRow(rowOrKey)</code><span role="cell">void</span
-                ><span role="cell">Opens a detail row programmatically.</span>
-              </div>
-              <div role="row">
-                <code role="cell">collapseRow(rowOrKey)</code><span role="cell">void</span
-                ><span role="cell">Closes a detail row programmatically.</span>
-              </div>
-              <div role="row">
-                <code role="cell">filter(value)</code><span role="cell">void</span
-                ><span role="cell">Updates the global filter programmatically.</span>
-              </div>
-              <div role="row">
-                <code role="cell">filterColumn(field, value)</code><span role="cell">void</span
-                ><span role="cell">Updates a column filter programmatically.</span>
-              </div>
-              <div role="row">
-                <code role="cell">saveState()</code><span role="cell">AerisTableState</span
-                ><span role="cell">Serializes table state owned by Aeris Table.</span>
-              </div>
-              <div role="row">
-                <code role="cell">restoreState(state)</code><span role="cell">void</span
-                ><span role="cell">Restores table state owned by Aeris Table.</span>
-              </div>
-              <div role="row">
-                <code role="cell">exportCSV(options?)</code><span role="cell">string</span
-                ><span role="cell"
-                  >Creates formula-neutralized, quoted CSV from all, filtered, or visible rows and
-                  optionally starts a download with a sanitized filename.</span
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>clearSelection()</code></ng-template
+                ><ng-template appReferenceCell><span>void</span></ng-template
+                ><ng-template appReferenceCell><span>Clears selected row keys.</span></ng-template>
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>clearContextMenuRow()</code></ng-template
+                ><ng-template appReferenceCell><span>void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Clears the row associated with the bound context menu.</span></ng-template
                 >
-              </div>
-            </div>
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>clearExpandedRows()</code></ng-template
+                ><ng-template appReferenceCell><span>void</span></ng-template
+                ><ng-template appReferenceCell><span>Closes every expanded row.</span></ng-template>
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>selectRows(keys)</code></ng-template
+                ><ng-template appReferenceCell><span>void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Selects rows by key when the keys exist in the current data.</span
+                  ></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>expandRow(rowOrKey)</code></ng-template
+                ><ng-template appReferenceCell><span>void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Opens a detail row programmatically.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>collapseRow(rowOrKey)</code></ng-template
+                ><ng-template appReferenceCell><span>void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Closes a detail row programmatically.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>filter(value)</code></ng-template
+                ><ng-template appReferenceCell><span>void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Updates the global filter programmatically.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>filterColumn(field, value)</code></ng-template
+                ><ng-template appReferenceCell><span>void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Updates a column filter programmatically.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>saveState()</code></ng-template
+                ><ng-template appReferenceCell><span>AerisTableState</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Serializes table state owned by Aeris Table.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>restoreState(state)</code></ng-template
+                ><ng-template appReferenceCell><span>void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Restores table state owned by Aeris Table.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>exportCSV(options?)</code></ng-template
+                ><ng-template appReferenceCell><span>string</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Creates formula-neutralized, quoted CSV from all, filtered, or visible rows and
+                    optionally starts a download with a sanitized filename.</span
+                  ></ng-template
+                >
+              </ng-container>
+            </app-reference-table>
           </div>
           <app-page-toc title="API" ariaLabel="Table API on this page" [links]="apiLinks" />
         </div>
@@ -1405,24 +1492,22 @@
           permission is revoked during editing, the draft is cancelled without saving. Read-only
           cells still support normal selection and projected content.
         </p>
-        <div
-          class="api-table compact"
-          role="table"
-          aria-label="Column editing permission"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Property</b><b role="columnheader">Type</b
-            ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-          </div>
-          <div role="row">
-            <code role="cell">AerisTableColumn.editable</code
-            ><code role="cell">boolean | undefined</code><code role="cell">undefined</code
-            ><span role="cell"
-              >Overrides the table default for a column. cellEditable has final priority.</span
+        <app-reference-table class="api-table compact" caption="Column editing permission">
+          <ng-template appReferenceHeader="Property" />
+          <ng-template appReferenceHeader="Type" />
+          <ng-template appReferenceHeader="Default" />
+          <ng-template appReferenceHeader="Description" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>AerisTableColumn.editable</code></ng-template
+            ><ng-template appReferenceCell><code>boolean | undefined</code></ng-template
+            ><ng-template appReferenceCell><code>undefined</code></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Overrides the table default for a column. cellEditable has final priority.</span
+              ></ng-template
             >
-          </div>
-        </div>
+          </ng-container>
+        </app-reference-table>
         <h3>Pinning</h3>
         <p>
           Both tables use stickyHeader, column pinned and the pinnedRows model. Column pinned
@@ -1436,63 +1521,72 @@
           scrolling to leave at least 44px for normal content. Responsive stack mode disables
           sticking. Table expansion detail rows travel with their parent.
         </p>
-        <div class="api-table compact" role="table" aria-label="Column pinning option" tabindex="0">
-          <div class="api-head" role="row">
-            <b role="columnheader">Property</b><b role="columnheader">Type</b
-            ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-          </div>
-          <div role="row">
-            <code role="cell">AerisTableColumn.pinned</code
-            ><code role="cell">'start' | 'end' | undefined</code><code role="cell">undefined</code
-            ><span role="cell"
-              >Pins the column to a logical edge, including its header and filter cell.</span
+        <app-reference-table class="api-table compact" caption="Column pinning option">
+          <ng-template appReferenceHeader="Property" />
+          <ng-template appReferenceHeader="Type" />
+          <ng-template appReferenceHeader="Default" />
+          <ng-template appReferenceHeader="Description" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>AerisTableColumn.pinned</code></ng-template
+            ><ng-template appReferenceCell><code>'start' | 'end' | undefined</code></ng-template
+            ><ng-template appReferenceCell><code>undefined</code></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Pins the column to a logical edge, including its header and filter cell.</span
+              ></ng-template
             >
-          </div>
-        </div>
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
 
     <aeris-tab-panel value="tokens" label="Tokens">
       <section class="doc-section">
         <h2>Design tokens</h2>
-        <div class="api-table compact" role="table" aria-label="Table design tokens" tabindex="0">
-          <div class="api-head" role="row">
-            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
-            ><b role="columnheader">Fallback</b>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-surface</code
-            ><span role="cell">Table and control surface.</span><code role="cell">#fff</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-surface-2</code
-            ><span role="cell">Header, expansion, and alternating row surface.</span
-            ><code role="cell">#f7f5f1</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-border</code
-            ><span role="cell">Outer, row, and gridline borders.</span
-            ><code role="cell">#deddd7</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-text / --aeris-text-2</code
-            ><span role="cell">Cell and secondary text.</span><code role="cell">Aeris theme</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-primary</code
-            ><span role="cell">Selected and hovered row accents.</span
-            ><code role="cell">#2c694b</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-focus</code><span role="cell">Visible focus rings.</span
-            ><code role="cell">#536437</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-table-toggle-size</code
-            ><span role="cell">Expandable-row disclosure button size.</span
-            ><code role="cell">1.25rem</code>
-          </div>
-        </div>
+        <app-reference-table class="api-table compact" caption="Table design tokens">
+          <ng-template appReferenceHeader="Token" />
+          <ng-template appReferenceHeader="Purpose" />
+          <ng-template appReferenceHeader="Fallback" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-surface</code></ng-template
+            ><ng-template appReferenceCell><span>Table and control surface.</span></ng-template
+            ><ng-template appReferenceCell><code>#fff</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-surface-2</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Header, expansion, and alternating row surface.</span></ng-template
+            ><ng-template appReferenceCell><code>#f7f5f1</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-border</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Outer, row, and gridline borders.</span></ng-template
+            ><ng-template appReferenceCell><code>#deddd7</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-text / --aeris-text-2</code></ng-template
+            ><ng-template appReferenceCell><span>Cell and secondary text.</span></ng-template
+            ><ng-template appReferenceCell><code>Aeris theme</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-primary</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Selected and hovered row accents.</span></ng-template
+            ><ng-template appReferenceCell><code>#2c694b</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-focus</code></ng-template
+            ><ng-template appReferenceCell><span>Visible focus rings.</span></ng-template
+            ><ng-template appReferenceCell><code>#536437</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-table-toggle-size</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Expandable-row disclosure button size.</span></ng-template
+            ><ng-template appReferenceCell><code>1.25rem</code></ng-template>
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
 
@@ -1556,98 +1650,136 @@
           cancels. The first available control receives focus on entry; keyboard completion returns
           focus to the cell without stealing focus from outside controls on blur.
         </p>
-        <div
-          class="api-table keyboard-table"
-          role="table"
-          aria-label="Table keyboard support"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Key</b><b role="columnheader">Function</b>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Enter</kbd> / <kbd>F2</kbd> on an editable cell</span>
-            <span role="cell">Starts editing and focuses the first available editor control.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Escape</kbd> while editing</span>
-            <span role="cell"
-              >Cancels the edit after any nested picker has handled its own Escape. Custom editors
-              commit valid drafts when you leave the cell.</span
+        <app-reference-table class="api-table keyboard-table" caption="Table keyboard support">
+          <ng-template appReferenceHeader="Key" />
+          <ng-template appReferenceHeader="Function" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Enter</kbd> / <kbd>F2</kbd> on an editable cell</span></ng-template
             >
-          </div>
-          <div role="row">
-            <kbd role="cell">Tab</kbd
-            ><span role="cell"
-              >Moves through global filter, sortable headers, selection controls, expansion
-              controls, table viewport, and paginator buttons.</span
+            <ng-template appReferenceCell
+              ><span
+                >Starts editing and focuses the first available editor control.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
-            ><span role="cell"
-              >Activates sortable headers, selection controls, expansion controls, and paginator
-              buttons.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Escape</kbd> while editing</span></ng-template
             >
-          </div>
-          <div role="row">
-            <kbd role="cell">Enter</kbd
-            ><span role="cell"
-              >Expands or collapses a focused row when row navigation and expandableRows are
-              enabled.</span
+            <ng-template appReferenceCell
+              ><span
+                >Cancels the edit after any nested picker has handled its own Escape. Custom editors
+                commit valid drafts when you leave the cell.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <kbd role="cell">Space</kbd
-            ><span role="cell"
-              >Selects or deselects a focused row when row navigation and selectionMode are
-              enabled.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Tab</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves through global filter, sortable headers, selection controls, expansion
+                controls, table viewport, and paginator buttons.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <kbd role="cell">Context menu gesture</kbd
-            ><span role="cell"
-              >Opens the configured row context menu when <code>contextMenu</code> is bound and the
-              row is not disabled for context-menu handling.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Enter</kbd> / <kbd>Space</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Activates sortable headers, selection controls, expansion controls, and paginator
+                buttons.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Arrow</kbd> keys</span
-            ><span role="cell"
-              >Use native browser scrolling inside the table viewport when content overflows.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Enter</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Expands or collapses a focused row when row navigation and expandableRows are
+                enabled.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Arrow Left</kbd> / <kbd>Arrow Right</kbd></span
-            ><span role="cell"
-              >Resizes the column beside a focused resize separator in 16-pixel increments.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Space</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Selects or deselects a focused row when row navigation and selectionMode are
+                enabled.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Alt</kbd> + <kbd>Arrow Up</kbd> / <kbd>Arrow Down</kbd></span
-            ><span role="cell"
-              >Moves the row whose reorder handle has focus. Bounds and fixed rows are
-              respected.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Context menu gesture</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Opens the configured row context menu when <code>contextMenu</code> is bound and
+                the row is not disabled for context-menu handling.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd> on a reorder handle</span
-            ><span role="cell"
-              >Picks a source row, then places it at the next activated destination handle.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Arrow</kbd> keys</span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Use native browser scrolling inside the table viewport when content
+                overflows.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <kbd role="cell">Escape</kbd
-            ><span role="cell">Cancels row dragging or a picked row without changing data.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Alt</kbd> + <kbd>Arrow Left</kbd> / <kbd>Arrow Right</kbd></span>
-            ><span role="cell"
-              >Moves a focused reorderable header one position in the requested visual
-              direction.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Arrow Left</kbd> / <kbd>Arrow Right</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Resizes the column beside a focused resize separator in 16-pixel increments.</span
+              ></ng-template
             >
-          </div>
-        </div>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span
+                ><kbd>Alt</kbd> + <kbd>Arrow Up</kbd> / <kbd>Arrow Down</kbd></span
+              ></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves the row whose reorder handle has focus. Bounds and fixed rows are
+                respected.</span
+              ></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Enter</kbd> / <kbd>Space</kbd> on a reorder handle</span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Picks a source row, then places it at the next activated destination handle.</span
+              ></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Escape</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span>Cancels row dragging or a picked row without changing data.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span
+                ><kbd>Alt</kbd> + <kbd>Arrow Left</kbd> / <kbd>Arrow Right</kbd></span
+              ></ng-template
+            >
+            ><ng-template appReferenceCell
+              ><span
+                >Moves a focused reorderable header one position in the requested visual
+                direction.</span
+              ></ng-template
+            >
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
   </aeris-tabs>

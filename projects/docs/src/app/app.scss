@@ -176,29 +176,18 @@
   gap: 5px;
 }
 .docs-palette-options > button {
+  padding-block: 0.625rem;
+  text-align: start;
+}
+.docs-palette-option {
   width: 100%;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 17px;
   gap: 8px 10px;
   align-items: center;
-  padding: 10px;
-  border: 1px solid transparent;
-  border-radius: 9px;
-  background: transparent;
-  color: var(--text);
-  text-align: start;
-  cursor: pointer;
-}
-.docs-palette-options > button:hover {
-  background: var(--surface-2);
 }
 .docs-palette-options > button.active {
-  border-color: color-mix(in srgb, var(--primary) 48%, var(--border));
   background: var(--primary-soft);
-}
-.docs-palette-options > button:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--focus) 42%, transparent);
-  outline-offset: 1px;
 }
 .docs-palette-swatches {
   grid-column: 1 / -1;
@@ -237,33 +226,23 @@
   gap: 6px;
 }
 .docs-choice-grid > button {
+  min-height: 112px;
+  padding-block: 0.625rem;
+  align-items: flex-start;
+  text-align: start;
+}
+.docs-choice-option {
   position: relative;
+  width: 100%;
   min-width: 0;
   display: grid;
   align-content: start;
   gap: 7px;
-  min-height: 112px;
-  padding: 10px;
-  border: 1px solid color-mix(in srgb, var(--border) 52%, transparent);
-  border-radius: 11px;
-  background: color-mix(in srgb, var(--surface) 86%, transparent);
-  color: var(--text);
-  text-align: start;
-  cursor: pointer;
-}
-.docs-choice-grid > button:hover {
-  border-color: color-mix(in srgb, var(--border) 78%, transparent);
-  background: var(--surface-2);
 }
 .docs-choice-grid > button.active {
-  border-color: color-mix(in srgb, var(--primary) 54%, var(--border));
   background: var(--primary-soft);
 }
-.docs-choice-grid > button:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--focus) 42%, transparent);
-  outline-offset: 1px;
-}
-.docs-choice-grid > button > svg {
+.docs-choice-option > svg {
   position: absolute;
   top: 9px;
   inset-inline-end: 9px;

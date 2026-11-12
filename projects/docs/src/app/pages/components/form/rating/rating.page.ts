@@ -3,6 +3,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AerisRating, type AerisRatingChangeEvent } from '@aeris-ui/core/rating';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
+import { ReferenceTableImports } from '../../../../shared/documentation/reference-table.component';
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
 import { DOC_ICONS } from '../../../../shared/documentation/doc-icons';
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
@@ -24,6 +25,7 @@ interface ApiRow {
 @Component({
   selector: 'app-rating-page',
   imports: [
+    ReferenceTableImports,
     AerisRating,
     FormsModule,
     ReactiveFormsModule,

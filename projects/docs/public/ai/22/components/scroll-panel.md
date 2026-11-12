@@ -205,11 +205,12 @@ Use horizontal orientation for content that extends beyond the inline viewport.
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
 
 @Component({
   selector: 'app-scroll-panel-horizontal-demo',
-  imports: [AerisScrollPanelModule],
+  imports: [AerisCardModule, AerisScrollPanelModule],
   templateUrl: './scroll-panel-horizontal.demo.html',
   styleUrl: './scroll-panel-horizontal.demo.scss'
 })
@@ -223,22 +224,22 @@ export class ScrollPanelHorizontalDemo {
 <div>
   <aeris-scroll-panel orientation="horizontal" height="9rem" ariaLabel="Project cards">
     <div class="horizontal-cards">
-      <article class="horizontal-card">
+      <aeris-card class="horizontal-card">
         <strong>Design</strong>
         <span>Tokens, states, and spacing.</span>
-      </article>
-      <article class="horizontal-card">
+      </aeris-card>
+      <aeris-card class="horizontal-card">
         <strong>Build</strong>
         <span>Standalone Angular components.</span>
-      </article>
-      <article class="horizontal-card">
+      </aeris-card>
+      <aeris-card class="horizontal-card">
         <strong>Test</strong>
         <span>API and accessibility coverage.</span>
-      </article>
-      <article class="horizontal-card">
+      </aeris-card>
+      <aeris-card class="horizontal-card">
         <strong>Ship</strong>
         <span>Docs, examples, and migration notes.</span>
-      </article>
+      </aeris-card>
     </div>
   </aeris-scroll-panel>
 </div>
@@ -254,10 +255,6 @@ export class ScrollPanelHorizontalDemo {
 
 .horizontal-card {
   flex: 0 0 13rem;
-  padding: 1rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-lg);
-  background: var(--aeris-surface);
 }
 
 .horizontal-card strong {
@@ -276,8 +273,9 @@ Enable both vertical and horizontal scrolling for dense content.
 ```ts
 import { Component } from '@angular/core';
 import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
+import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
 
-interface CityRow {
+interface CityRow extends AerisTableData {
   readonly city: string;
   readonly state: string;
   readonly population: string;
@@ -286,11 +284,35 @@ interface CityRow {
 
 @Component({
   selector: 'app-scroll-panel-both-demo',
-  imports: [AerisScrollPanelModule],
-  templateUrl: './scroll-panel-both.demo.html',
-  styleUrl: './scroll-panel-both.demo.scss'
+  imports: [AerisScrollPanelModule, AerisTableModule],
+  template: `
+    <div>
+      <aeris-scroll-panel orientation="both" height="13rem" ariaLabel="City statistics">
+        <aeris-table
+          class="city-table"
+          caption="City statistics"
+          [data]="cities"
+          [columns]="cityColumns"
+          [hoverable]="false"
+          [rowNavigation]="false"
+        />
+      </aeris-scroll-panel>
+    </div>
+  `,
+  styles: `
+    .city-table {
+      inline-size: 46rem;
+    }
+  `
 })
 export class ScrollPanelBothDemo {
+  protected readonly cityColumns: readonly AerisTableColumn[] = [
+      { field: 'city', header: 'City' },
+      { field: 'state', header: 'State' },
+      { field: 'population', header: 'Population' },
+      { field: 'area', header: 'Area km²' },
+    ];
+
   protected readonly cities: readonly CityRow[] = [
       { city: 'New York', state: 'NY', population: '8,419,600', area: '783.8' },
       { city: 'Los Angeles', state: 'CA', population: '3,980,400', area: '1,214.9' },
@@ -305,59 +327,6 @@ export class ScrollPanelBothDemo {
       { city: 'Austin', state: 'TX', population: '1,010,000', area: '704.0' },
       { city: 'Jacksonville', state: 'FL', population: '949,600', area: '2,265.3' },
     ];
-}
-```
-
-#### HTML
-
-```html
-<div>
-  <aeris-scroll-panel orientation="both" height="13rem" ariaLabel="City statistics">
-    <table class="city-table">
-      <thead>
-        <tr>
-          <th>City</th>
-          <th>State</th>
-          <th>Population</th>
-          <th>Area km²</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (city of cities; track city.city) {
-          <tr>
-            <td>{{ city.city }}</td>
-            <td>{{ city.state }}</td>
-            <td>{{ city.population }}</td>
-            <td>{{ city.area }}</td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </aeris-scroll-panel>
-</div>
-```
-
-#### CSS
-
-```css
-.city-table {
-  min-width: 42rem;
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.city-table th,
-.city-table td {
-  padding: 0.625rem 0.75rem;
-  border-bottom: 1px solid var(--aeris-border);
-  text-align: left;
-  white-space: nowrap;
-}
-
-.city-table th {
-  color: var(--aeris-text);
-  font-size: 0.75rem;
-  text-transform: uppercase;
 }
 ```
 

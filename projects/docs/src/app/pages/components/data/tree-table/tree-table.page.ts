@@ -33,6 +33,7 @@ import {
 } from '@aeris-ui/core/tree-table';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
+import { ReferenceTableImports } from '../../../../shared/documentation/reference-table.component';
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
 import {
@@ -115,6 +116,7 @@ const SELECTION_FILES: readonly AerisTreeTableNode[] = [
 @Component({
   selector: 'app-tree-table-page',
   imports: [
+    ReferenceTableImports,
     AerisBadgeModule,
     AerisButton,
     AerisInputTextComponent,

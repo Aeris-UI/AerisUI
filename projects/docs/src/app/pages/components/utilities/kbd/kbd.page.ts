@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AerisKbdModule, type AerisKbdKeyValue } from '@aeris-ui/core/kbd';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 import { LucideDynamicIcon, LucideArrowUp, LucideCommand } from '@lucide/angular';
+import { ReferenceTableImports } from '../../../../shared/documentation/reference-table.component';
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
 import {
@@ -14,6 +15,7 @@ import { FormDemoComponent } from '../../form/shared/form-demo.component';
 @Component({
   selector: 'app-kbd-page',
   imports: [
+    ReferenceTableImports,
     AerisKbdModule,
     AerisTabsModule,
     LucideDynamicIcon,

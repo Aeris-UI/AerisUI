@@ -261,11 +261,12 @@ Mirror the final card hierarchy to minimize layout movement when content arrives
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
 
 @Component({
   selector: 'app-skeleton-card-demo',
-  imports: [AerisSkeletonModule],
+  imports: [AerisCardModule, AerisSkeletonModule],
   templateUrl: './skeleton-card.demo.html',
   styleUrl: './skeleton-card.demo.scss'
 })
@@ -277,21 +278,28 @@ export class SkeletonCardDemo {
 
 ```html
 <div>
-  <article class="skeleton-card" aria-busy="true" aria-label="Loading article card">
-    <aeris-skeleton shape="rectangle" height="10rem" />
-    <div class="skeleton-card__header">
-      <aeris-skeleton shape="circle" width="2.5rem" />
-      <div class="skeleton-card__lines">
-        <aeris-skeleton width="55%" />
-        <aeris-skeleton width="35%" height="0.625rem" />
+  <aeris-card
+    class="skeleton-card"
+    role="article"
+    aria-busy="true"
+    ariaLabel="Loading article card"
+  >
+    <div class="skeleton-card__body">
+      <aeris-skeleton shape="rectangle" height="10rem" />
+      <div class="skeleton-card__header">
+        <aeris-skeleton shape="circle" width="2.5rem" />
+        <div class="skeleton-card__lines">
+          <aeris-skeleton width="55%" />
+          <aeris-skeleton width="35%" height="0.625rem" />
+        </div>
+      </div>
+      <div class="skeleton-card__body">
+        <aeris-skeleton />
+        <aeris-skeleton width="92%" />
+        <aeris-skeleton width="68%" />
       </div>
     </div>
-    <div class="skeleton-card__body">
-      <aeris-skeleton />
-      <aeris-skeleton width="92%" />
-      <aeris-skeleton width="68%" />
-    </div>
-  </article>
+  </aeris-card>
 </div>
 ```
 
@@ -309,12 +317,6 @@ export class SkeletonCardDemo {
 
 .skeleton-card {
   max-width: 24rem;
-  display: grid;
-  gap: 1rem;
-  padding: 1rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-lg);
-  background: var(--aeris-surface);
 }
 
 .skeleton-card__header {
@@ -333,42 +335,54 @@ Responsive grid cells retain their intended dimensions at narrow widths.
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
 
 @Component({
   selector: 'app-skeleton-grid-demo',
-  imports: [AerisSkeletonModule],
-  template: `
-    <div>
-      <div class="skeleton-grid" aria-busy="true" aria-label="Loading project grid">
-        @for (item of [1, 2, 3]; track item) {
-          <div class="skeleton-grid__card">
-            <aeris-skeleton shape="rectangle" height="7rem" />
-            <aeris-skeleton width="72%" />
-            <aeris-skeleton width="48%" height="0.625rem" />
-          </div>
-        }
-      </div>
-    </div>
-  `,
-  styles: `
-    .skeleton-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
-      gap: 1rem;
-    }
-
-    .skeleton-grid__card {
-      min-width: 0;
-      display: grid;
-      gap: 0.75rem;
-      padding: 0.875rem;
-      border: 1px solid var(--aeris-border);
-      border-radius: var(--aeris-radius-lg);
-    }
-  `
+  imports: [AerisCardModule, AerisSkeletonModule],
+  templateUrl: './skeleton-grid.demo.html',
+  styleUrl: './skeleton-grid.demo.scss'
 })
 export class SkeletonGridDemo {
+}
+```
+
+#### HTML
+
+```html
+<div>
+  <div
+    class="skeleton-grid"
+    role="group"
+    aria-busy="true"
+    aria-label="Loading project grid"
+  >
+    @for (item of [1, 2, 3]; track item) {
+      <aeris-card>
+        <div class="skeleton-grid__content">
+          <aeris-skeleton shape="rectangle" height="7rem" />
+          <aeris-skeleton width="72%" />
+          <aeris-skeleton width="48%" height="0.625rem" />
+        </div>
+      </aeris-card>
+    }
+  </div>
+</div>
+```
+
+#### CSS
+
+```css
+.skeleton-grid__content {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  gap: 1rem;
 }
 ```
 
@@ -447,83 +461,44 @@ Preserve real table semantics and contain dense layouts on mobile.
 ```ts
 import { Component } from '@angular/core';
 import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
+import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
 
 @Component({
   selector: 'app-skeleton-table-demo',
-  imports: [AerisSkeletonModule],
-  templateUrl: './skeleton-table.demo.html',
-  styleUrl: './skeleton-table.demo.scss'
+  imports: [AerisSkeletonModule, AerisTableModule],
+  template: `
+    <div>
+      <aeris-table
+        caption="Loading product inventory"
+        aria-busy="true"
+        [data]="tableRows"
+        [columns]="tableColumns"
+        [hoverable]="false"
+        [rowNavigation]="false"
+      >
+        <ng-template aerisTableCell let-column="column">
+          <aeris-skeleton [width]="tableWidths[column.field]" />
+        </ng-template>
+      </aeris-table>
+    </div>
+  `
 })
 export class SkeletonTableDemo {
-}
-```
+  protected readonly tableRows: readonly AerisTableData[] = [{ id: 1 }, { id: 2 }, { id: 3 }];
 
-#### HTML
+  protected readonly tableColumns: readonly AerisTableColumn[] = [
+      { field: 'code', header: 'Code' },
+      { field: 'name', header: 'Name' },
+      { field: 'category', header: 'Category' },
+      { field: 'quantity', header: 'Quantity' },
+    ];
 
-```html
-<div>
-  <div class="skeleton-table-wrap">
-    <table class="skeleton-table" aria-busy="true">
-      <caption class="skeleton-status">Loading product inventory</caption>
-      <thead>
-        <tr>
-          <th>Code</th>
-          <th>Name</th>
-          <th>Category</th>
-          <th>Quantity</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (item of [1, 2, 3]; track item) {
-          <tr>
-            <td><aeris-skeleton width="5rem" /></td>
-            <td><aeris-skeleton width="9rem" /></td>
-            <td><aeris-skeleton width="7rem" /></td>
-            <td><aeris-skeleton width="3rem" /></td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-</div>
-```
-
-#### CSS
-
-```css
-.skeleton-status {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-.skeleton-table-wrap {
-  max-width: 100%;
-  overflow-x: auto;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-lg);
-}
-
-.skeleton-table {
-  width: 100%;
-  min-width: 34rem;
-  border-collapse: collapse;
-}
-
-.skeleton-table th,
-.skeleton-table td {
-  padding: 0.875rem;
-  border-bottom: 1px solid var(--aeris-border);
-  text-align: start;
-}
-
-.skeleton-table th {
-  color: var(--aeris-text-2);
-  font-size: 0.75rem;
-  text-transform: uppercase;
+  protected readonly tableWidths: Readonly<Record<string, string>> = {
+      code: '5rem',
+      name: '9rem',
+      category: '7rem',
+      quantity: '3rem',
+    };
 }
 ```
 

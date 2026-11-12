@@ -128,6 +128,7 @@ Render a collection with a custom item template and optional header and footer r
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisCarouselModule } from '@aeris-ui/core/carousel';
 
 interface Destination {
@@ -138,7 +139,7 @@ interface Destination {
 
 @Component({
   selector: 'app-carousel-basic-demo',
-  imports: [AerisCarouselModule],
+  imports: [AerisCardModule, AerisCarouselModule],
   templateUrl: './carousel-basic.demo.html',
   styleUrl: './carousel-basic.demo.scss'
 })
@@ -165,10 +166,16 @@ export class CarouselBasicDemo {
       </div>
     </ng-template>
     <ng-template aerisCarouselItem let-item>
-      <article class="destination-card" [attr.data-tone]="$any(item).tone">
-        <strong>{{ $any(item).name }}</strong>
-        <span>{{ $any(item).detail }}</span>
-      </article>
+      <aeris-card padding="none">
+        <div
+          aerisCardMedia
+          class="destination-card__media"
+          [attr.data-tone]="$any(item).tone"
+        >
+          <strong>{{ $any(item).name }}</strong>
+          <span>{{ $any(item).detail }}</span>
+        </div>
+      </aeris-card>
     </ng-template>
     <ng-template aerisCarouselFooter>
       <small class="carousel-footer">Curated for unhurried weekends.</small>
@@ -189,18 +196,20 @@ export class CarouselBasicDemo {
   font-size: 1rem;
 }
 
-.carousel-title span, .carousel-footer, .carousel-actions span {
+.carousel-title span,
+.carousel-footer,
+.carousel-actions span {
   color: var(--aeris-text-2);
   font-size: 0.875rem;
 }
 
-.destination-card {
+.destination-card__media {
   position: relative;
   display: grid;
   align-content: end;
   min-height: 19rem;
   padding: 1.25rem;
-  border-radius: var(--aeris-radius-lg);
+  border-radius: inherit;
   background-color: var(--aeris-surface-2);
   background-position: center;
   background-size: cover;
@@ -208,45 +217,46 @@ export class CarouselBasicDemo {
   overflow: hidden;
 }
 
-.destination-card::before {
+.destination-card__media::before {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));
   content: "";
 }
 
-.destination-card strong, .destination-card span {
+.destination-card__media strong,
+.destination-card__media span {
   position: relative;
   display: block;
 }
 
-.destination-card strong {
+.destination-card__media strong {
   font-size: 1.25rem;
 }
 
-.destination-card span {
+.destination-card__media span {
   margin-top: 0.35rem;
   color: rgba(255, 255, 255, 0.86);
   line-height: 1.5;
 }
 
-.destination-card[data-tone=sage] {
+.destination-card__media[data-tone=sage] {
   background-image: url("/puppies/puppy1.jpg");
 }
 
-.destination-card[data-tone=blue] {
+.destination-card__media[data-tone=blue] {
   background-image: url("/puppies/puppy2.jpg");
 }
 
-.destination-card[data-tone=gold] {
+.destination-card__media[data-tone=gold] {
   background-image: url("/puppies/puppy3.jpg");
 }
 
-.destination-card[data-tone=rose] {
+.destination-card__media[data-tone=rose] {
   background-image: url("/puppies/puppy4.jpg");
 }
 
-.destination-card[data-tone=sky] {
+.destination-card__media[data-tone=sky] {
   background-image: url("/puppies/puppy5.jpg");
 }
 ```
@@ -259,6 +269,7 @@ Adapt visible and scroll counts to the carousel’s available width.
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisCarouselModule, type AerisCarouselResponsiveOption } from '@aeris-ui/core/carousel';
 
 interface Destination {
@@ -269,7 +280,7 @@ interface Destination {
 
 @Component({
   selector: 'app-carousel-responsive-demo',
-  imports: [AerisCarouselModule],
+  imports: [AerisCardModule, AerisCarouselModule],
   templateUrl: './carousel-responsive.demo.html',
   styleUrl: './carousel-responsive.demo.scss'
 })
@@ -301,10 +312,16 @@ export class CarouselResponsiveDemo {
     ariaLabel="Responsive puppies"
   >
     <ng-template aerisCarouselItem let-item>
-      <article class="destination-card" [attr.data-tone]="$any(item).tone">
-        <strong>{{ $any(item).name }}</strong>
-        <span>{{ $any(item).detail }}</span>
-      </article>
+      <aeris-card padding="none">
+        <div
+          aerisCardMedia
+          class="destination-card__media"
+          [attr.data-tone]="$any(item).tone"
+        >
+          <strong>{{ $any(item).name }}</strong>
+          <span>{{ $any(item).detail }}</span>
+        </div>
+      </aeris-card>
     </ng-template>
   </aeris-carousel>
 </div>
@@ -313,13 +330,13 @@ export class CarouselResponsiveDemo {
 #### CSS
 
 ```css
-.destination-card {
+.destination-card__media {
   position: relative;
   display: grid;
   align-content: end;
   min-height: 19rem;
   padding: 1.25rem;
-  border-radius: var(--aeris-radius-lg);
+  border-radius: inherit;
   background-color: var(--aeris-surface-2);
   background-position: center;
   background-size: cover;
@@ -327,45 +344,46 @@ export class CarouselResponsiveDemo {
   overflow: hidden;
 }
 
-.destination-card::before {
+.destination-card__media::before {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));
   content: "";
 }
 
-.destination-card strong, .destination-card span {
+.destination-card__media strong,
+.destination-card__media span {
   position: relative;
   display: block;
 }
 
-.destination-card strong {
+.destination-card__media strong {
   font-size: 1.25rem;
 }
 
-.destination-card span {
+.destination-card__media span {
   margin-top: 0.35rem;
   color: rgba(255, 255, 255, 0.86);
   line-height: 1.5;
 }
 
-.destination-card[data-tone=sage] {
+.destination-card__media[data-tone=sage] {
   background-image: url("/puppies/puppy1.jpg");
 }
 
-.destination-card[data-tone=blue] {
+.destination-card__media[data-tone=blue] {
   background-image: url("/puppies/puppy2.jpg");
 }
 
-.destination-card[data-tone=gold] {
+.destination-card__media[data-tone=gold] {
   background-image: url("/puppies/puppy3.jpg");
 }
 
-.destination-card[data-tone=rose] {
+.destination-card__media[data-tone=rose] {
   background-image: url("/puppies/puppy4.jpg");
 }
 
-.destination-card[data-tone=sky] {
+.destination-card__media[data-tone=sky] {
   background-image: url("/puppies/puppy5.jpg");
 }
 ```
@@ -379,6 +397,7 @@ Bind page to application state and react to every page change.
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisCarouselModule, type AerisCarouselPageEvent } from '@aeris-ui/core/carousel';
 
 interface Destination {
@@ -389,7 +408,7 @@ interface Destination {
 
 @Component({
   selector: 'app-carousel-controlled-demo',
-  imports: [AerisButton, AerisCarouselModule],
+  imports: [AerisButton, AerisCardModule, AerisCarouselModule],
   templateUrl: './carousel-controlled.demo.html',
   styleUrl: './carousel-controlled.demo.scss'
 })
@@ -433,10 +452,16 @@ export class CarouselControlledDemo {
     ariaLabel="Controlled puppy carousel"
   >
     <ng-template aerisCarouselItem let-item>
-      <article class="destination-card" [attr.data-tone]="$any(item).tone">
-        <strong>{{ $any(item).name }}</strong>
-        <span>{{ $any(item).detail }}</span>
-      </article>
+      <aeris-card padding="none">
+        <div
+          aerisCardMedia
+          class="destination-card__media"
+          [attr.data-tone]="$any(item).tone"
+        >
+          <strong>{{ $any(item).name }}</strong>
+          <span>{{ $any(item).detail }}</span>
+        </div>
+      </aeris-card>
     </ng-template>
   </aeris-carousel>
 </div>
@@ -445,7 +470,9 @@ export class CarouselControlledDemo {
 #### CSS
 
 ```css
-.carousel-title span, .carousel-footer, .carousel-actions span {
+.carousel-title span,
+.carousel-footer,
+.carousel-actions span {
   color: var(--aeris-text-2);
   font-size: 0.875rem;
 }
@@ -458,13 +485,13 @@ export class CarouselControlledDemo {
   margin-bottom: 0.875rem;
 }
 
-.destination-card {
+.destination-card__media {
   position: relative;
   display: grid;
   align-content: end;
   min-height: 19rem;
   padding: 1.25rem;
-  border-radius: var(--aeris-radius-lg);
+  border-radius: inherit;
   background-color: var(--aeris-surface-2);
   background-position: center;
   background-size: cover;
@@ -472,45 +499,46 @@ export class CarouselControlledDemo {
   overflow: hidden;
 }
 
-.destination-card::before {
+.destination-card__media::before {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));
   content: "";
 }
 
-.destination-card strong, .destination-card span {
+.destination-card__media strong,
+.destination-card__media span {
   position: relative;
   display: block;
 }
 
-.destination-card strong {
+.destination-card__media strong {
   font-size: 1.25rem;
 }
 
-.destination-card span {
+.destination-card__media span {
   margin-top: 0.35rem;
   color: rgba(255, 255, 255, 0.86);
   line-height: 1.5;
 }
 
-.destination-card[data-tone=sage] {
+.destination-card__media[data-tone=sage] {
   background-image: url("/puppies/puppy1.jpg");
 }
 
-.destination-card[data-tone=blue] {
+.destination-card__media[data-tone=blue] {
   background-image: url("/puppies/puppy2.jpg");
 }
 
-.destination-card[data-tone=gold] {
+.destination-card__media[data-tone=gold] {
   background-image: url("/puppies/puppy3.jpg");
 }
 
-.destination-card[data-tone=rose] {
+.destination-card__media[data-tone=rose] {
   background-image: url("/puppies/puppy4.jpg");
 }
 
-.destination-card[data-tone=sky] {
+.destination-card__media[data-tone=sky] {
   background-image: url("/puppies/puppy5.jpg");
 }
 ```
@@ -523,6 +551,7 @@ Wrap continuously and advance automatically; hover or focus pauses the timer.
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisCarouselModule } from '@aeris-ui/core/carousel';
 
 interface Destination {
@@ -533,7 +562,7 @@ interface Destination {
 
 @Component({
   selector: 'app-carousel-circular-demo',
-  imports: [AerisCarouselModule],
+  imports: [AerisCardModule, AerisCarouselModule],
   templateUrl: './carousel-circular.demo.html',
   styleUrl: './carousel-circular.demo.scss'
 })
@@ -560,10 +589,16 @@ export class CarouselCircularDemo {
     ariaLabel="Autoplay puppies"
   >
     <ng-template aerisCarouselItem let-item>
-      <article class="destination-card" [attr.data-tone]="$any(item).tone">
-        <strong>{{ $any(item).name }}</strong>
-        <span>{{ $any(item).detail }}</span>
-      </article>
+      <aeris-card padding="none">
+        <div
+          aerisCardMedia
+          class="destination-card__media"
+          [attr.data-tone]="$any(item).tone"
+        >
+          <strong>{{ $any(item).name }}</strong>
+          <span>{{ $any(item).detail }}</span>
+        </div>
+      </aeris-card>
     </ng-template>
   </aeris-carousel>
 </div>
@@ -572,13 +607,13 @@ export class CarouselCircularDemo {
 #### CSS
 
 ```css
-.destination-card {
+.destination-card__media {
   position: relative;
   display: grid;
   align-content: end;
   min-height: 19rem;
   padding: 1.25rem;
-  border-radius: var(--aeris-radius-lg);
+  border-radius: inherit;
   background-color: var(--aeris-surface-2);
   background-position: center;
   background-size: cover;
@@ -586,45 +621,46 @@ export class CarouselCircularDemo {
   overflow: hidden;
 }
 
-.destination-card::before {
+.destination-card__media::before {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));
   content: "";
 }
 
-.destination-card strong, .destination-card span {
+.destination-card__media strong,
+.destination-card__media span {
   position: relative;
   display: block;
 }
 
-.destination-card strong {
+.destination-card__media strong {
   font-size: 1.25rem;
 }
 
-.destination-card span {
+.destination-card__media span {
   margin-top: 0.35rem;
   color: rgba(255, 255, 255, 0.86);
   line-height: 1.5;
 }
 
-.destination-card[data-tone=sage] {
+.destination-card__media[data-tone=sage] {
   background-image: url("/puppies/puppy1.jpg");
 }
 
-.destination-card[data-tone=blue] {
+.destination-card__media[data-tone=blue] {
   background-image: url("/puppies/puppy2.jpg");
 }
 
-.destination-card[data-tone=gold] {
+.destination-card__media[data-tone=gold] {
   background-image: url("/puppies/puppy3.jpg");
 }
 
-.destination-card[data-tone=rose] {
+.destination-card__media[data-tone=rose] {
   background-image: url("/puppies/puppy4.jpg");
 }
 
-.destination-card[data-tone=sky] {
+.destination-card__media[data-tone=sky] {
   background-image: url("/puppies/puppy5.jpg");
 }
 ```
@@ -637,6 +673,7 @@ Browse one puppy slide at a time with indicators between the slide and down cont
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisCarouselModule } from '@aeris-ui/core/carousel';
 
 interface Destination {
@@ -647,7 +684,7 @@ interface Destination {
 
 @Component({
   selector: 'app-carousel-vertical-demo',
-  imports: [AerisCarouselModule],
+  imports: [AerisCardModule, AerisCarouselModule],
   templateUrl: './carousel-vertical.demo.html',
   styleUrl: './carousel-vertical.demo.scss'
 })
@@ -673,10 +710,16 @@ export class CarouselVerticalDemo {
     ariaLabel="Vertical puppy carousel"
   >
     <ng-template aerisCarouselItem let-item>
-      <article class="destination-card" [attr.data-tone]="$any(item).tone">
-        <strong>{{ $any(item).name }}</strong>
-        <span>{{ $any(item).detail }}</span>
-      </article>
+      <aeris-card padding="none">
+        <div
+          aerisCardMedia
+          class="destination-card__media"
+          [attr.data-tone]="$any(item).tone"
+        >
+          <strong>{{ $any(item).name }}</strong>
+          <span>{{ $any(item).detail }}</span>
+        </div>
+      </aeris-card>
     </ng-template>
   </aeris-carousel>
 </div>
@@ -685,13 +728,13 @@ export class CarouselVerticalDemo {
 #### CSS
 
 ```css
-.destination-card {
+.destination-card__media {
   position: relative;
   display: grid;
   align-content: end;
   min-height: 19rem;
   padding: 1.25rem;
-  border-radius: var(--aeris-radius-lg);
+  border-radius: inherit;
   background-color: var(--aeris-surface-2);
   background-position: center;
   background-size: cover;
@@ -699,45 +742,46 @@ export class CarouselVerticalDemo {
   overflow: hidden;
 }
 
-.destination-card::before {
+.destination-card__media::before {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));
   content: "";
 }
 
-.destination-card strong, .destination-card span {
+.destination-card__media strong,
+.destination-card__media span {
   position: relative;
   display: block;
 }
 
-.destination-card strong {
+.destination-card__media strong {
   font-size: 1.25rem;
 }
 
-.destination-card span {
+.destination-card__media span {
   margin-top: 0.35rem;
   color: rgba(255, 255, 255, 0.86);
   line-height: 1.5;
 }
 
-.destination-card[data-tone=sage] {
+.destination-card__media[data-tone=sage] {
   background-image: url("/puppies/puppy1.jpg");
 }
 
-.destination-card[data-tone=blue] {
+.destination-card__media[data-tone=blue] {
   background-image: url("/puppies/puppy2.jpg");
 }
 
-.destination-card[data-tone=gold] {
+.destination-card__media[data-tone=gold] {
   background-image: url("/puppies/puppy3.jpg");
 }
 
-.destination-card[data-tone=rose] {
+.destination-card__media[data-tone=rose] {
   background-image: url("/puppies/puppy4.jpg");
 }
 
-.destination-card[data-tone=sky] {
+.destination-card__media[data-tone=sky] {
   background-image: url("/puppies/puppy5.jpg");
 }
 ```
@@ -750,6 +794,7 @@ Hide navigators or indicators when adjacent controls already manage the collecti
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisCarouselModule } from '@aeris-ui/core/carousel';
 
 interface Destination {
@@ -760,7 +805,7 @@ interface Destination {
 
 @Component({
   selector: 'app-carousel-minimal-demo',
-  imports: [AerisCarouselModule],
+  imports: [AerisCardModule, AerisCarouselModule],
   templateUrl: './carousel-minimal.demo.html',
   styleUrl: './carousel-minimal.demo.scss'
 })
@@ -787,10 +832,16 @@ export class CarouselMinimalDemo {
     ariaLabel="Minimal destinations"
   >
     <ng-template aerisCarouselItem let-item>
-      <article class="destination-card" [attr.data-tone]="$any(item).tone">
-        <strong>{{ $any(item).name }}</strong>
-        <span>{{ $any(item).detail }}</span>
-      </article>
+      <aeris-card padding="none">
+        <div
+          aerisCardMedia
+          class="destination-card__media"
+          [attr.data-tone]="$any(item).tone"
+        >
+          <strong>{{ $any(item).name }}</strong>
+          <span>{{ $any(item).detail }}</span>
+        </div>
+      </aeris-card>
     </ng-template>
   </aeris-carousel>
 </div>
@@ -799,13 +850,13 @@ export class CarouselMinimalDemo {
 #### CSS
 
 ```css
-.destination-card {
+.destination-card__media {
   position: relative;
   display: grid;
   align-content: end;
   min-height: 19rem;
   padding: 1.25rem;
-  border-radius: var(--aeris-radius-lg);
+  border-radius: inherit;
   background-color: var(--aeris-surface-2);
   background-position: center;
   background-size: cover;
@@ -813,45 +864,46 @@ export class CarouselMinimalDemo {
   overflow: hidden;
 }
 
-.destination-card::before {
+.destination-card__media::before {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));
   content: "";
 }
 
-.destination-card strong, .destination-card span {
+.destination-card__media strong,
+.destination-card__media span {
   position: relative;
   display: block;
 }
 
-.destination-card strong {
+.destination-card__media strong {
   font-size: 1.25rem;
 }
 
-.destination-card span {
+.destination-card__media span {
   margin-top: 0.35rem;
   color: rgba(255, 255, 255, 0.86);
   line-height: 1.5;
 }
 
-.destination-card[data-tone=sage] {
+.destination-card__media[data-tone=sage] {
   background-image: url("/puppies/puppy1.jpg");
 }
 
-.destination-card[data-tone=blue] {
+.destination-card__media[data-tone=blue] {
   background-image: url("/puppies/puppy2.jpg");
 }
 
-.destination-card[data-tone=gold] {
+.destination-card__media[data-tone=gold] {
   background-image: url("/puppies/puppy3.jpg");
 }
 
-.destination-card[data-tone=rose] {
+.destination-card__media[data-tone=rose] {
   background-image: url("/puppies/puppy4.jpg");
 }
 
-.destination-card[data-tone=sky] {
+.destination-card__media[data-tone=sky] {
   background-image: url("/puppies/puppy5.jpg");
 }
 ```

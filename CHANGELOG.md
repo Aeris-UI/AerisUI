@@ -11,10 +11,15 @@ release line.
 
 - Style DatePicker popup time steppers with Aeris chevrons and replace the native AM/PM menu with
   a period toggle. Touch devices use animated, draggable time wheels with keyboard support.
+- Use Aeris components for documentation disclosures, navigation, reference tables, and composed
+  examples, with synchronized copyable sources.
 
 ### Fixed
 
+- Keep Accordion content aligned with its header on mobile by separating block and inline padding.
 - Keep DatePicker time controls open when their buttons are activated in Safari.
+- Give OrganizationChart tree items ownership of their child groups while retaining node focus,
+  selection, and collapse controls.
 
 ## [22.0.0-alpha.12] - 2026-11-05
 

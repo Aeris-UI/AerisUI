@@ -1,3 +1,4 @@
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { Component, signal } from '@angular/core';
 import {
   AerisChartModule,
@@ -7,6 +8,7 @@ import {
 import { AerisInputText } from '@aeris-ui/core/input-text';
 import { AerisTabsModule, type AerisTabChangeEvent } from '@aeris-ui/core/tabs';
 
+import { ReferenceTableImports } from '../../../../shared/documentation/reference-table.component';
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
 import {
@@ -26,6 +28,8 @@ interface ApiRow {
 @Component({
   selector: 'app-tabs-page',
   imports: [
+    AerisCardModule,
+    ReferenceTableImports,
     AerisChartModule,
     AerisInputText,
     AerisTabsModule,
@@ -149,13 +153,6 @@ protected readonly statisticsOptions: AerisChartOptions = {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
-}
-
-.statistics-card {
-  min-width: 0;
-  padding: 1rem;
-  border-radius: var(--aeris-radius-container);
-  background: var(--aeris-surface-2);
 }
 
 .statistics-card h4 {

@@ -1,3 +1,4 @@
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
 import {
@@ -7,6 +8,7 @@ import {
 } from '@aeris-ui/core/carousel';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
+import { ReferenceTableImports } from '../../../../shared/documentation/reference-table.component';
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
 import {
@@ -31,6 +33,8 @@ interface Destination {
 @Component({
   selector: 'app-carousel-page',
   imports: [
+    AerisCardModule,
+    ReferenceTableImports,
     AerisButton,
     AerisCarouselModule,
     AerisTabsModule,
@@ -62,7 +66,7 @@ export class CarouselPage {
   protected readonly destinationsCode = `interface Destination {\n  readonly name: string;\n  readonly detail: string;\n  readonly tone: 'sage' | 'blue' | 'gold' | 'rose' | 'sky';\n}\n\nprotected readonly destinations: readonly Destination[] = [\n  { name: 'Milo', detail: 'A curious explorer with a wagging tail.', tone: 'sage' },\n  { name: 'Luna', detail: 'Always ready for a bright new adventure.', tone: 'blue' },\n  { name: 'Biscuit', detail: 'Small paws, big heart, and endless naps.', tone: 'gold' },\n  { name: 'Poppy', detail: 'A playful friend who loves every visitor.', tone: 'rose' },\n  { name: 'Nova', detail: 'Gentle, clever, and quick to make friends.', tone: 'sky' },\n];`;
   protected readonly controlledCode = `import { signal } from '@angular/core';\nimport { type AerisCarouselPageEvent } from '@aeris-ui/core/carousel';\n\nprotected readonly controlledPage = signal(0);\nprotected readonly pageMessage = signal('Showing the first slide.');\n\nprotected showFirst(): void {\n  this.controlledPage.set(0);\n  this.pageMessage.set('Showing slide 1.');\n}\n\nprotected handlePage(event: AerisCarouselPageEvent): void {\n  this.pageMessage.set(\`Showing slide \${event.page + 1}.\`);\n}`;
   protected readonly responsiveCode = `import { type AerisCarouselResponsiveOption } from '@aeris-ui/core/carousel';\n\nprotected readonly responsiveOptions: readonly AerisCarouselResponsiveOption[] = [\n  { breakpoint: '56rem', numVisible: 2, numScroll: 1 },\n  { breakpoint: '38rem', numVisible: 1, numScroll: 1 },\n];`;
-  protected readonly cardCss = `.destination-card {\n  position: relative;\n  display: grid;\n  align-content: end;\n  min-height: 19rem;\n  padding: 1.25rem;\n  border-radius: var(--aeris-radius-lg);\n  background-color: var(--surface-2);\n  background-position: center;\n  background-size: cover;\n  color: #fff;\n  overflow: hidden;\n}\n\n.destination-card::before {\n  position: absolute;\n  inset: 0;\n  background: linear-gradient(180deg, transparent 28%, rgb(0 0 0 / 68%));\n  content: '';\n}\n\n.destination-card strong,\n.destination-card span { position: relative; display: block; }\n.destination-card strong { font-size: 1.25rem; }\n.destination-card span { margin-top: 0.35rem; color: rgb(255 255 255 / 86%); line-height: 1.5; }\n\n.destination-card[data-tone='sage'] { background-image: url('/puppies/puppy1.jpg'); }\n.destination-card[data-tone='blue'] { background-image: url('/puppies/puppy2.jpg'); }\n.destination-card[data-tone='gold'] { background-image: url('/puppies/puppy3.jpg'); }\n.destination-card[data-tone='rose'] { background-image: url('/puppies/puppy4.jpg'); }\n.destination-card[data-tone='sky'] { background-image: url('/puppies/puppy5.jpg'); }`;
+  protected readonly cardCss = `.destination-card__media {\n  position: relative;\n  display: grid;\n  align-content: end;\n  min-height: 19rem;\n  padding: 1.25rem;\n  border-radius: inherit;\n  background-color: var(--surface-2);\n  background-position: center;\n  background-size: cover;\n  color: #fff;\n  overflow: hidden;\n}\n\n.destination-card__media::before {\n  position: absolute;\n  inset: 0;\n  background: linear-gradient(180deg, transparent 28%, rgb(0 0 0 / 68%));\n  content: '';\n}\n\n.destination-card__media strong,\n.destination-card__media span { position: relative; display: block; }\n.destination-card__media strong { font-size: 1.25rem; }\n.destination-card__media span { margin-top: 0.35rem; color: rgb(255 255 255 / 86%); line-height: 1.5; }\n\n.destination-card__media[data-tone='sage'] { background-image: url('/puppies/puppy1.jpg'); }\n.destination-card__media[data-tone='blue'] { background-image: url('/puppies/puppy2.jpg'); }\n.destination-card__media[data-tone='gold'] { background-image: url('/puppies/puppy3.jpg'); }\n.destination-card__media[data-tone='rose'] { background-image: url('/puppies/puppy4.jpg'); }\n.destination-card__media[data-tone='sky'] { background-image: url('/puppies/puppy5.jpg'); }`;
 
   protected readonly featureLinks: readonly PageTocLink[] = [
     { id: 'carousel-import', label: 'Import' },

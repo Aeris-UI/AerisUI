@@ -971,162 +971,239 @@
               select: use disabled when editing must be prevented; disabled controls are omitted
               from native form submission.
             </p>
-            <div class="api-table" role="table" aria-label="Native select inputs" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="Native select inputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of nativeInputs; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
             <h3 id="select-api-inputs" tabindex="-1">Popup select inputs</h3>
-            <div class="api-table" role="table" aria-label="Select inputs" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="Select inputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of inputs; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
 
             <h3 id="select-api-outputs" tabindex="-1">Outputs</h3>
-            <div class="api-table compact" role="table" aria-label="Select outputs" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Description</b>
-              </div>
-              <div role="row">
-                <code role="cell">valueChange</code><span role="cell">string | null</span
-                ><span role="cell">Emitted automatically by the value model.</span>
-              </div>
-              <div role="row">
-                <code role="cell">valueChange</code><span role="cell">string | null</span
-                ><span role="cell"
-                  >Emitted when selection, clear, or public methods change the value.</span
+            <app-reference-table class="api-table compact" caption="Select outputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Description" />
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>valueChange</code></ng-template
+                ><ng-template appReferenceCell><span>string | null</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Emitted automatically by the value model.</span></ng-template
                 >
-              </div>
-              <div role="row">
-                <code role="cell">changed</code><span role="cell">AerisSelectChangeEvent</span
-                ><span role="cell">Native event, selected value, and option metadata.</span>
-              </div>
-              <div role="row">
-                <code role="cell">filterChanged</code><span role="cell">AerisSelectFilterEvent</span
-                ><span role="cell">Emitted whenever the filter query changes.</span>
-              </div>
-              <div role="row">
-                <code role="cell">lazyLoad</code><span role="cell">AerisSelectLazyLoadEvent</span
-                ><span role="cell">Requested virtual viewport range and active query.</span>
-              </div>
-              <div role="row">
-                <code role="cell">opened / closed</code><span role="cell">void</span
-                ><span role="cell">Emitted when the options panel changes visibility.</span>
-              </div>
-              <div role="row">
-                <code role="cell">cleared</code><span role="cell">void</span
-                ><span role="cell">Emitted after the clear action succeeds.</span>
-              </div>
-              <div role="row">
-                <code role="cell">focused / blurred</code><span role="cell">FocusEvent</span
-                ><span role="cell">Combobox focus lifecycle events.</span>
-              </div>
-              <div role="row">
-                <code role="cell">touch</code><span role="cell">void</span
-                ><span role="cell">Emitted when focus leaves the component.</span>
-              </div>
-            </div>
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>valueChange</code></ng-template
+                ><ng-template appReferenceCell><span>string | null</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Emitted when selection, clear, or public methods change the value.</span
+                  ></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>changed</code></ng-template
+                ><ng-template appReferenceCell><span>AerisSelectChangeEvent</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Native event, selected value, and option metadata.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>filterChanged</code></ng-template
+                ><ng-template appReferenceCell><span>AerisSelectFilterEvent</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Emitted whenever the filter query changes.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>lazyLoad</code></ng-template
+                ><ng-template appReferenceCell><span>AerisSelectLazyLoadEvent</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Requested virtual viewport range and active query.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>opened / closed</code></ng-template
+                ><ng-template appReferenceCell><span>void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Emitted when the options panel changes visibility.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>cleared</code></ng-template
+                ><ng-template appReferenceCell><span>void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Emitted after the clear action succeeds.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>focused / blurred</code></ng-template
+                ><ng-template appReferenceCell><span>FocusEvent</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Combobox focus lifecycle events.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>touch</code></ng-template
+                ><ng-template appReferenceCell><span>void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Emitted when focus leaves the component.</span></ng-template
+                >
+              </ng-container>
+            </app-reference-table>
 
             <h3 id="select-api-templates" tabindex="-1">Templates</h3>
-            <div class="api-table compact" role="table" aria-label="Select templates" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Directive</b><b role="columnheader">Context</b
-                ><b role="columnheader">Description</b>
-              </div>
-              <div role="row">
-                <code role="cell">aerisSelectOption</code
-                ><span role="cell">option, selected, active</span
-                ><span role="cell">Custom content for each listbox option.</span>
-              </div>
-              <div role="row">
-                <code role="cell">aerisSelectSelected</code><span role="cell">option</span
-                ><span role="cell">Custom content for the selected trigger value.</span>
-              </div>
-              <div role="row">
-                <code role="cell">aerisSelectGroup</code><span role="cell">group</span
-                ><span role="cell">Custom group heading content.</span>
-              </div>
-              <div role="row">
-                <code role="cell">aerisSelectHeader / aerisSelectFooter</code
-                ><span role="cell">none</span
-                ><span role="cell">Custom content around the listbox.</span>
-              </div>
-              <div role="row">
-                <code role="cell">aerisSelectEmpty / aerisSelectEmptyFilter</code
-                ><span role="cell">none</span><span role="cell">Custom empty-state content.</span>
-              </div>
-              <div role="row">
-                <code role="cell">aerisSelectDropdownIcon / aerisSelectClearIcon</code
-                ><span role="cell">none</span><span role="cell">Custom trigger action icons.</span>
-              </div>
-              <div role="row">
-                <code role="cell">aerisSelectFilterIcon / aerisSelectLoadingIcon</code
-                ><span role="cell">none</span
-                ><span role="cell">Custom filter and loading indicators.</span>
-              </div>
-            </div>
+            <app-reference-table class="api-table compact" caption="Select templates">
+              <ng-template appReferenceHeader="Directive" />
+              <ng-template appReferenceHeader="Context" />
+              <ng-template appReferenceHeader="Description" />
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>aerisSelectOption</code></ng-template
+                ><ng-template appReferenceCell><span>option, selected, active</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Custom content for each listbox option.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>aerisSelectSelected</code></ng-template
+                ><ng-template appReferenceCell><span>option</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Custom content for the selected trigger value.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>aerisSelectGroup</code></ng-template
+                ><ng-template appReferenceCell><span>group</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Custom group heading content.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell
+                  ><code>aerisSelectHeader / aerisSelectFooter</code></ng-template
+                ><ng-template appReferenceCell><span>none</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Custom content around the listbox.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell
+                  ><code>aerisSelectEmpty / aerisSelectEmptyFilter</code></ng-template
+                ><ng-template appReferenceCell><span>none</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Custom empty-state content.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell
+                  ><code>aerisSelectDropdownIcon / aerisSelectClearIcon</code></ng-template
+                ><ng-template appReferenceCell><span>none</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Custom trigger action icons.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell
+                  ><code>aerisSelectFilterIcon / aerisSelectLoadingIcon</code></ng-template
+                ><ng-template appReferenceCell><span>none</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Custom filter and loading indicators.</span></ng-template
+                >
+              </ng-container>
+            </app-reference-table>
 
             <h3 id="select-api-methods" tabindex="-1">Methods</h3>
-            <div class="api-table compact" role="table" aria-label="Select methods" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Signature</b
-                ><b role="columnheader">Description</b>
-              </div>
-              <div role="row">
-                <code role="cell">focus</code
-                ><span role="cell">(options?: FocusOptions) =&gt; void</span
-                ><span role="cell">Moves focus to the combobox trigger.</span>
-              </div>
-              <div role="row">
-                <code role="cell">openPanel</code><span role="cell">() =&gt; void</span
-                ><span role="cell"
-                  >Opens an enabled Select and initializes active option state.</span
+            <app-reference-table class="api-table compact" caption="Select methods">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Signature" />
+              <ng-template appReferenceHeader="Description" />
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>focus</code></ng-template
+                ><ng-template appReferenceCell
+                  ><span>(options?: FocusOptions) =&gt; void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Moves focus to the combobox trigger.</span></ng-template
                 >
-              </div>
-              <div role="row">
-                <code role="cell">closePanel</code
-                ><span role="cell">(restoreFocus?: boolean) =&gt; void</span
-                ><span role="cell">Closes the panel and optionally restores trigger focus.</span>
-              </div>
-              <div role="row">
-                <code role="cell">toggle</code><span role="cell">() =&gt; void</span
-                ><span role="cell">Toggles panel visibility.</span>
-              </div>
-              <div role="row">
-                <code role="cell">clear</code><span role="cell">() =&gt; void</span
-                ><span role="cell">Clears a clearable enabled selection and restores focus.</span>
-              </div>
-              <div role="row">
-                <code role="cell">reset</code><span role="cell">() =&gt; void</span
-                ><span role="cell">Clears value, query, and panel state.</span>
-              </div>
-              <div role="row">
-                <code role="cell">clearFilter</code><span role="cell">() =&gt; void</span
-                ><span role="cell"
-                  >Clears the controlled filter query and restores filter focus.</span
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>openPanel</code></ng-template
+                ><ng-template appReferenceCell><span>() =&gt; void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Opens an enabled Select and initializes active option state.</span
+                  ></ng-template
                 >
-              </div>
-            </div>
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>closePanel</code></ng-template
+                ><ng-template appReferenceCell
+                  ><span>(restoreFocus?: boolean) =&gt; void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Closes the panel and optionally restores trigger focus.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>toggle</code></ng-template
+                ><ng-template appReferenceCell><span>() =&gt; void</span></ng-template
+                ><ng-template appReferenceCell><span>Toggles panel visibility.</span></ng-template>
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>clear</code></ng-template
+                ><ng-template appReferenceCell><span>() =&gt; void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Clears a clearable enabled selection and restores focus.</span
+                  ></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>reset</code></ng-template
+                ><ng-template appReferenceCell><span>() =&gt; void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Clears value, query, and panel state.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>clearFilter</code></ng-template
+                ><ng-template appReferenceCell><span>() =&gt; void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Clears the controlled filter query and restores filter focus.</span
+                  ></ng-template
+                >
+              </ng-container>
+            </app-reference-table>
           </div>
           <app-page-toc title="API" ariaLabel="Select API on this page" [links]="apiLinks" />
         </div>
@@ -1151,60 +1228,68 @@
           arrows, options and picker surfaces remain platform-specific rather than using popup
           Select tokens.
         </p>
-        <div class="api-table compact" role="table" aria-label="Select design tokens" tabindex="0">
-          <div class="api-head" role="row">
-            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
-            ><b role="columnheader">Fallback</b>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-select-text</code><span role="cell">Selected value text.</span
-            ><code role="cell">--aeris-text</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-select-min-width</code
-            ><span role="cell">Minimum inline size of the control.</span><code role="cell">0</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-select-border</code
-            ><span role="cell">Outlined trigger border.</span
-            ><code role="cell">--aeris-border</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-select-background</code
-            ><span role="cell">Trigger and filter background.</span
-            ><code role="cell">--aeris-surface</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-select-filled-background</code
-            ><span role="cell">Filled appearance background.</span
-            ><code role="cell">--aeris-surface-2</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-select-focus</code
-            ><span role="cell">Focus border and ring.</span><code role="cell">--aeris-focus</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-select-panel-background</code
-            ><span role="cell">Options panel surface.</span><code role="cell">--aeris-surface</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-select-panel-border</code
-            ><span role="cell">Options panel border.</span><code role="cell">--aeris-border</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-select-panel-shadow</code
-            ><span role="cell">Floating panel elevation.</span><code role="cell">Aeris shadow</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-select-option-hover</code
-            ><span role="cell">Active and hovered option background.</span
-            ><code role="cell">12% primary</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-select-selected-text</code
-            ><span role="cell">Selected option text.</span><code role="cell">--aeris-text</code>
-          </div>
-        </div>
+        <app-reference-table class="api-table compact" caption="Select design tokens">
+          <ng-template appReferenceHeader="Token" />
+          <ng-template appReferenceHeader="Purpose" />
+          <ng-template appReferenceHeader="Fallback" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-select-text</code></ng-template
+            ><ng-template appReferenceCell><span>Selected value text.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-text</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-select-min-width</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Minimum inline size of the control.</span></ng-template
+            ><ng-template appReferenceCell><code>0</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-select-border</code></ng-template
+            ><ng-template appReferenceCell><span>Outlined trigger border.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-border</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-select-background</code></ng-template
+            ><ng-template appReferenceCell><span>Trigger and filter background.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-surface</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-select-filled-background</code></ng-template
+            ><ng-template appReferenceCell><span>Filled appearance background.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-surface-2</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-select-focus</code></ng-template
+            ><ng-template appReferenceCell><span>Focus border and ring.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-focus</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-select-panel-background</code></ng-template
+            ><ng-template appReferenceCell><span>Options panel surface.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-surface</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-select-panel-border</code></ng-template
+            ><ng-template appReferenceCell><span>Options panel border.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-border</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-select-panel-shadow</code></ng-template
+            ><ng-template appReferenceCell><span>Floating panel elevation.</span></ng-template
+            ><ng-template appReferenceCell><code>Aeris shadow</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-select-option-hover</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Active and hovered option background.</span></ng-template
+            ><ng-template appReferenceCell><code>12% primary</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-select-selected-text</code></ng-template
+            ><ng-template appReferenceCell><span>Selected option text.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-text</code></ng-template>
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
 
@@ -1263,60 +1348,75 @@
           real label/for pair and native aria-describedby.
         </p>
         <h3>Keyboard support</h3>
-        <div
-          class="api-table keyboard-table"
-          role="table"
-          aria-label="Select keyboard support"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Key</b><b role="columnheader">Function</b>
-          </div>
-          <div role="row">
-            <span role="cell"
-              >Native select: Tab, arrows, typing, Space/Enter, Escape and multiple-selection
-              modifiers</span
-            ><span role="cell"
-              >Browser and operating-system behavior is preserved without interception. Tab focuses
-              the native control; opening, typeahead, selection and dismissal vary by platform.
-              Numeric size and multiple use the browser's listbox behavior.</span
+        <app-reference-table class="api-table keyboard-table" caption="Select keyboard support">
+          <ng-template appReferenceHeader="Key" />
+          <ng-template appReferenceHeader="Function" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span
+                >Native select: Tab, arrows, typing, Space/Enter, Escape and multiple-selection
+                modifiers</span
+              ></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Browser and operating-system behavior is preserved without interception. Tab
+                focuses the native control; opening, typeahead, selection and dismissal vary by
+                platform. Numeric size and multiple use the browser's listbox behavior.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
-            ><span role="cell">Opens the closed panel or selects the active option.</span>
-          </div>
-          <div role="row">
-            <kbd role="cell">Arrow Down</kbd
-            ><span role="cell">Opens the panel or moves to the next enabled option.</span>
-          </div>
-          <div role="row">
-            <kbd role="cell">Arrow Up</kbd
-            ><span role="cell">Opens the panel or moves to the previous enabled option.</span>
-          </div>
-          <div role="row">
-            <kbd role="cell">Home</kbd
-            ><span role="cell">Moves to the first enabled option while the panel is open.</span>
-          </div>
-          <div role="row">
-            <kbd role="cell">End</kbd
-            ><span role="cell">Moves to the last enabled option while the panel is open.</span>
-          </div>
-          <div role="row">
-            <kbd role="cell">Escape</kbd
-            ><span role="cell">Closes the panel without changing the current selection.</span>
-          </div>
-          <div role="row">
-            <kbd role="cell">Tab</kbd
-            ><span role="cell">Closes the panel and continues normal document navigation.</span>
-          </div>
-          <div role="row">
-            <span role="cell">Printable characters</span
-            ><span role="cell"
-              >Searches options by typeahead when filtering and editable mode are disabled.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Enter</kbd> / <kbd>Space</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Opens the closed panel or selects the active option.</span></ng-template
             >
-          </div>
-        </div>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Arrow Down</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span>Opens the panel or moves to the next enabled option.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Arrow Up</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span>Opens the panel or moves to the previous enabled option.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Home</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span>Moves to the first enabled option while the panel is open.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>End</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span>Moves to the last enabled option while the panel is open.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Escape</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span>Closes the panel without changing the current selection.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Tab</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span>Closes the panel and continues normal document navigation.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><span>Printable characters</span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Searches options by typeahead when filtering and editable mode are disabled.</span
+              ></ng-template
+            >
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
   </aeris-tabs>

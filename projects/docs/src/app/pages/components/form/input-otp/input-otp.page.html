@@ -413,83 +413,101 @@
         <div class="doc-content-layout">
           <div class="doc-content-main">
             <h3 id="otp-api-inputs" tabindex="-1">Inputs</h3>
-            <div class="api-table" role="table" aria-label="InputOtp inputs" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="InputOtp inputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of inputs; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
 
             <h3 id="otp-api-outputs" tabindex="-1">Outputs</h3>
-            <div class="api-table compact" role="table" aria-label="InputOtp outputs" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Description</b>
-              </div>
-              <div role="row">
-                <code role="cell">valueChange / valueChange</code><span role="cell">string</span
-                ><span role="cell">Model and explicit user value notifications.</span>
-              </div>
-              <div role="row">
-                <code role="cell">completed</code><span role="cell">AerisInputOtpCompleteEvent</span
-                ><span role="cell">Emitted when every slot first becomes populated.</span>
-              </div>
-              <div role="row">
-                <code role="cell">focused / blurred</code><span role="cell">FocusEvent</span
-                ><span role="cell">Individual slot focus lifecycle events.</span>
-              </div>
-              <div role="row">
-                <code role="cell">touch</code><span role="cell">void</span
-                ><span role="cell">Emitted when focus leaves the complete group.</span>
-              </div>
-            </div>
+            <app-reference-table class="api-table compact" caption="InputOtp outputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Description" />
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>valueChange / valueChange</code></ng-template
+                ><ng-template appReferenceCell><span>string</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Model and explicit user value notifications.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>completed</code></ng-template
+                ><ng-template appReferenceCell><span>AerisInputOtpCompleteEvent</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Emitted when every slot first becomes populated.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>focused / blurred</code></ng-template
+                ><ng-template appReferenceCell><span>FocusEvent</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Individual slot focus lifecycle events.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>touch</code></ng-template
+                ><ng-template appReferenceCell><span>void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Emitted when focus leaves the complete group.</span></ng-template
+                >
+              </ng-container>
+            </app-reference-table>
 
             <h3 id="otp-api-templates" tabindex="-1">Templates</h3>
-            <div
-              class="api-table compact"
-              role="table"
-              aria-label="InputOtp templates"
-              tabindex="0"
-            >
-              <div class="api-head" role="row">
-                <b role="columnheader">Directive</b><b role="columnheader">Context</b
-                ><b role="columnheader">Description</b>
-              </div>
-              <div role="row">
-                <code role="cell">aerisInputOtpSeparator</code><span role="cell">index</span
-                ><span role="cell"
-                  >Optional visual content between slots. The zero-based index identifies the
-                  preceding slot.</span
+            <app-reference-table class="api-table compact" caption="InputOtp templates">
+              <ng-template appReferenceHeader="Directive" />
+              <ng-template appReferenceHeader="Context" />
+              <ng-template appReferenceHeader="Description" />
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>aerisInputOtpSeparator</code></ng-template
+                ><ng-template appReferenceCell><span>index</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Optional visual content between slots. The zero-based index identifies the
+                    preceding slot.</span
+                  ></ng-template
                 >
-              </div>
-            </div>
+              </ng-container>
+            </app-reference-table>
 
             <h3 id="otp-api-methods" tabindex="-1">Methods</h3>
-            <div class="api-table compact" role="table" aria-label="InputOtp methods" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Signature</b
-                ><b role="columnheader">Description</b>
-              </div>
-              <div role="row">
-                <code role="cell">focus</code
-                ><span role="cell">(index?: number, options?: FocusOptions) =&gt; void</span
-                ><span role="cell">Moves focus to a clamped slot index.</span>
-              </div>
-              <div role="row">
-                <code role="cell">clear</code><span role="cell">() =&gt; void</span
-                ><span role="cell"
-                  >Clears an editable code and restores focus to the first slot.</span
+            <app-reference-table class="api-table compact" caption="InputOtp methods">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Signature" />
+              <ng-template appReferenceHeader="Description" />
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>focus</code></ng-template
+                ><ng-template appReferenceCell
+                  ><span>(index?: number, options?: FocusOptions) =&gt; void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Moves focus to a clamped slot index.</span></ng-template
                 >
-              </div>
-            </div>
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>clear</code></ng-template
+                ><ng-template appReferenceCell><span>() =&gt; void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Clears an editable code and restores focus to the first slot.</span
+                  ></ng-template
+                >
+              </ng-container>
+            </app-reference-table>
           </div>
           <app-page-toc title="API" ariaLabel="InputOtp API on this page" [links]="apiLinks" />
         </div>
@@ -506,47 +524,49 @@
     <aeris-tab-panel value="tokens" label="Tokens">
       <section class="doc-section">
         <h2>Design tokens</h2>
-        <div
-          class="api-table compact"
-          role="table"
-          aria-label="InputOtp design tokens"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
-            ><b role="columnheader">Fallback</b>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-control-height</code
-            ><span role="cell">Medium slot width and height.</span><code role="cell">2.625rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-radius-control</code
-            ><span role="cell">Slot corner radius.</span><code role="cell">0.4375rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-surface / --aeris-surface-2</code
-            ><span role="cell">Outlined, filled, disabled, and read-only surfaces.</span
-            ><code role="cell">Aeris theme</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-border</code><span role="cell">Default slot border.</span
-            ><code role="cell">#c7c9c0</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-primary</code
-            ><span role="cell">Hover border and caret color.</span><code role="cell">#2c694b</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-focus</code
-            ><span role="cell">Focused slot border and ring.</span><code role="cell">#536437</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-danger</code
-            ><span role="cell">Invalid slot border and focus ring.</span
-            ><code role="cell">#c81e2a</code>
-          </div>
-        </div>
+        <app-reference-table class="api-table compact" caption="InputOtp design tokens">
+          <ng-template appReferenceHeader="Token" />
+          <ng-template appReferenceHeader="Purpose" />
+          <ng-template appReferenceHeader="Fallback" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-control-height</code></ng-template
+            ><ng-template appReferenceCell><span>Medium slot width and height.</span></ng-template
+            ><ng-template appReferenceCell><code>2.625rem</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-radius-control</code></ng-template
+            ><ng-template appReferenceCell><span>Slot corner radius.</span></ng-template
+            ><ng-template appReferenceCell><code>0.4375rem</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-surface / --aeris-surface-2</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Outlined, filled, disabled, and read-only surfaces.</span></ng-template
+            ><ng-template appReferenceCell><code>Aeris theme</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-border</code></ng-template
+            ><ng-template appReferenceCell><span>Default slot border.</span></ng-template
+            ><ng-template appReferenceCell><code>#c7c9c0</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-primary</code></ng-template
+            ><ng-template appReferenceCell><span>Hover border and caret color.</span></ng-template
+            ><ng-template appReferenceCell><code>#2c694b</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-focus</code></ng-template
+            ><ng-template appReferenceCell><span>Focused slot border and ring.</span></ng-template
+            ><ng-template appReferenceCell><code>#536437</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-danger</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Invalid slot border and focus ring.</span></ng-template
+            ><ng-template appReferenceCell><code>#c81e2a</code></ng-template>
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
 
@@ -584,51 +604,63 @@
           </li>
         </ul>
         <h3>Keyboard support</h3>
-        <div
-          class="api-table keyboard-table"
-          role="table"
-          aria-label="InputOtp keyboard support"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Key</b><b role="columnheader">Function</b>
-          </div>
-          <div role="row">
-            <span role="cell">Accepted character</span
-            ><span role="cell">Replaces the current slot and advances to the next slot.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Arrow Left</kbd> / <kbd>Arrow Right</kbd></span
-            ><span role="cell">Moves focus to the previous or next slot.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Home</kbd> / <kbd>End</kbd></span
-            ><span role="cell">Moves focus to the first or last slot.</span>
-          </div>
-          <div role="row">
-            <kbd role="cell">Backspace</kbd
-            ><span role="cell"
-              >Clears the current character, or moves back and clears when the current slot is
-              empty.</span
+        <app-reference-table class="api-table keyboard-table" caption="InputOtp keyboard support">
+          <ng-template appReferenceHeader="Key" />
+          <ng-template appReferenceHeader="Function" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><span>Accepted character</span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Replaces the current slot and advances to the next slot.</span></ng-template
             >
-          </div>
-          <div role="row">
-            <kbd role="cell">Delete</kbd
-            ><span role="cell">Clears the current character without moving focus.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Ctrl</kbd> / <kbd>Command</kbd> + <kbd>V</kbd></span
-            ><span role="cell"
-              >Distributes compatible pasted characters from the focused slot onward.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Arrow Left</kbd> / <kbd>Arrow Right</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Moves focus to the previous or next slot.</span></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></span
-            ><span role="cell"
-              >Moves through slots and then continues normal document navigation.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Home</kbd> / <kbd>End</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Moves focus to the first or last slot.</span></ng-template
             >
-          </div>
-        </div>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Backspace</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Clears the current character, or moves back and clears when the current slot is
+                empty.</span
+              ></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Delete</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span>Clears the current character without moving focus.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Ctrl</kbd> / <kbd>Command</kbd> + <kbd>V</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Distributes compatible pasted characters from the focused slot onward.</span
+              ></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves through slots and then continues normal document navigation.</span
+              ></ng-template
+            >
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
   </aeris-tabs>

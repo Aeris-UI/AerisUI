@@ -187,140 +187,170 @@
       </div>
     </div>
 
-    <details class="design-lab__disclosure design-lab__advanced-foundations">
-      <summary>Advanced surfaces and text</summary>
-      <aeris-card padding="lg">
-        <strong>{{ resolvedMode() === 'light' ? 'Light' : 'Dark' }} scheme foundations</strong>
-        <p class="design-lab__tones-note">
-          Switch Color mode to edit the other scheme. Choose colors with the pickers and adjust each
-          shadow below. Inherit removes the override and follows your theme.
-        </p>
-        <app-lab-color-fields
-          [fields]="foundationColorFields()"
-          [error]="editError()"
-          (valueChange)="updateScheme($event.key, $event.value)"
-          (inherit)="inheritScheme($event)"
-        />
-        <app-lab-shadow-fields
-          [fields]="shadowFields()"
-          (valueChange)="updateScheme($event.key, $event.value)"
-          (inherit)="inheritScheme($event)"
-        />
-      </aeris-card>
-    </details>
-
-    <details class="design-lab__disclosure design-lab__advanced">
-      <summary>Advanced interaction colors</summary>
-      <aeris-card class="design-lab__tones" padding="lg">
-        <div class="design-lab__tones-heading">
-          <div>
-            <span class="design-lab__tones-title">
-              <strong>Semantic interaction tones</strong>
-              <aeris-badge
-                [value]="resolvedMode() + ' scheme'"
-                severity="info"
-                variant="soft"
-                size="sm"
-              />
-            </span>
-            <p>
-              Preview every severity across filled, outline, and text treatments. Aeris calculates
-              accessible foregrounds automatically; changing a state below creates an explicit
-              override for the currently previewed scheme.
-            </p>
-          </div>
-          <button
-            aerisButton
-            type="button"
-            size="sm"
-            variant="solid"
-            severity="secondary"
-            (click)="resetSemanticTones()"
-          >
-            Use automatic tones
-          </button>
+    <aeris-accordion
+      class="design-lab__disclosure design-lab__advanced-foundations"
+      [(value)]="foundationsExpanded"
+    >
+      <aeris-accordion-panel value="foundations" header="Advanced surfaces and text">
+        <div class="design-lab__disclosure-content">
+          <strong>{{ resolvedMode() === 'light' ? 'Light' : 'Dark' }} scheme foundations</strong>
+          <p class="design-lab__tones-note">
+            Switch Color mode to edit the other scheme. Choose colors with the pickers and adjust
+            each shadow below. Inherit removes the override and follows your theme.
+          </p>
+          <app-lab-color-fields
+            [fields]="foundationColorFields()"
+            [error]="editError()"
+            (valueChange)="updateScheme($event.key, $event.value)"
+            (inherit)="inheritScheme($event)"
+          />
+          <app-lab-shadow-fields
+            [fields]="shadowFields()"
+            (valueChange)="updateScheme($event.key, $event.value)"
+            (inherit)="inheritScheme($event)"
+          />
         </div>
+      </aeris-accordion-panel>
+    </aeris-accordion>
 
-        <div class="design-lab__tone-list">
-          @for (tone of toneRows(); track tone.name) {
-            <article class="design-lab__tone" [attr.data-customized]="tone.customized || null">
-              <header>
-                <span>
-                  <strong>{{ tone.label }}</strong>
-                  <small>{{ tone.description }}</small>
-                </span>
-                @if (tone.customized) {
-                  <button
-                    aerisButton
-                    type="button"
-                    size="xs"
-                    variant="ghost"
-                    (click)="resetTone(tone.name)"
-                  >
-                    Auto
-                  </button>
-                }
-              </header>
-
-              <div
-                class="design-lab__tone-preview"
-                role="group"
-                [attr.aria-label]="tone.label + ' button previews'"
-              >
-                <button aerisButton type="button" size="sm" [severity]="tone.name">Filled</button>
-                <button
-                  aerisButton
-                  type="button"
+    <aeris-accordion class="design-lab__disclosure design-lab__advanced" [(value)]="tonesExpanded">
+      <aeris-accordion-panel value="tones" header="Advanced interaction colors">
+        <div class="design-lab__disclosure-content">
+          <div class="design-lab__tones-heading">
+            <div>
+              <span class="design-lab__tones-title">
+                <strong>Semantic interaction tones</strong>
+                <aeris-badge
+                  [value]="resolvedMode() + ' scheme'"
+                  severity="info"
+                  variant="soft"
                   size="sm"
-                  variant="outline"
-                  [severity]="tone.name"
-                >
-                  Outline
-                </button>
-                <button aerisButton type="button" size="sm" variant="ghost" [severity]="tone.name">
-                  Text
-                </button>
-              </div>
-
-              <div class="design-lab__tone-colors">
-                @for (property of toneProperties; track property.key) {
-                  <div>
-                    <span>{{ property.label }}</span>
-                    <aeris-color-picker
-                      size="xs"
-                      format="hex"
-                      [showInput]="false"
-                      [showFormat]="false"
-                      [ariaLabel]="'Choose ' + tone.label + ' ' + property.label + ' color'"
-                      [value]="tone.resolved[property.key]"
-                      (valueChange)="updateTone(tone.name, property.key, $event)"
-                    />
-                  </div>
-                }
-              </div>
-              <details class="design-lab__disclosure">
-                <summary>All {{ tone.label }} tone properties</summary>
-                <app-lab-color-fields
-                  [fields]="tone.fields"
-                  [allowAutomatic]="true"
-                  [error]="editError()"
-                  (valueChange)="updateTone(tone.name, $event.key, $event.value)"
-                  (inherit)="resetToneField(tone.name, $event, false)"
-                  (automatic)="resetToneField(tone.name, $event, true)"
                 />
-              </details>
-            </article>
-          }
-        </div>
+              </span>
+              <p>
+                Preview every severity across filled, outline, and text treatments. Aeris calculates
+                accessible foregrounds automatically; changing a state below creates an explicit
+                override for the currently previewed scheme.
+              </p>
+            </div>
+            <button
+              aerisButton
+              type="button"
+              size="sm"
+              variant="solid"
+              severity="secondary"
+              (click)="resetSemanticTones()"
+            >
+              Use automatic tones
+            </button>
+          </div>
 
-        <p class="design-lab__tones-note">
-          Switch Color mode above to configure light and dark overrides independently. Leave a tone
-          on Auto to keep it synchronized with its palette seed and Aeris contrast calculations.
-          Inherit uses the starter theme value; Auto explicitly requests derivation. Individual text
-          and state overrides are available under All tone properties.
-        </p>
-      </aeris-card>
-    </details>
+          <div class="design-lab__tone-list">
+            @for (tone of toneRows(); track tone.name) {
+              <aeris-card
+                class="design-lab__tone"
+                padding="sm"
+                [attr.data-customized]="tone.customized || null"
+              >
+                <header aerisCardHeader class="design-lab__tone-heading">
+                  <span>
+                    <strong>{{ tone.label }}</strong>
+                    <small>{{ tone.description }}</small>
+                  </span>
+                  @if (tone.customized) {
+                    <button
+                      aerisButton
+                      type="button"
+                      size="xs"
+                      variant="ghost"
+                      (click)="resetTone(tone.name)"
+                    >
+                      Auto
+                    </button>
+                  }
+                </header>
+
+                <div class="design-lab__tone-content">
+                  <div
+                    class="design-lab__tone-preview"
+                    role="group"
+                    [attr.aria-label]="tone.label + ' button previews'"
+                  >
+                    <button aerisButton type="button" size="sm" [severity]="tone.name">
+                      Filled
+                    </button>
+                    <button
+                      aerisButton
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      [severity]="tone.name"
+                    >
+                      Outline
+                    </button>
+                    <button
+                      aerisButton
+                      type="button"
+                      size="sm"
+                      variant="ghost"
+                      [severity]="tone.name"
+                    >
+                      Text
+                    </button>
+                  </div>
+
+                  <div class="design-lab__tone-colors">
+                    @for (property of toneProperties; track property.key) {
+                      <div>
+                        <span>{{ property.label }}</span>
+                        <aeris-color-picker
+                          size="xs"
+                          format="hex"
+                          [showInput]="false"
+                          [showFormat]="false"
+                          [ariaLabel]="'Choose ' + tone.label + ' ' + property.label + ' color'"
+                          [value]="tone.resolved[property.key]"
+                          (valueChange)="updateTone(tone.name, property.key, $event)"
+                        />
+                      </div>
+                    }
+                  </div>
+                  <aeris-accordion
+                    class="design-lab__disclosure"
+                    size="sm"
+                    [value]="expandedToneProperties()[tone.name] ?? ''"
+                    (valueChange)="setTonePropertiesExpanded(tone.name, $event)"
+                  >
+                    <aeris-accordion-panel
+                      value="properties"
+                      [header]="'All ' + tone.label + ' tone properties'"
+                    >
+                      <div class="design-lab__disclosure-content">
+                        <app-lab-color-fields
+                          [fields]="tone.fields"
+                          [allowAutomatic]="true"
+                          [error]="editError()"
+                          (valueChange)="updateTone(tone.name, $event.key, $event.value)"
+                          (inherit)="resetToneField(tone.name, $event, false)"
+                          (automatic)="resetToneField(tone.name, $event, true)"
+                        />
+                      </div>
+                    </aeris-accordion-panel>
+                  </aeris-accordion>
+                </div>
+              </aeris-card>
+            }
+          </div>
+
+          <p class="design-lab__tones-note">
+            Switch Color mode above to configure light and dark overrides independently. Leave a
+            tone on Auto to keep it synchronized with its palette seed and Aeris contrast
+            calculations. Inherit uses the starter theme value; Auto explicitly requests derivation.
+            Individual text and state overrides are available under All tone properties.
+          </p>
+        </div>
+      </aeris-accordion-panel>
+    </aeris-accordion>
   </section>
 
   <section class="design-lab__preview" aria-labelledby="preview-title">
@@ -334,174 +364,178 @@
     <app-aeris-showcase-gallery />
   </section>
 
-  <details class="design-lab__disclosure design-lab__report">
-    <summary>
-      Contrast report
-      <span
-        >Light: {{ contrastReports().light.statusLabel }} / Dark:
-        {{ contrastReports().dark.statusLabel }}</span
-      >
-    </summary>
-    <section class="design-lab__contrast" aria-labelledby="contrast-report-title">
-      <header class="design-lab__contrast-heading">
-        <div>
-          <p>Accessibility report</p>
-          <h3 id="contrast-report-title">Contrast across the complete theme.</h3>
-          <span>
-            Live WCAG 2.2 AA checks cover text, semantic states, focus indicators, borders, and
-            control boundaries in both color schemes.
-          </span>
-        </div>
-        <div class="design-lab__contrast-actions">
-          <div role="group" aria-label="Contrast report scheme">
-            @for (report of contrastReportOptions(); track report.mode) {
-              <button
-                aerisButton
-                type="button"
-                size="sm"
-                [variant]="contrastMode() === report.mode ? 'solid' : 'ghost'"
-                [severity]="contrastMode() === report.mode ? 'secondary' : 'primary'"
-                [attr.aria-pressed]="contrastMode() === report.mode"
-                (click)="setContrastMode(report.mode)"
-              >
-                {{ report.mode === 'light' ? 'Light' : 'Dark' }}
-                <aeris-badge
-                  [value]="report.issueCount === 0 ? 'Pass' : report.issueCount"
-                  [severity]="
-                    report.failed > 0 ? 'danger' : report.unresolved > 0 ? 'warning' : 'success'
-                  "
-                  variant="soft"
-                  size="sm"
-                />
-              </button>
-            }
-          </div>
-          <button
-            aerisButton
-            type="button"
-            size="sm"
-            variant="outline"
-            [attr.aria-pressed]="showOnlyContrastIssues()"
-            (click)="toggleContrastIssues()"
+  <aeris-accordion class="design-lab__disclosure design-lab__report" [headingLevel]="2">
+    <aeris-accordion-panel value="report" header="Contrast report">
+      <ng-template aerisAccordionHeader>
+        <span class="design-lab__report-label">
+          Contrast report
+          <span
+            >Light: {{ contrastReports().light.statusLabel }} / Dark:
+            {{ contrastReports().dark.statusLabel }}</span
           >
-            {{ showOnlyContrastIssues() ? 'Show all checks' : 'Show issues only' }}
-          </button>
-        </div>
-      </header>
-
-      <aeris-card class="design-lab__contrast-report" padding="lg">
-        <div class="design-lab__contrast-summary">
-          <div class="design-lab__contrast-score">
+        </span>
+      </ng-template>
+      <section class="design-lab__disclosure-content" aria-labelledby="contrast-report-title">
+        <header class="design-lab__contrast-heading">
+          <div>
+            <p>Accessibility report</p>
+            <h3 id="contrast-report-title">Contrast across the complete theme.</h3>
             <span>
-              <strong>{{ selectedContrastReport().score }}%</strong>
-              <small>resolved checks passing</small>
+              Live WCAG 2.2 AA checks cover text, semantic states, focus indicators, borders, and
+              control boundaries in both color schemes.
             </span>
-            <aeris-progress-bar
+          </div>
+          <div class="design-lab__contrast-actions">
+            <div role="group" aria-label="Contrast report scheme">
+              @for (report of contrastReportOptions(); track report.mode) {
+                <button
+                  aerisButton
+                  type="button"
+                  size="sm"
+                  [variant]="contrastMode() === report.mode ? 'solid' : 'ghost'"
+                  [severity]="contrastMode() === report.mode ? 'secondary' : 'primary'"
+                  [attr.aria-pressed]="contrastMode() === report.mode"
+                  (click)="setContrastMode(report.mode)"
+                >
+                  {{ report.mode === 'light' ? 'Light' : 'Dark' }}
+                  <aeris-badge
+                    [value]="report.issueCount === 0 ? 'Pass' : report.issueCount"
+                    [severity]="
+                      report.failed > 0 ? 'danger' : report.unresolved > 0 ? 'warning' : 'success'
+                    "
+                    variant="soft"
+                    size="sm"
+                  />
+                </button>
+              }
+            </div>
+            <button
+              aerisButton
+              type="button"
               size="sm"
-              [value]="selectedContrastReport().score"
-              [showValue]="false"
-              [severity]="selectedContrastReport().failed > 0 ? 'warning' : 'success'"
-              [ariaLabel]="selectedContrastReport().mode + ' scheme contrast score'"
-              [ariaValueText]="selectedContrastReport().score + '% of resolved checks pass'"
-            />
+              variant="outline"
+              [attr.aria-pressed]="showOnlyContrastIssues()"
+              (click)="toggleContrastIssues()"
+            >
+              {{ showOnlyContrastIssues() ? 'Show all checks' : 'Show issues only' }}
+            </button>
+          </div>
+        </header>
+
+        <div class="design-lab__contrast-report">
+          <div class="design-lab__contrast-summary">
+            <div class="design-lab__contrast-score">
+              <span>
+                <strong>{{ selectedContrastReport().score }}%</strong>
+                <small>resolved checks passing</small>
+              </span>
+              <aeris-progress-bar
+                size="sm"
+                [value]="selectedContrastReport().score"
+                [showValue]="false"
+                [severity]="selectedContrastReport().failed > 0 ? 'warning' : 'success'"
+                [ariaLabel]="selectedContrastReport().mode + ' scheme contrast score'"
+                [ariaValueText]="selectedContrastReport().score + '% of resolved checks pass'"
+              />
+            </div>
+
+            <dl>
+              <div>
+                <dt>Passed</dt>
+                <dd>{{ selectedContrastReport().passed }}</dd>
+              </div>
+              <div>
+                <dt>Failed</dt>
+                <dd>{{ selectedContrastReport().failed }}</dd>
+              </div>
+              <div>
+                <dt>Review</dt>
+                <dd>{{ selectedContrastReport().unresolved }}</dd>
+              </div>
+              <div>
+                <dt>Total</dt>
+                <dd>{{ selectedContrastReport().total }}</dd>
+              </div>
+            </dl>
           </div>
 
-          <dl>
-            <div>
-              <dt>Passed</dt>
-              <dd>{{ selectedContrastReport().passed }}</dd>
-            </div>
-            <div>
-              <dt>Failed</dt>
-              <dd>{{ selectedContrastReport().failed }}</dd>
-            </div>
-            <div>
-              <dt>Review</dt>
-              <dd>{{ selectedContrastReport().unresolved }}</dd>
-            </div>
-            <div>
-              <dt>Total</dt>
-              <dd>{{ selectedContrastReport().total }}</dd>
-            </div>
-          </dl>
-        </div>
+          <aeris-message
+            size="sm"
+            variant="outlined"
+            [severity]="contrastMessageSeverity()"
+            [text]="contrastMessage()"
+          />
 
-        <aeris-message
-          size="sm"
-          variant="outlined"
-          [severity]="contrastMessageSeverity()"
-          [text]="contrastMessage()"
-        />
+          <aeris-accordion
+            class="design-lab__contrast-details"
+            [(value)]="expandedContrastGroups"
+            size="sm"
+            variant="separated"
+            [multiple]="true"
+            [headingLevel]="4"
+          >
+            @for (group of displayedContrastGroups(); track group.category) {
+              <aeris-accordion-panel [value]="group.category" [header]="group.label">
+                <ng-template aerisAccordionHeader>
+                  <span class="design-lab__contrast-group-heading">
+                    <span>
+                      <strong>{{ group.label }}</strong>
+                      <small>{{ group.checks.length }} checks</small>
+                    </span>
+                    <span>
+                      @if (group.failed > 0) {
+                        <aeris-badge
+                          [value]="group.failed + ' failed'"
+                          severity="danger"
+                          variant="soft"
+                          size="sm"
+                        />
+                      }
+                      @if (group.unresolved > 0) {
+                        <aeris-badge
+                          [value]="group.unresolved + ' review'"
+                          severity="warning"
+                          variant="soft"
+                          size="sm"
+                        />
+                      }
+                      @if (group.failed === 0 && group.unresolved === 0) {
+                        <aeris-badge value="Pass" severity="success" variant="soft" size="sm" />
+                      }
+                    </span>
+                  </span>
+                </ng-template>
 
-        <div class="design-lab__contrast-details">
-          @for (group of displayedContrastGroups(); track group.category) {
-            <details>
-              <summary>
-                <span>
-                  <strong>{{ group.label }}</strong>
-                  <small>{{ group.checks.length }} checks</small>
-                </span>
-                <span>
-                  @if (group.failed > 0) {
-                    <aeris-badge
-                      [value]="group.failed + ' failed'"
-                      severity="danger"
-                      variant="soft"
-                      size="sm"
-                    />
-                  }
-                  @if (group.unresolved > 0) {
-                    <aeris-badge
-                      [value]="group.unresolved + ' review'"
-                      severity="warning"
-                      variant="soft"
-                      size="sm"
-                    />
-                  }
-                  @if (group.failed === 0 && group.unresolved === 0) {
-                    <aeris-badge value="Pass" severity="success" variant="soft" size="sm" />
-                  }
-                  <span class="design-lab__contrast-chevron" aria-hidden="true"></span>
-                </span>
-              </summary>
-
-              <div class="design-lab__contrast-table-wrap" tabindex="0">
-                <table>
-                  <caption class="visually-hidden">
-                    {{
-                      selectedContrastReport().mode
-                    }}
-                    scheme
-                    {{
-                      group.label
-                    }}
-                    contrast checks
-                  </caption>
-                  <thead>
-                    <tr>
-                      <th scope="col">Check</th>
-                      <th scope="col">Colors</th>
-                      <th scope="col">Ratio</th>
-                      <th scope="col">Required</th>
-                      <th scope="col">Result</th>
-                    </tr>
-                  </thead>
-                  <tbody>
+                @defer (when expandedContrastGroups().includes(group.category)) {
+                  <app-reference-table
+                    [caption]="
+                      selectedContrastReport().mode + ' scheme ' + group.label + ' contrast checks'
+                    "
+                  >
+                    <ng-template appReferenceHeader="Check" />
+                    <ng-template appReferenceHeader="Colors" />
+                    <ng-template appReferenceHeader="Ratio" />
+                    <ng-template appReferenceHeader="Required" />
+                    <ng-template appReferenceHeader="Result" />
                     @for (check of group.checks; track check.id) {
-                      <tr [attr.data-status]="check.status">
-                        <th scope="row">
-                          <strong>{{ check.label }}</strong>
-                          <small>{{ check.description }}</small>
-                          @if (check.status !== 'pass') {
-                            <span>{{ check.guidance }}</span>
-                          }
-                          <app-lab-contrast-trace
-                            [colors]="check.colors"
-                            [label]="check.label"
-                            (edit)="editContrastColor($event)"
-                          />
-                        </th>
-                        <td>
+                      <ng-container appReferenceRow>
+                        <ng-template appReferenceCell>
+                          <div class="design-lab__contrast-check">
+                            <strong>{{ check.label }}</strong>
+                            <small>{{ check.description }}</small>
+                            @if (check.status !== 'pass') {
+                              <span class="design-lab__contrast-guidance">{{
+                                check.guidance
+                              }}</span>
+                            }
+                            <app-lab-contrast-trace
+                              [colors]="check.colors"
+                              [label]="check.label"
+                              (edit)="editContrastColor($event)"
+                            />
+                          </div>
+                        </ng-template>
+                        <ng-template appReferenceCell>
                           <span class="design-lab__contrast-colors">
                             <i [style.background]="check.background" aria-hidden="true"></i>
                             <i [style.background]="check.foreground" aria-hidden="true"></i>
@@ -510,15 +544,15 @@
                               <code>{{ check.background }}</code>
                             </span>
                           </span>
-                        </td>
-                        <td>
+                        </ng-template>
+                        <ng-template appReferenceCell>
                           <strong>{{ check.ratioLabel }}</strong>
-                        </td>
-                        <td>
+                        </ng-template>
+                        <ng-template appReferenceCell>
                           {{ check.requiredLabel }}
                           <small>WCAG {{ check.criterion }}</small>
-                        </td>
-                        <td>
+                        </ng-template>
+                        <ng-template appReferenceCell>
                           <aeris-badge
                             [value]="check.statusLabel"
                             [severity]="
@@ -531,33 +565,35 @@
                             variant="soft"
                             size="sm"
                           />
-                        </td>
-                      </tr>
+                        </ng-template>
+                      </ng-container>
                     }
-                  </tbody>
-                </table>
-              </div>
-            </details>
+                  </app-reference-table>
+                } @placeholder {
+                  <aeris-skeleton shape="rectangle" height="6rem" />
+                }
+              </aeris-accordion-panel>
+            }
+          </aeris-accordion>
+
+          @if (displayedContrastGroups().length === 0) {
+            <aeris-message
+              severity="success"
+              variant="simple"
+              size="sm"
+              text="No contrast issues were found in this scheme."
+            />
           }
+
+          <p class="design-lab__contrast-note">
+            Ratios are calculated from opaque HEX, RGB, and HSL values. CSS variables and other
+            unresolved expressions are marked for review. The score excludes unresolved checks and
+            does not replace testing rendered content with assistive technology.
+          </p>
         </div>
-
-        @if (displayedContrastGroups().length === 0) {
-          <aeris-message
-            severity="success"
-            variant="simple"
-            size="sm"
-            text="No contrast issues were found in this scheme."
-          />
-        }
-
-        <p class="design-lab__contrast-note">
-          Ratios are calculated from opaque HEX, RGB, and HSL values. CSS variables and other
-          unresolved expressions are marked for review. The score excludes unresolved checks and
-          does not replace testing rendered content with assistive technology.
-        </p>
-      </aeris-card>
-    </section>
-  </details>
+      </section>
+    </aeris-accordion-panel>
+  </aeris-accordion>
 
   <section class="design-lab__code" aria-labelledby="generated-code-title">
     <header>
@@ -582,46 +618,61 @@
         Clear saved draft
       </button>
     </div>
-    <details class="design-lab__disclosure">
-      <summary>Import theme JSON</summary>
-      <p class="design-lab__tones-note">
-        Paste a Design Lab export or an AerisThemeOverride JSON object. Import replaces the current
-        theme.
-      </p>
-      <label for="lab-import">Theme JSON</label>
-      <textarea
-        aerisTextarea
-        id="lab-import"
-        rows="8"
-        [fluid]="true"
-        [value]="importText()"
-        [invalid]="importError()"
-        [attr.aria-describedby]="importError() ? 'lab-transfer-message' : null"
-        (input)="setImportText($event)"
-        spellcheck="false"
-      ></textarea>
-      <div class="design-lab__workflow">
-        <button
-          aerisButton
-          type="button"
-          size="sm"
-          [disabled]="!importText().trim()"
-          (click)="importTheme()"
-        >
-          Import theme
-        </button>
-        <button aerisButton type="button" size="sm" variant="outline" (click)="themeFile.click()">
-          Choose JSON file
-        </button>
-        <input
-          #themeFile
-          type="file"
-          accept=".json,application/json"
-          hidden
-          (change)="readImportFile($event)"
-        />
-      </div>
-    </details>
+    <aeris-accordion class="design-lab__disclosure">
+      <aeris-accordion-panel value="import" header="Import theme JSON">
+        <div class="design-lab__disclosure-content">
+          <p class="design-lab__tones-note">
+            Paste a Design Lab export or an AerisThemeOverride JSON object. Import replaces the
+            current theme.
+          </p>
+          <aeris-form-field
+            controlId="lab-import"
+            fluid
+            [invalid]="importError()"
+            [ariaDescribedBy]="importError() ? 'lab-transfer-message' : ''"
+          >
+            <label aerisFormLabel>Theme JSON</label>
+            <textarea
+              aerisTextarea
+              aerisFormControl
+              rows="8"
+              [fluid]="true"
+              [value]="importText()"
+              [invalid]="importError()"
+              (input)="setImportText($event)"
+              spellcheck="false"
+            ></textarea>
+          </aeris-form-field>
+          <div class="design-lab__workflow">
+            <button
+              aerisButton
+              type="button"
+              size="sm"
+              [disabled]="!importText().trim()"
+              (click)="importTheme()"
+            >
+              Import theme
+            </button>
+            <button
+              aerisButton
+              type="button"
+              size="sm"
+              variant="outline"
+              (click)="themeFile.click()"
+            >
+              Choose JSON file
+            </button>
+            <input
+              #themeFile
+              type="file"
+              accept=".json,application/json"
+              hidden
+              (change)="readImportFile($event)"
+            />
+          </div>
+        </div>
+      </aeris-accordion-panel>
+    </aeris-accordion>
     @if (transferMessage()) {
       <p
         id="lab-transfer-message"
@@ -631,10 +682,13 @@
         {{ transferMessage() }}
       </p>
     }
-    <details class="design-lab__disclosure">
-      <summary>View export JSON</summary>
-      <app-code-block [code]="exportJson()" language="JSON" />
-    </details>
+    <aeris-accordion class="design-lab__disclosure">
+      <aeris-accordion-panel value="export" header="View export JSON">
+        <div class="design-lab__disclosure-content">
+          <app-code-block [code]="exportJson()" language="JSON" />
+        </div>
+      </aeris-accordion-panel>
+    </aeris-accordion>
     <div class="design-lab__code-grid">
       <section class="design-lab__code-item" aria-labelledby="theme-code-title">
         <div class="design-lab__code-heading">

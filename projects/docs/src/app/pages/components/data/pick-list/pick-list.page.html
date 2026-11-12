@@ -276,80 +276,105 @@
         <div class="doc-content-layout">
           <div class="doc-content-main">
             <h3 id="pick-list-api-inputs" tabindex="-1">Inputs</h3>
-            <div class="api-table" role="table" aria-label="PickList inputs" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="PickList inputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of inputs; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
             <h3 id="pick-list-api-models" tabindex="-1">Models</h3>
-            <div class="api-table" role="table" aria-label="PickList models" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="PickList models">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of models; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
             <h3 id="pick-list-api-outputs" tabindex="-1">Outputs</h3>
-            <div class="api-table" role="table" aria-label="PickList outputs" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Payload</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="PickList outputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Payload" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of outputs; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
             <h3 id="pick-list-api-templates" tabindex="-1">Templates</h3>
-            <div class="api-table" role="table" aria-label="PickList templates" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Context</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="PickList templates">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Context" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of templates; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
             <h3 id="pick-list-api-methods" tabindex="-1">Methods</h3>
-            <div class="api-table" role="table" aria-label="PickList methods" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Returns</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="PickList methods">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Returns" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of methods; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
           </div>
           <app-page-toc title="API" ariaLabel="PickList API on this page" [links]="apiLinks" />
         </div>
@@ -365,53 +390,55 @@
     <aeris-tab-panel value="tokens" label="Tokens"
       ><section class="doc-section">
         <h2>Design tokens</h2>
-        <div
-          class="api-table compact"
-          role="table"
-          aria-label="PickList design tokens"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
-            ><b role="columnheader">Fallback</b>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-pick-list-gap</code
-            ><span role="cell">Space between panes and transfer controls.</span
-            ><code role="cell">0.875rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-pick-list-border</code
-            ><span role="cell">Pane border color.</span><code role="cell">--aeris-border</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-pick-list-radius</code
-            ><span role="cell">Pane corner radius.</span
-            ><code role="cell">--aeris-radius-surface</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-pick-list-min-height</code
-            ><span role="cell">Minimum listbox viewport height.</span><code role="cell">16rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-pick-list-max-height</code
-            ><span role="cell">Maximum scrollable viewport height.</span
-            ><code role="cell">22rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-pick-list-item-padding</code
-            ><span role="cell">Item content padding.</span><code role="cell">0.625rem 0.75rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-pick-list-item-radius</code
-            ><span role="cell">Item radius shared with other Aeris selectable rows.</span
-            ><code role="cell">--aeris-radius-item</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-pick-list-filter-height</code
-            ><span role="cell">Filter field height.</span><code role="cell">2.375rem</code>
-          </div>
-        </div>
+        <app-reference-table class="api-table compact" caption="PickList design tokens">
+          <ng-template appReferenceHeader="Token" />
+          <ng-template appReferenceHeader="Purpose" />
+          <ng-template appReferenceHeader="Fallback" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-pick-list-gap</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Space between panes and transfer controls.</span></ng-template
+            ><ng-template appReferenceCell><code>0.875rem</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-pick-list-border</code></ng-template
+            ><ng-template appReferenceCell><span>Pane border color.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-border</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-pick-list-radius</code></ng-template
+            ><ng-template appReferenceCell><span>Pane corner radius.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-radius-surface</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-pick-list-min-height</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Minimum listbox viewport height.</span></ng-template
+            ><ng-template appReferenceCell><code>16rem</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-pick-list-max-height</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Maximum scrollable viewport height.</span></ng-template
+            ><ng-template appReferenceCell><code>22rem</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-pick-list-item-padding</code></ng-template
+            ><ng-template appReferenceCell><span>Item content padding.</span></ng-template
+            ><ng-template appReferenceCell><code>0.625rem 0.75rem</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-pick-list-item-radius</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Item radius shared with other Aeris selectable rows.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-radius-item</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-pick-list-filter-height</code></ng-template
+            ><ng-template appReferenceCell><span>Filter field height.</span></ng-template
+            ><ng-template appReferenceCell><code>2.375rem</code></ng-template>
+          </ng-container>
+        </app-reference-table>
       </section></aeris-tab-panel
     >
 
@@ -436,54 +463,74 @@
           </li>
         </ul>
         <h3>Keyboard support</h3>
-        <div
-          class="api-table keyboard-table"
-          role="table"
-          aria-label="PickList keyboard support"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Key</b><b role="columnheader">Function</b>
-          </div>
-          <div role="row">
-            <kbd role="cell">Tab</kbd
-            ><span role="cell"
-              >Moves through filters, reorder buttons, listboxes, and transfer buttons.</span
+        <app-reference-table class="api-table keyboard-table" caption="PickList keyboard support">
+          <ng-template appReferenceHeader="Key" />
+          <ng-template appReferenceHeader="Function" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Tab</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves through filters, reorder buttons, listboxes, and transfer buttons.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>ArrowUp</kbd> / <kbd>ArrowDown</kbd></span
-            ><span role="cell">Moves the active option within the focused listbox.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Home</kbd> / <kbd>End</kbd></span
-            ><span role="cell">Moves the active option to the first or last filtered item.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
-            ><span role="cell">Toggles selection of the active option.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Ctrl</kbd> / <kbd>Cmd</kbd> + <kbd>A</kbd></span
-            ><span role="cell">Selects all currently filtered options.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Alt</kbd> + <kbd>ArrowRight</kbd></span
-            ><span role="cell">Transfers selected source items to the target.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Alt</kbd> + <kbd>ArrowLeft</kbd></span
-            ><span role="cell">Transfers selected target items to the source.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Alt</kbd> + <kbd>ArrowUp</kbd> / <kbd>ArrowDown</kbd></span
-            ><span role="cell">Reorders selected items by one position.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Alt</kbd> + <kbd>Home</kbd> / <kbd>End</kbd></span
-            ><span role="cell">Moves selected items to the beginning or end of their pane.</span>
-          </div>
-        </div>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>ArrowUp</kbd> / <kbd>ArrowDown</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Moves the active option within the focused listbox.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Home</kbd> / <kbd>End</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Moves the active option to the first or last filtered item.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Enter</kbd> / <kbd>Space</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Toggles selection of the active option.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Ctrl</kbd> / <kbd>Cmd</kbd> + <kbd>A</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Selects all currently filtered options.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Alt</kbd> + <kbd>ArrowRight</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Transfers selected source items to the target.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Alt</kbd> + <kbd>ArrowLeft</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Transfers selected target items to the source.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Alt</kbd> + <kbd>ArrowUp</kbd> / <kbd>ArrowDown</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Reorders selected items by one position.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Alt</kbd> + <kbd>Home</kbd> / <kbd>End</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Moves selected items to the beginning or end of their pane.</span></ng-template
+            >
+          </ng-container>
+        </app-reference-table>
       </section></aeris-tab-panel
     >
   </aeris-tabs>

@@ -43,6 +43,17 @@ All contributions must preserve strict typing, standalone Angular APIs, signal-b
 WCAG 2.2 AA behavior, responsive layouts, framework-safe prefixed styles, and the existing
 secondary-entry-point architecture. Prefer focused changes and framework-native solutions.
 
+## Documentation interface
+
+Use Aeris components for documentation controls, navigation, disclosures, loading states, and
+surfaces whenever a suitable component exists. Do not recreate their appearance or interaction
+with custom markup and styles. Compose them through their public inputs and templates, and keep
+documentation-specific styles limited to layout and content.
+
+If no suitable Aeris component exists, discuss the requirement with a maintainer before building
+a custom alternative. Ordinary semantic content and layout wrappers are still appropriate;
+examples that explicitly demonstrate native-element integration should retain that integration.
+
 ## Making a change
 
 1. Read the [branching strategy](BRANCHING.md), update the intended target branch, and create a

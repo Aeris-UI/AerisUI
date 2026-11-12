@@ -13,6 +13,7 @@ import {
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 import type { Plugin } from 'chart.js';
 
+import { ReferenceTableImports } from '../../../../shared/documentation/reference-table.component';
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
 import {
@@ -32,6 +33,7 @@ interface ApiRow {
 @Component({
   selector: 'app-chart-page',
   imports: [
+    ReferenceTableImports,
     AerisButton,
     AerisCardModule,
     AerisSkeleton,

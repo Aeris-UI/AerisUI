@@ -31,6 +31,7 @@ import {
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 import { type AerisContextMenuItemEvent } from '@aeris-ui/core/context-menu';
 
+import { ReferenceTableImports } from '../../../../shared/documentation/reference-table.component';
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
 import {
@@ -58,6 +59,7 @@ const SELECTION_MEMBERS: readonly AerisTableData[] = [
 @Component({
   selector: 'app-table-page',
   imports: [
+    ReferenceTableImports,
     AerisButton,
     AerisInputTextComponent,
     AerisInputNumber,

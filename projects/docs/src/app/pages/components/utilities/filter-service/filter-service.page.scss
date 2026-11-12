@@ -83,15 +83,6 @@
   list-style: none;
 }
 
-.method-table > div {
-  grid-template-columns: minmax(7rem, 0.45fr) minmax(17rem, 1.2fr) minmax(16rem, 1fr);
-}
-
-.mode-table > div,
-.keyboard-table > div {
-  grid-template-columns: minmax(12rem, 0.55fr) minmax(20rem, 1fr);
-}
-
 @media (max-width: 42rem) {
   .comparison-grid {
     grid-template-columns: 1fr;

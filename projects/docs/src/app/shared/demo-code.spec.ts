@@ -40,8 +40,8 @@ describe('Angular demo code imports', () => {
   it('includes live shared-layout overrides and all custom carousel styling', () => {
     expect(DOC_EXAMPLE_STYLES['select-basic']).toContain('32rem');
     expect(DOC_EXAMPLE_STYLES['color-picker-basic']).toContain('28rem');
-    expect(DOC_EXAMPLE_STYLES['carousel-basic']).toContain('.destination-card::before');
-    expect(DOC_EXAMPLE_STYLES['carousel-basic']).toContain('.destination-card strong');
+    expect(DOC_EXAMPLE_STYLES['carousel-basic']).toContain('.destination-card__media::before');
+    expect(DOC_EXAMPLE_STYLES['carousel-basic']).toContain('.destination-card__media strong');
   });
 
   it('keeps projected icon geometry and wrapping present in copied examples', () => {

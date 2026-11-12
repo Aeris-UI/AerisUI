@@ -534,21 +534,25 @@
               ) {
                 <section [id]="section.id">
                   <h3>{{ section.title }}</h3>
-                  <div class="api-table" role="table" [attr.aria-label]="section.title">
-                    <div role="row">
-                      <span role="columnheader">Name</span><span role="columnheader">Type</span
-                      ><span role="columnheader">Default</span
-                      ><span role="columnheader">Description</span>
-                    </div>
+                  <app-reference-table class="api-table" [caption]="section.title">
+                    <ng-template appReferenceHeader="Name" />
+                    <ng-template appReferenceHeader="Type" />
+                    <ng-template appReferenceHeader="Default" />
+                    <ng-template appReferenceHeader="Description" />
                     @for (row of section.rows; track row.name) {
-                      <div role="row">
-                        <code role="cell">{{ row.name }}</code
-                        ><code role="cell">{{ row.type }}</code
-                        ><code role="cell">{{ row.defaultValue }}</code
-                        ><span role="cell">{{ row.description }}</span>
-                      </div>
+                      <ng-container appReferenceRow>
+                        <ng-template appReferenceCell
+                          ><code>{{ row.name }}</code></ng-template
+                        ><ng-template appReferenceCell
+                          ><code>{{ row.type }}</code></ng-template
+                        ><ng-template appReferenceCell
+                          ><code>{{ row.defaultValue }}</code></ng-template
+                        ><ng-template appReferenceCell
+                          ><span>{{ row.description }}</span></ng-template
+                        >
+                      </ng-container>
                     }
-                  </div>
+                  </app-reference-table>
                 </section>
               }
               <p>
@@ -578,19 +582,22 @@
             Items use the shared density, typography, icon, corner and focus tokens. Mobile overlays
             also use Drawer tokens.
           </p>
-          <div class="api-table" role="table" aria-label="Sidebar tokens">
-            <div role="row">
-              <span role="columnheader">Token</span><span role="columnheader">Default</span
-              ><span role="columnheader">Description</span>
-            </div>
+          <app-reference-table class="api-table" caption="Sidebar tokens">
+            <ng-template appReferenceHeader="Token" />
+            <ng-template appReferenceHeader="Default" />
+            <ng-template appReferenceHeader="Description" />
             @for (token of tokens; track token[0]) {
-              <div role="row">
-                <code role="cell">{{ token[0] }}</code
-                ><code role="cell">{{ token[1] }}</code
-                ><span role="cell">{{ token[2] }}</span>
-              </div>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell
+                  ><code>{{ token[0] }}</code></ng-template
+                ><ng-template appReferenceCell
+                  ><code>{{ token[1] }}</code></ng-template
+                ><ng-template appReferenceCell
+                  ><span>{{ token[2] }}</span></ng-template
+                >
+              </ng-container>
             }
-          </div>
+          </app-reference-table>
         </section></aeris-tab-panel
       >
       <aeris-tab-panel value="accessibility" label="Accessibility"
@@ -625,32 +632,41 @@
             Header/footer remain outside that scrolling region. Motion respects reduced-motion
             preferences.
           </p>
-          <div class="api-table keyboard-table" role="table" aria-label="Sidebar keyboard support">
-            <div role="row">
-              <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
-            </div>
-            <div role="row">
-              <kbd role="cell">Tab / Shift + Tab</kbd
-              ><span role="cell"
-                >Navigate native links and buttons. Only the open mobile Drawer traps focus.</span
+          <app-reference-table class="api-table keyboard-table" caption="Sidebar keyboard support">
+            <ng-template appReferenceHeader="Key" />
+            <ng-template appReferenceHeader="Behavior" />
+            <ng-container appReferenceRow>
+              <ng-template appReferenceCell><kbd>Tab / Shift + Tab</kbd></ng-template
+              ><ng-template appReferenceCell
+                ><span
+                  >Navigate native links and buttons. Only the open mobile Drawer traps focus.</span
+                ></ng-template
               >
-            </div>
-            <div role="row">
-              <kbd role="cell">Enter</kbd
-              ><span role="cell">Follow a focused link or activate a button.</span>
-            </div>
-            <div role="row">
-              <kbd role="cell">Space</kbd
-              ><span role="cell">Activate a focused toggle, group disclosure or item button.</span>
-            </div>
-            <div role="row">
-              <kbd role="cell">Escape</kbd
-              ><span role="cell"
-                >Close the topmost mobile Drawer and restore trigger focus. No special desktop
-                behavior.</span
+            </ng-container>
+            <ng-container appReferenceRow>
+              <ng-template appReferenceCell><kbd>Enter</kbd></ng-template
+              ><ng-template appReferenceCell
+                ><span>Follow a focused link or activate a button.</span></ng-template
               >
-            </div>
-          </div>
+            </ng-container>
+            <ng-container appReferenceRow>
+              <ng-template appReferenceCell><kbd>Space</kbd></ng-template
+              ><ng-template appReferenceCell
+                ><span
+                  >Activate a focused toggle, group disclosure or item button.</span
+                ></ng-template
+              >
+            </ng-container>
+            <ng-container appReferenceRow>
+              <ng-template appReferenceCell><kbd>Escape</kbd></ng-template
+              ><ng-template appReferenceCell
+                ><span
+                  >Close the topmost mobile Drawer and restore trigger focus. No special desktop
+                  behavior.</span
+                ></ng-template
+              >
+            </ng-container>
+          </app-reference-table>
         </section></aeris-tab-panel
       >
     </aeris-tabs>

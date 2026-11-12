@@ -107,23 +107,29 @@
                 >
                   @for (palette of palettes; track palette.id) {
                     <button
+                      aerisButton
+                      variant="ghost"
+                      size="sm"
+                      fluid
                       type="button"
                       [class.active]="activePaletteId() === palette.id"
                       [attr.aria-pressed]="activePaletteId() === palette.id"
                       (click)="selectPalette(palette.id)"
                     >
-                      <span class="docs-palette-swatches" aria-hidden="true">
-                        @for (color of palette.swatches; track color) {
-                          <i [style.background]="color"></i>
+                      <span class="docs-palette-option">
+                        <span class="docs-palette-swatches" aria-hidden="true">
+                          @for (color of palette.swatches; track color) {
+                            <i [style.background]="color"></i>
+                          }
+                        </span>
+                        <span class="docs-palette-copy">
+                          <strong>{{ palette.name }}</strong>
+                          <small>{{ palette.description }}</small>
+                        </span>
+                        @if (activePaletteId() === palette.id) {
+                          <svg [lucideIcon]="icons.Check"></svg>
                         }
                       </span>
-                      <span class="docs-palette-copy">
-                        <strong>{{ palette.name }}</strong>
-                        <small>{{ palette.description }}</small>
-                      </span>
-                      @if (activePaletteId() === palette.id) {
-                        <svg [lucideIcon]="icons.Check"></svg>
-                      }
                     </button>
                   }
                 </div>
@@ -137,23 +143,29 @@
                 <div class="docs-choice-grid" role="group" aria-label="Documentation density">
                   @for (density of densities; track density.id) {
                     <button
+                      aerisButton
+                      variant="ghost"
+                      size="sm"
+                      fluid
                       type="button"
                       [class.active]="activeDensityId() === density.id"
                       [attr.aria-pressed]="activeDensityId() === density.id"
                       (click)="selectDensity(density.id)"
                     >
-                      <span
-                        class="docs-density-preview"
-                        [attr.data-density]="density.id"
-                        aria-hidden="true"
-                      >
-                        <i></i><i></i><i></i>
+                      <span class="docs-choice-option">
+                        <span
+                          class="docs-density-preview"
+                          [attr.data-density]="density.id"
+                          aria-hidden="true"
+                        >
+                          <i></i><i></i><i></i>
+                        </span>
+                        <strong>{{ density.name }}</strong>
+                        <small>{{ density.description }}</small>
+                        @if (activeDensityId() === density.id) {
+                          <svg [lucideIcon]="icons.Check"></svg>
+                        }
                       </span>
-                      <strong>{{ density.name }}</strong>
-                      <small>{{ density.description }}</small>
-                      @if (activeDensityId() === density.id) {
-                        <svg [lucideIcon]="icons.Check"></svg>
-                      }
                     </button>
                   }
                 </div>
@@ -167,21 +179,27 @@
                 <div class="docs-choice-grid" role="group" aria-label="Documentation corner style">
                   @for (radius of radii; track radius.id) {
                     <button
+                      aerisButton
+                      variant="ghost"
+                      size="sm"
+                      fluid
                       type="button"
                       [class.active]="activeRadiusId() === radius.id"
                       [attr.aria-pressed]="activeRadiusId() === radius.id"
                       (click)="selectRadius(radius.id)"
                     >
-                      <span
-                        class="docs-radius-preview"
-                        [attr.data-radius]="radius.id"
-                        aria-hidden="true"
-                      ></span>
-                      <strong>{{ radius.name }}</strong>
-                      <small>{{ radius.description }}</small>
-                      @if (activeRadiusId() === radius.id) {
-                        <svg [lucideIcon]="icons.Check"></svg>
-                      }
+                      <span class="docs-choice-option">
+                        <span
+                          class="docs-radius-preview"
+                          [attr.data-radius]="radius.id"
+                          aria-hidden="true"
+                        ></span>
+                        <strong>{{ radius.name }}</strong>
+                        <small>{{ radius.description }}</small>
+                        @if (activeRadiusId() === radius.id) {
+                          <svg [lucideIcon]="icons.Check"></svg>
+                        }
+                      </span>
                     </button>
                   }
                 </div>
@@ -200,23 +218,29 @@
                 >
                   @for (direction of directions; track direction.id) {
                     <button
+                      aerisButton
+                      variant="ghost"
+                      size="sm"
+                      fluid
                       type="button"
                       [class.active]="activeDirectionId() === direction.id"
                       [attr.aria-pressed]="activeDirectionId() === direction.id"
                       (click)="selectDirection(direction.id)"
                     >
-                      <span
-                        class="docs-density-preview docs-direction-preview"
-                        [attr.data-direction]="direction.id"
-                        aria-hidden="true"
-                      >
-                        <i></i><i></i><i></i>
+                      <span class="docs-choice-option">
+                        <span
+                          class="docs-density-preview docs-direction-preview"
+                          [attr.data-direction]="direction.id"
+                          aria-hidden="true"
+                        >
+                          <i></i><i></i><i></i>
+                        </span>
+                        <strong>{{ direction.name }}</strong>
+                        <small>{{ direction.description }}</small>
+                        @if (activeDirectionId() === direction.id) {
+                          <svg [lucideIcon]="icons.Check"></svg>
+                        }
                       </span>
-                      <strong>{{ direction.name }}</strong>
-                      <small>{{ direction.description }}</small>
-                      @if (activeDirectionId() === direction.id) {
-                        <svg [lucideIcon]="icons.Check"></svg>
-                      }
                     </button>
                   }
                 </div>

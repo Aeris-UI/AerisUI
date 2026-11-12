@@ -201,20 +201,25 @@
           <div class="doc-content-main">
             <section id="class-names-api-inputs" class="api-section">
               <h3>Inputs</h3>
-              <div class="api-table" role="table" aria-label="ClassNames inputs" tabindex="0">
-                <div class="api-head" role="row">
-                  <b role="columnheader">Name</b><b role="columnheader">Type</b
-                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-                </div>
+              <app-reference-table class="api-table" caption="ClassNames inputs">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of inputs; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
           </div>
           <app-page-toc title="API sections" ariaLabel="ClassNames API" [links]="apiLinks" />
@@ -264,23 +269,19 @@
           </li>
         </ul>
         <h3>Keyboard support</h3>
-        <div
-          class="api-table keyboard-table"
-          role="table"
-          aria-label="ClassNames keyboard support"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
-          </div>
-          <div role="row">
-            <span role="cell">Any key</span
-            ><span role="cell"
-              >ClassNames handles no keyboard input; the host and its descendants retain their
-              native behavior.</span
+        <app-reference-table class="api-table keyboard-table" caption="ClassNames keyboard support">
+          <ng-template appReferenceHeader="Key" />
+          <ng-template appReferenceHeader="Behavior" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><span>Any key</span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >ClassNames handles no keyboard input; the host and its descendants retain their
+                native behavior.</span
+              ></ng-template
             >
-          </div>
-        </div>
+          </ng-container>
+        </app-reference-table>
       </section></aeris-tab-panel
     >
   </aeris-tabs>

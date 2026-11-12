@@ -64,8 +64,7 @@ import type { LabColorField } from './design-lab-theme';
     :host {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
-      gap: 1rem;
-      padding-block: 1rem;
+      gap: var(--aeris-content-gap, 1rem);
     }
     .field {
       display: grid;

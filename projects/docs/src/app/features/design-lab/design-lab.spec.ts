@@ -5,6 +5,20 @@ import { DesignLab } from './design-lab';
 import { LAB_DRAFT_KEY, parseLabThemeDocument } from './design-lab-theme';
 
 describe('DesignLab workflow', () => {
+  it('reveals foundation and nested tone accordions through controlled Aeris state without editing', () => {
+    const lab = TestBed.createComponent(DesignLab).componentInstance;
+    const before = lab['themeCode']();
+    lab['setContrastMode']('dark');
+    lab['editContrastColor']('text');
+    expect(lab['foundationsExpanded']()).toBe('foundations');
+    expect(lab['tonesExpanded']()).toBe('');
+    lab['editContrastColor']('tones.primary.onBase');
+    expect(lab['tonesExpanded']()).toBe('tones');
+    expect(lab['expandedToneProperties']()).toEqual({ primary: 'properties' });
+    lab['setTonePropertiesExpanded']('primary', '');
+    expect(lab['expandedToneProperties']()).toEqual({ primary: '' });
+    expect(lab['themeCode']()).toBe(before);
+  });
   it('updates contrast traces after overrides and inheritance without changing the other scheme', () => {
     const lab = TestBed.createComponent(DesignLab).componentInstance;
     const foreground = () =>
@@ -25,7 +39,7 @@ describe('DesignLab workflow', () => {
     lab['inheritScheme']('text');
     expect(foreground()).toEqual(original);
   });
-  beforeEach(() => {
+  beforeEach(async () => {
     const values = new Map<string, string>();
     vi.stubGlobal('localStorage', {
       get length() {
@@ -46,6 +60,7 @@ describe('DesignLab workflow', () => {
       providers: [provideAeris({ mode: 'light', themeValidation: false })],
     });
     TestBed.overrideComponent(DesignLab, { set: { template: '', imports: [] } });
+    await TestBed.compileComponents();
   });
 
   afterEach(() => {

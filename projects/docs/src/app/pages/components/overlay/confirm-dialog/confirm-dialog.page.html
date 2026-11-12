@@ -342,154 +342,186 @@
           <div class="doc-content-main">
             <section id="confirm-dialog-api-service" class="api-section">
               <h3>Service</h3>
-              <div class="api-table" role="table" aria-label="ConfirmDialog service">
-                <div role="row">
-                  <span role="columnheader">Name</span><span role="columnheader">Type</span
-                  ><span role="columnheader">Default</span
-                  ><span role="columnheader">Description</span>
-                </div>
+              <app-reference-table class="api-table" caption="ConfirmDialog service">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of serviceRows; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
 
             <section id="confirm-dialog-api-inputs" class="api-section">
               <h3>Inputs</h3>
-              <div class="api-table" role="table" aria-label="ConfirmDialog inputs">
-                <div role="row">
-                  <span role="columnheader">Name</span><span role="columnheader">Type</span
-                  ><span role="columnheader">Default</span
-                  ><span role="columnheader">Description</span>
-                </div>
+              <app-reference-table class="api-table" caption="ConfirmDialog inputs">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of inputs; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
 
             <section id="confirm-dialog-api-models" class="api-section">
               <h3>Models</h3>
-              <div class="api-table" role="table" aria-label="ConfirmDialog models">
-                <div role="row">
-                  <span role="columnheader">Name</span><span role="columnheader">Type</span
-                  ><span role="columnheader">Default</span
-                  ><span role="columnheader">Description</span>
-                </div>
+              <app-reference-table class="api-table" caption="ConfirmDialog models">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of models; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
 
             <section id="confirm-dialog-api-outputs" class="api-section">
               <h3>Outputs</h3>
-              <div class="api-table" role="table" aria-label="ConfirmDialog outputs">
-                <div role="row">
-                  <span role="columnheader">Name</span><span role="columnheader">Type</span
-                  ><span role="columnheader">Default</span
-                  ><span role="columnheader">Description</span>
-                </div>
+              <app-reference-table class="api-table" caption="ConfirmDialog outputs">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of outputs; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
 
             <section id="confirm-dialog-api-templates" class="api-section">
               <h3>Templates</h3>
-              <div class="api-table" role="table" aria-label="ConfirmDialog templates">
-                <div role="row">
-                  <span role="columnheader">Name</span><span role="columnheader">Context</span
-                  ><span role="columnheader">Default</span
-                  ><span role="columnheader">Description</span>
-                </div>
+              <app-reference-table class="api-table" caption="ConfirmDialog templates">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Context" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of templates; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
 
             <section id="confirm-dialog-api-methods" class="api-section">
               <h3>Methods</h3>
-              <div class="api-table" role="table" aria-label="ConfirmDialog methods">
-                <div role="row">
-                  <span role="columnheader">Name</span><span role="columnheader">Type</span
-                  ><span role="columnheader">Default</span
-                  ><span role="columnheader">Description</span>
-                </div>
+              <app-reference-table class="api-table" caption="ConfirmDialog methods">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of methods; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
 
             <section id="confirm-dialog-api-config" class="api-section">
               <h3>Service config</h3>
-              <div class="api-table" role="table" aria-label="ConfirmDialog config">
-                <div role="row">
-                  <span role="columnheader">Name</span><span role="columnheader">Type</span
-                  ><span role="columnheader">Default</span
-                  ><span role="columnheader">Description</span>
-                </div>
+              <app-reference-table class="api-table" caption="ConfirmDialog config">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of configRows; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
 
             <section id="confirm-dialog-api-ref" class="api-section">
               <h3>Reference</h3>
-              <div class="api-table" role="table" aria-label="ConfirmDialog reference">
-                <div role="row">
-                  <span role="columnheader">Name</span><span role="columnheader">Type</span
-                  ><span role="columnheader">Default</span
-                  ><span role="columnheader">Description</span>
-                </div>
+              <app-reference-table class="api-table" caption="ConfirmDialog reference">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of refRows; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
           </div>
 
@@ -508,47 +540,55 @@
     <aeris-tab-panel value="tokens" label="Tokens">
       <section class="doc-section">
         <h2>Design tokens</h2>
-        <div class="api-table token-table" role="table" aria-label="ConfirmDialog design tokens">
-          <div role="row">
-            <span role="columnheader">Token</span><span role="columnheader">Purpose</span
-            ><span role="columnheader">Fallback</span>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-confirm-dialog-icon-size</code
-            ><span role="cell">Default icon container size.</span><code role="cell">2.5rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-confirm-dialog-icon-background</code
-            ><span role="cell">Icon container background.</span
-            ><code role="cell">color-mix(...)</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-confirm-dialog-icon-color</code
-            ><span role="cell">Icon color.</span><code role="cell">--aeris-primary-text</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-confirm-dialog-message-color</code
-            ><span role="cell">Message text color.</span><code role="cell">--aeris-text-2</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-confirm-dialog-focus</code
-            ><span role="cell">Action focus ring.</span><code role="cell">--aeris-focus</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-dialog-backdrop-blur</code
-            ><span role="cell">Backdrop blur radius.</span
-            ><code role="cell">--aeris-backdrop-blur</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-backdrop-blur</code
-            ><span role="cell">Shared backdrop blur radius.</span><code role="cell">0.25rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-dialog-*</code
-            ><span role="cell">Dialog shell layout, mask, radius, shadow, and spacing.</span
-            ><code role="cell">Dialog tokens</code>
-          </div>
-        </div>
+        <app-reference-table class="api-table token-table" caption="ConfirmDialog design tokens">
+          <ng-template appReferenceHeader="Token" />
+          <ng-template appReferenceHeader="Purpose" />
+          <ng-template appReferenceHeader="Fallback" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-confirm-dialog-icon-size</code></ng-template
+            ><ng-template appReferenceCell><span>Default icon container size.</span></ng-template
+            ><ng-template appReferenceCell><code>2.5rem</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-confirm-dialog-icon-background</code></ng-template
+            ><ng-template appReferenceCell><span>Icon container background.</span></ng-template
+            ><ng-template appReferenceCell><code>color-mix(...)</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-confirm-dialog-icon-color</code></ng-template
+            ><ng-template appReferenceCell><span>Icon color.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-primary-text</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-confirm-dialog-message-color</code></ng-template
+            ><ng-template appReferenceCell><span>Message text color.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-text-2</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-confirm-dialog-focus</code></ng-template
+            ><ng-template appReferenceCell><span>Action focus ring.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-focus</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-dialog-backdrop-blur</code></ng-template
+            ><ng-template appReferenceCell><span>Backdrop blur radius.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-backdrop-blur</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-backdrop-blur</code></ng-template
+            ><ng-template appReferenceCell><span>Shared backdrop blur radius.</span></ng-template
+            ><ng-template appReferenceCell><code>0.25rem</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-dialog-*</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Dialog shell layout, mask, radius, shadow, and spacing.</span></ng-template
+            ><ng-template appReferenceCell><code>Dialog tokens</code></ng-template>
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
 
@@ -583,38 +623,48 @@
         </ul>
 
         <h3>Keyboard support</h3>
-        <div
+        <app-reference-table
           class="api-table keyboard-table"
-          role="table"
-          aria-label="ConfirmDialog keyboard support"
+          caption="ConfirmDialog keyboard support"
         >
-          <div role="row">
-            <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Tab</kbd></span
-            ><span role="cell"
-              >Moves to the next focusable element inside the confirmation and wraps while focusTrap
-              is enabled.</span
+          <ng-template appReferenceHeader="Key" />
+          <ng-template appReferenceHeader="Behavior" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Tab</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves to the next focusable element inside the confirmation and wraps while
+                focusTrap is enabled.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Shift</kbd> + <kbd>Tab</kbd></span
-            ><span role="cell"
-              >Moves to the previous focusable element and wraps while focusTrap is enabled.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Shift</kbd> + <kbd>Tab</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves to the previous focusable element and wraps while focusTrap is enabled.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Escape</kbd></span
-            ><span role="cell">Dismisses the confirmation when closeOnEscape is enabled.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
-            ><span role="cell"
-              >Activates the focused native button, including accept and reject actions.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Escape</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Dismisses the confirmation when closeOnEscape is enabled.</span></ng-template
             >
-          </div>
-        </div>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Enter</kbd> / <kbd>Space</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Activates the focused native button, including accept and reject actions.</span
+              ></ng-template
+            >
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
   </aeris-tabs>

@@ -64,12 +64,11 @@
 
 .skeleton-card {
   max-width: 24rem;
+}
+
+.skeleton-grid__content {
   display: grid;
-  gap: 1rem;
-  padding: 1rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-lg);
-  background: var(--aeris-surface);
+  gap: 0.75rem;
 }
 
 .skeleton-card__header {
@@ -83,15 +82,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
   gap: 1rem;
-}
-
-.skeleton-grid__card {
-  min-width: 0;
-  display: grid;
-  gap: 0.75rem;
-  padding: 0.875rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-lg);
 }
 
 .skeleton-list {
@@ -114,32 +104,6 @@
 
 .skeleton-list__lines {
   gap: 0.5rem;
-}
-
-.skeleton-table-wrap {
-  max-width: 100%;
-  overflow-x: auto;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-lg);
-}
-
-.skeleton-table {
-  width: 100%;
-  min-width: 34rem;
-  border-collapse: collapse;
-}
-
-.skeleton-table th,
-.skeleton-table td {
-  padding: 0.875rem;
-  border-bottom: 1px solid var(--aeris-border);
-  text-align: start;
-}
-
-.skeleton-table th {
-  color: var(--aeris-text-2);
-  font-size: 0.75rem;
-  text-transform: uppercase;
 }
 
 .custom-skeleton {

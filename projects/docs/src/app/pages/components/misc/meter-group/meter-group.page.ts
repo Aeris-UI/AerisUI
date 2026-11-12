@@ -14,6 +14,7 @@ import {
   LucideSettings,
 } from '@lucide/angular';
 
+import { ReferenceTableImports } from '../../../../shared/documentation/reference-table.component';
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
 import {
@@ -39,6 +40,7 @@ interface TokenRow {
 @Component({
   selector: 'app-meter-group-page',
   imports: [
+    ReferenceTableImports,
     AerisButton,
     AerisMeterGroupModule,
     AerisTabsModule,

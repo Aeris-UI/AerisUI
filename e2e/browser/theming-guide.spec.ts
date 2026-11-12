@@ -1,6 +1,97 @@
 import { expect, test } from './fixtures';
 import { readFile } from 'node:fs/promises';
 
+for (const width of [320, 1280]) {
+  test(`Design Lab accordion spacing stays balanced across densities at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/design-lab');
+    const lab = page.locator('app-design-lab');
+    const foundations = lab.locator('.design-lab__advanced-foundations');
+    await lab.getByRole('button', { name: 'Advanced surfaces and text', exact: true }).click();
+    await lab.getByRole('button', { name: 'Advanced interaction colors', exact: true }).click();
+    await lab.getByRole('button', { name: 'All Primary tone properties', exact: true }).click();
+    await lab.getByRole('button', { name: /^Contrast report Light:/ }).click();
+    for (const density of ['Compact', 'Medium', 'Comfortable']) {
+      await page.getByRole('button', { name: /^Customize appearance/ }).click();
+      const choices = page.getByRole('group', { name: 'Documentation density', exact: true });
+      await choices.getByRole('button', { name: new RegExp(`^${density}`) }).click();
+      await expect(
+        choices.getByRole('button', { name: new RegExp(`^${density}`) }),
+      ).toHaveAttribute('aria-pressed', 'true');
+      await page.keyboard.press('Escape');
+      await expect(foundations).toHaveAttribute('data-size', 'md');
+      const geometry = await foundations.evaluate((host) => {
+        const trigger = host.querySelector('.aeris-accordion__trigger');
+        const panel = host.querySelector('.aeris-accordion__panel');
+        const content = host.querySelector('.design-lab__disclosure-content');
+        const fields = host.querySelector('app-lab-color-fields');
+        const first = content?.firstElementChild;
+        if (!trigger || !panel || !content || !fields || !first)
+          throw new Error('Expected foundation disclosure content.');
+        return {
+          gapBefore:
+            host.getBoundingClientRect().top -
+            (host.previousElementSibling?.getBoundingClientRect().bottom ?? 0),
+          contentTop: first.getBoundingClientRect().top - trigger.getBoundingClientRect().bottom,
+          fieldPadding:
+            Number.parseFloat(getComputedStyle(fields).paddingTop) +
+            Number.parseFloat(getComputedStyle(fields).paddingBottom),
+          contentGap: Number.parseFloat(getComputedStyle(content).rowGap),
+          triggerInset: Number.parseFloat(getComputedStyle(trigger).paddingInlineStart),
+          panelInset: Number.parseFloat(getComputedStyle(panel).paddingInlineStart),
+        };
+      });
+      expect(geometry.gapBefore).toBeGreaterThanOrEqual(8);
+      expect(geometry.contentTop).toBeGreaterThanOrEqual(4);
+      expect(geometry.contentTop).toBeLessThanOrEqual(16);
+      expect(geometry.contentGap).toBeGreaterThanOrEqual(8);
+      expect(geometry.panelInset).toBeCloseTo(geometry.triggerInset, 1);
+      expect(geometry.fieldPadding).toBe(0);
+      const tone = lab.locator('.design-lab__tone').first();
+      const swatches = await tone.locator('.design-lab__tone-colors').boundingBox();
+      const disclosure = await tone.locator('aeris-accordion').boundingBox();
+      if (!swatches || !disclosure) throw new Error('Expected tone controls and disclosure.');
+      expect(disclosure.y - swatches.y - swatches.height).toBeGreaterThanOrEqual(8);
+      const report = lab.locator('.design-lab__report');
+      await expect(report.locator('aeris-card')).toHaveCount(0);
+      const reportSpacing = await report.evaluate((host) => {
+        const trigger = host.querySelector('.aeris-accordion__trigger');
+        const heading = host.querySelector('.design-lab__contrast-heading');
+        if (!trigger || !heading) throw new Error('Expected report heading.');
+        return heading.getBoundingClientRect().top - trigger.getBoundingClientRect().bottom;
+      });
+      expect(reportSpacing).toBeGreaterThanOrEqual(4);
+      expect(reportSpacing).toBeLessThanOrEqual(16);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+        width + 1,
+      );
+    }
+  });
+}
+
+test('Design Lab disclosures use Aeris Accordion keyboard and accessibility behavior', async ({
+  page,
+}) => {
+  await page.goto('/design-lab');
+  const lab = page.locator('app-design-lab');
+  await expect(lab.locator('details, summary')).toHaveCount(0);
+  const trigger = lab.getByRole('button', { name: 'Advanced surfaces and text', exact: true });
+  await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  const panelId = await trigger.getAttribute('aria-controls');
+  if (!panelId) throw new Error('Expected an Accordion panel relationship.');
+  const body = lab.locator(`[id="${panelId}"]`).locator('..');
+  await expect(body).toHaveAttribute('inert');
+  await trigger.focus();
+  await page.keyboard.press('Enter');
+  await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+  await expect(body).not.toHaveAttribute('inert');
+  await page.keyboard.press('Space');
+  await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  await expect(body).toHaveAttribute('inert');
+});
+
 test('contrast tracing opens the correct scheme and focuses foundation and tone controls without editing', async ({
   page,
 }) => {
@@ -10,7 +101,7 @@ test('contrast tracing opens the correct scheme and focuses foundation and tone 
   const code = lab.locator('.design-lab__code-item app-code-block code').first();
   await expect(code).toContainText('preset:');
   const before = await code.textContent();
-  await lab.locator('.design-lab__report > summary').click();
+  await lab.getByRole('button', { name: /^Contrast report Light:/ }).click();
   const reportBounds = await lab.locator('.design-lab__contrast-report').boundingBox();
   const configurationBounds = await lab.locator('.design-lab__code').boundingBox();
   if (!reportBounds || !configurationBounds)
@@ -21,9 +112,9 @@ test('contrast tracing opens the correct scheme and focuses foundation and tone 
     .getByRole('button', { name: /dark/i })
     .click();
   await lab
-    .locator('.design-lab__contrast-details > details')
+    .locator('.design-lab__contrast-details > .aeris-accordion__item')
     .first()
-    .locator(':scope > summary')
+    .locator(':scope > .aeris-accordion__heading > button')
     .click();
   const text = lab
     .locator('tr')
@@ -36,16 +127,15 @@ test('contrast tracing opens the correct scheme and focuses foundation and tone 
   await expect(
     lab.locator('aeris-color-picker').filter({ has: page.locator('#lab-dark-text') }),
   ).toHaveCSS('outline-width', '2px');
-  await expect(lab.locator('.design-lab__advanced-foundations')).toHaveAttribute('open');
+  await expect(
+    lab.getByRole('button', { name: 'Advanced surfaces and text', exact: true }),
+  ).toHaveAttribute('aria-expanded', 'true');
   await expect(code).toHaveText(before ?? '');
   const semantic = lab
     .locator('tr')
     .filter({ has: page.getByText('Primary solid content', { exact: true }) });
   // Groups are collapsed independently; reveal semantic content before inspecting it.
-  const group = lab.locator('.design-lab__contrast-details > details').filter({
-    has: page.getByText('Primary solid content', { exact: true }),
-  });
-  await group.locator(':scope > summary').click();
+  await lab.getByRole('button', { name: /^Semantic content/ }).click();
   await semantic.getByText('Trace colors', { exact: false }).click();
   await expect(semantic).toContainText('--aeris-on-primary');
   await semantic
@@ -58,7 +148,9 @@ test('contrast tracing opens the correct scheme and focuses foundation and tone 
   await expect(
     lab.locator('aeris-color-picker').filter({ has: page.locator('#lab-dark-text') }),
   ).toHaveCSS('outline-style', 'none');
-  await expect(lab.locator('.design-lab__advanced')).toHaveAttribute('open');
+  await expect(
+    lab.getByRole('button', { name: 'Advanced interaction colors', exact: true }),
+  ).toHaveAttribute('aria-expanded', 'true');
   await expect(code).toHaveText(before ?? '');
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(391);
 });
@@ -72,7 +164,7 @@ test('Design Lab edits both schemes, restores its draft, and exports the same th
     .getByRole('group', { name: 'Color mode', exact: true })
     .getByRole('button', { name: 'light', exact: true })
     .click();
-  await lab.locator('.design-lab__advanced-foundations > summary').click();
+  await lab.getByRole('button', { name: 'Advanced surfaces and text', exact: true }).click();
   await lab.locator('#lab-light-page').click();
   await page.getByRole('textbox', { name: 'HEX value', exact: true }).fill('#fafafa');
   await page.getByRole('textbox', { name: 'HEX value', exact: true }).press('Enter');
@@ -164,19 +256,19 @@ test('Design Lab keeps its main workflow short without removing advanced control
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/design-lab');
   const lab = page.locator('app-design-lab');
-  const advanced = lab.locator('.design-lab__advanced');
-  const report = lab.locator('.design-lab__report');
-  await expect(advanced).not.toHaveAttribute('open');
-  await expect(report).not.toHaveAttribute('open');
+  const advanced = lab.getByRole('button', { name: 'Advanced interaction colors', exact: true });
+  const report = lab.getByRole('button', { name: /^Contrast report Light:/ });
+  await expect(advanced).toHaveAttribute('aria-expanded', 'false');
+  await expect(report).toHaveAttribute('aria-expanded', 'false');
   for (const seed of ['Surface', 'Primary', 'Secondary', 'Accent', 'Contrast']) {
     await expect(
       lab.getByRole('button', { name: `Choose ${seed} seed`, exact: true }),
     ).toBeVisible();
   }
   await expect(lab.locator('.design-lab__palette-card details')).toHaveCount(0);
-  await advanced.locator(':scope > summary').click();
+  await advanced.click();
   await expect(lab.getByRole('button', { name: 'Use automatic tones', exact: true })).toBeVisible();
-  await report.locator(':scope > summary').click();
+  await report.click();
   await expect(
     lab.getByRole('heading', { name: 'Contrast across the complete theme.' }),
   ).toBeVisible();
@@ -203,8 +295,8 @@ for (const width of [320, 390]) {
     const themeCode = lab.locator('.design-lab__code-item app-code-block code').first();
     await expect(themeCode).toContainText("preset: 'coastal'");
     await expect(themeCode).not.toContainText('palette:');
-    await lab.locator('.design-lab__advanced-foundations > summary').click();
-    await lab.locator('.design-lab__advanced > summary').click();
+    await lab.getByRole('button', { name: 'Advanced surfaces and text', exact: true }).click();
+    await lab.getByRole('button', { name: 'Advanced interaction colors', exact: true }).click();
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
       width + 1,
     );

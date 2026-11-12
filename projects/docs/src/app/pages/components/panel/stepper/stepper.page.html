@@ -413,110 +413,140 @@
           <div class="doc-content-main">
             <section id="stepper-api-inputs" class="api-section">
               <h3>Stepper inputs</h3>
-              <div class="api-table" role="table" aria-label="Stepper inputs" tabindex="0">
-                <div class="api-head" role="row">
-                  <b role="columnheader">Name</b><b role="columnheader">Type</b
-                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-                </div>
+              <app-reference-table class="api-table" caption="Stepper inputs">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of inputs; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
 
             <section id="stepper-api-models" class="api-section">
               <h3>Models</h3>
-              <div class="api-table" role="table" aria-label="Stepper models" tabindex="0">
-                <div class="api-head" role="row">
-                  <b role="columnheader">Name</b><b role="columnheader">Type</b
-                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-                </div>
+              <app-reference-table class="api-table" caption="Stepper models">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of models; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
 
             <section id="stepper-api-outputs" class="api-section">
               <h3>Outputs</h3>
-              <div class="api-table" role="table" aria-label="Stepper outputs" tabindex="0">
-                <div class="api-head" role="row">
-                  <b role="columnheader">Name</b><b role="columnheader">Type</b
-                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-                </div>
+              <app-reference-table class="api-table" caption="Stepper outputs">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of outputs; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
 
             <section id="stepper-api-step-inputs" class="api-section">
               <h3>Step inputs</h3>
-              <div class="api-table" role="table" aria-label="Step inputs" tabindex="0">
-                <div class="api-head" role="row">
-                  <b role="columnheader">Name</b><b role="columnheader">Type</b
-                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-                </div>
+              <app-reference-table class="api-table" caption="Step inputs">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of stepInputs; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
 
             <section id="stepper-api-templates" class="api-section">
               <h3>Templates</h3>
-              <div class="api-table" role="table" aria-label="Stepper templates" tabindex="0">
-                <div class="api-head" role="row">
-                  <b role="columnheader">Name</b><b role="columnheader">Type</b
-                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-                </div>
+              <app-reference-table class="api-table" caption="Stepper templates">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of templates; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
 
             <section id="stepper-api-methods" class="api-section">
               <h3>Methods</h3>
-              <div class="api-table" role="table" aria-label="Stepper methods" tabindex="0">
-                <div class="api-head" role="row">
-                  <b role="columnheader">Name</b><b role="columnheader">Type</b
-                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-                </div>
+              <app-reference-table class="api-table" caption="Stepper methods">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of methods; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
           </div>
 
@@ -535,95 +565,101 @@
     <aeris-tab-panel value="tokens" label="Tokens">
       <section class="doc-section">
         <h2>Design tokens</h2>
-        <div
-          class="api-table token-table"
-          role="table"
-          aria-label="Stepper design tokens"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
-            ><b role="columnheader">Fallback</b>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-stepper-color</code><span role="cell">Base text color.</span
-            ><code role="cell">--aeris-text</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-stepper-muted-color</code
-            ><span role="cell">Inactive step text and indicator color.</span
-            ><code role="cell">--aeris-text-2</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-stepper-description-color</code
-            ><span role="cell">Description and optional text.</span
-            ><code role="cell">--aeris-text-3</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-stepper-focus</code><span role="cell">Focus ring color.</span
-            ><code role="cell">--aeris-focus</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-stepper-radius</code><span role="cell">Trigger radius.</span
-            ><code role="cell">--aeris-radius-md</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-stepper-border</code
-            ><span role="cell">Contained header border.</span
-            ><code role="cell">--aeris-border</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-stepper-list-background</code
-            ><span role="cell">Contained header background.</span
-            ><code role="cell">--aeris-surface</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-stepper-connector</code
-            ><span role="cell">Connector color.</span><code role="cell">--aeris-border</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-stepper-connector-size</code
-            ><span role="cell">Connector thickness.</span><code role="cell">1px</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-stepper-indicator-border</code
-            ><span role="cell">Inactive indicator border.</span
-            ><code role="cell">--aeris-border</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-stepper-indicator-background</code
-            ><span role="cell">Inactive indicator background.</span
-            ><code role="cell">--aeris-surface</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-stepper-active-border</code
-            ><span role="cell">Active indicator border.</span
-            ><code role="cell">--aeris-primary</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-stepper-active-background</code
-            ><span role="cell">Active indicator background.</span
-            ><code role="cell">--aeris-primary-soft</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-stepper-complete-border</code
-            ><span role="cell">Completed indicator and connector.</span
-            ><code role="cell">--aeris-success</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-stepper-invalid-border</code
-            ><span role="cell">Invalid indicator border.</span
-            ><code role="cell">--aeris-danger</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-stepper-panel-background</code
-            ><span role="cell">Panel surface.</span><code role="cell">--aeris-surface</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-stepper-panel-padding</code
-            ><span role="cell">Panel padding.</span><code role="cell">1.125rem</code>
-          </div>
-        </div>
+        <app-reference-table class="api-table token-table" caption="Stepper design tokens">
+          <ng-template appReferenceHeader="Token" />
+          <ng-template appReferenceHeader="Purpose" />
+          <ng-template appReferenceHeader="Fallback" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-stepper-color</code></ng-template
+            ><ng-template appReferenceCell><span>Base text color.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-text</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-stepper-muted-color</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Inactive step text and indicator color.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-text-2</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-stepper-description-color</code></ng-template
+            ><ng-template appReferenceCell><span>Description and optional text.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-text-3</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-stepper-focus</code></ng-template
+            ><ng-template appReferenceCell><span>Focus ring color.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-focus</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-stepper-radius</code></ng-template
+            ><ng-template appReferenceCell><span>Trigger radius.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-radius-md</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-stepper-border</code></ng-template
+            ><ng-template appReferenceCell><span>Contained header border.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-border</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-stepper-list-background</code></ng-template
+            ><ng-template appReferenceCell><span>Contained header background.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-surface</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-stepper-connector</code></ng-template
+            ><ng-template appReferenceCell><span>Connector color.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-border</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-stepper-connector-size</code></ng-template
+            ><ng-template appReferenceCell><span>Connector thickness.</span></ng-template
+            ><ng-template appReferenceCell><code>1px</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-stepper-indicator-border</code></ng-template
+            ><ng-template appReferenceCell><span>Inactive indicator border.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-border</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-stepper-indicator-background</code></ng-template
+            ><ng-template appReferenceCell><span>Inactive indicator background.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-surface</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-stepper-active-border</code></ng-template
+            ><ng-template appReferenceCell><span>Active indicator border.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-primary</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-stepper-active-background</code></ng-template
+            ><ng-template appReferenceCell><span>Active indicator background.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-primary-soft</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-stepper-complete-border</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Completed indicator and connector.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-success</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-stepper-invalid-border</code></ng-template
+            ><ng-template appReferenceCell><span>Invalid indicator border.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-danger</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-stepper-panel-background</code></ng-template
+            ><ng-template appReferenceCell><span>Panel surface.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-surface</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-stepper-panel-padding</code></ng-template
+            ><ng-template appReferenceCell><span>Panel padding.</span></ng-template
+            ><ng-template appReferenceCell><code>1.125rem</code></ng-template>
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
 
@@ -662,47 +698,59 @@
         </ul>
 
         <h3>Keyboard support</h3>
-        <div
-          class="api-table keyboard-table"
-          role="table"
-          aria-label="Stepper keyboard support"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Tab</kbd></span
-            ><span role="cell"
-              >Moves focus into the active step trigger and then to native controls in the active
-              panel when one is rendered.</span
+        <app-reference-table class="api-table keyboard-table" caption="Stepper keyboard support">
+          <ng-template appReferenceHeader="Key" />
+          <ng-template appReferenceHeader="Behavior" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Tab</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves focus into the active step trigger and then to native controls in the active
+                panel when one is rendered.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>ArrowRight</kbd> / <kbd>ArrowDown</kbd></span
-            ><span role="cell"
-              >Moves to the next enabled reachable step; automatic mode also selects it.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>ArrowRight</kbd> / <kbd>ArrowDown</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves to the next enabled reachable step; automatic mode also selects it.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>ArrowLeft</kbd> / <kbd>ArrowUp</kbd></span
-            ><span role="cell"
-              >Moves to the previous enabled reachable step; automatic mode also selects it.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>ArrowLeft</kbd> / <kbd>ArrowUp</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves to the previous enabled reachable step; automatic mode also selects it.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Home</kbd></span
-            ><span role="cell">Moves to the first enabled reachable step.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>End</kbd></span
-            ><span role="cell">Moves to the last enabled reachable step.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
-            ><span role="cell">Selects the focused step when activationMode is manual.</span>
-          </div>
-        </div>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Home</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Moves to the first enabled reachable step.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>End</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Moves to the last enabled reachable step.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Enter</kbd> / <kbd>Space</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Selects the focused step when activationMode is manual.</span></ng-template
+            >
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
   </aeris-tabs>
