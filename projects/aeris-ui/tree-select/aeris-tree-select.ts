@@ -722,6 +722,7 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
   }
 
   protected handleTreeKeydown(event: KeyboardEvent): void {
+    if (event.key === ' ' && event.target instanceof HTMLInputElement) return;
     if (event.key === 'Escape') {
       event.preventDefault();
       this.closePanel(true);

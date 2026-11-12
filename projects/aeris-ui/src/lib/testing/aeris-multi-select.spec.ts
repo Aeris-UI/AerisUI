@@ -61,6 +61,17 @@ class CustomChipHost {
 }
 
 describe('AerisMultiSelect', () => {
+  it('allows spaces in its search field without changing selection', async () => {
+    const fixture = TestBed.createComponent(MultiSelectTestHost);
+    await fixture.whenStable();
+    fixture.componentInstance.multi().openPanel();
+    await fixture.whenStable();
+    const filter = fixture.nativeElement.querySelector('input[type="search"]') as HTMLInputElement;
+    const event = new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true });
+    filter.dispatchEvent(event);
+    expect(event.defaultPrevented).toBe(false);
+    expect(fixture.componentInstance.skills()).toEqual(['design']);
+  });
   it('keeps custom chip removal callbacks disabled with their parent control', async () => {
     const fixture = TestBed.createComponent(CustomChipHost);
     fixture.componentInstance.disabled.set(true);

@@ -820,7 +820,7 @@ export class AerisMultiSelectComponent implements ControlValueAccessor {
       this.activeValue.set(
         boundarySelectValue(this.availableActiveOptions(), event.key === 'Home' ? 'start' : 'end'),
       );
-    } else if (event.key === 'Enter' || event.key === ' ') {
+    } else if (event.key === 'Enter') {
       event.preventDefault();
       this.toggleActive(event);
     }

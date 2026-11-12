@@ -43,6 +43,24 @@ class TreeSelectHost {
 }
 
 describe('AerisTreeSelect', () => {
+  it('allows spaces in search but retains Space selection on the tree', async () => {
+    const fixture = TestBed.createComponent(AerisTreeSelectComponent);
+    fixture.componentRef.setInput('nodes', [{ label: 'New York', value: 'ny' }]);
+    fixture.componentRef.setInput('filter', true);
+    await fixture.whenStable();
+    fixture.componentInstance.openPanel();
+    await fixture.whenStable();
+    const filter = fixture.nativeElement.querySelector('input[type="search"]') as HTMLInputElement;
+    const space = new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true });
+    filter.dispatchEvent(space);
+    expect(space.defaultPrevented).toBe(false);
+    expect(fixture.componentInstance.value()).toBeNull();
+    const tree = fixture.nativeElement.querySelector('[role="tree"]') as HTMLElement;
+    const select = new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true });
+    tree.dispatchEvent(select);
+    expect(select.defaultPrevented).toBe(true);
+    expect(fixture.componentInstance.value()).toBe('ny');
+  });
   it('exposes combobox and native form semantics', async () => {
     const fixture = TestBed.createComponent(TreeSelectHost);
     await fixture.whenStable();
