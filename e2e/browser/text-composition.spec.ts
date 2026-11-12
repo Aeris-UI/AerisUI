@@ -91,7 +91,9 @@ for (const direction of ['ltr', 'rtl']) {
       const input = demo.locator(field.input);
       await input.fill('');
       const status = demo.locator('small');
-      const before = await status.textContent();
+      const emptyStatus = field.route === 'textarea' ? '0 characters' : 'Committed value: Empty';
+      // Wait for the cleared model to render before checking composition buffering.
+      await expect(status).toHaveText(emptyStatus);
       await input.evaluate((element) => {
         const field = element as HTMLInputElement | HTMLTextAreaElement;
         field.dispatchEvent(new CompositionEvent('compositionstart', { bubbles: true }));
@@ -99,7 +101,7 @@ for (const direction of ['ltr', 'rtl']) {
         field.dispatchEvent(new InputEvent('input', { bubbles: true, isComposing: true }));
       });
       await expect(input).toHaveValue('に');
-      await expect(status).toHaveText(before ?? '');
+      await expect(status).toHaveText(emptyStatus);
       await input.evaluate((element) => {
         const field = element as HTMLInputElement | HTMLTextAreaElement;
         field.value = '日本語';
