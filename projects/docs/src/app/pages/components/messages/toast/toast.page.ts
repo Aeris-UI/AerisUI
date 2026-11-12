@@ -457,7 +457,8 @@ interface AerisToastTemplateContext<TData = unknown> {
       name: 'showAll(messages)',
       type: 'readonly AerisToastMessage[]',
       defaultValue: '-',
-      description: 'Adds multiple messages in order.',
+      description:
+        'Adds messages in order. IDs are unique across groups: the last occurrence of an ID replaces earlier occurrences, including its queue position and timer. Returns the deduplicated messages.',
     },
     {
       name: 'remove(id, reason)',

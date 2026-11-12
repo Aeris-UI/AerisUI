@@ -91,6 +91,48 @@ describe('AerisToast', () => {
     vi.useRealTimers();
   });
 
+  it('keeps the last occurrence of each batch ID, in last-occurrence order, with one timer', () => {
+    const closed = vi.fn();
+    service.closed.subscribe(closed);
+    service.show({ id: 'kept', detail: 'Keep', sticky: true });
+    service.show({ id: 'same', detail: 'Old', life: 5 });
+    const resolved = service.showAll([
+      { id: 'same', detail: 'First', life: 10 },
+      { id: 'other', detail: 'Other', sticky: true },
+      { id: 'same', detail: 'Last', life: 50 },
+    ]);
+    expect(resolved.map((message) => message.id)).toEqual(['other', 'same']);
+    expect(service.messages().map((message) => message.detail)).toEqual(['Keep', 'Other', 'Last']);
+    vi.advanceTimersByTime(10);
+    expect(closed).not.toHaveBeenCalled();
+    expect(service.messages().at(-1)?.detail).toBe('Last');
+    vi.advanceTimersByTime(40);
+    expect(closed).toHaveBeenCalledOnce();
+    expect(closed.mock.calls[0]?.[0]).toMatchObject({
+      message: { id: 'same', detail: 'Last' },
+      reason: 'timeout',
+    });
+    expect(service.messages().map((message) => message.id)).toEqual(['kept', 'other']);
+  });
+
+  it('renders one toast when a batch replaces an ID across groups and makes it sticky', () => {
+    const fixture = TestBed.createComponent(ToastHost);
+    fixture.detectChanges();
+    service.show({ id: 'same', group: 'old', detail: 'Old', life: 5 });
+    service.showAll([
+      { id: 'same', group: 'other', detail: 'Earlier duplicate', life: 10 },
+      { id: 'same', group: 'workspace', detail: 'Final toast', sticky: true },
+    ]);
+    fixture.detectChanges();
+    expect(service.messages()).toHaveLength(1);
+    expect(fixture.nativeElement.querySelectorAll('.aeris-toast__item')).toHaveLength(1);
+    expect(fixture.nativeElement.textContent).toContain('Final toast');
+    expect(fixture.nativeElement.textContent).not.toContain('Earlier duplicate');
+    vi.advanceTimersByTime(100);
+    fixture.detectChanges();
+    expect(service.messages()).toHaveLength(1);
+  });
+
   it('clears active and paused timers and subscriptions when its injector is destroyed', () => {
     const scope = createEnvironmentInjector(
       [AerisToastService],

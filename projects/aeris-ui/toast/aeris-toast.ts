@@ -217,12 +217,19 @@ export class AerisToastService {
   showAll<TData = unknown>(
     messages: readonly AerisToastMessageInput<TData>[],
   ): readonly AerisToastMessage<TData>[] {
-    const resolved = messages.map((message) => this.resolveMessage(message));
+    const batch = new Map<string, AerisToastMessage<TData>>();
+    for (const message of messages) {
+      const resolved = this.resolveMessage(message);
+      // Moving replacements to the end matches sequential show() calls.
+      batch.delete(resolved.id);
+      batch.set(resolved.id, resolved);
+    }
+    const resolved = [...batch.values()];
     if (this.destroyRef.destroyed) return resolved;
-    const resolvedIds = new Set(resolved.map((message) => message.id));
+    if (!resolved.length) return resolved;
 
     this.store.update((current) => [
-      ...current.filter((message) => !resolvedIds.has(message.id)),
+      ...current.filter((message) => !batch.has(message.id)),
       ...resolved,
     ]);
 

@@ -407,6 +407,10 @@
 
             <section id="toast-api-service" class="api-section">
               <h3>Service methods</h3>
+              <p>
+                Timers, stored messages, and close-event subscriptions are released when the
+                service's providing injector is destroyed.
+              </p>
               <app-reference-table class="api-table" caption="Toast service methods">
                 <ng-template appReferenceHeader="Name" />
                 <ng-template appReferenceHeader="Type" />
