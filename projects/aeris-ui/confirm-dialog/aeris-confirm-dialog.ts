@@ -3,6 +3,7 @@ import {
   ApplicationRef,
   Component,
   ComponentRef,
+  DestroyRef,
   Directive,
   ElementRef,
   EmbeddedViewRef,
@@ -297,7 +298,7 @@ export class AerisConfirmDialogService {
   private readonly environmentInjector = inject(EnvironmentInjector);
   private readonly requestState = signal<AerisConfirmDialogRequest | null>(null);
   private readonly closeState = signal(0);
-  private readonly activeRefs = new Set<AerisConfirmDialogRef>();
+  private readonly activeRefs = new Map<AerisConfirmDialogRef, () => void>();
   private readonly dynamicHosts = new Map<
     AerisConfirmDialogRef,
     ComponentRef<AerisConfirmDialog>
@@ -306,6 +307,24 @@ export class AerisConfirmDialogService {
 
   readonly request = this.requestState.asReadonly();
   readonly closeSignal = this.closeState.asReadonly();
+
+  constructor() {
+    inject(DestroyRef).onDestroy(() => {
+      try {
+        for (const dispose of [...this.activeRefs.values()].reverse()) dispose();
+      } finally {
+        for (const host of this.dynamicHosts.values()) {
+          if (!host.hostView.destroyed) {
+            this.appRef.detachView(host.hostView);
+            host.destroy();
+          }
+        }
+        this.dynamicHosts.clear();
+        this.activeRefs.clear();
+        this.requestState.set(null);
+      }
+    });
+  }
 
   confirm<TData = unknown>(config: AerisConfirmDialogConfig<TData>): AerisConfirmDialogRef<TData> {
     const ref = new AerisConfirmDialogRef<TData>();
@@ -321,14 +340,14 @@ export class AerisConfirmDialogService {
       config: resolvedConfig,
       ref,
     };
-    this.activeRefs.add(ref as AerisConfirmDialogRef);
+    this.trackRef(ref, resolvedConfig);
     ref.closed.subscribe(() => this.activeRefs.delete(ref as AerisConfirmDialogRef));
     this.requestState.set(request as AerisConfirmDialogRequest);
     return ref;
   }
 
   closeAll(): void {
-    for (const ref of [...this.activeRefs]) ref.close();
+    for (const ref of this.activeRefs.keys()) ref.close();
     this.closeState.update((value) => value + 1);
   }
 
@@ -342,11 +361,13 @@ export class AerisConfirmDialogService {
     const cleanup = (): void => {
       if (!this.activeRefs.delete(ref as AerisConfirmDialogRef)) return;
       this.dynamicHosts.delete(ref as AerisConfirmDialogRef);
-      this.appRef.detachView(hostRef.hostView);
-      hostRef.destroy();
+      if (!hostRef.hostView.destroyed) {
+        this.appRef.detachView(hostRef.hostView);
+        hostRef.destroy();
+      }
     };
 
-    this.activeRefs.add(ref as AerisConfirmDialogRef);
+    this.trackRef(ref, config);
     this.dynamicHosts.set(ref as AerisConfirmDialogRef, hostRef);
     ref.closed.subscribe(() => queueMicrotask(cleanup));
     this.appRef.attachView(hostRef.hostView);
@@ -374,6 +395,21 @@ export class AerisConfirmDialogService {
   private rootNode(hostRef: ComponentRef<AerisConfirmDialog>): Node {
     const [node] = (hostRef.hostView as EmbeddedViewRef<unknown>).rootNodes;
     return node instanceof Node ? node : this.document.createTextNode('');
+  }
+
+  private trackRef<TData>(
+    ref: AerisConfirmDialogRef<TData>,
+    config: AerisConfirmDialogResolvedConfig<TData>,
+  ): void {
+    this.activeRefs.set(ref as AerisConfirmDialogRef, () =>
+      ref.notifyClosed({
+        originalEvent: null,
+        config,
+        data: config.data,
+        result: 'dismiss',
+        reason: 'api',
+      }),
+    );
   }
 
   private resolveConfig<TData>(

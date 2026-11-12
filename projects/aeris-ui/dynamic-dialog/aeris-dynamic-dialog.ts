@@ -2,6 +2,7 @@ import { DOCUMENT, NgComponentOutlet } from '@angular/common';
 import {
   ApplicationRef,
   Component,
+  DestroyRef,
   TemplateRef,
   ComponentRef,
   EmbeddedViewRef,
@@ -327,7 +328,11 @@ export class AerisDynamicDialogService {
   private readonly appRef = inject(ApplicationRef);
   private readonly document = inject(DOCUMENT);
   private readonly environmentInjector = inject(EnvironmentInjector);
-  private readonly activeRefs = new Set<AerisDynamicDialogRef<unknown>>();
+  private readonly activeRefs = new Map<AerisDynamicDialogRef<unknown>, () => void>();
+
+  constructor() {
+    inject(DestroyRef).onDestroy(() => this.destroyAll());
+  }
 
   open<TComponent, TData = unknown, TResult = unknown>(
     componentType: Type<TComponent>,
@@ -348,8 +353,14 @@ export class AerisDynamicDialogService {
     });
     const cleanup = (): void => {
       if (!this.activeRefs.delete(ref as AerisDynamicDialogRef<unknown>)) return;
-      this.appRef.detachView(hostRef.hostView);
-      hostRef.destroy();
+      try {
+        if (!hostRef.hostView.destroyed) {
+          this.appRef.detachView(hostRef.hostView);
+          hostRef.destroy();
+        }
+      } finally {
+        contentInjector.destroy();
+      }
     };
 
     ref.attach({
@@ -364,7 +375,7 @@ export class AerisDynamicDialogService {
       toggleMaximized: () => hostRef.instance.toggleMaximized(),
     });
     ref.closed.subscribe(() => queueMicrotask(cleanup));
-    this.activeRefs.add(ref as AerisDynamicDialogRef<unknown>);
+    this.activeRefs.set(ref as AerisDynamicDialogRef<unknown>, cleanup);
 
     hostRef.setInput('componentType', componentType);
     hostRef.setInput('contentInjector', contentInjector);
@@ -378,11 +389,14 @@ export class AerisDynamicDialogService {
   }
 
   closeAll(): void {
-    for (const ref of [...this.activeRefs].reverse()) ref.close();
+    for (const ref of [...this.activeRefs.keys()].reverse()) ref.close();
   }
 
   destroyAll(): void {
-    for (const ref of [...this.activeRefs].reverse()) ref.destroy();
+    for (const [ref, cleanup] of [...this.activeRefs].reverse()) {
+      ref.destroy();
+      cleanup();
+    }
   }
 
   private resolveConfig<TData>(

@@ -1,4 +1,10 @@
-import { Component, inject, viewChild } from '@angular/core';
+import {
+  Component,
+  EnvironmentInjector,
+  createEnvironmentInjector,
+  inject,
+  viewChild,
+} from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import {
@@ -83,6 +89,43 @@ describe('AerisToast', () => {
     service.clearAll();
     vi.runOnlyPendingTimers();
     vi.useRealTimers();
+  });
+
+  it('clears active and paused timers and subscriptions when its injector is destroyed', () => {
+    const scope = createEnvironmentInjector(
+      [AerisToastService],
+      TestBed.inject(EnvironmentInjector),
+    );
+    const scoped = scope.get(AerisToastService);
+    const closed = vi.fn();
+    scoped.closed.subscribe(closed);
+    scoped.show({ id: 'active', detail: 'Active', life: 1000 });
+    scoped.show({ id: 'paused', detail: 'Paused', life: 1000 });
+    scoped.pause('paused');
+    scope.destroy();
+    expect(scoped.messages()).toEqual([]);
+    scoped.resume('paused');
+    scoped.show({ detail: 'Late request', life: 1000 });
+    scoped.showAll([{ detail: 'Late batch', life: 1000 }]);
+    scoped.closed.subscribe(closed).unsubscribe();
+    vi.advanceTimersByTime(2000);
+    expect(scoped.messages()).toEqual([]);
+    expect(closed).not.toHaveBeenCalled();
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it('stops notifying subscribers if an earlier callback destroys the injector', () => {
+    const scope = createEnvironmentInjector(
+      [AerisToastService],
+      TestBed.inject(EnvironmentInjector),
+    );
+    const scoped = scope.get(AerisToastService);
+    const afterDestroy = vi.fn();
+    scoped.closed.subscribe(() => scope.destroy());
+    scoped.closed.subscribe(afterDestroy);
+    scoped.show({ id: 'one', detail: 'One', sticky: true });
+    scoped.remove('one');
+    expect(afterDestroy).not.toHaveBeenCalled();
   });
 
   it('renders grouped toast messages with accessible live-region semantics', () => {

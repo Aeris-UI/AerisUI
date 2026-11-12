@@ -146,8 +146,10 @@ interface AerisToastTimer {
 
 class AerisToastEventStream<T> implements AerisToastSubscribable<T> {
   private readonly listeners = new Set<(event: T) => void>();
+  private completed = false;
 
   subscribe(next: (event: T) => void): AerisToastSubscription {
+    if (this.completed) return { unsubscribe: () => undefined };
     this.listeners.add(next);
     return {
       unsubscribe: () => {
@@ -157,7 +159,16 @@ class AerisToastEventStream<T> implements AerisToastSubscribable<T> {
   }
 
   next(event: T): void {
-    for (const listener of [...this.listeners]) listener(event);
+    if (this.completed) return;
+    for (const listener of [...this.listeners]) {
+      if (this.completed) break;
+      listener(event);
+    }
+  }
+
+  complete(): void {
+    this.completed = true;
+    this.listeners.clear();
   }
 }
 
@@ -175,6 +186,7 @@ let nextToastId = 0;
 
 @Service()
 export class AerisToastService {
+  private readonly destroyRef = inject(DestroyRef);
   private readonly store = signal<readonly AerisToastMessage[]>([]);
   private readonly timers = new Map<string, AerisToastTimer>();
   private readonly closedStream = new AerisToastEventStream<AerisToastCloseEvent>();
@@ -182,8 +194,17 @@ export class AerisToastService {
   readonly messages = this.store.asReadonly();
   readonly closed: AerisToastSubscribable<AerisToastCloseEvent> = this.closedStream;
 
+  constructor() {
+    this.destroyRef.onDestroy(() => {
+      for (const id of this.timers.keys()) this.clearTimer(id);
+      this.closedStream.complete();
+      this.store.set([]);
+    });
+  }
+
   show<TData = unknown>(message: AerisToastMessageInput<TData>): AerisToastMessage<TData> {
     const resolved = this.resolveMessage(message);
+    if (this.destroyRef.destroyed) return resolved;
     this.store.update((messages) => [
       ...messages.filter((item) => item.id !== resolved.id),
       resolved,
@@ -197,6 +218,7 @@ export class AerisToastService {
     messages: readonly AerisToastMessageInput<TData>[],
   ): readonly AerisToastMessage<TData>[] {
     const resolved = messages.map((message) => this.resolveMessage(message));
+    if (this.destroyRef.destroyed) return resolved;
     const resolvedIds = new Set(resolved.map((message) => message.id));
 
     this.store.update((current) => [
@@ -250,7 +272,7 @@ export class AerisToastService {
   }
 
   private schedule(message: AerisToastMessage): void {
-    if (message.sticky || message.life <= 0) return;
+    if (this.destroyRef.destroyed || message.sticky || message.life <= 0) return;
 
     this.timers.set(message.id, {
       message,
