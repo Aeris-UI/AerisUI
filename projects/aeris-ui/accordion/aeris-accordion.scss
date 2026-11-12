@@ -167,7 +167,8 @@
   min-width: 0;
   min-block-size: 0;
   overflow: hidden;
-  padding: var(--_panel-padding-block) var(--_panel-padding-inline);
+  padding-block: var(--_panel-padding-block);
+  padding-inline: var(--_panel-padding-inline);
   transition: padding-block var(--aeris-motion-slow, 220ms) var(--aeris-ease-standard, ease);
   color: var(--aeris-accordion-panel-color, var(--aeris-text-2, #454545));
   font-size: var(--aeris-font-size-lg, 0.875rem);
