@@ -280,6 +280,7 @@ export class AerisInputOtpComponent implements ControlValueAccessor {
   }
 
   protected handlePaste(event: ClipboardEvent, index: number): void {
+    if (this.effectiveDisabled() || this.readonly()) return;
     const pasted = this.filterCharacters(event.clipboardData?.getData('text') ?? '');
     if (!pasted) return;
     event.preventDefault();
