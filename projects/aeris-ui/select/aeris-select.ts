@@ -278,6 +278,7 @@ let nextSelectId = 0;
           [aerisInternalAppendToMatchWidth]="true"
           [aerisInternalAppendToCollisionPadding]="viewportMargin()"
           (aerisInternalAppendToOutside)="closePanel(false)"
+          (aerisInternalAppendToFocusOut)="handleFocusOut($event)"
           [id]="panelId"
           [class]="panelClass()"
           [style.--aeris-select-panel-max-height]="panelMaxHeight()"

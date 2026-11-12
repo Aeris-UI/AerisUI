@@ -167,6 +167,7 @@ export interface AerisPaginatorPageEvent {
               [aerisInternalAppendToAnchor]="this.rowsTrigger()?.nativeElement ?? null"
               [aerisInternalAppendToCollisionPadding]="viewportMargin()"
               (aerisInternalAppendToOutside)="closeRowsPanel()"
+              (aerisInternalAppendToFocusOut)="handleRowsFocusOut($event)"
               [id]="rowsListboxId"
               role="listbox"
               [attr.aria-labelledby]="rowsLabelId"
@@ -301,6 +302,7 @@ export class AerisPaginator {
     if (
       nextTarget instanceof Node &&
       ((event.currentTarget as HTMLElement).contains(nextTarget) ||
+        this.rowsTrigger()?.nativeElement.contains(nextTarget) ||
         this.rowsPanel()?.nativeElement.contains(nextTarget))
     ) {
       return;

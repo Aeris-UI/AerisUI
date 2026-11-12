@@ -208,6 +208,7 @@ let treeSelectId = 0;
           [aerisInternalAppendToMatchWidth]="true"
           [aerisInternalAppendToCollisionPadding]="viewportMargin()"
           (aerisInternalAppendToOutside)="closePanel(false)"
+          (aerisInternalAppendToFocusOut)="handleFocusOut($event)"
           [id]="panelId"
           [style.--aeris-tree-select-panel-max-height]="panelMaxHeight()"
         >

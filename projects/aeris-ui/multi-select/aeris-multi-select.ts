@@ -226,6 +226,7 @@ let multiSelectId = 0;
           [aerisInternalAppendToMatchWidth]="true"
           [aerisInternalAppendToCollisionPadding]="viewportMargin()"
           (aerisInternalAppendToOutside)="closePanel(false)"
+          (aerisInternalAppendToFocusOut)="handleFocusOut($event)"
           [id]="panelId"
           [style.--aeris-multi-select-panel-max-height]="panelMaxHeight()"
         >

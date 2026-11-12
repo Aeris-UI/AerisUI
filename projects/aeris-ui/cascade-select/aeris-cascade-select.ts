@@ -151,6 +151,7 @@ let nextCascadeSelectId = 0;
                 [id]="optionId(level, option.value) + '-children'"
                 [attr.aria-label]="option.label"
                 [aerisInternalAppendTo]="submenuTarget()"
+                (aerisInternalAppendToFocusOut)="handleFocusOut($event)"
                 [aerisInternalAppendToDismiss]="dismissOverlay"
                 [aerisInternalAppendToAnchor]="optionAnchor"
                 [aerisInternalAppendToPositionSelf]="!mobile()"
@@ -254,6 +255,7 @@ let nextCascadeSelectId = 0;
           #optionsPanel
           class="aeris-cascade-select__panel"
           [aerisInternalAppendTo]="appendTo()"
+          (aerisInternalAppendToFocusOut)="handleFocusOut($event)"
           [aerisInternalAppendToDismiss]="dismissOverlay"
           [aerisInternalAppendToAnchor]="controlElement()?.nativeElement ?? null"
           [aerisInternalAppendToMatchWidth]="true"
@@ -493,10 +495,9 @@ export class AerisCascadeSelect implements ControlValueAccessor {
 
   protected handleFocusOut(event: FocusEvent): void {
     const nextTarget = event.relatedTarget as Node | null;
-    const currentTarget = event.currentTarget as HTMLElement;
     if (
       !nextTarget ||
-      (!currentTarget.contains(nextTarget) &&
+      (!this.host.nativeElement.contains(nextTarget) &&
         !this.panels().some((panel) => panel.nativeElement.contains(nextTarget)))
     ) {
       this.closePanel();

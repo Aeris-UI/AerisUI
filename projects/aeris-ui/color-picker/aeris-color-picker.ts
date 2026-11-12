@@ -221,6 +221,7 @@ let colorPickerId = 0;
             #pickerPanel
             class="aeris-color-picker__panel"
             [aerisInternalAppendTo]="appendTo()"
+          (aerisInternalAppendToFocusOut)="handleFocusOut($event)"
             [aerisInternalAppendToDismiss]="dismissOverlay"
             [aerisInternalAppendToAnchor]="this.triggerButton()?.nativeElement ?? null"
             [aerisInternalAppendToCollisionPadding]="viewportMargin()"
