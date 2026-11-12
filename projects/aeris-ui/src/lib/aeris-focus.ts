@@ -64,8 +64,22 @@ export function aerisInternalFocusableElements(
   const selectors = options.includeContentEditable
     ? [...BASE_FOCUSABLE_SELECTORS, '[contenteditable]:not([contenteditable="false"])']
     : BASE_FOCUSABLE_SELECTORS;
-  return Array.from(root.querySelectorAll<HTMLElement>(selectors.join(',')))
-    .filter((element) => aerisInternalIsFocusable(element, options))
+  const available = Array.from(root.querySelectorAll<HTMLElement>(selectors.join(','))).filter(
+    (element) => aerisInternalIsFocusable(element, options),
+  );
+  return available
+    .filter((element) => {
+      if (!(element instanceof HTMLInputElement) || element.type !== 'radio' || !element.name)
+        return true;
+      const group = available.filter(
+        (candidate): candidate is HTMLInputElement =>
+          candidate instanceof HTMLInputElement &&
+          candidate.type === 'radio' &&
+          candidate.name === element.name &&
+          candidate.form === element.form,
+      );
+      return (group.find((radio) => radio.checked) ?? group[0]) === element;
+    })
     .sort((left, right) => {
       const leftOrder = left.tabIndex > 0 ? left.tabIndex : Number.MAX_SAFE_INTEGER;
       const rightOrder = right.tabIndex > 0 ? right.tabIndex : Number.MAX_SAFE_INTEGER;
@@ -108,7 +122,10 @@ export function aerisInternalTrapTabFocus(
 
   const first = focusable[0];
   const last = focusable.at(-1);
-  if (event.shiftKey && activeElement === first) {
+  if (!activeElement || activeElement === root || !root.contains(activeElement)) {
+    event.preventDefault();
+    (event.shiftKey ? last : first)?.focus();
+  } else if (event.shiftKey && activeElement === first) {
     event.preventDefault();
     last?.focus();
   } else if (!event.shiftKey && activeElement === last) {

@@ -7,11 +7,48 @@ import {
   aerisInternalSetColumnPairWidths,
 } from '../aeris-column-resize';
 import { aerisInternalCreateFrameScheduler } from '../aeris-frame-scheduler';
-import { aerisInternalFocusableElements } from '../aeris-focus';
+import { aerisInternalFocusableElements, aerisInternalTrapTabFocus } from '../aeris-focus';
 import { aerisInternalPositionAnchoredOverlay } from '../aeris-overlay-position';
 
 describe('Aeris internal layout utilities', () => {
   afterEach(() => vi.unstubAllGlobals());
+
+  it('traps both directions around a checked native radio group', () => {
+    const root = document.createElement('div');
+    root.innerHTML =
+      '<input type="radio" name="plan" id="basic"><input type="radio" name="plan" id="pro" checked>';
+    document.body.append(root);
+    try {
+      const checked = root.querySelector<HTMLInputElement>('#pro');
+      if (!checked) throw new Error('Expected the checked radio');
+      expect(aerisInternalFocusableElements(root)).toEqual([checked]);
+      for (const shiftKey of [false, true]) {
+        checked.focus();
+        const event = new KeyboardEvent('keydown', { key: 'Tab', shiftKey, cancelable: true });
+        aerisInternalTrapTabFocus(event, root, checked);
+        expect(event.defaultPrevented).toBe(true);
+        expect(document.activeElement).toBe(checked);
+      }
+    } finally {
+      root.remove();
+    }
+  });
+
+  it('groups radio tab stops by name and form, excluding unavailable choices', () => {
+    const root = document.createElement('div');
+    root.innerHTML =
+      '<form><input type="radio" name="plan" id="first"><input type="radio" name="plan"><input type="radio" name="plan" checked disabled></form><form><input type="radio" name="plan" id="other" checked></form><input type="radio" id="unnamed">';
+    document.body.append(root);
+    try {
+      expect(aerisInternalFocusableElements(root).map((element) => element.id)).toEqual([
+        'first',
+        'other',
+        'unnamed',
+      ]);
+    } finally {
+      root.remove();
+    }
+  });
 
   it('positions and clamps anchored overlays within the viewport', () => {
     const position = aerisInternalPositionAnchoredOverlay({
