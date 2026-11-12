@@ -924,11 +924,26 @@ for (const width of [390, 768, 1440]) {
     await page.locator('.home-live-showcase').scrollIntoViewIfNeeded();
     const gallery = page.locator('app-aeris-showcase-gallery');
     await expect(gallery.locator('.components-preview')).toBeVisible();
-    for (const name of ['Components', 'Dashboard', 'Chat', 'CRM', 'Mail', 'Finances']) {
+    for (const name of [
+      'Components',
+      'Dashboard',
+      'Chat',
+      'CRM',
+      'Mail',
+      'Finances',
+      'Dashboard',
+      'Components',
+    ]) {
       const tab = gallery.getByRole('tab', { name, exact: true });
       await tab.click();
       await expect(tab).toHaveAttribute('aria-selected', 'true');
-      const toolbar = gallery.locator('.product-toolbar').first();
+      const panel = gallery.getByRole('tabpanel', { name, exact: true });
+      await expect(panel).toBeVisible();
+      await expect(
+        panel.getByRole('region', { name: `${name} example`, exact: true }),
+      ).toBeVisible();
+      await expect(panel.locator('app-aeris-showcase-content')).toBeVisible();
+      const toolbar = panel.locator('.product-toolbar');
       if (await toolbar.count()) {
         const title = toolbar.locator('[aerisToolbarStart] strong');
         await expect(title).toBeVisible();
@@ -942,12 +957,12 @@ for (const width of [390, 768, 1440]) {
       }
       await expect
         .poll(() =>
-          gallery.evaluate((element) => {
-            const panel = element.querySelector<HTMLElement>('[role="tabpanel"]');
+          panel.evaluate((element) => {
+            const gallery = element.closest('app-aeris-showcase-gallery');
             return Math.max(
               document.documentElement.scrollWidth - document.documentElement.clientWidth,
+              gallery ? gallery.scrollWidth - gallery.clientWidth : 0,
               element.scrollWidth - element.clientWidth,
-              panel ? panel.scrollWidth - panel.clientWidth : 0,
             );
           }),
         )
@@ -972,7 +987,7 @@ test('landing showcase exports real data and allows scrolling back into the page
   await gallery.locator('[name="contact"]').fill('Jamie Smith');
   await gallery.getByRole('button', { name: 'Save lead', exact: true }).click();
   await expect(gallery.locator('.crm-preview__contact')).toContainText('Jamie Smith');
-  const panel = gallery.getByRole('tabpanel').first();
+  const panel = gallery.getByRole('region', { name: 'CRM example', exact: true });
   await panel.evaluate((element) => {
     element.scrollTop = element.scrollHeight;
   });

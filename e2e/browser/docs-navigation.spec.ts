@@ -98,8 +98,8 @@ test('quick links and Sidebar keep wrapped labels inset under every corner prese
 
 // Bound repeated touch scrolling per case without skipping any section or raising timeouts.
 for (const { route, parts } of [
-  { route: '/components/table', parts: 4 },
-  { route: '/components/tree-table', parts: 4 },
+  { route: '/components/table', parts: 8 },
+  { route: '/components/tree-table', parts: 8 },
   { route: '/components/button', parts: 1 },
   { route: '/guides/installation', parts: 1 },
 ]) {
@@ -121,19 +121,57 @@ for (const { route, parts } of [
       ) {
         const link = links.nth(index);
         await link.click();
-        await page.evaluate(
-          () =>
-            new Promise<void>((resolve) =>
-              requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
-            ),
-        );
-        await expect(link).toHaveAttribute('aria-current', 'location');
-        await expect(toc.locator('a[aria-current="location"]')).toHaveCount(1);
+        await expect
+          .poll(() =>
+            link.evaluate((element) => {
+              const href = element.getAttribute('href');
+              const target = href?.startsWith('#') ? document.getElementById(href.slice(1)) : null;
+              const top = target?.getBoundingClientRect().top;
+              return {
+                targetInView:
+                  href === '#'
+                    ? window.scrollY === 0
+                    : top !== undefined && top >= 0 && top < window.innerHeight,
+                current: element.getAttribute('aria-current'),
+                activeCount: element
+                  .closest('app-page-toc')
+                  ?.querySelectorAll('a[aria-current="location"]').length,
+              };
+            }),
+          )
+          .toEqual({ targetInView: true, current: 'location', activeCount: 1 });
       }
       await links.first().click();
       await expect(links.first()).toHaveAttribute('aria-current', 'location');
     });
   }
+}
+
+for (const route of ['/components/table', '/guides/installation']) {
+  test(`quick links track manual scrolling in both directions on ${route}`, async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto(route);
+    const toc = page.locator('app-page-toc:visible').first();
+    await expect(toc).toBeVisible();
+    const destinations = await toc
+      .locator('a[href]:not([href="#"])')
+      .evaluateAll((links) => links.map((link) => link.getAttribute('href')));
+    expect(destinations.length).toBeGreaterThan(2);
+    for (const index of [Math.floor(destinations.length / 2), destinations.length - 1, 0]) {
+      const destination = destinations[index];
+      if (!destination) throw new Error('Expected a section quick link');
+      await page.locator(destination).evaluate((element) => {
+        element.scrollIntoView({ block: 'start', behavior: 'instant' });
+        // Move past the section's scroll margin without activating its quick link.
+        window.scrollBy({ top: 16, behavior: 'instant' });
+      });
+      await expect(toc.locator(`a[href="${destination}"]`)).toHaveAttribute(
+        'aria-current',
+        'location',
+      );
+      await expect(toc.locator('a[aria-current="location"]')).toHaveCount(1);
+    }
+  });
 }
 
 test('header appearance controls still restore native button focus after Escape', async ({
