@@ -34171,11 +34171,13 @@ export class OrganizationChartScrollingDemo {
 
 | Key | Function |
 | --- | --- |
-| `Tab` | Moves through chart nodes and branch controls. |
+| `Tab` | Enters at the active node, then leaves the chart. Projected interactive controls retain their native tab order. |
 | `Enter / Space` | Selects or clears the focused node when selection is enabled. |
-| `ArrowLeft` | Collapses an expanded branch node. |
-| `ArrowRight` | Expands a collapsed branch node. |
+| `ArrowLeft` | Collapses an expanded branch, or moves to the parent node. Reversed in RTL. |
+| `ArrowRight` | Expands a collapsed branch, or moves to its first child. Reversed in RTL. |
 | `Home` | Moves focus to the first rendered node. |
+| `ArrowUp / ArrowDown` | Moves to the previous or next visible node without changing selection. |
+| `Letter` | Moves to the next visible node whose label starts with that character. |
 | `End` | Moves focus to the last rendered node. |
 
 ### Paginator

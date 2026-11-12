@@ -20076,7 +20076,7 @@
         "keyboard": [
           {
             "keys": "Tab",
-            "behavior": "Moves through chart nodes and branch controls."
+            "behavior": "Enters at the active node, then leaves the chart. Projected interactive controls retain their native tab order."
           },
           {
             "keys": "Enter / Space",
@@ -20084,15 +20084,23 @@
           },
           {
             "keys": "ArrowLeft",
-            "behavior": "Collapses an expanded branch node."
+            "behavior": "Collapses an expanded branch, or moves to the parent node. Reversed in RTL."
           },
           {
             "keys": "ArrowRight",
-            "behavior": "Expands a collapsed branch node."
+            "behavior": "Expands a collapsed branch, or moves to its first child. Reversed in RTL."
           },
           {
             "keys": "Home",
             "behavior": "Moves focus to the first rendered node."
+          },
+          {
+            "keys": "ArrowUp / ArrowDown",
+            "behavior": "Moves to the previous or next visible node without changing selection."
+          },
+          {
+            "keys": "Letter",
+            "behavior": "Moves to the next visible node whose label starts with that character."
           },
           {
             "keys": "End",

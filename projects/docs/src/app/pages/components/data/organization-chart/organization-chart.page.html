@@ -341,7 +341,10 @@
           <ng-container appReferenceRow>
             <ng-template appReferenceCell><kbd>Tab</kbd></ng-template
             ><ng-template appReferenceCell
-              ><span>Moves through chart nodes and branch controls.</span></ng-template
+              ><span
+                >Enters at the active node, then leaves the chart. Projected interactive controls
+                retain their native tab order.</span
+              ></ng-template
             >
           </ng-container>
           <ng-container appReferenceRow>
@@ -356,19 +359,35 @@
           <ng-container appReferenceRow>
             <ng-template appReferenceCell><kbd>ArrowLeft</kbd></ng-template
             ><ng-template appReferenceCell
-              ><span>Collapses an expanded branch node.</span></ng-template
+              ><span
+                >Collapses an expanded branch, or moves to the parent node. Reversed in RTL.</span
+              ></ng-template
             >
           </ng-container>
           <ng-container appReferenceRow>
             <ng-template appReferenceCell><kbd>ArrowRight</kbd></ng-template
             ><ng-template appReferenceCell
-              ><span>Expands a collapsed branch node.</span></ng-template
+              ><span
+                >Expands a collapsed branch, or moves to its first child. Reversed in RTL.</span
+              ></ng-template
             >
           </ng-container>
           <ng-container appReferenceRow>
             <ng-template appReferenceCell><kbd>Home</kbd></ng-template
             ><ng-template appReferenceCell
               ><span>Moves focus to the first rendered node.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>ArrowUp</kbd> / <kbd>ArrowDown</kbd></ng-template>
+            <ng-template appReferenceCell
+              >Moves to the previous or next visible node without changing selection.</ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell>Letter</ng-template>
+            <ng-template appReferenceCell
+              >Moves to the next visible node whose label starts with that character.</ng-template
             >
           </ng-container>
           <ng-container appReferenceRow>
