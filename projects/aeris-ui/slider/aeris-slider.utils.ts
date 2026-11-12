@@ -1,24 +1,19 @@
-export function sliderPrecision(step: number): number {
-  const text = String(step);
-  if (text.includes('e-')) return Number(text.split('e-')[1] ?? 0);
-  return text.includes('.') ? text.split('.')[1]?.length ?? 0 : 0;
+export function sliderPrecision(value: number): number {
+  const [coefficient, exponent = '0'] = String(value).toLowerCase().split('e');
+  const decimals = coefficient.split('.')[1]?.length ?? 0;
+  return Math.max(0, decimals - Number(exponent));
 }
 
 export function clampSliderValue(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
 }
 
-export function alignSliderValue(
-  value: number,
-  min: number,
-  max: number,
-  step: number,
-): number {
-  const safeStep = step > 0 ? step : 1;
-  const aligned = min + Math.round((value - min) / safeStep) * safeStep;
-  return Number(
-    clampSliderValue(aligned, min, max).toFixed(sliderPrecision(safeStep)),
-  );
+export function alignSliderValue(value: number, min: number, max: number, step: number): number {
+  const safeStep = Number.isFinite(step) && step > 0 ? step : 1;
+  const safeValue = Number.isFinite(value) ? value : min;
+  const aligned = min + Math.round((safeValue - min) / safeStep) * safeStep;
+  const precision = Math.min(100, Math.max(sliderPrecision(min), sliderPrecision(safeStep)));
+  return clampSliderValue(Number(aligned.toFixed(precision)), min, max);
 }
 
 export function sliderPercentage(value: number, min: number, max: number): number {
@@ -42,4 +37,3 @@ export function normalizeSliderRange(
   if (expandedUpper - lower >= gap) return [lower, expandedUpper];
   return [alignSliderValue(upper - gap, min, max, step), upper];
 }
-
