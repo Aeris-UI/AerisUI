@@ -97,11 +97,11 @@ test('quick links and Sidebar keep wrapped labels inset under every corner prese
 });
 
 // Bound repeated touch scrolling per case without skipping any section or raising timeouts.
-for (const { route, parts } of [
-  { route: '/components/table', parts: 8 },
-  { route: '/components/tree-table', parts: 8 },
-  { route: '/components/button', parts: 1 },
-  { route: '/guides/installation', parts: 1 },
+for (const { route, parts, tocLabel } of [
+  { route: '/components/table', parts: 8, tocLabel: 'Table features on this page' },
+  { route: '/components/tree-table', parts: 8, tocLabel: 'TreeTable features on this page' },
+  { route: '/components/button', parts: 1, tocLabel: 'Button features on this page' },
+  { route: '/guides/installation', parts: 1, tocLabel: 'Guide sections' },
 ]) {
   for (let part = 0; part < parts; part++) {
     test(`quick links follow every section on ${route} (${part + 1}/${parts})`, async ({
@@ -109,7 +109,11 @@ for (const { route, parts } of [
     }) => {
       await page.setViewportSize({ width: 1440, height: 1000 });
       await page.goto(route);
-      const toc = page.locator('app-page-toc:visible').first();
+      if (route.startsWith('/components/')) {
+        // Wait for an actionable feature panel, not just the initial route shell.
+        await page.getByRole('tab', { name: 'Features', exact: true }).click();
+      }
+      const toc = page.getByRole('complementary', { name: tocLabel, exact: true });
       await expect(toc).toBeVisible();
       const links = toc.locator('a');
       const count = await links.count();
@@ -147,11 +151,17 @@ for (const { route, parts } of [
   }
 }
 
-for (const route of ['/components/table', '/guides/installation']) {
+for (const { route, tocLabel } of [
+  { route: '/components/table', tocLabel: 'Table features on this page' },
+  { route: '/guides/installation', tocLabel: 'Guide sections' },
+]) {
   test(`quick links track manual scrolling in both directions on ${route}`, async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto(route);
-    const toc = page.locator('app-page-toc:visible').first();
+    if (route.startsWith('/components/')) {
+      await page.getByRole('tab', { name: 'Features', exact: true }).click();
+    }
+    const toc = page.getByRole('complementary', { name: tocLabel, exact: true });
     await expect(toc).toBeVisible();
     const destinations = await toc
       .locator('a[href]:not([href="#"])')

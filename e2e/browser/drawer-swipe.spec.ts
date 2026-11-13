@@ -49,17 +49,25 @@ test('whole-drawer swiping needs no visible handle or reserved handle space', as
     const drawer = page.getByRole('dialog', { name: 'Gesture drawer', exact: true });
     await expect(drawer.locator('.aeris-drawer__swipe-handle')).toHaveCount(0);
     await expect(drawer).not.toHaveAttribute('data-swipe-handle');
-    // The top header is close to the viewport edge: use a short deliberate flick there.
-    // Body text selection and scrolling remain native rather than becoming mouse drags.
-    const box = await drawer.locator('.aeris-drawer__header').boundingBox();
-    if (!box) throw new Error('Expected a visible drawer header');
-    const startX = box.x + box.width / 2;
-    const startY = box.y + (edge === 'top' ? box.height - 4 : box.height / 2);
+    // Cross the distance threshold rather than depending on CI delivering a fast flick.
+    // A top drawer's header is too close to the viewport edge for a full upward drag.
+    // Its body allows dismissal once native scrolling has reached the bottom boundary.
+    const surface = drawer.locator(
+      edge === 'top' ? '.aeris-drawer__body' : '.aeris-drawer__header',
+    );
+    if (edge === 'top') {
+      await surface.evaluate((element) => {
+        element.scrollTop = element.scrollHeight;
+      });
+    }
+    const box = await surface.boundingBox();
+    if (!box) throw new Error('Expected a visible drawer swipe surface');
+    // Body padding avoids selecting text or starting a gesture on a nested control.
+    const startX = box.x + (edge === 'top' ? 4 : box.width / 2);
+    const startY = box.y + (edge === 'top' ? box.height - 16 : box.height / 2);
     await page.mouse.move(startX, startY);
     await page.mouse.down();
-    await page.mouse.move(startX + x, startY + (edge === 'top' ? -40 : y), {
-      steps: edge === 'top' ? 1 : 8,
-    });
+    await page.mouse.move(startX + x, startY + y, { steps: 8 });
     await page.mouse.up();
     await expect(drawer).not.toBeVisible();
     await expect(drawer).toHaveCount(0);
