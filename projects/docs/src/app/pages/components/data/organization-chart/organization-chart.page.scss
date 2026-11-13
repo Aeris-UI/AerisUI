@@ -22,20 +22,11 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  text-align: left;
+  text-align: start;
 }
 
 .person-card__avatar {
-  width: 2.25rem;
-  height: 2.25rem;
-  display: grid;
   flex: 0 0 auto;
-  place-items: center;
-  border-radius: 999px;
-  background: var(--primary-soft);
-  color: var(--primary-text);
-  font-size: 0.75rem;
-  font-weight: 800;
 }
 
 .person-card strong,
@@ -46,21 +37,6 @@
 .person-card small {
   color: var(--text-3);
   font-size: 0.75rem;
-}
-
-.person-card[data-tone='blue'] .person-card__avatar {
-  background: color-mix(in srgb, #52685b 22%, transparent);
-  color: #49606b;
-}
-
-.person-card[data-tone='gold'] .person-card__avatar {
-  background: color-mix(in srgb, #a88245 30%, transparent);
-  color: #7b542a;
-}
-
-.person-card[data-tone='rose'] .person-card__avatar {
-  background: color-mix(in srgb, #f1f4f2 55%, transparent);
-  color: #7b5259;
 }
 
 .wide-chart {

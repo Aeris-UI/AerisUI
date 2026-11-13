@@ -1,7 +1,10 @@
+import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { Component } from '@angular/core';
 import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
+import { ReferenceTableImports } from '../../../../shared/documentation/reference-table.component';
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
 import {
@@ -27,6 +30,9 @@ interface TokenRow {
 @Component({
   selector: 'app-skeleton-page',
   imports: [
+    AerisTableModule,
+    AerisCardModule,
+    ReferenceTableImports,
     AerisSkeletonModule,
     AerisTabsModule,
     CodeBlockComponent,
@@ -39,6 +45,19 @@ interface TokenRow {
   styleUrl: './skeleton.page.scss',
 })
 export class SkeletonPage {
+  protected readonly tableRows: readonly AerisTableData[] = [{ id: 1 }, { id: 2 }, { id: 3 }];
+  protected readonly tableColumns: readonly AerisTableColumn[] = [
+    { field: 'code', header: 'Code' },
+    { field: 'name', header: 'Name' },
+    { field: 'category', header: 'Category' },
+    { field: 'quantity', header: 'Quantity' },
+  ];
+  protected readonly tableWidths: Readonly<Record<string, string>> = {
+    code: '5rem',
+    name: '9rem',
+    category: '7rem',
+    quantity: '3rem',
+  };
   protected readonly importCode = `import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';`;
   protected readonly featureLinks: readonly PageTocLink[] = [
     { id: 'skeleton-import', label: 'Import' },
@@ -122,12 +141,6 @@ export class SkeletonPage {
 
   protected readonly cardCssCode = `.skeleton-card {
   max-width: 24rem;
-  display: grid;
-  gap: 1rem;
-  padding: 1rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-lg);
-  background: var(--aeris-surface);
 }
 
 .skeleton-card__header {
@@ -150,13 +163,10 @@ export class SkeletonPage {
   gap: 1rem;
 }
 
-.skeleton-grid__card {
-  min-width: 0;
+
+.skeleton-grid__content {
   display: grid;
   gap: 0.75rem;
-  padding: 0.875rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-lg);
 }`;
 
   protected readonly listCssCode = `.skeleton-list {
@@ -181,32 +191,6 @@ export class SkeletonPage {
   min-width: 0;
   display: grid;
   gap: 0.5rem;
-}`;
-
-  protected readonly tableCssCode = `.skeleton-table-wrap {
-  max-width: 100%;
-  overflow-x: auto;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-lg);
-}
-
-.skeleton-table {
-  width: 100%;
-  min-width: 34rem;
-  border-collapse: collapse;
-}
-
-.skeleton-table th,
-.skeleton-table td {
-  padding: 0.875rem;
-  border-bottom: 1px solid var(--aeris-border);
-  text-align: start;
-}
-
-.skeleton-table th {
-  color: var(--aeris-text-2);
-  font-size: 0.75rem;
-  text-transform: uppercase;
 }`;
 
   protected readonly tokenCssCode = `.custom-skeleton {

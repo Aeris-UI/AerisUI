@@ -19,7 +19,6 @@
   justify-items: start;
 }
 
-.style-toggle-card,
 .style-animation-panel,
 .style-resize-panel,
 .style-method-notice {
@@ -28,7 +27,6 @@
   border-radius: var(--aeris-radius-lg);
 }
 
-.style-toggle-card,
 .style-animation-panel,
 .style-resize-panel {
   border: 1px solid var(--aeris-border);
@@ -36,6 +34,7 @@
 }
 
 .style-toggle-card {
+  width: min(100%, 34rem);
   transition:
     border-color 160ms ease,
     background 160ms ease,
@@ -43,8 +42,8 @@
 }
 
 .style-toggle-card--active {
-  border-color: var(--aeris-primary);
-  background: var(--aeris-primary-soft);
+  --aeris-card-border: var(--aeris-primary);
+  --aeris-card-background: var(--aeris-primary-soft);
   transform: translateY(-0.125rem);
 }
 
@@ -135,7 +134,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .style-toggle-card,
   .style-enter-active,
   .style-leave-active {
     transition: none;

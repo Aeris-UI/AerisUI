@@ -3,7 +3,7 @@
   "schemaVersion": 1,
   "library": {
     "name": "@aeris-ui/core",
-    "version": "22.0.0-alpha.12",
+    "version": "22.0.0-alpha.13",
     "status": "alpha",
     "angularPeerRange": ">=22.0.6 <23.0.0",
     "documentationUrl": "https://aeris-ui.dev",
@@ -351,7 +351,7 @@
           "id": "alpha-status",
           "title": "Alpha status",
           "paragraphs": [
-            "Aeris 22.0.0-alpha.12 is an active-development alpha release. It is not production ready and should not be used for critical or production applications yet.",
+            "Aeris 22.0.0-alpha.13 is an active-development alpha release. It is not production ready and should not be used for critical or production applications yet.",
             "Public APIs, styling contracts, component behavior, and migration requirements may change before the first stable release as consumer testing uncovers improvements."
           ],
           "bullets": [
@@ -387,7 +387,7 @@
             {
               "label": "Pinned alpha (recommended)",
               "language": "Shell",
-              "code": "ng add @aeris-ui/core@22.0.0-alpha.12"
+              "code": "ng add @aeris-ui/core@22.0.0-alpha.13"
             },
             {
               "label": "Newest alpha",
@@ -506,7 +506,7 @@
             {
               "label": "Terminal",
               "language": "Shell",
-              "code": "ng add @aeris-ui/core@22.0.0-alpha.12 --config=aeris.setup.json"
+              "code": "ng add @aeris-ui/core@22.0.0-alpha.13 --config=aeris.setup.json"
             }
           ]
         },
@@ -521,7 +521,7 @@
             {
               "label": "Terminal",
               "language": "Shell",
-              "code": "ng add @aeris-ui/core@22.0.0-alpha.12 --project=web --surface=\"#f1f4f8\" --primary=\"#2d63a8\" --secondary=\"#546b89\" --accent=\"#368678\" --contrast=\"#39404a\" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts"
+              "code": "ng add @aeris-ui/core@22.0.0-alpha.13 --project=web --surface=\"#f1f4f8\" --primary=\"#2d63a8\" --secondary=\"#546b89\" --accent=\"#368678\" --contrast=\"#39404a\" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts"
             },
             {
               "label": "aeris.setup.json",
@@ -542,7 +542,7 @@
             {
               "label": "Terminal",
               "language": "Shell",
-              "code": "npm install @aeris-ui/core@22.0.0-alpha.12"
+              "code": "npm install @aeris-ui/core@22.0.0-alpha.13"
             }
           ]
         },
@@ -2854,7 +2854,7 @@
           "bullets": [
             "Node.js 20 or newer for the local MCP process.",
             "An AI editor, CLI, or desktop application that supports local stdio MCP servers.",
-            "Use @aeris-ui/mcp 22.0.0-alpha.12 with @aeris-ui/core 22.0.0-alpha.12.",
+            "Use @aeris-ui/mcp 22.0.0-alpha.13 with @aeris-ui/core 22.0.0-alpha.13.",
             "Restart or reload the AI client after changing its MCP configuration."
           ],
           "note": "Pin the MCP and core packages to the same exact alpha version."
@@ -2871,7 +2871,7 @@
             {
               "label": "Generic MCP client configuration",
               "language": "JSON",
-              "code": "{\n  \"mcpServers\": {\n    \"aeris\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"@aeris-ui/mcp@22.0.0-alpha.12\"]\n    }\n  }\n}"
+              "code": "{\n  \"mcpServers\": {\n    \"aeris\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"@aeris-ui/mcp@22.0.0-alpha.13\"]\n    }\n  }\n}"
             }
           ],
           "note": "Do not add @aeris-ui/mcp to the Angular application dependencies. It belongs in the AI client configuration, not application source or runtime code.",
@@ -2893,7 +2893,7 @@
             {
               "label": "Install the MCP executable",
               "language": "Shell",
-              "code": "npm install --global @aeris-ui/mcp@22.0.0-alpha.12"
+              "code": "npm install --global @aeris-ui/mcp@22.0.0-alpha.13"
             },
             {
               "label": "Global installation configuration",
@@ -3364,7 +3364,7 @@
       "group": "Releases and updates",
       "title": "Version compatibility",
       "description": "Choose an Aeris release line that is verified for the Angular version used by your application.",
-      "summary": "The current package is Aeris 22.0.0-alpha.12, an alpha that is not production ready. Its Angular peer dependencies use >=22.0.6 <23.0.0, keeping the evaluated range within Angular 22.",
+      "summary": "The current package is Aeris 22.0.0-alpha.13, an alpha that is not production ready. Its Angular peer dependencies use >=22.0.6 <23.0.0, keeping the evaluated range within Angular 22.",
       "sections": [
         {
           "id": "matrix",
@@ -3402,7 +3402,7 @@
             {
               "label": "Shell",
               "language": "Shell",
-              "code": "npm view @aeris-ui/core@22.0.0-alpha.12 peerDependencies"
+              "code": "npm view @aeris-ui/core@22.0.0-alpha.13 peerDependencies"
             }
           ]
         },
@@ -3487,7 +3487,7 @@
             {
               "label": "Shell",
               "language": "Shell",
-              "code": "npm install @aeris-ui/core@22.0.0-alpha.12"
+              "code": "npm install @aeris-ui/core@22.0.0-alpha.13"
             }
           ]
         },
@@ -3501,7 +3501,7 @@
             {
               "label": "Shell",
               "language": "Shell",
-              "code": "ng update @angular/core@22 @angular/cli@22\nnpm install @aeris-ui/core@22.0.0-alpha.12"
+              "code": "ng update @angular/core@22 @angular/cli@22\nnpm install @aeris-ui/core@22.0.0-alpha.13"
             }
           ],
           "note": "The commands show the currently supported Angular major. Replace the major only after it appears in the compatibility matrix."
@@ -3537,7 +3537,7 @@
           "id": "release-specific",
           "title": "Release-specific migration notes",
           "paragraphs": [
-            "Aeris 22.0.0-alpha.12 renders ordinary Tabs panel content eagerly. Applications that relied on alpha.4 creating only the active panel must choose an explicit deferred template strategy.",
+            "Aeris 22.0.0-alpha.13 renders ordinary Tabs panel content eagerly. Applications that relied on alpha.4 creating only the active panel must choose an explicit deferred template strategy.",
             "Use a bare aerisTabContent template to initialize expensive content on first activation and preserve its state. Set the directive to active to destroy and recreate the content whenever selection changes."
           ],
           "code": [
@@ -3611,6 +3611,27 @@
               "href": "https://github.com/Aeris-UI/AerisUI/releases",
               "external": true
             }
+          ]
+        },
+        {
+          "id": "version-22.0.0-alpha.13",
+          "title": "Aeris 22.0.0-alpha.13",
+          "paragraphs": [
+            "Alpha · 13 November 2026"
+          ],
+          "bullets": [
+            "Style DatePicker popup time steppers with Aeris chevrons, use an AM/PM toggle, and provide animated draggable time wheels on touch devices.",
+            "Keep DatePicker time controls open when activated in Safari and keep Accordion content aligned with its header on mobile.",
+            "Complete OrganizationChart keyboard navigation and accessible tree ownership, including RTL, typeahead, and focus restoration after collapse.",
+            "Keep modal focus inside native radio groups while preserving expected tab stops.",
+            "Omit disabled Aeris controls from native form submissions and prevent paste into disabled or read-only InputOtp fields.",
+            "Preserve fractional Slider bounds, allow spaces in MultiSelect and TreeSelect filters, and generate collision-free TreeSelect node identities.",
+            "Forward blur from portaled picker panels so form interaction state remains synchronized.",
+            "Clean up service-owned dialogs, content injectors, toast timers, and event streams on injector teardown, and deduplicate Toast batches by their last occurrence.",
+            "Use Aeris components throughout documentation controls and reference tables, retain matching copyable examples, and stabilize showcase and navigation verification.",
+            "Enforce strict library TypeScript and template checking, and refresh repository guidance, package README examples, and editor test configuration.",
+            "Patch existing Hono and Node server development-tool dependencies to address current security advisories.",
+            "Angular support remains >=22.0.6 <23.0.0. No public API removals are required when updating from alpha.12. Aeris remains alpha software and is not yet recommended for production."
           ]
         },
         {
@@ -7150,7 +7171,7 @@
         {
           "id": "date-picker-time",
           "title": "Date and time",
-          "description": "Enable editable for typed date-time or time-only entry. Type or paste a complete value, adjust segments with arrow keys, and change AM/PM explicitly in 12-hour mode. Minute steps affect arrow keys, not valid typed values.",
+          "description": "Enable editable for typed date-time or time-only entry. The popup has styled time steppers on desktop and compact single-row number wheels on touch devices. Drag vertically to adjust the time, or tap AM/PM to toggle the period. Minute steps affect steppers and wheels, not valid typed values.",
           "sources": [
             {
               "language": "TypeScript",
@@ -7356,7 +7377,7 @@
           "The day calendar uses grid, row, and gridcell semantics with one roving tab stop.",
           "Selected dates use aria-selected, today uses aria-current=\"date\", and unavailable dates use native disabled behavior.",
           "Every date receives a complete locale-formatted accessible name rather than exposing only its day number.",
-          "Date-time mode keeps the calendar semantics and adds labelled native time fields. Time-only mode removes the calendar grid and focuses the hour field when opened.",
+          "Date-time mode keeps the calendar semantics and adds labelled time controls. Desktop users can type values or use the stepper buttons; touch devices show draggable number single-row wheels with spinbutton semantics. Time-only mode focuses the hour control when opened. Tap or click the period button to toggle AM/PM. Wheel gestures commit on release and cancelled gestures keep the previous value. Reduced motion disables the snap transition.",
           "Visible labels should use inputId. Otherwise provide ariaLabel or ariaLabelledBy.",
           "Use ariaDescribedBy for help and validation messages. Required and invalid state are synchronized with ARIA.",
           "Multiple-month layouts collapse on narrow screens and all pointer targets retain clear focus indicators.",
@@ -7445,8 +7466,16 @@
             "behavior": "Moves to the first or last option in the visible period."
           },
           {
-            "keys": "Native input keys in time fields",
-            "behavior": "Edit hours, minutes, seconds, or AM/PM using browser-native number and select behavior."
+            "keys": "Arrow Up / Down in popup time controls",
+            "behavior": "Increase or decrease by the configured step, wrapping at the range boundary."
+          },
+          {
+            "keys": "Home / End in popup time controls",
+            "behavior": "Select the minimum or maximum value for that control."
+          },
+          {
+            "keys": "Enter / Space on the period button",
+            "behavior": "Toggle between AM and PM without closing the popup."
           },
           {
             "keys": "Escape",
@@ -20031,17 +20060,17 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisOrganizationChartModule } from '@aeris-ui/core/organization-chart';\n\n@Component({\n  selector: 'app-organization-chart-template-demo',\n  imports: [AerisOrganizationChartModule],\n  templateUrl: './organization-chart-template.demo.html',\n  styleUrl: './organization-chart-template.demo.scss'\n})\nexport class OrganizationChartTemplateDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisAvatarModule } from '@aeris-ui/core/avatar';\nimport { AerisOrganizationChartModule } from '@aeris-ui/core/organization-chart';\n\n@Component({\n  selector: 'app-organization-chart-template-demo',\n  imports: [AerisAvatarModule, AerisOrganizationChartModule],\n  templateUrl: './organization-chart-template.demo.html',\n  styleUrl: './organization-chart-template.demo.scss'\n})\nexport class OrganizationChartTemplateDemo {\n}\n"
             },
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<aeris-organization-chart\n  class=\"people-chart\"\n  ariaLabel=\"Template organization chart\"\n  selectionMode=\"single\"\n  [value]=\"chart\"\n  [(selectionKeys)]=\"selectedSingle\"\n>\n  <ng-template aerisOrganizationChartNode let-node let-selected=\"selected\">\n    <span class=\"person-card\" [attr.data-tone]=\"node.data?.tone\" [attr.data-selected]=\"selected || null\">\n      <span class=\"person-card__avatar\">{{ initials(node.data?.name) }}</span>\n      <span>\n        <strong>{{ node.data?.name }}</strong>\n        <small>{{ node.data?.role }}</small>\n      </span>\n    </span>\n  </ng-template>\n</aeris-organization-chart>"
+              "code": "<aeris-organization-chart\n  class=\"people-chart\"\n  ariaLabel=\"Template organization chart\"\n  selectionMode=\"single\"\n  [value]=\"chart\"\n  [(selectionKeys)]=\"selectedSingle\"\n>\n  <ng-template aerisOrganizationChartNode let-node>\n    <span class=\"person-card\">\n      <aeris-avatar class=\"person-card__avatar\" size=\"sm\" [label]=\"initials(node.data?.name)\" [ariaLabel]=\"node.data?.name ?? 'Team member'\" />\n      <span>\n        <strong>{{ node.data?.name }}</strong>\n        <small>{{ node.data?.role }}</small>\n      </span>\n    </span>\n  </ng-template>\n</aeris-organization-chart>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".person-card {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  text-align: left;\n}\n\n.person-card__avatar {\n  width: 2.25rem;\n  height: 2.25rem;\n  display: grid;\n  place-items: center;\n  border-radius: 999px;\n  background: var(--aeris-primary-soft);\n  color: var(--aeris-primary-text);\n  font-size: 0.75rem;\n  font-weight: 800;\n}"
+              "code": ".people-chart {\n  --aeris-organization-chart-node-min-width: 11.5rem;\n}\n\n.person-card {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  text-align: start;\n}\n\n.person-card__avatar { flex: 0 0 auto; }\n\n.person-card strong,\n.person-card small { display: block; }\n\n.person-card small {\n  color: var(--aeris-text-3);\n  font-size: 0.75rem;\n  font-weight: 600;\n}"
             }
           ]
         },
@@ -20068,7 +20097,7 @@
         "keyboard": [
           {
             "keys": "Tab",
-            "behavior": "Moves through chart nodes and branch controls."
+            "behavior": "Enters at the active node, then leaves the chart. Projected interactive controls retain their native tab order."
           },
           {
             "keys": "Enter / Space",
@@ -20076,15 +20105,23 @@
           },
           {
             "keys": "ArrowLeft",
-            "behavior": "Collapses an expanded branch node."
+            "behavior": "Collapses an expanded branch, or moves to the parent node. Reversed in RTL."
           },
           {
             "keys": "ArrowRight",
-            "behavior": "Expands a collapsed branch node."
+            "behavior": "Expands a collapsed branch, or moves to its first child. Reversed in RTL."
           },
           {
             "keys": "Home",
             "behavior": "Moves focus to the first rendered node."
+          },
+          {
+            "keys": "ArrowUp / ArrowDown",
+            "behavior": "Moves to the previous or next visible node without changing selection."
+          },
+          {
+            "keys": "Letter",
+            "behavior": "Moves to the next visible node whose label starts with that character."
           },
           {
             "keys": "End",
@@ -22489,17 +22526,17 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisTimelineModule, type AerisTimelineItem } from '@aeris-ui/core/timeline';\nimport { LucideBlocks, LucideClipboardCheck, LucideDynamicIcon, LucidePackageCheck, LucideShieldCheck, type LucideIconInput } from '@lucide/angular';\n\ninterface CustomReleaseData {\n  readonly owner: string;\n  readonly version: string;\n  readonly icon: LucideIconInput;\n}\n\n@Component({\n  selector: 'app-timeline-templates-demo',\n  imports: [AerisTimelineModule, LucideDynamicIcon],\n  templateUrl: './timeline-templates.demo.html',\n  styleUrl: './timeline-templates.demo.scss'\n})\nexport class TimelineTemplatesDemo {\n  protected readonly customEvents: readonly AerisTimelineItem<CustomReleaseData>[] = [\n    {\n      id: 'planning',\n      title: 'Planning complete',\n      description: 'Scope and release criteria were approved.',\n      date: 'May 06',\n      markerColor: 'var(--aeris-success)',\n      data: { owner: 'Maya Chen', version: 'v1.4', icon: LucideClipboardCheck },\n    },\n    {\n      id: 'build',\n      title: 'Build',\n      description: 'Core package and guides are being prepared.',\n      date: 'May 14',\n      markerColor: 'var(--aeris-info)',\n      data: { owner: 'Noah Williams', version: 'v1.4', icon: LucideBlocks },\n    },\n    {\n      id: 'review',\n      title: 'Quality review',\n      description: 'Accessibility and API checks are scheduled.',\n      date: 'May 22',\n      markerColor: 'var(--aeris-warning)',\n      data: { owner: 'Sofia Rossi', version: 'v1.4', icon: LucideShieldCheck },\n    },\n    {\n      id: 'release',\n      title: 'Release',\n      description: 'Packages will publish after final approval.',\n      date: 'May 28',\n      markerColor: 'var(--aeris-primary)',\n      data: { owner: 'Liam Novak', version: 'v1.4', icon: LucidePackageCheck },\n    },\n  ];\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisBadgeModule } from '@aeris-ui/core/badge';\nimport { AerisCardModule } from '@aeris-ui/core/card';\nimport { AerisTimelineModule, type AerisTimelineItem } from '@aeris-ui/core/timeline';\nimport { LucideBlocks, LucideClipboardCheck, LucideDynamicIcon, LucidePackageCheck, LucideShieldCheck, type LucideIconInput } from '@lucide/angular';\n\ninterface CustomReleaseData {\n  readonly owner: string;\n  readonly version: string;\n  readonly icon: LucideIconInput;\n}\n\n@Component({\n  selector: 'app-timeline-templates-demo',\n  imports: [AerisBadgeModule, AerisCardModule, AerisTimelineModule, LucideDynamicIcon],\n  templateUrl: './timeline-templates.demo.html',\n  styleUrl: './timeline-templates.demo.scss'\n})\nexport class TimelineTemplatesDemo {\n  protected readonly customEvents: readonly AerisTimelineItem<CustomReleaseData>[] = [\n    {\n      id: 'planning',\n      title: 'Planning complete',\n      description: 'Scope and release criteria were approved.',\n      date: 'May 06',\n      markerColor: 'var(--aeris-success)',\n      data: { owner: 'Maya Chen', version: 'v1.4', icon: LucideClipboardCheck },\n    },\n    {\n      id: 'build',\n      title: 'Build',\n      description: 'Core package and guides are being prepared.',\n      date: 'May 14',\n      markerColor: 'var(--aeris-info)',\n      data: { owner: 'Noah Williams', version: 'v1.4', icon: LucideBlocks },\n    },\n    {\n      id: 'review',\n      title: 'Quality review',\n      description: 'Accessibility and API checks are scheduled.',\n      date: 'May 22',\n      markerColor: 'var(--aeris-warning)',\n      data: { owner: 'Sofia Rossi', version: 'v1.4', icon: LucideShieldCheck },\n    },\n    {\n      id: 'release',\n      title: 'Release',\n      description: 'Packages will publish after final approval.',\n      date: 'May 28',\n      markerColor: 'var(--aeris-primary)',\n      data: { owner: 'Liam Novak', version: 'v1.4', icon: LucidePackageCheck },\n    },\n  ];\n}\n"
             },
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<aeris-timeline\n  class=\"timeline-demo--custom\"\n  align=\"alternate\"\n  [activeIndex]=\"1\"\n  [value]=\"customEvents\"\n>\n  <ng-template aerisTimelineMarker let-item>\n    <span class=\"timeline-marker-icon\">\n      <svg\n        aria-hidden=\"true\"\n        focusable=\"false\"\n        [lucideIcon]=\"$any(item).data.icon\"\n      ></svg>\n    </span>\n  </ng-template>\n\n  <ng-template aerisTimelineOpposite let-item>\n    <span class=\"release-date\">{{ $any(item).date }}</span>\n  </ng-template>\n\n  <ng-template aerisTimelineContent let-item let-state=\"state\">\n    <article class=\"release-card\">\n      <span class=\"release-card__state\">{{ state }}</span>\n      <h3>{{ $any(item).title }}</h3>\n      <p>{{ $any(item).description }}</p>\n      <small>{{ $any(item).data.owner }} - {{ $any(item).data.version }}</small>\n    </article>\n  </ng-template>\n</aeris-timeline>"
+              "code": "<aeris-timeline\n  class=\"timeline-demo--custom\"\n  align=\"alternate\"\n  [activeIndex]=\"1\"\n  [value]=\"customEvents\"\n>\n  <ng-template aerisTimelineMarker let-item>\n    <span class=\"timeline-marker-icon\">\n      <svg\n        aria-hidden=\"true\"\n        focusable=\"false\"\n        [lucideIcon]=\"$any(item).data.icon\"\n      ></svg>\n    </span>\n  </ng-template>\n\n  <ng-template aerisTimelineOpposite let-item>\n    <span class=\"release-date\">{{ $any(item).date }}</span>\n  </ng-template>\n\n  <ng-template aerisTimelineContent let-item let-state=\"state\">\n    <aeris-card class=\"release-card\">\n      <aeris-badge [value]=\"state\" severity=\"neutral\" variant=\"soft\" size=\"sm\" />\n      <h3>{{ $any(item).title }}</h3>\n      <p>{{ $any(item).description }}</p>\n      <small>{{ $any(item).data.owner }} - {{ $any(item).data.version }}</small>\n    </aeris-card>\n  </ng-template>\n</aeris-timeline>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": "svg:where([lucideIcon]) {\n  width: var(--aeris-icon-size, 1rem);\n  height: var(--aeris-icon-size, 1rem);\n  flex-shrink: 0;\n  stroke-width: 2;\n}\n\n.timeline-demo--custom {\n  --aeris-timeline-marker-size: 2rem;\n  --aeris-timeline-separator-size: 2.75rem;\n}\n\n.timeline-marker-icon {\n  display: grid;\n  width: 2rem;\n  height: 2rem;\n  place-items: center;\n  border: 1px solid color-mix(in srgb, currentColor 28%, transparent);\n  border-radius: 50%;\n  background: color-mix(in srgb, currentColor 12%, var(--aeris-surface));\n}\n\n.timeline-marker-icon svg {\n  width: 1rem;\n  height: 1rem;\n  stroke-width: 2;\n}\n\n.release-date {\n  font-weight: 650;\n}\n\n.release-card {\n  padding: 0.875rem;\n  border: 1px solid var(--aeris-border);\n  border-radius: var(--aeris-radius-md);\n  background: var(--aeris-surface);\n}\n\n.release-card__state {\n  color: var(--aeris-primary-text);\n  font-size: 0.6875rem;\n  font-weight: 700;\n  text-transform: uppercase;\n}\n\n.release-card h3 {\n  margin: 0.3rem 0 0;\n  font-size: 0.875rem;\n}\n\n.release-card p {\n  margin: 0.35rem 0 0;\n  color: var(--aeris-text-2);\n  font-size: 0.75rem;\n  line-height: 1.55;\n}\n\n.release-card small {\n  display: block;\n  margin-top: 0.65rem;\n  color: var(--aeris-text-muted);\n  font-size: 0.6875rem;\n}"
+              "code": "svg:where([lucideIcon]) {\n  width: var(--aeris-icon-size, 1rem);\n  height: var(--aeris-icon-size, 1rem);\n  flex-shrink: 0;\n  stroke-width: 2;\n}\n\n.timeline-demo--custom {\n  --aeris-timeline-marker-size: 2rem;\n  --aeris-timeline-separator-size: 2.75rem;\n}\n\n.timeline-marker-icon {\n  display: grid;\n  width: 2rem;\n  height: 2rem;\n  place-items: center;\n  border: 1px solid color-mix(in srgb, currentColor 28%, transparent);\n  border-radius: 50%;\n  background: color-mix(in srgb, currentColor 12%, var(--aeris-surface));\n}\n\n.timeline-marker-icon svg {\n  width: 1rem;\n  height: 1rem;\n  stroke-width: 2;\n}\n\n.release-date {\n  font-weight: 650;\n}\n\n.release-card h3 {\n  margin: 0.3rem 0 0;\n  font-size: 0.875rem;\n}\n\n.release-card p {\n  margin: 0.35rem 0 0;\n  color: var(--aeris-text-2);\n  font-size: 0.75rem;\n  line-height: 1.55;\n}\n\n.release-card small {\n  display: block;\n  margin-top: 0.65rem;\n  color: var(--aeris-text-muted);\n  font-size: 0.6875rem;\n}"
             }
           ]
         },
@@ -26054,17 +26091,17 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';\n\n@Component({\n  selector: 'app-scroll-panel-horizontal-demo',\n  imports: [AerisScrollPanelModule],\n  templateUrl: './scroll-panel-horizontal.demo.html',\n  styleUrl: './scroll-panel-horizontal.demo.scss'\n})\nexport class ScrollPanelHorizontalDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisCardModule } from '@aeris-ui/core/card';\nimport { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';\n\n@Component({\n  selector: 'app-scroll-panel-horizontal-demo',\n  imports: [AerisCardModule, AerisScrollPanelModule],\n  templateUrl: './scroll-panel-horizontal.demo.html',\n  styleUrl: './scroll-panel-horizontal.demo.scss'\n})\nexport class ScrollPanelHorizontalDemo {\n}\n"
             },
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div>\n  <aeris-scroll-panel orientation=\"horizontal\" height=\"9rem\" ariaLabel=\"Project cards\">\n    <div class=\"horizontal-cards\">\n      <article class=\"horizontal-card\">\n        <strong>Design</strong>\n        <span>Tokens, states, and spacing.</span>\n      </article>\n      <article class=\"horizontal-card\">\n        <strong>Build</strong>\n        <span>Standalone Angular components.</span>\n      </article>\n      <article class=\"horizontal-card\">\n        <strong>Test</strong>\n        <span>API and accessibility coverage.</span>\n      </article>\n      <article class=\"horizontal-card\">\n        <strong>Ship</strong>\n        <span>Docs, examples, and migration notes.</span>\n      </article>\n    </div>\n  </aeris-scroll-panel>\n</div>"
+              "code": "<div>\n  <aeris-scroll-panel orientation=\"horizontal\" height=\"9rem\" ariaLabel=\"Project cards\">\n    <div class=\"horizontal-cards\">\n      <aeris-card class=\"horizontal-card\">\n        <strong>Design</strong>\n        <span>Tokens, states, and spacing.</span>\n      </aeris-card>\n      <aeris-card class=\"horizontal-card\">\n        <strong>Build</strong>\n        <span>Standalone Angular components.</span>\n      </aeris-card>\n      <aeris-card class=\"horizontal-card\">\n        <strong>Test</strong>\n        <span>API and accessibility coverage.</span>\n      </aeris-card>\n      <aeris-card class=\"horizontal-card\">\n        <strong>Ship</strong>\n        <span>Docs, examples, and migration notes.</span>\n      </aeris-card>\n    </div>\n  </aeris-scroll-panel>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".horizontal-cards {\n  display: flex;\n  gap: 0.75rem;\n}\n\n.horizontal-card {\n  flex: 0 0 13rem;\n  padding: 1rem;\n  border: 1px solid var(--aeris-border);\n  border-radius: var(--aeris-radius-lg);\n  background: var(--aeris-surface);\n}\n\n.horizontal-card strong {\n  display: block;\n  margin-bottom: 0.375rem;\n  color: var(--aeris-text);\n}"
+              "code": ".horizontal-cards {\n  display: flex;\n  gap: 0.75rem;\n}\n\n.horizontal-card {\n  flex: 0 0 13rem;\n}\n\n.horizontal-card strong {\n  display: block;\n  margin-bottom: 0.375rem;\n  color: var(--aeris-text);\n}"
             }
           ]
         },
@@ -26076,17 +26113,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';\n\ninterface CityRow {\n  readonly city: string;\n  readonly state: string;\n  readonly population: string;\n  readonly area: string;\n}\n\n@Component({\n  selector: 'app-scroll-panel-both-demo',\n  imports: [AerisScrollPanelModule],\n  templateUrl: './scroll-panel-both.demo.html',\n  styleUrl: './scroll-panel-both.demo.scss'\n})\nexport class ScrollPanelBothDemo {\n  protected readonly cities: readonly CityRow[] = [\n      { city: 'New York', state: 'NY', population: '8,419,600', area: '783.8' },\n      { city: 'Los Angeles', state: 'CA', population: '3,980,400', area: '1,214.9' },\n      { city: 'Chicago', state: 'IL', population: '2,716,000', area: '589.6' },\n      { city: 'Houston', state: 'TX', population: '2,328,000', area: '1,651.1' },\n      { city: 'Phoenix', state: 'AZ', population: '1,690,000', area: '1,340.6' },\n      { city: 'Philadelphia', state: 'PA', population: '1,584,200', area: '369.6' },\n      { city: 'San Antonio', state: 'TX', population: '1,547,200', area: '1,194.0' },\n      { city: 'San Diego', state: 'CA', population: '1,423,800', area: '964.5' },\n      { city: 'Dallas', state: 'TX', population: '1,341,100', area: '882.9' },\n      { city: 'San Jose', state: 'CA', population: '1,035,300', area: '469.7' },\n      { city: 'Austin', state: 'TX', population: '1,010,000', area: '704.0' },\n      { city: 'Jacksonville', state: 'FL', population: '949,600', area: '2,265.3' },\n    ];\n}\n"
-            },
-            {
-              "language": "HTML",
-              "label": "HTML",
-              "code": "<div>\n  <aeris-scroll-panel orientation=\"both\" height=\"13rem\" ariaLabel=\"City statistics\">\n    <table class=\"city-table\">\n      <thead>\n        <tr>\n          <th>City</th>\n          <th>State</th>\n          <th>Population</th>\n          <th>Area km²</th>\n        </tr>\n      </thead>\n      <tbody>\n        @for (city of cities; track city.city) {\n          <tr>\n            <td>{{ city.city }}</td>\n            <td>{{ city.state }}</td>\n            <td>{{ city.population }}</td>\n            <td>{{ city.area }}</td>\n          </tr>\n        }\n      </tbody>\n    </table>\n  </aeris-scroll-panel>\n</div>"
-            },
-            {
-              "language": "CSS",
-              "label": "CSS",
-              "code": ".city-table {\n  min-width: 42rem;\n  width: 100%;\n  border-collapse: collapse;\n}\n\n.city-table th,\n.city-table td {\n  padding: 0.625rem 0.75rem;\n  border-bottom: 1px solid var(--aeris-border);\n  text-align: left;\n  white-space: nowrap;\n}\n\n.city-table th {\n  color: var(--aeris-text);\n  font-size: 0.75rem;\n  text-transform: uppercase;\n}"
+              "code": "import { Component } from '@angular/core';\nimport { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';\nimport { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';\n\ninterface CityRow extends AerisTableData {\n  readonly city: string;\n  readonly state: string;\n  readonly population: string;\n  readonly area: string;\n}\n\n@Component({\n  selector: 'app-scroll-panel-both-demo',\n  imports: [AerisScrollPanelModule, AerisTableModule],\n  template: `\n    <div>\n      <aeris-scroll-panel orientation=\"both\" height=\"13rem\" ariaLabel=\"City statistics\">\n        <aeris-table\n          class=\"city-table\"\n          caption=\"City statistics\"\n          [data]=\"cities\"\n          [columns]=\"cityColumns\"\n          [hoverable]=\"false\"\n          [rowNavigation]=\"false\"\n        />\n      </aeris-scroll-panel>\n    </div>\n  `,\n  styles: `\n    .city-table {\n      inline-size: 46rem;\n    }\n  `\n})\nexport class ScrollPanelBothDemo {\n  protected readonly cityColumns: readonly AerisTableColumn[] = [\n      { field: 'city', header: 'City' },\n      { field: 'state', header: 'State' },\n      { field: 'population', header: 'Population' },\n      { field: 'area', header: 'Area km²' },\n    ];\n\n  protected readonly cities: readonly CityRow[] = [\n      { city: 'New York', state: 'NY', population: '8,419,600', area: '783.8' },\n      { city: 'Los Angeles', state: 'CA', population: '3,980,400', area: '1,214.9' },\n      { city: 'Chicago', state: 'IL', population: '2,716,000', area: '589.6' },\n      { city: 'Houston', state: 'TX', population: '2,328,000', area: '1,651.1' },\n      { city: 'Phoenix', state: 'AZ', population: '1,690,000', area: '1,340.6' },\n      { city: 'Philadelphia', state: 'PA', population: '1,584,200', area: '369.6' },\n      { city: 'San Antonio', state: 'TX', population: '1,547,200', area: '1,194.0' },\n      { city: 'San Diego', state: 'CA', population: '1,423,800', area: '964.5' },\n      { city: 'Dallas', state: 'TX', population: '1,341,100', area: '882.9' },\n      { city: 'San Jose', state: 'CA', population: '1,035,300', area: '469.7' },\n      { city: 'Austin', state: 'TX', population: '1,010,000', area: '704.0' },\n      { city: 'Jacksonville', state: 'FL', population: '949,600', area: '2,265.3' },\n    ];\n}\n"
             }
           ]
         },
@@ -27633,17 +27660,17 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';\nimport { AerisTabsModule } from '@aeris-ui/core/tabs';\n\n@Component({\n  selector: 'app-tabs-lazy-demo',\n  imports: [AerisChartModule, AerisTabsModule],\n  templateUrl: './tabs-lazy.demo.html',\n  styleUrl: './tabs-lazy.demo.scss'\n})\nexport class TabsLazyDemo {\n  protected readonly trafficData: AerisChartData = {\n    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],\n    datasets: [\n      {\n        label: 'Sessions',\n        data: [1240, 1580, 1470, 1920, 2180, 1760, 2340],\n        tension: 0.35,\n        fill: true,\n      },\n    ],\n  };\n\n  protected readonly conversionData: AerisChartData = {\n    labels: ['Direct', 'Search', 'Social', 'Referral'],\n    datasets: [\n      { label: 'Conversions', data: [420, 680, 310, 250], borderRadius: 7 },\n    ],\n  };\n\n  protected readonly statisticsOptions: AerisChartOptions = {\n    devicePixelRatio:\n        typeof window === 'undefined'\n          ? 2\n          : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),\n    maintainAspectRatio: false,\n    interaction: { mode: 'index', intersect: false },\n    plugins: { legend: { position: 'bottom' } },\n  };\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisCardModule } from '@aeris-ui/core/card';\nimport { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';\nimport { AerisTabsModule } from '@aeris-ui/core/tabs';\n\n@Component({\n  selector: 'app-tabs-lazy-demo',\n  imports: [AerisCardModule, AerisChartModule, AerisTabsModule],\n  templateUrl: './tabs-lazy.demo.html',\n  styleUrl: './tabs-lazy.demo.scss'\n})\nexport class TabsLazyDemo {\n  protected readonly trafficData: AerisChartData = {\n    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],\n    datasets: [\n      {\n        label: 'Sessions',\n        data: [1240, 1580, 1470, 1920, 2180, 1760, 2340],\n        tension: 0.35,\n        fill: true,\n      },\n    ],\n  };\n\n  protected readonly conversionData: AerisChartData = {\n    labels: ['Direct', 'Search', 'Social', 'Referral'],\n    datasets: [\n      { label: 'Conversions', data: [420, 680, 310, 250], borderRadius: 7 },\n    ],\n  };\n\n  protected readonly statisticsOptions: AerisChartOptions = {\n    devicePixelRatio:\n        typeof window === 'undefined'\n          ? 2\n          : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),\n    maintainAspectRatio: false,\n    interaction: { mode: 'index', intersect: false },\n    plugins: { legend: { position: 'bottom' } },\n  };\n}\n"
             },
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div>\n  <aeris-tabs ariaLabel=\"Workspace analytics\">\n    <aeris-tab-panel value=\"summary\" label=\"Summary\">\n      <div class=\"statistics-summary\">\n        <div>\n          <strong>Analytics overview</strong>\n          <p>Open Statistics to initialize the detailed charts.</p>\n        </div>\n      </div>\n    </aeris-tab-panel>\n    <aeris-tab-panel value=\"statistics\" label=\"Statistics\">\n      <ng-template aerisTabContent>\n        <div class=\"statistics-grid\">\n          <section class=\"statistics-card\">\n            <h4>Weekly traffic</h4>\n            <aeris-chart\n              type=\"line\"\n              [data]=\"trafficData\"\n              [options]=\"statisticsOptions\"\n              height=\"17rem\"\n              ariaLabel=\"Weekly sessions\"\n              ariaDescription=\"Sessions rise overall from Monday to Sunday.\"\n            />\n          </section>\n          <section class=\"statistics-card\">\n            <h4>Conversions by source</h4>\n            <aeris-chart\n              type=\"bar\"\n              [data]=\"conversionData\"\n              [options]=\"statisticsOptions\"\n              height=\"17rem\"\n              ariaLabel=\"Conversions by traffic source\"\n              ariaDescription=\"Search produces the most conversions.\"\n            />\n          </section>\n        </div>\n      </ng-template>\n    </aeris-tab-panel>\n  </aeris-tabs>\n</div>"
+              "code": "<div>\n  <aeris-tabs ariaLabel=\"Workspace analytics\">\n    <aeris-tab-panel value=\"summary\" label=\"Summary\">\n      <div class=\"statistics-summary\">\n        <div>\n          <strong>Analytics overview</strong>\n          <p>Open Statistics to initialize the detailed charts.</p>\n        </div>\n      </div>\n    </aeris-tab-panel>\n    <aeris-tab-panel value=\"statistics\" label=\"Statistics\">\n      <ng-template aerisTabContent>\n        <div class=\"statistics-grid\">\n          <aeris-card class=\"statistics-card\">\n            <h4>Weekly traffic</h4>\n            <aeris-chart\n              type=\"line\"\n              [data]=\"trafficData\"\n              [options]=\"statisticsOptions\"\n              height=\"17rem\"\n              ariaLabel=\"Weekly sessions\"\n              ariaDescription=\"Sessions rise overall from Monday to Sunday.\"\n            />\n          </aeris-card>\n          <aeris-card class=\"statistics-card\">\n            <h4>Conversions by source</h4>\n            <aeris-chart\n              type=\"bar\"\n              [data]=\"conversionData\"\n              [options]=\"statisticsOptions\"\n              height=\"17rem\"\n              ariaLabel=\"Conversions by traffic source\"\n              ariaDescription=\"Search produces the most conversions.\"\n            />\n          </aeris-card>\n        </div>\n      </ng-template>\n    </aeris-tab-panel>\n  </aeris-tabs>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".statistics-summary {\n  min-height: 15rem;\n  display: grid;\n  place-items: center;\n  padding: 1.25rem;\n  color: var(--aeris-text-2);\n  text-align: center;\n}\n\n.statistics-grid {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1rem;\n}\n\n.statistics-card {\n  min-width: 0;\n  padding: 1rem;\n  border-radius: var(--aeris-radius-container);\n  background: var(--aeris-surface-2);\n}\n\n.statistics-card h4 {\n  margin: 0 0 0.75rem;\n}\n\n@media (max-width: 44rem) {\n  .statistics-grid {\n      grid-template-columns: 1fr;\n    }\n}"
+              "code": ".statistics-summary {\n  min-height: 15rem;\n  display: grid;\n  place-items: center;\n  padding: 1.25rem;\n  color: var(--aeris-text-2);\n  text-align: center;\n}\n\n.statistics-grid {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1rem;\n}\n\n.statistics-card h4 {\n  margin: 0 0 0.75rem;\n}\n\n@media (max-width: 44rem) {\n  .statistics-grid {\n      grid-template-columns: 1fr;\n    }\n}"
             }
           ]
         },
@@ -39188,7 +39215,7 @@
               "name": "showAll(messages)",
               "type": "readonly AerisToastMessage[]",
               "defaultValue": "-",
-              "description": "Adds multiple messages in order."
+              "description": "Adds messages in order. IDs are unique across groups: the last occurrence of an ID replaces earlier occurrences, including its queue position and timer. Returns the deduplicated messages."
             },
             {
               "name": "remove(id, reason)",
@@ -39782,17 +39809,17 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisCarouselModule } from '@aeris-ui/core/carousel';\n\ninterface Destination {\n  readonly name: string;\n  readonly detail: string;\n  readonly tone: 'sage' | 'blue' | 'gold' | 'rose' | 'sky';\n}\n\n@Component({\n  selector: 'app-carousel-basic-demo',\n  imports: [AerisCarouselModule],\n  templateUrl: './carousel-basic.demo.html',\n  styleUrl: './carousel-basic.demo.scss'\n})\nexport class CarouselBasicDemo {\n  protected readonly destinations: readonly Destination[] = [\n    { name: 'Milo', detail: 'A curious explorer with a wagging tail.', tone: 'sage' },\n    { name: 'Luna', detail: 'Always ready for a bright new adventure.', tone: 'blue' },\n    { name: 'Biscuit', detail: 'Small paws, big heart, and endless naps.', tone: 'gold' },\n    { name: 'Poppy', detail: 'A playful friend who loves every visitor.', tone: 'rose' },\n    { name: 'Nova', detail: 'Gentle, clever, and quick to make friends.', tone: 'sky' },\n  ];\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisCardModule } from '@aeris-ui/core/card';\nimport { AerisCarouselModule } from '@aeris-ui/core/carousel';\n\ninterface Destination {\n  readonly name: string;\n  readonly detail: string;\n  readonly tone: 'sage' | 'blue' | 'gold' | 'rose' | 'sky';\n}\n\n@Component({\n  selector: 'app-carousel-basic-demo',\n  imports: [AerisCardModule, AerisCarouselModule],\n  templateUrl: './carousel-basic.demo.html',\n  styleUrl: './carousel-basic.demo.scss'\n})\nexport class CarouselBasicDemo {\n  protected readonly destinations: readonly Destination[] = [\n    { name: 'Milo', detail: 'A curious explorer with a wagging tail.', tone: 'sage' },\n    { name: 'Luna', detail: 'Always ready for a bright new adventure.', tone: 'blue' },\n    { name: 'Biscuit', detail: 'Small paws, big heart, and endless naps.', tone: 'gold' },\n    { name: 'Poppy', detail: 'A playful friend who loves every visitor.', tone: 'rose' },\n    { name: 'Nova', detail: 'Gentle, clever, and quick to make friends.', tone: 'sky' },\n  ];\n}\n"
             },
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div>\n  <aeris-carousel [value]=\"destinations\" [numVisible]=\"3\" ariaLabel=\"Meet the puppies\">\n    <ng-template aerisCarouselHeader>\n      <div class=\"carousel-title\">\n        <strong>Meet the puppies</strong>\n        <span>Five playful friends with big personalities.</span>\n      </div>\n    </ng-template>\n    <ng-template aerisCarouselItem let-item>\n      <article class=\"destination-card\" [attr.data-tone]=\"$any(item).tone\">\n        <strong>{{ $any(item).name }}</strong>\n        <span>{{ $any(item).detail }}</span>\n      </article>\n    </ng-template>\n    <ng-template aerisCarouselFooter>\n      <small class=\"carousel-footer\">Curated for unhurried weekends.</small>\n    </ng-template>\n  </aeris-carousel>\n</div>"
+              "code": "<div>\n  <aeris-carousel [value]=\"destinations\" [numVisible]=\"3\" ariaLabel=\"Meet the puppies\">\n    <ng-template aerisCarouselHeader>\n      <div class=\"carousel-title\">\n        <strong>Meet the puppies</strong>\n        <span>Five playful friends with big personalities.</span>\n      </div>\n    </ng-template>\n    <ng-template aerisCarouselItem let-item>\n      <aeris-card padding=\"none\">\n        <div\n          aerisCardMedia\n          class=\"destination-card__media\"\n          [attr.data-tone]=\"$any(item).tone\"\n        >\n          <strong>{{ $any(item).name }}</strong>\n          <span>{{ $any(item).detail }}</span>\n        </div>\n      </aeris-card>\n    </ng-template>\n    <ng-template aerisCarouselFooter>\n      <small class=\"carousel-footer\">Curated for unhurried weekends.</small>\n    </ng-template>\n  </aeris-carousel>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".carousel-title {\n  display: grid;\n  gap: 0.2rem;\n}\n\n.carousel-title strong {\n  font-size: 1rem;\n}\n\n.carousel-title span, .carousel-footer, .carousel-actions span {\n  color: var(--aeris-text-2);\n  font-size: 0.875rem;\n}\n\n.destination-card {\n  position: relative;\n  display: grid;\n  align-content: end;\n  min-height: 19rem;\n  padding: 1.25rem;\n  border-radius: var(--aeris-radius-lg);\n  background-color: var(--aeris-surface-2);\n  background-position: center;\n  background-size: cover;\n  color: #fff;\n  overflow: hidden;\n}\n\n.destination-card::before {\n  position: absolute;\n  inset: 0;\n  background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));\n  content: \"\";\n}\n\n.destination-card strong, .destination-card span {\n  position: relative;\n  display: block;\n}\n\n.destination-card strong {\n  font-size: 1.25rem;\n}\n\n.destination-card span {\n  margin-top: 0.35rem;\n  color: rgba(255, 255, 255, 0.86);\n  line-height: 1.5;\n}\n\n.destination-card[data-tone=sage] {\n  background-image: url(\"/puppies/puppy1.jpg\");\n}\n\n.destination-card[data-tone=blue] {\n  background-image: url(\"/puppies/puppy2.jpg\");\n}\n\n.destination-card[data-tone=gold] {\n  background-image: url(\"/puppies/puppy3.jpg\");\n}\n\n.destination-card[data-tone=rose] {\n  background-image: url(\"/puppies/puppy4.jpg\");\n}\n\n.destination-card[data-tone=sky] {\n  background-image: url(\"/puppies/puppy5.jpg\");\n}"
+              "code": ".carousel-title {\n  display: grid;\n  gap: 0.2rem;\n}\n\n.carousel-title strong {\n  font-size: 1rem;\n}\n\n.carousel-title span,\n.carousel-footer,\n.carousel-actions span {\n  color: var(--aeris-text-2);\n  font-size: 0.875rem;\n}\n\n.destination-card__media {\n  position: relative;\n  display: grid;\n  align-content: end;\n  min-height: 19rem;\n  padding: 1.25rem;\n  border-radius: inherit;\n  background-color: var(--aeris-surface-2);\n  background-position: center;\n  background-size: cover;\n  color: #fff;\n  overflow: hidden;\n}\n\n.destination-card__media::before {\n  position: absolute;\n  inset: 0;\n  background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));\n  content: \"\";\n}\n\n.destination-card__media strong,\n.destination-card__media span {\n  position: relative;\n  display: block;\n}\n\n.destination-card__media strong {\n  font-size: 1.25rem;\n}\n\n.destination-card__media span {\n  margin-top: 0.35rem;\n  color: rgba(255, 255, 255, 0.86);\n  line-height: 1.5;\n}\n\n.destination-card__media[data-tone=sage] {\n  background-image: url(\"/puppies/puppy1.jpg\");\n}\n\n.destination-card__media[data-tone=blue] {\n  background-image: url(\"/puppies/puppy2.jpg\");\n}\n\n.destination-card__media[data-tone=gold] {\n  background-image: url(\"/puppies/puppy3.jpg\");\n}\n\n.destination-card__media[data-tone=rose] {\n  background-image: url(\"/puppies/puppy4.jpg\");\n}\n\n.destination-card__media[data-tone=sky] {\n  background-image: url(\"/puppies/puppy5.jpg\");\n}"
             }
           ]
         },
@@ -39804,17 +39831,17 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisCarouselModule, type AerisCarouselResponsiveOption } from '@aeris-ui/core/carousel';\n\ninterface Destination {\n  readonly name: string;\n  readonly detail: string;\n  readonly tone: 'sage' | 'blue' | 'gold' | 'rose' | 'sky';\n}\n\n@Component({\n  selector: 'app-carousel-responsive-demo',\n  imports: [AerisCarouselModule],\n  templateUrl: './carousel-responsive.demo.html',\n  styleUrl: './carousel-responsive.demo.scss'\n})\nexport class CarouselResponsiveDemo {\n  protected readonly destinations: readonly Destination[] = [\n      { name: 'Milo', detail: 'A curious explorer with a wagging tail.', tone: 'sage' },\n      { name: 'Luna', detail: 'Always ready for a bright new adventure.', tone: 'blue' },\n      { name: 'Biscuit', detail: 'Small paws, big heart, and endless naps.', tone: 'gold' },\n      { name: 'Poppy', detail: 'A playful friend who loves every visitor.', tone: 'rose' },\n      { name: 'Nova', detail: 'Gentle, clever, and quick to make friends.', tone: 'sky' },\n    ];\n\n\n  protected readonly responsiveOptions: readonly AerisCarouselResponsiveOption[] = [\n    { breakpoint: '56rem', numVisible: 2, numScroll: 1 },\n    { breakpoint: '38rem', numVisible: 1, numScroll: 1 },\n  ];\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisCardModule } from '@aeris-ui/core/card';\nimport { AerisCarouselModule, type AerisCarouselResponsiveOption } from '@aeris-ui/core/carousel';\n\ninterface Destination {\n  readonly name: string;\n  readonly detail: string;\n  readonly tone: 'sage' | 'blue' | 'gold' | 'rose' | 'sky';\n}\n\n@Component({\n  selector: 'app-carousel-responsive-demo',\n  imports: [AerisCardModule, AerisCarouselModule],\n  templateUrl: './carousel-responsive.demo.html',\n  styleUrl: './carousel-responsive.demo.scss'\n})\nexport class CarouselResponsiveDemo {\n  protected readonly destinations: readonly Destination[] = [\n      { name: 'Milo', detail: 'A curious explorer with a wagging tail.', tone: 'sage' },\n      { name: 'Luna', detail: 'Always ready for a bright new adventure.', tone: 'blue' },\n      { name: 'Biscuit', detail: 'Small paws, big heart, and endless naps.', tone: 'gold' },\n      { name: 'Poppy', detail: 'A playful friend who loves every visitor.', tone: 'rose' },\n      { name: 'Nova', detail: 'Gentle, clever, and quick to make friends.', tone: 'sky' },\n    ];\n\n\n  protected readonly responsiveOptions: readonly AerisCarouselResponsiveOption[] = [\n    { breakpoint: '56rem', numVisible: 2, numScroll: 1 },\n    { breakpoint: '38rem', numVisible: 1, numScroll: 1 },\n  ];\n}\n"
             },
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div>\n  <aeris-carousel\n    [value]=\"destinations\"\n    [numVisible]=\"2\"\n    [responsiveOptions]=\"responsiveOptions\"\n    ariaLabel=\"Responsive puppies\"\n  >\n    <ng-template aerisCarouselItem let-item>\n      <article class=\"destination-card\" [attr.data-tone]=\"$any(item).tone\">\n        <strong>{{ $any(item).name }}</strong>\n        <span>{{ $any(item).detail }}</span>\n      </article>\n    </ng-template>\n  </aeris-carousel>\n</div>"
+              "code": "<div>\n  <aeris-carousel\n    [value]=\"destinations\"\n    [numVisible]=\"2\"\n    [responsiveOptions]=\"responsiveOptions\"\n    ariaLabel=\"Responsive puppies\"\n  >\n    <ng-template aerisCarouselItem let-item>\n      <aeris-card padding=\"none\">\n        <div\n          aerisCardMedia\n          class=\"destination-card__media\"\n          [attr.data-tone]=\"$any(item).tone\"\n        >\n          <strong>{{ $any(item).name }}</strong>\n          <span>{{ $any(item).detail }}</span>\n        </div>\n      </aeris-card>\n    </ng-template>\n  </aeris-carousel>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".destination-card {\n  position: relative;\n  display: grid;\n  align-content: end;\n  min-height: 19rem;\n  padding: 1.25rem;\n  border-radius: var(--aeris-radius-lg);\n  background-color: var(--aeris-surface-2);\n  background-position: center;\n  background-size: cover;\n  color: #fff;\n  overflow: hidden;\n}\n\n.destination-card::before {\n  position: absolute;\n  inset: 0;\n  background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));\n  content: \"\";\n}\n\n.destination-card strong, .destination-card span {\n  position: relative;\n  display: block;\n}\n\n.destination-card strong {\n  font-size: 1.25rem;\n}\n\n.destination-card span {\n  margin-top: 0.35rem;\n  color: rgba(255, 255, 255, 0.86);\n  line-height: 1.5;\n}\n\n.destination-card[data-tone=sage] {\n  background-image: url(\"/puppies/puppy1.jpg\");\n}\n\n.destination-card[data-tone=blue] {\n  background-image: url(\"/puppies/puppy2.jpg\");\n}\n\n.destination-card[data-tone=gold] {\n  background-image: url(\"/puppies/puppy3.jpg\");\n}\n\n.destination-card[data-tone=rose] {\n  background-image: url(\"/puppies/puppy4.jpg\");\n}\n\n.destination-card[data-tone=sky] {\n  background-image: url(\"/puppies/puppy5.jpg\");\n}"
+              "code": ".destination-card__media {\n  position: relative;\n  display: grid;\n  align-content: end;\n  min-height: 19rem;\n  padding: 1.25rem;\n  border-radius: inherit;\n  background-color: var(--aeris-surface-2);\n  background-position: center;\n  background-size: cover;\n  color: #fff;\n  overflow: hidden;\n}\n\n.destination-card__media::before {\n  position: absolute;\n  inset: 0;\n  background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));\n  content: \"\";\n}\n\n.destination-card__media strong,\n.destination-card__media span {\n  position: relative;\n  display: block;\n}\n\n.destination-card__media strong {\n  font-size: 1.25rem;\n}\n\n.destination-card__media span {\n  margin-top: 0.35rem;\n  color: rgba(255, 255, 255, 0.86);\n  line-height: 1.5;\n}\n\n.destination-card__media[data-tone=sage] {\n  background-image: url(\"/puppies/puppy1.jpg\");\n}\n\n.destination-card__media[data-tone=blue] {\n  background-image: url(\"/puppies/puppy2.jpg\");\n}\n\n.destination-card__media[data-tone=gold] {\n  background-image: url(\"/puppies/puppy3.jpg\");\n}\n\n.destination-card__media[data-tone=rose] {\n  background-image: url(\"/puppies/puppy4.jpg\");\n}\n\n.destination-card__media[data-tone=sky] {\n  background-image: url(\"/puppies/puppy5.jpg\");\n}"
             }
           ]
         },
@@ -39826,17 +39853,17 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, signal } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisCarouselModule, type AerisCarouselPageEvent } from '@aeris-ui/core/carousel';\n\ninterface Destination {\n  readonly name: string;\n  readonly detail: string;\n  readonly tone: 'sage' | 'blue' | 'gold' | 'rose' | 'sky';\n}\n\n@Component({\n  selector: 'app-carousel-controlled-demo',\n  imports: [AerisButton, AerisCarouselModule],\n  templateUrl: './carousel-controlled.demo.html',\n  styleUrl: './carousel-controlled.demo.scss'\n})\nexport class CarouselControlledDemo {\n  protected readonly destinations: readonly Destination[] = [\n      { name: 'Milo', detail: 'A curious explorer with a wagging tail.', tone: 'sage' },\n      { name: 'Luna', detail: 'Always ready for a bright new adventure.', tone: 'blue' },\n      { name: 'Biscuit', detail: 'Small paws, big heart, and endless naps.', tone: 'gold' },\n      { name: 'Poppy', detail: 'A playful friend who loves every visitor.', tone: 'rose' },\n      { name: 'Nova', detail: 'Gentle, clever, and quick to make friends.', tone: 'sky' },\n    ];\n\n\n  protected readonly controlledPage = signal(0);\n  protected readonly pageMessage = signal('Showing the first slide.');\n\n  protected showFirst(): void {\n    this.controlledPage.set(0);\n    this.pageMessage.set('Showing slide 1.');\n  }\n\n  protected handlePage(event: AerisCarouselPageEvent): void {\n    this.pageMessage.set(`Showing slide ${event.page + 1}.`);\n  }\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisCardModule } from '@aeris-ui/core/card';\nimport { AerisCarouselModule, type AerisCarouselPageEvent } from '@aeris-ui/core/carousel';\n\ninterface Destination {\n  readonly name: string;\n  readonly detail: string;\n  readonly tone: 'sage' | 'blue' | 'gold' | 'rose' | 'sky';\n}\n\n@Component({\n  selector: 'app-carousel-controlled-demo',\n  imports: [AerisButton, AerisCardModule, AerisCarouselModule],\n  templateUrl: './carousel-controlled.demo.html',\n  styleUrl: './carousel-controlled.demo.scss'\n})\nexport class CarouselControlledDemo {\n  protected readonly destinations: readonly Destination[] = [\n      { name: 'Milo', detail: 'A curious explorer with a wagging tail.', tone: 'sage' },\n      { name: 'Luna', detail: 'Always ready for a bright new adventure.', tone: 'blue' },\n      { name: 'Biscuit', detail: 'Small paws, big heart, and endless naps.', tone: 'gold' },\n      { name: 'Poppy', detail: 'A playful friend who loves every visitor.', tone: 'rose' },\n      { name: 'Nova', detail: 'Gentle, clever, and quick to make friends.', tone: 'sky' },\n    ];\n\n\n  protected readonly controlledPage = signal(0);\n  protected readonly pageMessage = signal('Showing the first slide.');\n\n  protected showFirst(): void {\n    this.controlledPage.set(0);\n    this.pageMessage.set('Showing slide 1.');\n  }\n\n  protected handlePage(event: AerisCarouselPageEvent): void {\n    this.pageMessage.set(`Showing slide ${event.page + 1}.`);\n  }\n}\n"
             },
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div>\n  <div class=\"carousel-actions\">\n    <button aerisButton type=\"button\" (click)=\"showFirst()\">First slide</button>\n    <span aria-live=\"polite\">{{ pageMessage() }}</span>\n  </div>\n  <aeris-carousel\n    [value]=\"destinations\"\n    [numVisible]=\"1\"\n    [(page)]=\"controlledPage\"\n    (pageChanged)=\"handlePage($event)\"\n    ariaLabel=\"Controlled puppy carousel\"\n  >\n    <ng-template aerisCarouselItem let-item>\n      <article class=\"destination-card\" [attr.data-tone]=\"$any(item).tone\">\n        <strong>{{ $any(item).name }}</strong>\n        <span>{{ $any(item).detail }}</span>\n      </article>\n    </ng-template>\n  </aeris-carousel>\n</div>"
+              "code": "<div>\n  <div class=\"carousel-actions\">\n    <button aerisButton type=\"button\" (click)=\"showFirst()\">First slide</button>\n    <span aria-live=\"polite\">{{ pageMessage() }}</span>\n  </div>\n  <aeris-carousel\n    [value]=\"destinations\"\n    [numVisible]=\"1\"\n    [(page)]=\"controlledPage\"\n    (pageChanged)=\"handlePage($event)\"\n    ariaLabel=\"Controlled puppy carousel\"\n  >\n    <ng-template aerisCarouselItem let-item>\n      <aeris-card padding=\"none\">\n        <div\n          aerisCardMedia\n          class=\"destination-card__media\"\n          [attr.data-tone]=\"$any(item).tone\"\n        >\n          <strong>{{ $any(item).name }}</strong>\n          <span>{{ $any(item).detail }}</span>\n        </div>\n      </aeris-card>\n    </ng-template>\n  </aeris-carousel>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".carousel-title span, .carousel-footer, .carousel-actions span {\n  color: var(--aeris-text-2);\n  font-size: 0.875rem;\n}\n\n.carousel-actions {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  gap: 0.75rem;\n  margin-bottom: 0.875rem;\n}\n\n.destination-card {\n  position: relative;\n  display: grid;\n  align-content: end;\n  min-height: 19rem;\n  padding: 1.25rem;\n  border-radius: var(--aeris-radius-lg);\n  background-color: var(--aeris-surface-2);\n  background-position: center;\n  background-size: cover;\n  color: #fff;\n  overflow: hidden;\n}\n\n.destination-card::before {\n  position: absolute;\n  inset: 0;\n  background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));\n  content: \"\";\n}\n\n.destination-card strong, .destination-card span {\n  position: relative;\n  display: block;\n}\n\n.destination-card strong {\n  font-size: 1.25rem;\n}\n\n.destination-card span {\n  margin-top: 0.35rem;\n  color: rgba(255, 255, 255, 0.86);\n  line-height: 1.5;\n}\n\n.destination-card[data-tone=sage] {\n  background-image: url(\"/puppies/puppy1.jpg\");\n}\n\n.destination-card[data-tone=blue] {\n  background-image: url(\"/puppies/puppy2.jpg\");\n}\n\n.destination-card[data-tone=gold] {\n  background-image: url(\"/puppies/puppy3.jpg\");\n}\n\n.destination-card[data-tone=rose] {\n  background-image: url(\"/puppies/puppy4.jpg\");\n}\n\n.destination-card[data-tone=sky] {\n  background-image: url(\"/puppies/puppy5.jpg\");\n}"
+              "code": ".carousel-title span,\n.carousel-footer,\n.carousel-actions span {\n  color: var(--aeris-text-2);\n  font-size: 0.875rem;\n}\n\n.carousel-actions {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  gap: 0.75rem;\n  margin-bottom: 0.875rem;\n}\n\n.destination-card__media {\n  position: relative;\n  display: grid;\n  align-content: end;\n  min-height: 19rem;\n  padding: 1.25rem;\n  border-radius: inherit;\n  background-color: var(--aeris-surface-2);\n  background-position: center;\n  background-size: cover;\n  color: #fff;\n  overflow: hidden;\n}\n\n.destination-card__media::before {\n  position: absolute;\n  inset: 0;\n  background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));\n  content: \"\";\n}\n\n.destination-card__media strong,\n.destination-card__media span {\n  position: relative;\n  display: block;\n}\n\n.destination-card__media strong {\n  font-size: 1.25rem;\n}\n\n.destination-card__media span {\n  margin-top: 0.35rem;\n  color: rgba(255, 255, 255, 0.86);\n  line-height: 1.5;\n}\n\n.destination-card__media[data-tone=sage] {\n  background-image: url(\"/puppies/puppy1.jpg\");\n}\n\n.destination-card__media[data-tone=blue] {\n  background-image: url(\"/puppies/puppy2.jpg\");\n}\n\n.destination-card__media[data-tone=gold] {\n  background-image: url(\"/puppies/puppy3.jpg\");\n}\n\n.destination-card__media[data-tone=rose] {\n  background-image: url(\"/puppies/puppy4.jpg\");\n}\n\n.destination-card__media[data-tone=sky] {\n  background-image: url(\"/puppies/puppy5.jpg\");\n}"
             }
           ]
         },
@@ -39848,17 +39875,17 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisCarouselModule } from '@aeris-ui/core/carousel';\n\ninterface Destination {\n  readonly name: string;\n  readonly detail: string;\n  readonly tone: 'sage' | 'blue' | 'gold' | 'rose' | 'sky';\n}\n\n@Component({\n  selector: 'app-carousel-circular-demo',\n  imports: [AerisCarouselModule],\n  templateUrl: './carousel-circular.demo.html',\n  styleUrl: './carousel-circular.demo.scss'\n})\nexport class CarouselCircularDemo {\n  protected readonly destinations: readonly Destination[] = [\n    { name: 'Milo', detail: 'A curious explorer with a wagging tail.', tone: 'sage' },\n    { name: 'Luna', detail: 'Always ready for a bright new adventure.', tone: 'blue' },\n    { name: 'Biscuit', detail: 'Small paws, big heart, and endless naps.', tone: 'gold' },\n    { name: 'Poppy', detail: 'A playful friend who loves every visitor.', tone: 'rose' },\n    { name: 'Nova', detail: 'Gentle, clever, and quick to make friends.', tone: 'sky' },\n  ];\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisCardModule } from '@aeris-ui/core/card';\nimport { AerisCarouselModule } from '@aeris-ui/core/carousel';\n\ninterface Destination {\n  readonly name: string;\n  readonly detail: string;\n  readonly tone: 'sage' | 'blue' | 'gold' | 'rose' | 'sky';\n}\n\n@Component({\n  selector: 'app-carousel-circular-demo',\n  imports: [AerisCardModule, AerisCarouselModule],\n  templateUrl: './carousel-circular.demo.html',\n  styleUrl: './carousel-circular.demo.scss'\n})\nexport class CarouselCircularDemo {\n  protected readonly destinations: readonly Destination[] = [\n    { name: 'Milo', detail: 'A curious explorer with a wagging tail.', tone: 'sage' },\n    { name: 'Luna', detail: 'Always ready for a bright new adventure.', tone: 'blue' },\n    { name: 'Biscuit', detail: 'Small paws, big heart, and endless naps.', tone: 'gold' },\n    { name: 'Poppy', detail: 'A playful friend who loves every visitor.', tone: 'rose' },\n    { name: 'Nova', detail: 'Gentle, clever, and quick to make friends.', tone: 'sky' },\n  ];\n}\n"
             },
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div>\n  <aeris-carousel\n    [value]=\"destinations\"\n    [numVisible]=\"2\"\n    circular\n    [autoplayInterval]=\"2200\"\n    ariaLabel=\"Autoplay puppies\"\n  >\n    <ng-template aerisCarouselItem let-item>\n      <article class=\"destination-card\" [attr.data-tone]=\"$any(item).tone\">\n        <strong>{{ $any(item).name }}</strong>\n        <span>{{ $any(item).detail }}</span>\n      </article>\n    </ng-template>\n  </aeris-carousel>\n</div>"
+              "code": "<div>\n  <aeris-carousel\n    [value]=\"destinations\"\n    [numVisible]=\"2\"\n    circular\n    [autoplayInterval]=\"2200\"\n    ariaLabel=\"Autoplay puppies\"\n  >\n    <ng-template aerisCarouselItem let-item>\n      <aeris-card padding=\"none\">\n        <div\n          aerisCardMedia\n          class=\"destination-card__media\"\n          [attr.data-tone]=\"$any(item).tone\"\n        >\n          <strong>{{ $any(item).name }}</strong>\n          <span>{{ $any(item).detail }}</span>\n        </div>\n      </aeris-card>\n    </ng-template>\n  </aeris-carousel>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".destination-card {\n  position: relative;\n  display: grid;\n  align-content: end;\n  min-height: 19rem;\n  padding: 1.25rem;\n  border-radius: var(--aeris-radius-lg);\n  background-color: var(--aeris-surface-2);\n  background-position: center;\n  background-size: cover;\n  color: #fff;\n  overflow: hidden;\n}\n\n.destination-card::before {\n  position: absolute;\n  inset: 0;\n  background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));\n  content: \"\";\n}\n\n.destination-card strong, .destination-card span {\n  position: relative;\n  display: block;\n}\n\n.destination-card strong {\n  font-size: 1.25rem;\n}\n\n.destination-card span {\n  margin-top: 0.35rem;\n  color: rgba(255, 255, 255, 0.86);\n  line-height: 1.5;\n}\n\n.destination-card[data-tone=sage] {\n  background-image: url(\"/puppies/puppy1.jpg\");\n}\n\n.destination-card[data-tone=blue] {\n  background-image: url(\"/puppies/puppy2.jpg\");\n}\n\n.destination-card[data-tone=gold] {\n  background-image: url(\"/puppies/puppy3.jpg\");\n}\n\n.destination-card[data-tone=rose] {\n  background-image: url(\"/puppies/puppy4.jpg\");\n}\n\n.destination-card[data-tone=sky] {\n  background-image: url(\"/puppies/puppy5.jpg\");\n}"
+              "code": ".destination-card__media {\n  position: relative;\n  display: grid;\n  align-content: end;\n  min-height: 19rem;\n  padding: 1.25rem;\n  border-radius: inherit;\n  background-color: var(--aeris-surface-2);\n  background-position: center;\n  background-size: cover;\n  color: #fff;\n  overflow: hidden;\n}\n\n.destination-card__media::before {\n  position: absolute;\n  inset: 0;\n  background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));\n  content: \"\";\n}\n\n.destination-card__media strong,\n.destination-card__media span {\n  position: relative;\n  display: block;\n}\n\n.destination-card__media strong {\n  font-size: 1.25rem;\n}\n\n.destination-card__media span {\n  margin-top: 0.35rem;\n  color: rgba(255, 255, 255, 0.86);\n  line-height: 1.5;\n}\n\n.destination-card__media[data-tone=sage] {\n  background-image: url(\"/puppies/puppy1.jpg\");\n}\n\n.destination-card__media[data-tone=blue] {\n  background-image: url(\"/puppies/puppy2.jpg\");\n}\n\n.destination-card__media[data-tone=gold] {\n  background-image: url(\"/puppies/puppy3.jpg\");\n}\n\n.destination-card__media[data-tone=rose] {\n  background-image: url(\"/puppies/puppy4.jpg\");\n}\n\n.destination-card__media[data-tone=sky] {\n  background-image: url(\"/puppies/puppy5.jpg\");\n}"
             }
           ]
         },
@@ -39870,17 +39897,17 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisCarouselModule } from '@aeris-ui/core/carousel';\n\ninterface Destination {\n  readonly name: string;\n  readonly detail: string;\n  readonly tone: 'sage' | 'blue' | 'gold' | 'rose' | 'sky';\n}\n\n@Component({\n  selector: 'app-carousel-vertical-demo',\n  imports: [AerisCarouselModule],\n  templateUrl: './carousel-vertical.demo.html',\n  styleUrl: './carousel-vertical.demo.scss'\n})\nexport class CarouselVerticalDemo {\n  protected readonly destinations: readonly Destination[] = [\n    { name: 'Milo', detail: 'A curious explorer with a wagging tail.', tone: 'sage' },\n    { name: 'Luna', detail: 'Always ready for a bright new adventure.', tone: 'blue' },\n    { name: 'Biscuit', detail: 'Small paws, big heart, and endless naps.', tone: 'gold' },\n    { name: 'Poppy', detail: 'A playful friend who loves every visitor.', tone: 'rose' },\n    { name: 'Nova', detail: 'Gentle, clever, and quick to make friends.', tone: 'sky' },\n  ];\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisCardModule } from '@aeris-ui/core/card';\nimport { AerisCarouselModule } from '@aeris-ui/core/carousel';\n\ninterface Destination {\n  readonly name: string;\n  readonly detail: string;\n  readonly tone: 'sage' | 'blue' | 'gold' | 'rose' | 'sky';\n}\n\n@Component({\n  selector: 'app-carousel-vertical-demo',\n  imports: [AerisCardModule, AerisCarouselModule],\n  templateUrl: './carousel-vertical.demo.html',\n  styleUrl: './carousel-vertical.demo.scss'\n})\nexport class CarouselVerticalDemo {\n  protected readonly destinations: readonly Destination[] = [\n    { name: 'Milo', detail: 'A curious explorer with a wagging tail.', tone: 'sage' },\n    { name: 'Luna', detail: 'Always ready for a bright new adventure.', tone: 'blue' },\n    { name: 'Biscuit', detail: 'Small paws, big heart, and endless naps.', tone: 'gold' },\n    { name: 'Poppy', detail: 'A playful friend who loves every visitor.', tone: 'rose' },\n    { name: 'Nova', detail: 'Gentle, clever, and quick to make friends.', tone: 'sky' },\n  ];\n}\n"
             },
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div>\n  <aeris-carousel\n    [value]=\"destinations\"\n    orientation=\"vertical\"\n    verticalViewportHeight=\"19rem\"\n    ariaLabel=\"Vertical puppy carousel\"\n  >\n    <ng-template aerisCarouselItem let-item>\n      <article class=\"destination-card\" [attr.data-tone]=\"$any(item).tone\">\n        <strong>{{ $any(item).name }}</strong>\n        <span>{{ $any(item).detail }}</span>\n      </article>\n    </ng-template>\n  </aeris-carousel>\n</div>"
+              "code": "<div>\n  <aeris-carousel\n    [value]=\"destinations\"\n    orientation=\"vertical\"\n    verticalViewportHeight=\"19rem\"\n    ariaLabel=\"Vertical puppy carousel\"\n  >\n    <ng-template aerisCarouselItem let-item>\n      <aeris-card padding=\"none\">\n        <div\n          aerisCardMedia\n          class=\"destination-card__media\"\n          [attr.data-tone]=\"$any(item).tone\"\n        >\n          <strong>{{ $any(item).name }}</strong>\n          <span>{{ $any(item).detail }}</span>\n        </div>\n      </aeris-card>\n    </ng-template>\n  </aeris-carousel>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".destination-card {\n  position: relative;\n  display: grid;\n  align-content: end;\n  min-height: 19rem;\n  padding: 1.25rem;\n  border-radius: var(--aeris-radius-lg);\n  background-color: var(--aeris-surface-2);\n  background-position: center;\n  background-size: cover;\n  color: #fff;\n  overflow: hidden;\n}\n\n.destination-card::before {\n  position: absolute;\n  inset: 0;\n  background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));\n  content: \"\";\n}\n\n.destination-card strong, .destination-card span {\n  position: relative;\n  display: block;\n}\n\n.destination-card strong {\n  font-size: 1.25rem;\n}\n\n.destination-card span {\n  margin-top: 0.35rem;\n  color: rgba(255, 255, 255, 0.86);\n  line-height: 1.5;\n}\n\n.destination-card[data-tone=sage] {\n  background-image: url(\"/puppies/puppy1.jpg\");\n}\n\n.destination-card[data-tone=blue] {\n  background-image: url(\"/puppies/puppy2.jpg\");\n}\n\n.destination-card[data-tone=gold] {\n  background-image: url(\"/puppies/puppy3.jpg\");\n}\n\n.destination-card[data-tone=rose] {\n  background-image: url(\"/puppies/puppy4.jpg\");\n}\n\n.destination-card[data-tone=sky] {\n  background-image: url(\"/puppies/puppy5.jpg\");\n}"
+              "code": ".destination-card__media {\n  position: relative;\n  display: grid;\n  align-content: end;\n  min-height: 19rem;\n  padding: 1.25rem;\n  border-radius: inherit;\n  background-color: var(--aeris-surface-2);\n  background-position: center;\n  background-size: cover;\n  color: #fff;\n  overflow: hidden;\n}\n\n.destination-card__media::before {\n  position: absolute;\n  inset: 0;\n  background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));\n  content: \"\";\n}\n\n.destination-card__media strong,\n.destination-card__media span {\n  position: relative;\n  display: block;\n}\n\n.destination-card__media strong {\n  font-size: 1.25rem;\n}\n\n.destination-card__media span {\n  margin-top: 0.35rem;\n  color: rgba(255, 255, 255, 0.86);\n  line-height: 1.5;\n}\n\n.destination-card__media[data-tone=sage] {\n  background-image: url(\"/puppies/puppy1.jpg\");\n}\n\n.destination-card__media[data-tone=blue] {\n  background-image: url(\"/puppies/puppy2.jpg\");\n}\n\n.destination-card__media[data-tone=gold] {\n  background-image: url(\"/puppies/puppy3.jpg\");\n}\n\n.destination-card__media[data-tone=rose] {\n  background-image: url(\"/puppies/puppy4.jpg\");\n}\n\n.destination-card__media[data-tone=sky] {\n  background-image: url(\"/puppies/puppy5.jpg\");\n}"
             }
           ]
         },
@@ -39892,17 +39919,17 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisCarouselModule } from '@aeris-ui/core/carousel';\n\ninterface Destination {\n  readonly name: string;\n  readonly detail: string;\n  readonly tone: 'sage' | 'blue' | 'gold' | 'rose' | 'sky';\n}\n\n@Component({\n  selector: 'app-carousel-minimal-demo',\n  imports: [AerisCarouselModule],\n  templateUrl: './carousel-minimal.demo.html',\n  styleUrl: './carousel-minimal.demo.scss'\n})\nexport class CarouselMinimalDemo {\n  protected readonly destinations: readonly Destination[] = [\n    { name: 'Milo', detail: 'A curious explorer with a wagging tail.', tone: 'sage' },\n    { name: 'Luna', detail: 'Always ready for a bright new adventure.', tone: 'blue' },\n    { name: 'Biscuit', detail: 'Small paws, big heart, and endless naps.', tone: 'gold' },\n    { name: 'Poppy', detail: 'A playful friend who loves every visitor.', tone: 'rose' },\n    { name: 'Nova', detail: 'Gentle, clever, and quick to make friends.', tone: 'sky' },\n  ];\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisCardModule } from '@aeris-ui/core/card';\nimport { AerisCarouselModule } from '@aeris-ui/core/carousel';\n\ninterface Destination {\n  readonly name: string;\n  readonly detail: string;\n  readonly tone: 'sage' | 'blue' | 'gold' | 'rose' | 'sky';\n}\n\n@Component({\n  selector: 'app-carousel-minimal-demo',\n  imports: [AerisCardModule, AerisCarouselModule],\n  templateUrl: './carousel-minimal.demo.html',\n  styleUrl: './carousel-minimal.demo.scss'\n})\nexport class CarouselMinimalDemo {\n  protected readonly destinations: readonly Destination[] = [\n    { name: 'Milo', detail: 'A curious explorer with a wagging tail.', tone: 'sage' },\n    { name: 'Luna', detail: 'Always ready for a bright new adventure.', tone: 'blue' },\n    { name: 'Biscuit', detail: 'Small paws, big heart, and endless naps.', tone: 'gold' },\n    { name: 'Poppy', detail: 'A playful friend who loves every visitor.', tone: 'rose' },\n    { name: 'Nova', detail: 'Gentle, clever, and quick to make friends.', tone: 'sky' },\n  ];\n}\n"
             },
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div>\n  <aeris-carousel\n    [value]=\"destinations\"\n    [numVisible]=\"2\"\n    [showNavigators]=\"false\"\n    [showIndicators]=\"false\"\n    ariaLabel=\"Minimal destinations\"\n  >\n    <ng-template aerisCarouselItem let-item>\n      <article class=\"destination-card\" [attr.data-tone]=\"$any(item).tone\">\n        <strong>{{ $any(item).name }}</strong>\n        <span>{{ $any(item).detail }}</span>\n      </article>\n    </ng-template>\n  </aeris-carousel>\n</div>"
+              "code": "<div>\n  <aeris-carousel\n    [value]=\"destinations\"\n    [numVisible]=\"2\"\n    [showNavigators]=\"false\"\n    [showIndicators]=\"false\"\n    ariaLabel=\"Minimal destinations\"\n  >\n    <ng-template aerisCarouselItem let-item>\n      <aeris-card padding=\"none\">\n        <div\n          aerisCardMedia\n          class=\"destination-card__media\"\n          [attr.data-tone]=\"$any(item).tone\"\n        >\n          <strong>{{ $any(item).name }}</strong>\n          <span>{{ $any(item).detail }}</span>\n        </div>\n      </aeris-card>\n    </ng-template>\n  </aeris-carousel>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".destination-card {\n  position: relative;\n  display: grid;\n  align-content: end;\n  min-height: 19rem;\n  padding: 1.25rem;\n  border-radius: var(--aeris-radius-lg);\n  background-color: var(--aeris-surface-2);\n  background-position: center;\n  background-size: cover;\n  color: #fff;\n  overflow: hidden;\n}\n\n.destination-card::before {\n  position: absolute;\n  inset: 0;\n  background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));\n  content: \"\";\n}\n\n.destination-card strong, .destination-card span {\n  position: relative;\n  display: block;\n}\n\n.destination-card strong {\n  font-size: 1.25rem;\n}\n\n.destination-card span {\n  margin-top: 0.35rem;\n  color: rgba(255, 255, 255, 0.86);\n  line-height: 1.5;\n}\n\n.destination-card[data-tone=sage] {\n  background-image: url(\"/puppies/puppy1.jpg\");\n}\n\n.destination-card[data-tone=blue] {\n  background-image: url(\"/puppies/puppy2.jpg\");\n}\n\n.destination-card[data-tone=gold] {\n  background-image: url(\"/puppies/puppy3.jpg\");\n}\n\n.destination-card[data-tone=rose] {\n  background-image: url(\"/puppies/puppy4.jpg\");\n}\n\n.destination-card[data-tone=sky] {\n  background-image: url(\"/puppies/puppy5.jpg\");\n}"
+              "code": ".destination-card__media {\n  position: relative;\n  display: grid;\n  align-content: end;\n  min-height: 19rem;\n  padding: 1.25rem;\n  border-radius: inherit;\n  background-color: var(--aeris-surface-2);\n  background-position: center;\n  background-size: cover;\n  color: #fff;\n  overflow: hidden;\n}\n\n.destination-card__media::before {\n  position: absolute;\n  inset: 0;\n  background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, 0.68));\n  content: \"\";\n}\n\n.destination-card__media strong,\n.destination-card__media span {\n  position: relative;\n  display: block;\n}\n\n.destination-card__media strong {\n  font-size: 1.25rem;\n}\n\n.destination-card__media span {\n  margin-top: 0.35rem;\n  color: rgba(255, 255, 255, 0.86);\n  line-height: 1.5;\n}\n\n.destination-card__media[data-tone=sage] {\n  background-image: url(\"/puppies/puppy1.jpg\");\n}\n\n.destination-card__media[data-tone=blue] {\n  background-image: url(\"/puppies/puppy2.jpg\");\n}\n\n.destination-card__media[data-tone=gold] {\n  background-image: url(\"/puppies/puppy3.jpg\");\n}\n\n.destination-card__media[data-tone=rose] {\n  background-image: url(\"/puppies/puppy4.jpg\");\n}\n\n.destination-card__media[data-tone=sky] {\n  background-image: url(\"/puppies/puppy5.jpg\");\n}"
             }
           ]
         }
@@ -45631,17 +45658,17 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisSkeletonModule } from '@aeris-ui/core/skeleton';\n\n@Component({\n  selector: 'app-skeleton-card-demo',\n  imports: [AerisSkeletonModule],\n  templateUrl: './skeleton-card.demo.html',\n  styleUrl: './skeleton-card.demo.scss'\n})\nexport class SkeletonCardDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisCardModule } from '@aeris-ui/core/card';\nimport { AerisSkeletonModule } from '@aeris-ui/core/skeleton';\n\n@Component({\n  selector: 'app-skeleton-card-demo',\n  imports: [AerisCardModule, AerisSkeletonModule],\n  templateUrl: './skeleton-card.demo.html',\n  styleUrl: './skeleton-card.demo.scss'\n})\nexport class SkeletonCardDemo {\n}\n"
             },
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div>\n  <article class=\"skeleton-card\" aria-busy=\"true\" aria-label=\"Loading article card\">\n    <aeris-skeleton shape=\"rectangle\" height=\"10rem\" />\n    <div class=\"skeleton-card__header\">\n      <aeris-skeleton shape=\"circle\" width=\"2.5rem\" />\n      <div class=\"skeleton-card__lines\">\n        <aeris-skeleton width=\"55%\" />\n        <aeris-skeleton width=\"35%\" height=\"0.625rem\" />\n      </div>\n    </div>\n    <div class=\"skeleton-card__body\">\n      <aeris-skeleton />\n      <aeris-skeleton width=\"92%\" />\n      <aeris-skeleton width=\"68%\" />\n    </div>\n  </article>\n</div>"
+              "code": "<div>\n  <aeris-card\n    class=\"skeleton-card\"\n    role=\"article\"\n    aria-busy=\"true\"\n    ariaLabel=\"Loading article card\"\n  >\n    <div class=\"skeleton-card__body\">\n      <aeris-skeleton shape=\"rectangle\" height=\"10rem\" />\n      <div class=\"skeleton-card__header\">\n        <aeris-skeleton shape=\"circle\" width=\"2.5rem\" />\n        <div class=\"skeleton-card__lines\">\n          <aeris-skeleton width=\"55%\" />\n          <aeris-skeleton width=\"35%\" height=\"0.625rem\" />\n        </div>\n      </div>\n      <div class=\"skeleton-card__body\">\n        <aeris-skeleton />\n        <aeris-skeleton width=\"92%\" />\n        <aeris-skeleton width=\"68%\" />\n      </div>\n    </div>\n  </aeris-card>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".skeleton-profile__lines,\n.skeleton-card__lines,\n.skeleton-card__body,\n.skeleton-list__lines {\n  min-width: 0;\n  display: grid;\n  gap: 0.625rem;\n}\n\n.skeleton-card {\n  max-width: 24rem;\n  display: grid;\n  gap: 1rem;\n  padding: 1rem;\n  border: 1px solid var(--aeris-border);\n  border-radius: var(--aeris-radius-lg);\n  background: var(--aeris-surface);\n}\n\n.skeleton-card__header {\n  display: grid;\n  grid-template-columns: auto minmax(0, 1fr);\n  gap: 0.75rem;\n  align-items: center;\n}"
+              "code": ".skeleton-profile__lines,\n.skeleton-card__lines,\n.skeleton-card__body,\n.skeleton-list__lines {\n  min-width: 0;\n  display: grid;\n  gap: 0.625rem;\n}\n\n.skeleton-card {\n  max-width: 24rem;\n}\n\n.skeleton-card__header {\n  display: grid;\n  grid-template-columns: auto minmax(0, 1fr);\n  gap: 0.75rem;\n  align-items: center;\n}"
             }
           ]
         },
@@ -45653,7 +45680,17 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisSkeletonModule } from '@aeris-ui/core/skeleton';\n\n@Component({\n  selector: 'app-skeleton-grid-demo',\n  imports: [AerisSkeletonModule],\n  template: `\n    <div>\n      <div class=\"skeleton-grid\" aria-busy=\"true\" aria-label=\"Loading project grid\">\n        @for (item of [1, 2, 3]; track item) {\n          <div class=\"skeleton-grid__card\">\n            <aeris-skeleton shape=\"rectangle\" height=\"7rem\" />\n            <aeris-skeleton width=\"72%\" />\n            <aeris-skeleton width=\"48%\" height=\"0.625rem\" />\n          </div>\n        }\n      </div>\n    </div>\n  `,\n  styles: `\n    .skeleton-grid {\n      display: grid;\n      grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));\n      gap: 1rem;\n    }\n    \n    .skeleton-grid__card {\n      min-width: 0;\n      display: grid;\n      gap: 0.75rem;\n      padding: 0.875rem;\n      border: 1px solid var(--aeris-border);\n      border-radius: var(--aeris-radius-lg);\n    }\n  `\n})\nexport class SkeletonGridDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisCardModule } from '@aeris-ui/core/card';\nimport { AerisSkeletonModule } from '@aeris-ui/core/skeleton';\n\n@Component({\n  selector: 'app-skeleton-grid-demo',\n  imports: [AerisCardModule, AerisSkeletonModule],\n  templateUrl: './skeleton-grid.demo.html',\n  styleUrl: './skeleton-grid.demo.scss'\n})\nexport class SkeletonGridDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <div\n    class=\"skeleton-grid\"\n    role=\"group\"\n    aria-busy=\"true\"\n    aria-label=\"Loading project grid\"\n  >\n    @for (item of [1, 2, 3]; track item) {\n      <aeris-card>\n        <div class=\"skeleton-grid__content\">\n          <aeris-skeleton shape=\"rectangle\" height=\"7rem\" />\n          <aeris-skeleton width=\"72%\" />\n          <aeris-skeleton width=\"48%\" height=\"0.625rem\" />\n        </div>\n      </aeris-card>\n    }\n  </div>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".skeleton-grid__content {\n  display: grid;\n  gap: 0.75rem;\n}\n\n.skeleton-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));\n  gap: 1rem;\n}"
             }
           ]
         },
@@ -45677,17 +45714,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisSkeletonModule } from '@aeris-ui/core/skeleton';\n\n@Component({\n  selector: 'app-skeleton-table-demo',\n  imports: [AerisSkeletonModule],\n  templateUrl: './skeleton-table.demo.html',\n  styleUrl: './skeleton-table.demo.scss'\n})\nexport class SkeletonTableDemo {\n}\n"
-            },
-            {
-              "language": "HTML",
-              "label": "HTML",
-              "code": "<div>\n  <div class=\"skeleton-table-wrap\">\n    <table class=\"skeleton-table\" aria-busy=\"true\">\n      <caption class=\"skeleton-status\">Loading product inventory</caption>\n      <thead>\n        <tr>\n          <th>Code</th>\n          <th>Name</th>\n          <th>Category</th>\n          <th>Quantity</th>\n        </tr>\n      </thead>\n      <tbody>\n        @for (item of [1, 2, 3]; track item) {\n          <tr>\n            <td><aeris-skeleton width=\"5rem\" /></td>\n            <td><aeris-skeleton width=\"9rem\" /></td>\n            <td><aeris-skeleton width=\"7rem\" /></td>\n            <td><aeris-skeleton width=\"3rem\" /></td>\n          </tr>\n        }\n      </tbody>\n    </table>\n  </div>\n</div>"
-            },
-            {
-              "language": "CSS",
-              "label": "CSS",
-              "code": ".skeleton-status {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  overflow: hidden;\n  clip-path: inset(50%);\n  white-space: nowrap;\n}\n\n.skeleton-table-wrap {\n  max-width: 100%;\n  overflow-x: auto;\n  border: 1px solid var(--aeris-border);\n  border-radius: var(--aeris-radius-lg);\n}\n\n.skeleton-table {\n  width: 100%;\n  min-width: 34rem;\n  border-collapse: collapse;\n}\n\n.skeleton-table th,\n.skeleton-table td {\n  padding: 0.875rem;\n  border-bottom: 1px solid var(--aeris-border);\n  text-align: start;\n}\n\n.skeleton-table th {\n  color: var(--aeris-text-2);\n  font-size: 0.75rem;\n  text-transform: uppercase;\n}"
+              "code": "import { Component } from '@angular/core';\nimport { AerisSkeletonModule } from '@aeris-ui/core/skeleton';\nimport { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';\n\n@Component({\n  selector: 'app-skeleton-table-demo',\n  imports: [AerisSkeletonModule, AerisTableModule],\n  template: `\n    <div>\n      <aeris-table\n        caption=\"Loading product inventory\"\n        aria-busy=\"true\"\n        [data]=\"tableRows\"\n        [columns]=\"tableColumns\"\n        [hoverable]=\"false\"\n        [rowNavigation]=\"false\"\n      >\n        <ng-template aerisTableCell let-column=\"column\">\n          <aeris-skeleton [width]=\"tableWidths[column.field]\" />\n        </ng-template>\n      </aeris-table>\n    </div>\n  `\n})\nexport class SkeletonTableDemo {\n  protected readonly tableRows: readonly AerisTableData[] = [{ id: 1 }, { id: 2 }, { id: 3 }];\n\n  protected readonly tableColumns: readonly AerisTableColumn[] = [\n      { field: 'code', header: 'Code' },\n      { field: 'name', header: 'Name' },\n      { field: 'category', header: 'Category' },\n      { field: 'quantity', header: 'Quantity' },\n    ];\n\n  protected readonly tableWidths: Readonly<Record<string, string>> = {\n      code: '5rem',\n      name: '9rem',\n      category: '7rem',\n      quantity: '3rem',\n    };\n}\n"
             }
           ]
         },
@@ -47426,17 +47453,17 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisStyleClassModule } from '@aeris-ui/core/style-class';\n\n@Component({\n  selector: 'app-style-class-toggle-demo',\n  imports: [AerisButton, AerisStyleClassModule],\n  templateUrl: './style-class-toggle.demo.html',\n  styleUrl: './style-class-toggle.demo.scss'\n})\nexport class StyleClassToggleDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisCardModule } from '@aeris-ui/core/card';\nimport { AerisStyleClassModule } from '@aeris-ui/core/style-class';\n\n@Component({\n  selector: 'app-style-class-toggle-demo',\n  imports: [AerisButton, AerisCardModule, AerisStyleClassModule],\n  templateUrl: './style-class-toggle.demo.html',\n  styleUrl: './style-class-toggle.demo.scss'\n})\nexport class StyleClassToggleDemo {\n}\n"
             },
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div>\n  <div class=\"style-toggle-demo\">\n    <button\n      aerisButton\n      type=\"button\"\n      aerisStyleClass=\"@next\"\n      aerisStyleClassToggle=\"style-toggle-card--active\"\n    >\n      Toggle emphasis\n    </button>\n    <article class=\"style-toggle-card\">\n      This card is styled by a class on the next sibling target.\n    </article>\n  </div>\n</div>"
+              "code": "<div>\n  <div class=\"style-toggle-demo\">\n    <button\n      aerisButton\n      type=\"button\"\n      aerisStyleClass=\"@next\"\n      aerisStyleClassToggle=\"style-toggle-card--active\"\n    >\n      Toggle emphasis\n    </button>\n    <aeris-card class=\"style-toggle-card\">\n      This card is styled by a class on the next sibling target.\n    </aeris-card>\n  </div>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".style-toggle-demo {\n  display: grid;\n  gap: 0.875rem;\n  justify-items: start;\n}\n\n.style-toggle-card {\n  width: min(100%, 34rem);\n  padding: 1rem;\n  border: 1px solid var(--aeris-border);\n  border-radius: var(--aeris-radius-lg);\n  background: var(--aeris-surface-2);\n  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;\n}\n\n.style-toggle-card--active {\n  border-color: var(--aeris-primary);\n  background: var(--aeris-primary-soft);\n  transform: translateY(-0.125rem);\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .style-toggle-card {\n    transition: none;\n  }\n}\n\n.style-toggle-demo,\n.style-animation-demo,\n.style-resize-demo,\n.style-method-demo {\n  display: grid;\n  gap: 0.875rem;\n}\n\n.style-toggle-demo,\n.style-animation-demo,\n.style-resize-demo {\n  justify-items: start;\n}\n\n.style-toggle-card,\n.style-animation-panel,\n.style-resize-panel,\n.style-method-notice {\n  width: min(100%, 34rem);\n  padding: 1rem;\n  border-radius: var(--aeris-radius-lg);\n}\n\n.style-toggle-card,\n.style-animation-panel,\n.style-resize-panel {\n  border: 1px solid var(--aeris-border);\n  background: var(--aeris-surface-2);\n}\n\n.style-toggle-card {\n  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .style-toggle-card,\n    .style-enter-active,\n    .style-leave-active {\n      transition: none;\n    }\n}"
+              "code": ".style-toggle-demo {\n  display: grid;\n  gap: 0.875rem;\n  justify-items: start;\n}\n\n.style-toggle-card { width: min(100%, 34rem);\n  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;\n}\n\n.style-toggle-card--active {\n  --aeris-card-border: var(--aeris-primary);\n  --aeris-card-background: var(--aeris-primary-soft);\n  transform: translateY(-0.125rem);\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .style-toggle-card { width: min(100%, 34rem);\n    transition: none;\n  }\n}\n\n.style-toggle-demo,\n.style-animation-demo,\n.style-resize-demo,\n.style-method-demo {\n  display: grid;\n  gap: 0.875rem;\n}\n\n.style-toggle-demo,\n.style-animation-demo,\n.style-resize-demo {\n  justify-items: start;\n}\n\n.style-toggle-card {\n  width: min(100%, 34rem);\n  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;\n}"
             }
           ]
         },
@@ -47458,7 +47485,7 @@
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".style-animation-demo {\n  display: grid;\n  gap: 0.875rem;\n  justify-items: start;\n}\n\n.style-animation-panel {\n  width: min(100%, 34rem);\n  padding: 1rem;\n  border: 1px solid var(--aeris-border);\n  border-radius: var(--aeris-radius-lg);\n  background: var(--aeris-surface-2);\n  opacity: 1;\n  transform: translateY(0) scale(1);\n}\n\n.style-enter-from,\n.style-leave-to {\n  opacity: 0;\n  transform: translateY(-0.625rem) scale(0.98);\n}\n\n.style-enter-active,\n.style-leave-active {\n  transition: opacity 180ms ease, transform 180ms ease;\n}\n\n.style-enter-to,\n.style-leave-from {\n  opacity: 1;\n  transform: translateY(0) scale(1);\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .style-enter-active,\n  .style-leave-active {\n    transition: none;\n  }\n}\n\n.style-toggle-demo,\n.style-animation-demo,\n.style-resize-demo,\n.style-method-demo {\n  display: grid;\n  gap: 0.875rem;\n}\n\n.style-toggle-demo,\n.style-animation-demo,\n.style-resize-demo {\n  justify-items: start;\n}\n\n.style-toggle-card,\n.style-animation-panel,\n.style-resize-panel,\n.style-method-notice {\n  width: min(100%, 34rem);\n  padding: 1rem;\n  border-radius: var(--aeris-radius-lg);\n}\n\n.style-toggle-card,\n.style-animation-panel,\n.style-resize-panel {\n  border: 1px solid var(--aeris-border);\n  background: var(--aeris-surface-2);\n}\n\n.style-animation-panel {\n  opacity: 1;\n  transform: translateY(0) scale(1);\n}"
+              "code": ".style-animation-demo {\n  display: grid;\n  gap: 0.875rem;\n  justify-items: start;\n}\n\n.style-animation-panel {\n  width: min(100%, 34rem);\n  padding: 1rem;\n  border: 1px solid var(--aeris-border);\n  border-radius: var(--aeris-radius-lg);\n  background: var(--aeris-surface-2);\n  opacity: 1;\n  transform: translateY(0) scale(1);\n}\n\n.style-enter-from,\n.style-leave-to {\n  opacity: 0;\n  transform: translateY(-0.625rem) scale(0.98);\n}\n\n.style-enter-active,\n.style-leave-active {\n  transition: opacity 180ms ease, transform 180ms ease;\n}\n\n.style-enter-to,\n.style-leave-from {\n  opacity: 1;\n  transform: translateY(0) scale(1);\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .style-enter-active,\n  .style-leave-active {\n    transition: none;\n  }\n}\n\n.style-toggle-demo,\n.style-animation-demo,\n.style-resize-demo,\n.style-method-demo {\n  display: grid;\n  gap: 0.875rem;\n}\n\n.style-toggle-demo,\n.style-animation-demo,\n.style-resize-demo {\n  justify-items: start;\n}\n\n.style-animation-panel,\n.style-resize-panel,\n.style-method-notice {\n  width: min(100%, 34rem);\n  padding: 1rem;\n  border-radius: var(--aeris-radius-lg);\n}\n\n.style-animation-panel,\n.style-resize-panel {\n  border: 1px solid var(--aeris-border);\n  background: var(--aeris-surface-2);\n}\n\n.style-animation-panel {\n  opacity: 1;\n  transform: translateY(0) scale(1);\n}"
             }
           ]
         },
@@ -47502,7 +47529,7 @@
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".style-resize-demo {\n  display: grid;\n  gap: 0.875rem;\n  justify-items: start;\n}\n\n.style-resize-panel {\n  display: none;\n  width: min(100%, 34rem);\n  padding: 1rem;\n  border: 1px solid var(--aeris-border);\n  border-radius: var(--aeris-radius-lg);\n  background: var(--aeris-surface-2);\n}\n\n.style-resize-panel--visible {\n  display: block;\n}\n\n.style-toggle-demo,\n.style-animation-demo,\n.style-resize-demo,\n.style-method-demo {\n  display: grid;\n  gap: 0.875rem;\n}\n\n.style-toggle-demo,\n.style-animation-demo,\n.style-resize-demo {\n  justify-items: start;\n}\n\n.style-toggle-card,\n.style-animation-panel,\n.style-resize-panel,\n.style-method-notice {\n  width: min(100%, 34rem);\n  padding: 1rem;\n  border-radius: var(--aeris-radius-lg);\n}\n\n.style-toggle-card,\n.style-animation-panel,\n.style-resize-panel {\n  border: 1px solid var(--aeris-border);\n  background: var(--aeris-surface-2);\n}\n\n.style-resize-panel,\n.style-method-notice {\n  display: none;\n}"
+              "code": ".style-resize-demo {\n  display: grid;\n  gap: 0.875rem;\n  justify-items: start;\n}\n\n.style-resize-panel {\n  display: none;\n  width: min(100%, 34rem);\n  padding: 1rem;\n  border: 1px solid var(--aeris-border);\n  border-radius: var(--aeris-radius-lg);\n  background: var(--aeris-surface-2);\n}\n\n.style-resize-panel--visible {\n  display: block;\n}\n\n.style-toggle-demo,\n.style-animation-demo,\n.style-resize-demo,\n.style-method-demo {\n  display: grid;\n  gap: 0.875rem;\n}\n\n.style-toggle-demo,\n.style-animation-demo,\n.style-resize-demo {\n  justify-items: start;\n}\n\n.style-animation-panel,\n.style-resize-panel,\n.style-method-notice {\n  width: min(100%, 34rem);\n  padding: 1rem;\n  border-radius: var(--aeris-radius-lg);\n}\n\n.style-animation-panel,\n.style-resize-panel {\n  border: 1px solid var(--aeris-border);\n  background: var(--aeris-surface-2);\n}\n\n.style-resize-panel,\n.style-method-notice {\n  display: none;\n}"
             }
           ]
         },
@@ -47524,7 +47551,7 @@
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".style-method-demo {\n  display: grid;\n  gap: 0.875rem;\n}\n\n.style-method-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.625rem;\n}\n\n.style-method-notice {\n  display: none;\n  width: min(100%, 34rem);\n  padding: 1rem;\n  border: 1px solid color-mix(in srgb, var(--aeris-primary) 36%, var(--aeris-border));\n  border-radius: var(--aeris-radius-lg);\n  background: var(--aeris-primary-soft);\n}\n\n.style-method-notice--visible {\n  display: block;\n}\n\n.style-method-status {\n  margin: 0;\n  color: var(--aeris-text-2);\n}\n\n@media (max-width: 30rem) {\n  .style-method-actions > button {\n    width: 100%;\n  }\n}\n\n.style-toggle-demo,\n.style-animation-demo,\n.style-resize-demo,\n.style-method-demo {\n  display: grid;\n  gap: 0.875rem;\n}\n\n.style-toggle-card,\n.style-animation-panel,\n.style-resize-panel,\n.style-method-notice {\n  width: min(100%, 34rem);\n  padding: 1rem;\n  border-radius: var(--aeris-radius-lg);\n}\n\n.style-resize-panel,\n.style-method-notice {\n  display: none;\n}\n\n.style-method-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.625rem;\n}\n\n.style-method-notice {\n  border: 1px solid color-mix(in srgb, var(--aeris-primary) 36%, var(--aeris-border));\n  background: var(--aeris-primary-soft);\n}\n\n.style-method-status {\n  margin: 0;\n  color: var(--aeris-text-2);\n}\n\n@media (max-width: 30rem) {\n  .style-method-actions > button {\n      width: 100%;\n    }\n}"
+              "code": ".style-method-demo {\n  display: grid;\n  gap: 0.875rem;\n}\n\n.style-method-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.625rem;\n}\n\n.style-method-notice {\n  display: none;\n  width: min(100%, 34rem);\n  padding: 1rem;\n  border: 1px solid color-mix(in srgb, var(--aeris-primary) 36%, var(--aeris-border));\n  border-radius: var(--aeris-radius-lg);\n  background: var(--aeris-primary-soft);\n}\n\n.style-method-notice--visible {\n  display: block;\n}\n\n.style-method-status {\n  margin: 0;\n  color: var(--aeris-text-2);\n}\n\n@media (max-width: 30rem) {\n  .style-method-actions > button {\n    width: 100%;\n  }\n}\n\n.style-toggle-demo,\n.style-animation-demo,\n.style-resize-demo,\n.style-method-demo {\n  display: grid;\n  gap: 0.875rem;\n}\n\n.style-animation-panel,\n.style-resize-panel,\n.style-method-notice {\n  width: min(100%, 34rem);\n  padding: 1rem;\n  border-radius: var(--aeris-radius-lg);\n}\n\n.style-resize-panel,\n.style-method-notice {\n  display: none;\n}\n\n.style-method-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.625rem;\n}\n\n.style-method-notice {\n  border: 1px solid color-mix(in srgb, var(--aeris-primary) 36%, var(--aeris-border));\n  background: var(--aeris-primary-soft);\n}\n\n.style-method-status {\n  margin: 0;\n  color: var(--aeris-text-2);\n}\n\n@media (max-width: 30rem) {\n  .style-method-actions > button {\n      width: 100%;\n    }\n}"
             }
           ]
         }

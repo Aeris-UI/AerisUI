@@ -1,8 +1,10 @@
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisStyleClassModule, type AerisStyleClassEvent } from '@aeris-ui/core/style-class';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
+import { ReferenceTableImports } from '../../../../shared/documentation/reference-table.component';
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
 import {
@@ -22,6 +24,8 @@ interface ApiRow {
 @Component({
   selector: 'app-style-class-page',
   imports: [
+    AerisCardModule,
+    ReferenceTableImports,
     AerisButton,
     AerisStyleClassModule,
     AerisTabsModule,
@@ -60,23 +64,18 @@ export class StyleClassPage {
   justify-items: start;
 }
 
-.style-toggle-card {
-  width: min(100%, 34rem);
-  padding: 1rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-lg);
-  background: var(--aeris-surface-2);
+.style-toggle-card { width: min(100%, 34rem);
   transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
 }
 
 .style-toggle-card--active {
-  border-color: var(--aeris-primary);
-  background: var(--aeris-primary-soft);
+  --aeris-card-border: var(--aeris-primary);
+  --aeris-card-background: var(--aeris-primary-soft);
   transform: translateY(-0.125rem);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .style-toggle-card {
+  .style-toggle-card { width: min(100%, 34rem);
     transition: none;
   }
 }`;

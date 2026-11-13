@@ -137,25 +137,27 @@
                 <code>AERIS_EDITOR_ALL_FORMATS</code> constant contains every row except the legacy
                 <code>heading</code> alias, which remains available for backward compatibility.
               </p>
-              <div
+              <app-reference-table
                 class="api-table compact editor-actions__table"
-                role="table"
-                aria-label="Available editor toolbar actions"
-                tabindex="0"
+                caption="Available editor toolbar actions"
               >
-                <div class="api-head" role="row">
-                  <b role="columnheader">Group</b>
-                  <b role="columnheader">Format</b>
-                  <b role="columnheader">Toolbar action</b>
-                </div>
+                <ng-template appReferenceHeader="Group" />
+                <ng-template appReferenceHeader="Format" />
+                <ng-template appReferenceHeader="Toolbar action" />
                 @for (item of toolbarActions; track item.format) {
-                  <div role="row">
-                    <span role="cell">{{ item.group }}</span>
-                    <code role="cell">{{ item.format }}</code>
-                    <span role="cell">{{ item.action }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><span>{{ item.group }}</span></ng-template
+                    >
+                    <ng-template appReferenceCell
+                      ><code>{{ item.format }}</code></ng-template
+                    >
+                    <ng-template appReferenceCell
+                      ><span>{{ item.action }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
 
             <app-form-demo
@@ -420,141 +422,217 @@
         <div class="doc-content-layout">
           <div class="doc-content-main">
             <h3 id="editor-api-inputs" tabindex="-1">Inputs</h3>
-            <div class="api-table" role="table" aria-label="Editor inputs" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="Editor inputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of inputs; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
 
             <h3 id="editor-api-outputs" tabindex="-1">Outputs</h3>
-            <div class="api-table compact" role="table" aria-label="Editor outputs" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Description</b>
-              </div>
-              <div role="row">
-                <code role="cell">valueChange</code><span role="cell">string</span
-                ><span role="cell">Model output emitted by two-way binding.</span>
-              </div>
-              <div role="row">
-                <code role="cell">valueChange</code><span role="cell">string</span
-                ><span role="cell">Emits the current HTML value after editor updates.</span>
-              </div>
-              <div role="row">
-                <code role="cell">changed</code><span role="cell">AerisEditorChangeEvent</span
-                ><span role="cell">Emits HTML and plain text content after editor updates.</span>
-              </div>
-              <div role="row">
-                <code role="cell">focused</code><span role="cell">FocusEvent</span
-                ><span role="cell">Emits when the editable textbox receives focus.</span>
-              </div>
-              <div role="row">
-                <code role="cell">blurred</code><span role="cell">FocusEvent</span
-                ><span role="cell">Emits when the editable textbox loses focus.</span>
-              </div>
-              <div role="row">
-                <code role="cell">touch</code><span role="cell">void</span
-                ><span role="cell">Emits when focus leaves the complete editor component.</span>
-              </div>
-              <div role="row">
-                <code role="cell">ready</code><span role="cell">LexicalEditor</span
-                ><span role="cell"
-                  >Emits the created Lexical editor after built-in and consumer extensions are
-                  registered.</span
+            <app-reference-table class="api-table compact" caption="Editor outputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Description" />
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>valueChange</code></ng-template
+                ><ng-template appReferenceCell><span>string</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Model output emitted by two-way binding.</span></ng-template
                 >
-              </div>
-            </div>
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>valueChange</code></ng-template
+                ><ng-template appReferenceCell><span>string</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Emits the current HTML value after editor updates.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>changed</code></ng-template
+                ><ng-template appReferenceCell><span>AerisEditorChangeEvent</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Emits HTML and plain text content after editor updates.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>focused</code></ng-template
+                ><ng-template appReferenceCell><span>FocusEvent</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Emits when the editable textbox receives focus.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>blurred</code></ng-template
+                ><ng-template appReferenceCell><span>FocusEvent</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Emits when the editable textbox loses focus.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>touch</code></ng-template
+                ><ng-template appReferenceCell><span>void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Emits when focus leaves the complete editor component.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>ready</code></ng-template
+                ><ng-template appReferenceCell><span>LexicalEditor</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Emits the created Lexical editor after built-in and consumer extensions are
+                    registered.</span
+                  ></ng-template
+                >
+              </ng-container>
+            </app-reference-table>
 
             <h3 id="editor-api-methods" tabindex="-1">Methods</h3>
-            <div class="api-table compact" role="table" aria-label="Editor methods" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Signature</b
-                ><b role="columnheader">Description</b>
-              </div>
-              <div role="row">
-                <code role="cell">focus</code><span role="cell">() =&gt; void</span
-                ><span role="cell">Moves focus to the editable textbox.</span>
-              </div>
-              <div role="row">
-                <code role="cell">clear</code><span role="cell">() =&gt; void</span
-                ><span role="cell">Clears editable content and restores focus.</span>
-              </div>
-              <div role="row">
-                <code role="cell">reset</code><span role="cell">() =&gt; void</span
-                ><span role="cell">Alias for clearing editable content.</span>
-              </div>
-              <div role="row">
-                <code role="cell">format</code><span role="cell">(format) =&gt; void</span
-                ><span role="cell"
-                  >Toggles any supported Lexical text format on the current selection.</span
+            <app-reference-table class="api-table compact" caption="Editor methods">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Signature" />
+              <ng-template appReferenceHeader="Description" />
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>focus</code></ng-template
+                ><ng-template appReferenceCell><span>() =&gt; void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Moves focus to the editable textbox.</span></ng-template
                 >
-              </div>
-              <div role="row">
-                <code role="cell">setBlock</code><span role="cell">(block) =&gt; void</span
-                ><span role="cell">Changes the current block to paragraph, heading, or quote.</span>
-              </div>
-              <div role="row">
-                <code role="cell">toggleBulletList</code><span role="cell">() =&gt; void</span
-                ><span role="cell">Applies a bulleted list to the current selection.</span>
-              </div>
-              <div role="row">
-                <code role="cell">toggleNumberedList</code><span role="cell">() =&gt; void</span
-                ><span role="cell">Applies a numbered list to the current selection.</span>
-              </div>
-              <div role="row">
-                <code role="cell">toggleCheckList</code><span role="cell">() =&gt; void</span
-                ><span role="cell">Applies an interactive checklist to the current selection.</span>
-              </div>
-              <div role="row">
-                <code role="cell">removeList</code><span role="cell">() =&gt; void</span
-                ><span role="cell">Removes list formatting from the current selection.</span>
-              </div>
-              <div role="row">
-                <code role="cell">undo</code><span role="cell">() =&gt; void</span
-                ><span role="cell">Runs editor undo.</span>
-              </div>
-              <div role="row">
-                <code role="cell">redo</code><span role="cell">() =&gt; void</span
-                ><span role="cell">Runs editor redo.</span>
-              </div>
-              <div role="row">
-                <code role="cell">align</code><span role="cell">(alignment) =&gt; void</span
-                ><span role="cell"
-                  >Aligns selected blocks using physical or RTL-aware logical alignment.</span
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>clear</code></ng-template
+                ><ng-template appReferenceCell><span>() =&gt; void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Clears editable content and restores focus.</span></ng-template
                 >
-              </div>
-              <div role="row">
-                <code role="cell">indent</code><span role="cell">() =&gt; void</span
-                ><span role="cell">Increases indentation for the current block or list item.</span>
-              </div>
-              <div role="row">
-                <code role="cell">outdent</code><span role="cell">() =&gt; void</span
-                ><span role="cell">Decreases indentation for the current block or list item.</span>
-              </div>
-              <div role="row">
-                <code role="cell">clearFormatting</code><span role="cell">() =&gt; void</span
-                ><span role="cell"
-                  >Removes inline formats and inline styles from the current selection.</span
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>reset</code></ng-template
+                ><ng-template appReferenceCell><span>() =&gt; void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Alias for clearing editable content.</span></ng-template
                 >
-              </div>
-              <div role="row">
-                <code role="cell">getLexicalEditor</code
-                ><span role="cell">() =&gt; LexicalEditor | null</span
-                ><span role="cell"
-                  >Returns the underlying editor for advanced command dispatch and state
-                  access.</span
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>format</code></ng-template
+                ><ng-template appReferenceCell><span>(format) =&gt; void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Toggles any supported Lexical text format on the current selection.</span
+                  ></ng-template
                 >
-              </div>
-            </div>
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>setBlock</code></ng-template
+                ><ng-template appReferenceCell><span>(block) =&gt; void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Changes the current block to paragraph, heading, or quote.</span
+                  ></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>toggleBulletList</code></ng-template
+                ><ng-template appReferenceCell><span>() =&gt; void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Applies a bulleted list to the current selection.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>toggleNumberedList</code></ng-template
+                ><ng-template appReferenceCell><span>() =&gt; void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Applies a numbered list to the current selection.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>toggleCheckList</code></ng-template
+                ><ng-template appReferenceCell><span>() =&gt; void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Applies an interactive checklist to the current selection.</span
+                  ></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>removeList</code></ng-template
+                ><ng-template appReferenceCell><span>() =&gt; void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Removes list formatting from the current selection.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>undo</code></ng-template
+                ><ng-template appReferenceCell><span>() =&gt; void</span></ng-template
+                ><ng-template appReferenceCell><span>Runs editor undo.</span></ng-template>
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>redo</code></ng-template
+                ><ng-template appReferenceCell><span>() =&gt; void</span></ng-template
+                ><ng-template appReferenceCell><span>Runs editor redo.</span></ng-template>
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>align</code></ng-template
+                ><ng-template appReferenceCell><span>(alignment) =&gt; void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Aligns selected blocks using physical or RTL-aware logical alignment.</span
+                  ></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>indent</code></ng-template
+                ><ng-template appReferenceCell><span>() =&gt; void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Increases indentation for the current block or list item.</span
+                  ></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>outdent</code></ng-template
+                ><ng-template appReferenceCell><span>() =&gt; void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Decreases indentation for the current block or list item.</span
+                  ></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>clearFormatting</code></ng-template
+                ><ng-template appReferenceCell><span>() =&gt; void</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Removes inline formats and inline styles from the current selection.</span
+                  ></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>getLexicalEditor</code></ng-template
+                ><ng-template appReferenceCell
+                  ><span>() =&gt; LexicalEditor | null</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Returns the underlying editor for advanced command dispatch and state
+                    access.</span
+                  ></ng-template
+                >
+              </ng-container>
+            </app-reference-table>
           </div>
           <app-page-toc title="API" ariaLabel="Editor API on this page" [links]="apiLinks" />
         </div>
@@ -571,55 +649,67 @@
     <aeris-tab-panel value="tokens" label="Tokens">
       <section class="doc-section">
         <h2>Design tokens</h2>
-        <div class="api-table compact" role="table" aria-label="Editor design tokens" tabindex="0">
-          <div class="api-head" role="row">
-            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
-            ><b role="columnheader">Fallback</b>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-surface / --aeris-surface-2</code
-            ><span role="cell">Editor surface, toolbar, and filled appearance.</span
-            ><code role="cell">Aeris theme</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-border</code
-            ><span role="cell">Editor and toolbar borders.</span
-            ><code role="cell">Aeris theme</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-primary</code
-            ><span role="cell">Checklist markers and default active toolbar fill.</span
-            ><code role="cell">Aeris theme</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-editor-toolbar-active-background</code
-            ><span role="cell">Solid background for active formatting actions.</span
-            ><code role="cell">--aeris-primary</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-editor-toolbar-active-color</code
-            ><span role="cell">Contrasting icon color for active formatting actions.</span
-            ><code role="cell">--aeris-on-primary</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-warning</code><span role="cell">Text highlight color.</span
-            ><code role="cell">Aeris theme</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-text / --aeris-text-muted</code
-            ><span role="cell">Editable content, placeholder, and quote text.</span
-            ><code role="cell">Aeris theme</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-focus</code><span role="cell">Focus border and ring.</span
-            ><code role="cell">#536437</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-radius-sm / --aeris-radius-md</code
-            ><span role="cell">Toolbar buttons and editor radius.</span
-            ><code role="cell">Aeris theme</code>
-          </div>
-        </div>
+        <app-reference-table class="api-table compact" caption="Editor design tokens">
+          <ng-template appReferenceHeader="Token" />
+          <ng-template appReferenceHeader="Purpose" />
+          <ng-template appReferenceHeader="Fallback" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-surface / --aeris-surface-2</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Editor surface, toolbar, and filled appearance.</span></ng-template
+            ><ng-template appReferenceCell><code>Aeris theme</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-border</code></ng-template
+            ><ng-template appReferenceCell><span>Editor and toolbar borders.</span></ng-template
+            ><ng-template appReferenceCell><code>Aeris theme</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-primary</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Checklist markers and default active toolbar fill.</span></ng-template
+            ><ng-template appReferenceCell><code>Aeris theme</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-editor-toolbar-active-background</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Solid background for active formatting actions.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-primary</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-editor-toolbar-active-color</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Contrasting icon color for active formatting actions.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-on-primary</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-warning</code></ng-template
+            ><ng-template appReferenceCell><span>Text highlight color.</span></ng-template
+            ><ng-template appReferenceCell><code>Aeris theme</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-text / --aeris-text-muted</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Editable content, placeholder, and quote text.</span></ng-template
+            ><ng-template appReferenceCell><code>Aeris theme</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-focus</code></ng-template
+            ><ng-template appReferenceCell><span>Focus border and ring.</span></ng-template
+            ><ng-template appReferenceCell><code>#536437</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-radius-sm / --aeris-radius-md</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Toolbar buttons and editor radius.</span></ng-template
+            ><ng-template appReferenceCell><code>Aeris theme</code></ng-template>
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
 
@@ -666,71 +756,98 @@
           </li>
         </ul>
         <h3>Keyboard support</h3>
-        <div
-          class="api-table keyboard-table"
-          role="table"
-          aria-label="Editor keyboard support"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Key</b><b role="columnheader">Function</b>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></span
-            ><span role="cell"
-              >Moves between toolbar buttons, the editable area, and surrounding controls.</span
+        <app-reference-table class="api-table keyboard-table" caption="Editor keyboard support">
+          <ng-template appReferenceHeader="Key" />
+          <ng-template appReferenceHeader="Function" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves between toolbar buttons, the editable area, and surrounding controls.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Arrow</kbd> keys</span
-            ><span role="cell"
-              >Moves the caret through editable content using native rich-text behavior.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Arrow</kbd> keys</span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves the caret through editable content using native rich-text behavior.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Enter</kbd></span
-            ><span role="cell">Creates a new paragraph or list item in the editable area.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Arrow Up</kbd> / <kbd>Arrow Down</kbd></span
-            ><span role="cell"
-              >Moves between checklist items when a checklist marker is active.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Enter</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Creates a new paragraph or list item in the editable area.</span></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Space</kbd></span
-            ><span role="cell">Toggles the active checklist item.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Backspace</kbd> / <kbd>Delete</kbd></span
-            ><span role="cell">Removes selected content or adjacent characters.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Ctrl</kbd> / <kbd>Command</kbd> + <kbd>B</kbd></span
-            ><span role="cell">Toggles bold through Lexical rich-text shortcuts.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Ctrl</kbd> / <kbd>Command</kbd> + <kbd>I</kbd></span
-            ><span role="cell">Toggles italic through Lexical rich-text shortcuts.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Ctrl</kbd> / <kbd>Command</kbd> + <kbd>U</kbd></span
-            ><span role="cell">Toggles underline through Lexical rich-text shortcuts.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Ctrl</kbd> / <kbd>Command</kbd> + <kbd>Z</kbd></span
-            ><span role="cell">Undo.</span>
-          </div>
-          <div role="row">
-            <span role="cell"
-              ><kbd>Ctrl</kbd> / <kbd>Command</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd></span
-            ><span role="cell">Redo.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
-            ><span role="cell">Activates the focused toolbar button.</span>
-          </div>
-        </div>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Arrow Up</kbd> / <kbd>Arrow Down</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves between checklist items when a checklist marker is active.</span
+              ></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Space</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Toggles the active checklist item.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Backspace</kbd> / <kbd>Delete</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Removes selected content or adjacent characters.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Ctrl</kbd> / <kbd>Command</kbd> + <kbd>B</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Toggles bold through Lexical rich-text shortcuts.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Ctrl</kbd> / <kbd>Command</kbd> + <kbd>I</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Toggles italic through Lexical rich-text shortcuts.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Ctrl</kbd> / <kbd>Command</kbd> + <kbd>U</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Toggles underline through Lexical rich-text shortcuts.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Ctrl</kbd> / <kbd>Command</kbd> + <kbd>Z</kbd></span></ng-template
+            ><ng-template appReferenceCell><span>Undo.</span></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span
+                ><kbd>Ctrl</kbd> / <kbd>Command</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd></span
+              ></ng-template
+            ><ng-template appReferenceCell><span>Redo.</span></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Enter</kbd> / <kbd>Space</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Activates the focused toolbar button.</span></ng-template
+            >
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
   </aeris-tabs>

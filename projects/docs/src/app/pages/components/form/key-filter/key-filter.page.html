@@ -364,76 +364,102 @@
         <div class="doc-content-layout">
           <div class="doc-content-main">
             <h3 id="key-filter-api-inputs" tabindex="-1">Inputs</h3>
-            <div class="api-table" role="table" aria-label="KeyFilter inputs" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="KeyFilter inputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of inputs; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
 
             <h3 id="key-filter-api-outputs" tabindex="-1">Outputs</h3>
-            <div class="api-table compact" role="table" aria-label="KeyFilter outputs" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Description</b>
-              </div>
-              <div role="row">
-                <code role="cell">rejected</code><span role="cell">AerisKeyFilterRejectEvent</span
-                ><span role="cell"
-                  >Emitted when a key, paste, or input fallback does not satisfy the active
-                  filter.</span
+            <app-reference-table class="api-table compact" caption="KeyFilter outputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Description" />
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>rejected</code></ng-template
+                ><ng-template appReferenceCell><span>AerisKeyFilterRejectEvent</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span
+                    >Emitted when a key, paste, or input fallback does not satisfy the active
+                    filter.</span
+                  ></ng-template
                 >
-              </div>
-            </div>
+              </ng-container>
+            </app-reference-table>
 
             <h3 id="key-filter-api-presets" tabindex="-1">Presets</h3>
-            <div class="api-table compact" role="table" aria-label="KeyFilter presets" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Preset</b><b role="columnheader">Allows</b
-                ><b role="columnheader">Notes</b>
-              </div>
-              <div role="row">
-                <code role="cell">int</code><span role="cell">Signed integers.</span
-                ><span role="cell">Allows a leading minus sign while typing.</span>
-              </div>
-              <div role="row">
-                <code role="cell">pint</code><span role="cell">Positive integers.</span
-                ><span role="cell">Digits only.</span>
-              </div>
-              <div role="row">
-                <code role="cell">num</code><span role="cell">Signed decimal numbers.</span
-                ><span role="cell">Allows dot or comma decimal separators.</span>
-              </div>
-              <div role="row">
-                <code role="cell">pnum</code><span role="cell">Positive decimal numbers.</span
-                ><span role="cell">Allows dot or comma decimal separators.</span>
-              </div>
-              <div role="row">
-                <code role="cell">hex</code><span role="cell">Hexadecimal characters.</span
-                ><span role="cell">Case-insensitive.</span>
-              </div>
-              <div role="row">
-                <code role="cell">alpha</code><span role="cell">Unicode letters.</span
-                ><span role="cell">Uses Unicode property matching.</span>
-              </div>
-              <div role="row">
-                <code role="cell">alphanum</code
-                ><span role="cell">Unicode letters and numbers.</span
-                ><span role="cell">Useful for compact identifiers.</span>
-              </div>
-              <div role="row">
-                <code role="cell">email</code><span role="cell">Email-safe characters.</span
-                ><span role="cell">This is character filtering, not email validation.</span>
-              </div>
-            </div>
+            <app-reference-table class="api-table compact" caption="KeyFilter presets">
+              <ng-template appReferenceHeader="Preset" />
+              <ng-template appReferenceHeader="Allows" />
+              <ng-template appReferenceHeader="Notes" />
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>int</code></ng-template
+                ><ng-template appReferenceCell><span>Signed integers.</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Allows a leading minus sign while typing.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>pint</code></ng-template
+                ><ng-template appReferenceCell><span>Positive integers.</span></ng-template
+                ><ng-template appReferenceCell><span>Digits only.</span></ng-template>
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>num</code></ng-template
+                ><ng-template appReferenceCell><span>Signed decimal numbers.</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Allows dot or comma decimal separators.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>pnum</code></ng-template
+                ><ng-template appReferenceCell><span>Positive decimal numbers.</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Allows dot or comma decimal separators.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>hex</code></ng-template
+                ><ng-template appReferenceCell><span>Hexadecimal characters.</span></ng-template
+                ><ng-template appReferenceCell><span>Case-insensitive.</span></ng-template>
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>alpha</code></ng-template
+                ><ng-template appReferenceCell><span>Unicode letters.</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Uses Unicode property matching.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>alphanum</code></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Unicode letters and numbers.</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>Useful for compact identifiers.</span></ng-template
+                >
+              </ng-container>
+              <ng-container appReferenceRow>
+                <ng-template appReferenceCell><code>email</code></ng-template
+                ><ng-template appReferenceCell><span>Email-safe characters.</span></ng-template
+                ><ng-template appReferenceCell
+                  ><span>This is character filtering, not email validation.</span></ng-template
+                >
+              </ng-container>
+            </app-reference-table>
           </div>
           <app-page-toc title="API" ariaLabel="KeyFilter API on this page" [links]="apiLinks" />
         </div>
@@ -487,38 +513,42 @@
           </li>
         </ul>
         <h3>Keyboard support</h3>
-        <div
-          class="api-table keyboard-table"
-          role="table"
-          aria-label="KeyFilter keyboard support"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Key</b><b role="columnheader">Function</b>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Printable keys</kbd></span
-            ><span role="cell"
-              >Accepted when the attempted value matches the active filter; otherwise blocked unless
-              validateOnly is enabled.</span
+        <app-reference-table class="api-table keyboard-table" caption="KeyFilter keyboard support">
+          <ng-template appReferenceHeader="Key" />
+          <ng-template appReferenceHeader="Function" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Printable keys</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Accepted when the attempted value matches the active filter; otherwise blocked
+                unless validateOnly is enabled.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Backspace</kbd> / <kbd>Delete</kbd></span
-            ><span role="cell">Uses native editing behavior.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Arrow</kbd> keys</span
-            ><span role="cell">Uses native caret movement and selection behavior.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Ctrl</kbd> / <kbd>Command</kbd> shortcuts</span
-            ><span role="cell"
-              >Uses native copy, paste, cut, undo, redo, and select-all behavior. Paste is filtered
-              as a full attempted value.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Backspace</kbd> / <kbd>Delete</kbd></span></ng-template
+            ><ng-template appReferenceCell><span>Uses native editing behavior.</span></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Arrow</kbd> keys</span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Uses native caret movement and selection behavior.</span></ng-template
             >
-          </div>
-        </div>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Ctrl</kbd> / <kbd>Command</kbd> shortcuts</span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Uses native copy, paste, cut, undo, redo, and select-all behavior. Paste is
+                filtered as a full attempted value.</span
+              ></ng-template
+            >
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
   </aeris-tabs>

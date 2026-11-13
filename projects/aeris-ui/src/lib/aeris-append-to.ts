@@ -49,7 +49,10 @@ export function aerisInternalResolveAppendTo(
   return isHtmlElement(nativeElement) ? nativeElement : 'self';
 }
 
-@Directive({ selector: '[aerisInternalAppendTo]' })
+@Directive({
+  selector: '[aerisInternalAppendTo]',
+  host: { '(focusout)': 'handlePortaledFocusOut($event)' },
+})
 export class ɵAerisAppendTo {
   private readonly document = inject(DOCUMENT);
   private readonly destroyRef = inject(DestroyRef);
@@ -81,6 +84,13 @@ export class ɵAerisAppendTo {
   readonly aerisInternalAppendToPositionSelf = input(true);
   readonly aerisInternalAppendToDismiss = input<(() => boolean) | null>(null);
   readonly aerisInternalAppendToOutside = output<PointerEvent>();
+  readonly aerisInternalAppendToFocusOut = output<FocusEvent>();
+
+  protected handlePortaledFocusOut(event: FocusEvent): void {
+    // Inline panels already bubble to their owner. Only bridge the detached DOM path.
+    if (this.originParent && !this.originParent.contains(this.element))
+      this.aerisInternalAppendToFocusOut.emit(event);
+  }
 
   constructor() {
     effect((onCleanup) => {

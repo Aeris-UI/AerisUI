@@ -2,7 +2,7 @@
 
 > Chronological event display with responsive orientation, progress, alignment, and templates.
 
-Aeris 22.0.0-alpha.12 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.13 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/timeline`
 - Human-readable documentation: [https://aeris-ui.dev/components/timeline](https://aeris-ui.dev/components/timeline)
@@ -510,6 +510,8 @@ Use the marker template and markerColor to render custom visual markers for each
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisBadgeModule } from '@aeris-ui/core/badge';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisTimelineModule, type AerisTimelineItem } from '@aeris-ui/core/timeline';
 import { LucideBlocks, LucideClipboardCheck, LucideDynamicIcon, LucidePackageCheck, LucideShieldCheck, type LucideIconInput } from '@lucide/angular';
 
@@ -521,7 +523,7 @@ interface CustomReleaseData {
 
 @Component({
   selector: 'app-timeline-templates-demo',
-  imports: [AerisTimelineModule, LucideDynamicIcon],
+  imports: [AerisBadgeModule, AerisCardModule, AerisTimelineModule, LucideDynamicIcon],
   templateUrl: './timeline-templates.demo.html',
   styleUrl: './timeline-templates.demo.scss'
 })
@@ -587,12 +589,12 @@ export class TimelineTemplatesDemo {
   </ng-template>
 
   <ng-template aerisTimelineContent let-item let-state="state">
-    <article class="release-card">
-      <span class="release-card__state">{{ state }}</span>
+    <aeris-card class="release-card">
+      <aeris-badge [value]="state" severity="neutral" variant="soft" size="sm" />
       <h3>{{ $any(item).title }}</h3>
       <p>{{ $any(item).description }}</p>
       <small>{{ $any(item).data.owner }} - {{ $any(item).data.version }}</small>
-    </article>
+    </aeris-card>
   </ng-template>
 </aeris-timeline>
 ```
@@ -630,20 +632,6 @@ svg:where([lucideIcon]) {
 
 .release-date {
   font-weight: 650;
-}
-
-.release-card {
-  padding: 0.875rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-md);
-  background: var(--aeris-surface);
-}
-
-.release-card__state {
-  color: var(--aeris-primary-text);
-  font-size: 0.6875rem;
-  font-weight: 700;
-  text-transform: uppercase;
 }
 
 .release-card h3 {

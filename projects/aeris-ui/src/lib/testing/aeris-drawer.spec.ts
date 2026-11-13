@@ -176,6 +176,16 @@ describe('AerisDrawer', () => {
     expect(fixture.componentInstance.lastHidden()?.reason).toBe('swipe');
     expect(panel.parentElement?.getAttribute('inert')).not.toBeNull();
     expect(document.activeElement).toBe(launcher);
+
+    const releaseClick = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      detail: 1,
+    });
+    launcher.dispatchEvent(releaseClick);
+    await fixture.whenStable();
+    expect(releaseClick.defaultPrevented).toBe(true);
+    expect(fixture.componentInstance.open()).toBe(false);
   });
 
   it('cancels an active gesture on resize and leaves content gestures untouched', async () => {
@@ -220,6 +230,9 @@ describe('AerisDrawer', () => {
   });
 
   afterEach(() => {
+    TestBed.resetTestingModule();
+    // Complete synthetic pointer sequences so release-click guards cannot leak to other fixtures.
+    document.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
     vi.useRealTimers();
     vi.restoreAllMocks();
     document.body.style.overflow = '';

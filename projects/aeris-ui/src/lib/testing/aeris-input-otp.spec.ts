@@ -27,6 +27,40 @@ class InputOtpTestHost {
 }
 
 describe('AerisInputOtp', () => {
+  it.each(['readonly', 'disabled', 'forms'] as const)(
+    'does not paste into a %s control',
+    async (state) => {
+      const fixture = TestBed.createComponent(AerisInputOtpComponent);
+      fixture.componentRef.setInput('value', '1234');
+      if (state === 'forms') fixture.componentInstance.setDisabledState(true);
+      else fixture.componentRef.setInput(state, true);
+      await fixture.whenStable();
+      const changed = vi.fn();
+      const completed = vi.fn();
+      fixture.componentInstance.registerOnChange(changed);
+      fixture.componentInstance.completed.subscribe(completed);
+      const first = fixture.nativeElement.querySelector(
+        '.aeris-input-otp__slot',
+      ) as HTMLInputElement;
+      const paste = () => {
+        const event = new Event('paste', { bubbles: true, cancelable: true });
+        Object.defineProperty(event, 'clipboardData', { value: { getData: () => '9876' } });
+        first.dispatchEvent(event);
+      };
+      paste();
+      await fixture.whenStable();
+      expect(fixture.componentInstance.value()).toBe('1234');
+      expect(changed).not.toHaveBeenCalled();
+      expect(completed).not.toHaveBeenCalled();
+      if (state === 'forms') fixture.componentInstance.setDisabledState(false);
+      else fixture.componentRef.setInput(state, false);
+      await fixture.whenStable();
+      paste();
+      await fixture.whenStable();
+      expect(fixture.componentInstance.value()).toBe('9876');
+      expect(changed).toHaveBeenCalledExactlyOnceWith('9876');
+    },
+  );
   it('exposes grouped accessible slots and native form serialization', async () => {
     const fixture = TestBed.createComponent(InputOtpTestHost);
     await fixture.whenStable();

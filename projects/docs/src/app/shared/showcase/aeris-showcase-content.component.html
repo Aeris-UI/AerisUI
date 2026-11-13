@@ -855,22 +855,17 @@ Share a short update with your team.</textarea>
             />
           </aeris-icon-field>
         </header>
-        <div role="listbox" aria-label="Messages">
-          @for (mail of visibleMails(); track mail.id) {
-            <button
-              aerisButton
-              type="button"
-              size="sm"
-              variant="ghost"
-              fluid
-              role="option"
-              [attr.aria-selected]="selectedMail()?.id === mail.id"
-              [attr.tabindex]="selectedMail()?.id === mail.id ? 0 : -1"
-              [attr.data-unread]="mail.unread || null"
-              (click)="selectMail(mail.id)"
-              (keydown)="handleMailKeydown($event, mail.id)"
-            >
-              <span class="mail-preview__option-content">
+        <aeris-listbox
+          ariaLabel="Messages"
+          scrollHeight="100%"
+          [options]="mailOptions()"
+          [value]="selectedMail()?.id ?? null"
+          (valueChange)="selectMailOption($event)"
+          emptyMessage="No messages here. Try another folder or search."
+        >
+          <ng-template aerisListboxOption let-option>
+            @if (mailById()[option.value]; as mail) {
+              <span class="mail-preview__option-content" [attr.data-unread]="mail.unread || null">
                 <aeris-avatar [label]="mail.initials" [ariaLabel]="mail.sender" size="sm" />
                 <span
                   ><strong>{{ mail.sender }}</strong
@@ -884,13 +879,9 @@ Share a short update with your team.</textarea>
                   }
                 </span>
               </span>
-            </button>
-          } @empty {
-            <p class="preview-empty" role="status">
-              No messages here. Try another folder or search.
-            </p>
-          }
-        </div>
+            }
+          </ng-template>
+        </aeris-listbox>
       </div>
 
       <article class="mail-preview__reader">

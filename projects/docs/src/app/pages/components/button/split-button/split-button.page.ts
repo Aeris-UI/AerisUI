@@ -3,6 +3,7 @@ import { AerisSplitButton, type AerisSplitButtonItem } from '@aeris-ui/core/spli
 import { LucideDynamicIcon } from '@lucide/angular';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
+import { ReferenceTableImports } from '../../../../shared/documentation/reference-table.component';
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
 import {
@@ -23,6 +24,7 @@ interface ApiRow {
 @Component({
   selector: 'app-split-button-page',
   imports: [
+    ReferenceTableImports,
     AerisSplitButton,
     LucideDynamicIcon,
     AerisTabsModule,

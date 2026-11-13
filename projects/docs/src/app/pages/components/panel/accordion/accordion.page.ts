@@ -7,6 +7,7 @@ import {
 } from '@aeris-ui/core/accordion';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
+import { ReferenceTableImports } from '../../../../shared/documentation/reference-table.component';
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
 import {
@@ -26,6 +27,7 @@ interface ApiRow {
 @Component({
   selector: 'app-accordion-page',
   imports: [
+    ReferenceTableImports,
     AerisButton,
     AerisAccordionModule,
     AerisTabsModule,
@@ -71,8 +73,7 @@ export class AccordionPage {
     { id: 'accordion-api-methods', label: 'Methods' },
   ];
 
-  protected readonly importCode =
-    `import { AerisAccordionModule } from '@aeris-ui/core/accordion';`;
+  protected readonly importCode = `import { AerisAccordionModule } from '@aeris-ui/core/accordion';`;
 
   protected readonly controlledTsCode = `protected readonly activeSections = signal<AerisAccordionValue>(['profile']);
 protected readonly controlledValues = ['profile', 'security', 'billing'] as const;
@@ -186,54 +187,184 @@ interface AerisAccordionToggleIconContext {
 }`;
 
   protected readonly accordionInputs: readonly ApiRow[] = [
-    { name: 'multiple', type: 'boolean', defaultValue: 'false', description: 'Allows more than one panel to be open at a time.' },
-    { name: 'collapsible', type: 'boolean', defaultValue: 'true', description: 'Allows the last open panel to be collapsed.' },
-    { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Disables all panel headers.' },
-    { name: 'variant', type: 'outlined | filled | separated', defaultValue: "'outlined'", description: 'Controls the surface treatment.' },
-    { name: 'size', type: 'sm | md | lg', defaultValue: "'md'", description: 'Controls header height, spacing, and text size.' },
-    { name: 'iconPosition', type: 'start | end', defaultValue: "'end'", description: 'Places the built-in disclosure icon before or after the label.' },
-    { name: 'headingLevel', type: '1 | 2 | 3 | 4 | 5 | 6', defaultValue: '3', description: 'ARIA heading level used for each accordion header.' },
-    { name: 'panelTabIndex', type: '0 | -1', defaultValue: '0', description: 'Controls whether expanded panels are directly focusable.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "''", description: 'Accessible name for the accordion container when needed.' },
-    { name: 'ariaLabelledBy', type: 'string', defaultValue: "''", description: 'ID of visible text that labels the accordion container.' },
+    {
+      name: 'multiple',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Allows more than one panel to be open at a time.',
+    },
+    {
+      name: 'collapsible',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Allows the last open panel to be collapsed.',
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables all panel headers.',
+    },
+    {
+      name: 'variant',
+      type: 'outlined | filled | separated',
+      defaultValue: "'outlined'",
+      description: 'Controls the surface treatment.',
+    },
+    {
+      name: 'size',
+      type: 'sm | md | lg',
+      defaultValue: "'md'",
+      description: 'Controls header height, spacing, and text size.',
+    },
+    {
+      name: 'iconPosition',
+      type: 'start | end',
+      defaultValue: "'end'",
+      description: 'Places the built-in disclosure icon before or after the label.',
+    },
+    {
+      name: 'headingLevel',
+      type: '1 | 2 | 3 | 4 | 5 | 6',
+      defaultValue: '3',
+      description: 'ARIA heading level used for each accordion header.',
+    },
+    {
+      name: 'panelTabIndex',
+      type: '0 | -1',
+      defaultValue: '0',
+      description: 'Controls whether expanded panels are directly focusable.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Accessible name for the accordion container when needed.',
+    },
+    {
+      name: 'ariaLabelledBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of visible text that labels the accordion container.',
+    },
   ];
 
   protected readonly models: readonly ApiRow[] = [
-    { name: 'value', type: 'AerisAccordionValue', defaultValue: "''", description: 'Open panel value in single mode or open panel values in multiple mode.' },
+    {
+      name: 'value',
+      type: 'AerisAccordionValue',
+      defaultValue: "''",
+      description: 'Open panel value in single mode or open panel values in multiple mode.',
+    },
   ];
 
   protected readonly panelInputs: readonly ApiRow[] = [
-    { name: 'value', type: 'string, required', defaultValue: '-', description: 'Stable identifier for the panel.' },
-    { name: 'header', type: 'string, required', defaultValue: '-', description: 'Default visible header text.' },
-    { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Disables this panel header and prevents expansion changes.' },
+    {
+      name: 'value',
+      type: 'string, required',
+      defaultValue: '-',
+      description: 'Stable identifier for the panel.',
+    },
+    {
+      name: 'header',
+      type: 'string, required',
+      defaultValue: '-',
+      description: 'Default visible header text.',
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables this panel header and prevents expansion changes.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'valueChange', type: 'AerisAccordionValue', defaultValue: '-', description: 'Emitted by the value model.' },
-    { name: 'changed', type: 'AerisAccordionChangeEvent', defaultValue: '-', description: 'Emitted after a panel expands or collapses.' },
-    { name: 'panelExpanded', type: 'AerisAccordionChangeEvent', defaultValue: '-', description: 'Emitted after a panel expands.' },
-    { name: 'panelCollapsed', type: 'AerisAccordionChangeEvent', defaultValue: '-', description: 'Emitted after a panel collapses.' },
-    { name: 'headerFocused', type: 'string', defaultValue: '-', description: 'Emitted when a panel header receives focus.' },
+    {
+      name: 'valueChange',
+      type: 'AerisAccordionValue',
+      defaultValue: '-',
+      description: 'Emitted by the value model.',
+    },
+    {
+      name: 'changed',
+      type: 'AerisAccordionChangeEvent',
+      defaultValue: '-',
+      description: 'Emitted after a panel expands or collapses.',
+    },
+    {
+      name: 'panelExpanded',
+      type: 'AerisAccordionChangeEvent',
+      defaultValue: '-',
+      description: 'Emitted after a panel expands.',
+    },
+    {
+      name: 'panelCollapsed',
+      type: 'AerisAccordionChangeEvent',
+      defaultValue: '-',
+      description: 'Emitted after a panel collapses.',
+    },
+    {
+      name: 'headerFocused',
+      type: 'string',
+      defaultValue: '-',
+      description: 'Emitted when a panel header receives focus.',
+    },
   ];
 
   protected readonly templates: readonly ApiRow[] = [
-    { name: 'aerisAccordionHeader', type: 'AerisAccordionHeaderContext', defaultValue: 'header input', description: 'Custom header content rendered inside the native disclosure button.' },
-    { name: 'aerisAccordionToggleIcon', type: 'AerisAccordionToggleIconContext', defaultValue: 'built-in chevron', description: 'Custom decorative toggle icon for one panel or every panel when placed directly in the accordion.' },
-    { name: 'default panel content', type: 'content projection', defaultValue: '-', description: 'Panel body retained for smooth expansion and collapse. Collapsed content is hidden and inert.' },
+    {
+      name: 'aerisAccordionHeader',
+      type: 'AerisAccordionHeaderContext',
+      defaultValue: 'header input',
+      description: 'Custom header content rendered inside the native disclosure button.',
+    },
+    {
+      name: 'aerisAccordionToggleIcon',
+      type: 'AerisAccordionToggleIconContext',
+      defaultValue: 'built-in chevron',
+      description:
+        'Custom decorative toggle icon for one panel or every panel when placed directly in the accordion.',
+    },
+    {
+      name: 'default panel content',
+      type: 'content projection',
+      defaultValue: '-',
+      description:
+        'Panel body retained for smooth expansion and collapse. Collapsed content is hidden and inert.',
+    },
   ];
 
   protected readonly methods: readonly ApiRow[] = [
-    { name: 'toggle(value, event?)', type: '(string, Event | null) => void', defaultValue: '-', description: 'Toggles an enabled panel by value.' },
-    { name: 'expand(value, event?)', type: '(string, Event | null) => void', defaultValue: '-', description: 'Expands an enabled panel by value.' },
-    { name: 'collapse(value, event?)', type: '(string, Event | null) => void', defaultValue: '-', description: 'Collapses an enabled panel by value when collapsible rules allow it.' },
-    { name: 'focusPanel(value, options?)', type: '(string, FocusOptions) => void', defaultValue: '-', description: 'Moves focus to an enabled panel header.' },
+    {
+      name: 'toggle(value, event?)',
+      type: '(string, Event | null) => void',
+      defaultValue: '-',
+      description: 'Toggles an enabled panel by value.',
+    },
+    {
+      name: 'expand(value, event?)',
+      type: '(string, Event | null) => void',
+      defaultValue: '-',
+      description: 'Expands an enabled panel by value.',
+    },
+    {
+      name: 'collapse(value, event?)',
+      type: '(string, Event | null) => void',
+      defaultValue: '-',
+      description: 'Collapses an enabled panel by value when collapsible rules allow it.',
+    },
+    {
+      name: 'focusPanel(value, options?)',
+      type: '(string, FocusOptions) => void',
+      defaultValue: '-',
+      description: 'Moves focus to an enabled panel header.',
+    },
   ];
 
   protected recordChange(event: AerisAccordionChangeEvent): void {
     this.lastChange.set(
-      event.expanded
-        ? `${event.changedValue} expanded.`
-        : `${event.changedValue} collapsed.`,
+      event.expanded ? `${event.changedValue} expanded.` : `${event.changedValue} collapsed.`,
     );
   }
 
@@ -250,13 +381,11 @@ interface AerisAccordionToggleIconContext {
   protected toggleControlledSection(value: string): void {
     const current = this.normalizeValue(this.activeSections());
     this.activeSections.set(
-      current.includes(value)
-        ? current.filter((item) => item !== value)
-        : [...current, value],
+      current.includes(value) ? current.filter((item) => item !== value) : [...current, value],
     );
   }
 
   private normalizeValue(value: AerisAccordionValue): readonly string[] {
-    return typeof value === 'string' ? value ? [value] : [] : value;
+    return typeof value === 'string' ? (value ? [value] : []) : value;
   }
 }

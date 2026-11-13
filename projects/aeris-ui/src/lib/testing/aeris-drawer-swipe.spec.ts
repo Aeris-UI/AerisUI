@@ -272,10 +272,26 @@ describe('Drawer swipe gestures', () => {
     const click = new MouseEvent('click', { detail: 1, cancelable: true });
     document.dispatchEvent(click);
     expect(click.defaultPrevented).toBe(true);
+
+    swipe.start(pointer('pointerdown', 0, 0), 'right', 200);
+    swipe.move(pointer('pointermove', 150, 0, 100));
+    swipe.end(pointer('pointerup', 150, 0, 120), 0.35);
     document.dispatchEvent(new PointerEvent('pointerdown', { pointerId: 2 }));
     const next = new MouseEvent('click', { detail: 1, cancelable: true });
     document.dispatchEvent(next);
     expect(next.defaultPrevented).toBe(false);
+
+    const label = document.createElement('label');
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    label.append(checkbox);
+    document.body.append(label);
+    try {
+      label.click();
+      expect(checkbox.checked).toBe(true);
+    } finally {
+      label.remove();
+    }
     vi.advanceTimersByTime(750);
   });
 

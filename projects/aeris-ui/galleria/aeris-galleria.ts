@@ -577,11 +577,11 @@ let nextGalleriaId = 0;
                   </div>
                 } @else if (view.image?.title || view.image?.description) {
                   <div class="aeris-galleria__caption">
-                    @if (view.image?.title) {
-                      <strong>{{ view.image?.title }}</strong>
+                    @if (view.image.title) {
+                      <strong>{{ view.image.title }}</strong>
                     }
-                    @if (view.image?.description) {
-                      <span>{{ view.image?.description }}</span>
+                    @if (view.image.description) {
+                      <span>{{ view.image.description }}</span>
                     }
                   </div>
                 }

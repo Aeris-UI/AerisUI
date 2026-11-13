@@ -322,8 +322,8 @@ function extractAccessibility(nodes) {
   const keyboardTable = findNode(
     panel.children ?? [],
     (node) =>
-      attributeValue(node, 'role') === 'table' &&
-      /keyboard/i.test(attributeValue(node, 'aria-label') ?? ''),
+      node.name === 'app-reference-table' &&
+      /keyboard/i.test(attributeValue(node, 'caption') ?? ''),
   );
   const keyboard = keyboardTable
     ? tableRows(keyboardTable)
@@ -376,8 +376,7 @@ function extractStaticTokens(nodes) {
   const tables = findNodes(
     nodes,
     (node) =>
-      attributeValue(node, 'role') === 'table' &&
-      /token/i.test(attributeValue(node, 'aria-label') ?? ''),
+      node.name === 'app-reference-table' && /token/i.test(attributeValue(node, 'caption') ?? ''),
   );
   return tables.flatMap((table) => {
     const rows = tableRows(table);
@@ -410,46 +409,46 @@ function extractStaticApiTables(nodes) {
     (node) => node.name === 'aeris-tab-panel' && attributeValue(node, 'value') === 'api',
   );
   if (!panel) return [];
-  return findNodes(
-    panel.children ?? [],
-    (node) => attributeValue(node, 'role') === 'table',
-  ).flatMap((table) => {
-    const rows = tableRows(table);
-    const columns = rows.find((row) => row.role === 'header')?.cells ?? [];
-    const body = rows
-      .filter(
-        (row) =>
-          row.role !== 'header' &&
-          row.cells.length > 0 &&
-          !row.cells.some((cell) => cell.includes('{{')),
-      )
-      .map((row) => row.cells);
-    if (!columns.length || !body.length) return [];
-    return [
-      {
-        caption: attributeValue(table, 'aria-label') ?? 'API reference',
-        columns,
-        rows: body,
-      },
-    ];
-  });
+  return findNodes(panel.children ?? [], (node) => node.name === 'app-reference-table').flatMap(
+    (table) => {
+      const rows = tableRows(table);
+      const columns = rows.find((row) => row.role === 'header')?.cells ?? [];
+      const body = rows
+        .filter(
+          (row) =>
+            row.role !== 'header' &&
+            row.cells.length > 0 &&
+            !row.cells.some((cell) => cell.includes('{{')),
+        )
+        .map((row) => row.cells);
+      if (!columns.length || !body.length) return [];
+      return [
+        {
+          caption: attributeValue(table, 'caption') ?? 'API reference',
+          columns,
+          rows: body,
+        },
+      ];
+    },
+  );
 }
 
 function tableRows(table) {
-  return findNodes(table.children ?? [], (node) => attributeValue(node, 'role') === 'row').map(
-    (row) => {
-      const headerCells = findNodes(
-        row.children ?? [],
-        (node) => attributeValue(node, 'role') === 'columnheader',
-      );
-      const cells = (
-        headerCells.length
-          ? headerCells
-          : findNodes(row.children ?? [], (node) => attributeValue(node, 'role') === 'cell')
-      ).map((cell) => normalizeText(textContent(cell)));
-      return { role: headerCells.length ? 'header' : 'row', cells };
-    },
-  );
+  const headers = findNodes(
+    table.children ?? [],
+    (node) => attributeValue(node, 'appReferenceHeader') !== undefined,
+  ).map((node) => attributeValue(node, 'appReferenceHeader'));
+  const rows = findNodes(
+    table.children ?? [],
+    (node) => attributeValue(node, 'appReferenceRow') !== undefined,
+  ).map((row) => ({
+    role: 'row',
+    cells: findNodes(
+      row.children ?? [],
+      (node) => attributeValue(node, 'appReferenceCell') !== undefined,
+    ).map((cell) => normalizeText(textContent(cell))),
+  }));
+  return [{ role: 'header', cells: headers }, ...rows];
 }
 
 function resolveAttribute(node, name, values) {

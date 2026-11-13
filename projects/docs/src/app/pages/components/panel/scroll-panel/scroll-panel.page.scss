@@ -26,10 +26,6 @@
 
   .horizontal-card {
     flex: 0 0 13rem;
-    padding: 1rem;
-    border: 1px solid var(--border);
-    border-radius: var(--aeris-radius-lg);
-    background: var(--surface);
   }
 
   .horizontal-card strong {
@@ -39,23 +35,7 @@
   }
 
   .city-table {
-    min-width: 42rem;
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  .city-table th,
-  .city-table td {
-    padding: 0.625rem 0.75rem;
-    border-bottom: 1px solid var(--border);
-    text-align: left;
-    white-space: nowrap;
-  }
-
-  .city-table th {
-    color: var(--text);
-    font-size: 0.75rem;
-    text-transform: uppercase;
+    inline-size: 46rem;
   }
 
   .scroll-panel-grid {

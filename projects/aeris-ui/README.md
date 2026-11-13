@@ -22,7 +22,7 @@ other Aeris components do not require or load Shiki.
 Use the Angular initializer for guided or reproducible setup:
 
 ```bash
-ng add @aeris-ui/core@22.0.0-alpha.12
+ng add @aeris-ui/core@22.0.0-alpha.13
 ```
 
 It configures an application project, theme or custom palette seeds, built-in density and corners,
@@ -30,7 +30,7 @@ light/dark support, runtime or build-time theming, mode persistence, initial dir
 and framework detection. Use a schema-backed setup file for repeatable installation:
 
 ```bash
-ng add @aeris-ui/core@22.0.0-alpha.12 --config=aeris.setup.json
+ng add @aeris-ui/core@22.0.0-alpha.13 --config=aeris.setup.json
 ```
 
 ```json
@@ -223,7 +223,7 @@ import { AerisButton } from '@aeris-ui/core/button';
 
 ```html
 <button aerisButton>Save changes</button>
-<button aerisButton variant="secondary" size="sm">Cancel</button>
+<button aerisButton severity="secondary" size="sm">Cancel</button>
 ```
 
 ## License

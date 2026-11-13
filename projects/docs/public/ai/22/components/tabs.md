@@ -2,7 +2,7 @@
 
 > Accessible automatic and manual tab navigation with responsive layouts and custom headers.
 
-Aeris 22.0.0-alpha.12 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.13 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/tabs`
 - Human-readable documentation: [https://aeris-ui.dev/components/tabs](https://aeris-ui.dev/components/tabs)
@@ -223,12 +223,13 @@ A bare aerisTabContent template creates Statistics only the first time it opens.
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
 @Component({
   selector: 'app-tabs-lazy-demo',
-  imports: [AerisChartModule, AerisTabsModule],
+  imports: [AerisCardModule, AerisChartModule, AerisTabsModule],
   templateUrl: './tabs-lazy.demo.html',
   styleUrl: './tabs-lazy.demo.scss'
 })
@@ -280,7 +281,7 @@ export class TabsLazyDemo {
     <aeris-tab-panel value="statistics" label="Statistics">
       <ng-template aerisTabContent>
         <div class="statistics-grid">
-          <section class="statistics-card">
+          <aeris-card class="statistics-card">
             <h4>Weekly traffic</h4>
             <aeris-chart
               type="line"
@@ -290,8 +291,8 @@ export class TabsLazyDemo {
               ariaLabel="Weekly sessions"
               ariaDescription="Sessions rise overall from Monday to Sunday."
             />
-          </section>
-          <section class="statistics-card">
+          </aeris-card>
+          <aeris-card class="statistics-card">
             <h4>Conversions by source</h4>
             <aeris-chart
               type="bar"
@@ -301,7 +302,7 @@ export class TabsLazyDemo {
               ariaLabel="Conversions by traffic source"
               ariaDescription="Search produces the most conversions."
             />
-          </section>
+          </aeris-card>
         </div>
       </ng-template>
     </aeris-tab-panel>
@@ -325,13 +326,6 @@ export class TabsLazyDemo {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
-}
-
-.statistics-card {
-  min-width: 0;
-  padding: 1rem;
-  border-radius: var(--aeris-radius-container);
-  background: var(--aeris-surface-2);
 }
 
 .statistics-card h4 {

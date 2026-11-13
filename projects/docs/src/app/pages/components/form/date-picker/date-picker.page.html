@@ -187,7 +187,7 @@
             <app-form-demo
               id="date-picker-time"
               title="Date and time"
-              description="Enable editable for typed date-time or time-only entry. Type or paste a complete value, adjust segments with arrow keys, and change AM/PM explicitly in 12-hour mode. Minute steps affect arrow keys, not valid typed values."
+              description="Enable editable for typed date-time or time-only entry. The popup has styled time steppers on desktop and compact single-row number wheels on touch devices. Drag vertically to adjust the time, or tap AM/PM to toggle the period. Minute steps affect steppers and wheels, not valid typed values."
               [tsCode]="timeCode"
             >
               <div preview class="field-grid">
@@ -622,52 +622,67 @@
         <div class="doc-content-layout">
           <div class="doc-content-main">
             <h3 id="date-picker-api-inputs" tabindex="-1">Inputs</h3>
-            <div class="api-table" role="table" aria-label="DatePicker inputs" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="DatePicker inputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of inputs; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
 
             <h3 id="date-picker-api-outputs" tabindex="-1">Outputs</h3>
-            <div class="api-table" role="table" aria-label="DatePicker outputs" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Payload</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="DatePicker outputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Payload" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of outputs; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
 
             <h3 id="date-picker-api-methods" tabindex="-1">Methods</h3>
-            <div class="api-table" role="table" aria-label="DatePicker methods" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Returns</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="DatePicker methods">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Returns" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of methods; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
           </div>
           <app-page-toc title="API" ariaLabel="DatePicker API on this page" [links]="apiLinks" />
         </div>
@@ -684,75 +699,85 @@
     <aeris-tab-panel value="tokens" label="Tokens">
       <section class="doc-section">
         <h2>Design tokens</h2>
-        <div
-          class="api-table compact"
-          role="table"
-          aria-label="DatePicker design tokens"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
-            ><b role="columnheader">Fallback</b>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-date-picker-background</code
-            ><span role="cell">Trigger surface.</span><code role="cell">--aeris-surface</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-date-picker-border</code
-            ><span role="cell">Trigger border.</span><code role="cell">--aeris-border</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-date-picker-filled-background</code
-            ><span role="cell">Filled trigger surface.</span
-            ><code role="cell">--aeris-surface-2</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-date-picker-panel-background</code
-            ><span role="cell">Calendar panel surface.</span
-            ><code role="cell">--aeris-surface</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-date-picker-panel-border</code
-            ><span role="cell">Calendar panel border.</span><code role="cell">--aeris-border</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-date-picker-panel-radius</code
-            ><span role="cell">Calendar panel corner radius.</span
-            ><code role="cell">--aeris-radius-overlay</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-date-picker-panel-shadow</code
-            ><span role="cell">Popup elevation.</span><code role="cell">Aeris overlay shadow</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-date-picker-hover</code
-            ><span role="cell">Interactive hover and range tint.</span
-            ><code role="cell">--aeris-primary at 12%</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-date-picker-selected-background</code
-            ><span role="cell">Selected date surface.</span><code role="cell">--aeris-primary</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-date-picker-selected-text</code
-            ><span role="cell">Selected date text.</span><code role="cell">--aeris-on-primary</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-date-picker-selected-hover-background</code
-            ><span role="cell">Selected date hover and focus surface.</span
-            ><code role="cell">--aeris-primary-hover</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-date-picker-selected-hover-text</code
-            ><span role="cell">Selected date hover and focus text.</span
-            ><code role="cell">--aeris-on-primary-hover</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-date-picker-focus</code
-            ><span role="cell">Trigger focus border.</span><code role="cell">--aeris-focus</code>
-          </div>
-        </div>
+        <app-reference-table class="api-table compact" caption="DatePicker design tokens">
+          <ng-template appReferenceHeader="Token" />
+          <ng-template appReferenceHeader="Purpose" />
+          <ng-template appReferenceHeader="Fallback" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-date-picker-background</code></ng-template
+            ><ng-template appReferenceCell><span>Trigger surface.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-surface</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-date-picker-border</code></ng-template
+            ><ng-template appReferenceCell><span>Trigger border.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-border</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-date-picker-filled-background</code></ng-template
+            ><ng-template appReferenceCell><span>Filled trigger surface.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-surface-2</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-date-picker-panel-background</code></ng-template
+            ><ng-template appReferenceCell><span>Calendar panel surface.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-surface</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-date-picker-panel-border</code></ng-template
+            ><ng-template appReferenceCell><span>Calendar panel border.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-border</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-date-picker-panel-radius</code></ng-template
+            ><ng-template appReferenceCell><span>Calendar panel corner radius.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-radius-overlay</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-date-picker-panel-shadow</code></ng-template
+            ><ng-template appReferenceCell><span>Popup elevation.</span></ng-template
+            ><ng-template appReferenceCell><code>Aeris overlay shadow</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-date-picker-hover</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Interactive hover and range tint.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-primary at 12%</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-date-picker-selected-background</code></ng-template
+            ><ng-template appReferenceCell><span>Selected date surface.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-primary</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-date-picker-selected-text</code></ng-template
+            ><ng-template appReferenceCell><span>Selected date text.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-on-primary</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-date-picker-selected-hover-background</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Selected date hover and focus surface.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-primary-hover</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-date-picker-selected-hover-text</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Selected date hover and focus text.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-on-primary-hover</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-date-picker-focus</code></ng-template
+            ><ng-template appReferenceCell><span>Trigger focus border.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-focus</code></ng-template>
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
 
@@ -774,8 +799,12 @@
             only its day number.
           </li>
           <li>
-            Date-time mode keeps the calendar semantics and adds labelled native time fields.
-            Time-only mode removes the calendar grid and focuses the hour field when opened.
+            Date-time mode keeps the calendar semantics and adds labelled time controls. Desktop
+            users can type values or use the stepper buttons; touch devices show draggable number
+            single-row wheels with spinbutton semantics. Time-only mode focuses the hour control
+            when opened. Tap or click the period button to toggle AM/PM. Wheel gestures commit on
+            release and cancelled gestures keep the previous value. Reduced motion disables the snap
+            transition.
           </li>
           <li>
             Visible labels should use <code>inputId</code>. Otherwise provide
@@ -803,127 +832,191 @@
           daylight-saving change are rejected; ambiguous clocks use the earlier occurrence. Hidden
           seconds are retained.
         </p>
-        <div
-          class="api-table keyboard-table"
-          role="table"
-          aria-label="DatePicker keyboard support"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Key</b><b role="columnheader">Function</b>
-          </div>
-          <div role="row">
-            <span role="cell">Arrow Up / Down in editable segments</span>
-            <span role="cell"
-              >Adjusts the focused part without carrying into another segment. Minute and second
-              steps follow their inputs. On AM/PM, toggles the period.</span
+        <app-reference-table class="api-table keyboard-table" caption="DatePicker keyboard support">
+          <ng-template appReferenceHeader="Key" />
+          <ng-template appReferenceHeader="Function" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span>Arrow Up / Down in editable segments</span></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell">Arrow Left / Right in editable segments</span>
-            <span role="cell">Moves between segments in visual order, including RTL.</span>
-          </div>
-          <div role="row">
-            <span role="cell">Home / End in editable segments</span>
-            <span role="cell"
-              >Sets the focused part to its minimum or maximum; AM or PM for the period.</span
+            <ng-template appReferenceCell
+              ><span
+                >Adjusts the focused part without carrying into another segment. Minute and second
+                steps follow their inputs. On AM/PM, toggles the period.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell">Delete / Backspace in editable segments</span>
-            <span role="cell"
-              >Clears the focused part. Incomplete input remains invalid until completed or fully
-              cleared.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span>Arrow Left / Right in editable segments</span></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell">A / P or a localized period label</span>
-            <span role="cell"
-              >Sets AM/PM when its segment is focused. Other numeric segments are unaffected.</span
+            <ng-template appReferenceCell
+              ><span>Moves between segments in visual order, including RTL.</span></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell">Alt + Arrow Down in editable segments</span>
-            <span role="cell"
-              >Opens the calendar or time popup. Escape returns focus to the invoking segment or
-              button.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><span>Home / End in editable segments</span></ng-template>
+            <ng-template appReferenceCell
+              ><span
+                >Sets the focused part to its minimum or maximum; AM or PM for the period.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <kbd role="cell">Enter</kbd
-            ><span role="cell">Opens the popup trigger or selects the focused date.</span>
-          </div>
-          <div role="row">
-            <kbd role="cell">Space</kbd
-            ><span role="cell">Opens the popup trigger or selects the focused date.</span>
-          </div>
-          <div role="row">
-            <kbd role="cell">Arrow Down</kbd
-            ><span role="cell"
-              >Opens the popup from its trigger, or moves focus one week forward in the day
-              grid.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span>Delete / Backspace in editable segments</span></ng-template
             >
-          </div>
-          <div role="row">
-            <kbd role="cell">Arrow Up</kbd><span role="cell">Moves focus one week backward.</span>
-          </div>
-          <div role="row">
-            <kbd role="cell">Arrow Left</kbd><span role="cell">Moves focus one day backward.</span>
-          </div>
-          <div role="row">
-            <kbd role="cell">Arrow Right</kbd><span role="cell">Moves focus one day forward.</span>
-          </div>
-          <div role="row">
-            <kbd role="cell">Home</kbd
-            ><span role="cell">Moves focus to the first day of the current week.</span>
-          </div>
-          <div role="row">
-            <kbd role="cell">End</kbd
-            ><span role="cell">Moves focus to the last day of the current week.</span>
-          </div>
-          <div role="row">
-            <kbd role="cell">Page Up</kbd
-            ><span role="cell">Moves focus to the previous month.</span>
-          </div>
-          <div role="row">
-            <kbd role="cell">Page Down</kbd><span role="cell">Moves focus to the next month.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Shift</kbd> + <kbd>Page Up</kbd></span
-            ><span role="cell">Moves focus to the previous year.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Shift</kbd> + <kbd>Page Down</kbd></span
-            ><span role="cell">Moves focus to the next year.</span>
-          </div>
-          <div role="row">
-            <span role="cell">Arrow keys in month or year view</span
-            ><span role="cell"
-              >Moves through the month or year options using the visual grid direction.</span
+            <ng-template appReferenceCell
+              ><span
+                >Clears the focused part. Incomplete input remains invalid until completed or fully
+                cleared.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Home</kbd> / <kbd>End</kbd> in month or year view</span
-            ><span role="cell">Moves to the first or last option in the visible period.</span>
-          </div>
-          <div role="row">
-            <span role="cell">Native input keys in time fields</span
-            ><span role="cell"
-              >Edit hours, minutes, seconds, or AM/PM using browser-native number and select
-              behavior.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span>A / P or a localized period label</span></ng-template
             >
-          </div>
-          <div role="row">
-            <kbd role="cell">Escape</kbd
-            ><span role="cell">Closes a popup calendar and restores focus to its trigger.</span>
-          </div>
-          <div role="row">
-            <kbd role="cell">Tab</kbd
-            ><span role="cell"
-              >Moves through the popup controls. The popup closes after focus leaves it.</span
+            <ng-template appReferenceCell
+              ><span
+                >Sets AM/PM when its segment is focused. Other numeric segments are
+                unaffected.</span
+              ></ng-template
             >
-          </div>
-        </div>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span>Alt + Arrow Down in editable segments</span></ng-template
+            >
+            <ng-template appReferenceCell
+              ><span
+                >Opens the calendar or time popup. Escape returns focus to the invoking segment or
+                button.</span
+              ></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Enter</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span>Opens the popup trigger or selects the focused date.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Space</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span>Opens the popup trigger or selects the focused date.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Arrow Down</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Opens the popup from its trigger, or moves focus one week forward in the day
+                grid.</span
+              ></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Arrow Up</kbd></ng-template
+            ><ng-template appReferenceCell><span>Moves focus one week backward.</span></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Arrow Left</kbd></ng-template
+            ><ng-template appReferenceCell><span>Moves focus one day backward.</span></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Arrow Right</kbd></ng-template
+            ><ng-template appReferenceCell><span>Moves focus one day forward.</span></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Home</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span>Moves focus to the first day of the current week.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>End</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span>Moves focus to the last day of the current week.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Page Up</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span>Moves focus to the previous month.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Page Down</kbd></ng-template
+            ><ng-template appReferenceCell><span>Moves focus to the next month.</span></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Shift</kbd> + <kbd>Page Up</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Moves focus to the previous year.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Shift</kbd> + <kbd>Page Down</kbd></span></ng-template
+            ><ng-template appReferenceCell><span>Moves focus to the next year.</span></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><span>Arrow keys in month or year view</span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves through the month or year options using the visual grid direction.</span
+              ></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Home</kbd> / <kbd>End</kbd> in month or year view</span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Moves to the first or last option in the visible period.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span>Arrow Up / Down in popup time controls</span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Increase or decrease by the configured step, wrapping at the range boundary.</span
+              ></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span>Home / End in popup time controls</span></ng-template
+            >
+            <ng-template appReferenceCell
+              ><span>Select the minimum or maximum value for that control.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span>Enter / Space on the period button</span></ng-template
+            >
+            <ng-template appReferenceCell
+              ><span>Toggle between AM and PM without closing the popup.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Escape</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span>Closes a popup calendar and restores focus to its trigger.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Tab</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves through the popup controls. The popup closes after focus leaves it.</span
+              ></ng-template
+            >
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
   </aeris-tabs>

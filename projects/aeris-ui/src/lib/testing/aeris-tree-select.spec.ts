@@ -43,6 +43,55 @@ class TreeSelectHost {
 }
 
 describe('AerisTreeSelect', () => {
+  it('uses unique node IDs for punctuation, Unicode and emoji values', async () => {
+    const fixture = TestBed.createComponent(AerisTreeSelectComponent);
+    const choices = ['red blue', 'red/blue', '東京', '北京', '😀', '😁'].map((value) => ({
+      label: value,
+      value,
+    }));
+    fixture.componentRef.setInput('nodes', choices);
+    fixture.componentRef.setInput('filter', true);
+    await fixture.whenStable();
+    fixture.componentInstance.openPanel();
+    await fixture.whenStable();
+    const trigger = fixture.nativeElement.querySelector('[role="combobox"]') as HTMLElement;
+    const tree = fixture.nativeElement.querySelector('[role="tree"]') as HTMLElement;
+    const ids = [...tree.querySelectorAll<HTMLElement>('[role="treeitem"]')].map((node) => node.id);
+    expect(new Set(ids).size).toBe(choices.length);
+    for (const choice of choices) {
+      expect(
+        document.getElementById(trigger.getAttribute('aria-activedescendant') ?? '')?.textContent,
+      ).toContain(choice.label);
+      tree.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
+      fixture.detectChanges();
+    }
+    const filter = fixture.nativeElement.querySelector('input[type="search"]') as HTMLInputElement;
+    filter.value = '北京';
+    filter.dispatchEvent(new Event('input', { bubbles: true }));
+    fixture.detectChanges();
+    const remaining = tree.querySelector<HTMLElement>('[role="treeitem"]');
+    expect(remaining?.id).toBe(ids[3]);
+    expect(trigger.getAttribute('aria-activedescendant')).toBe(ids[3]);
+    expect(filter.getAttribute('aria-activedescendant')).toBe(ids[3]);
+  });
+  it('allows spaces in search but retains Space selection on the tree', async () => {
+    const fixture = TestBed.createComponent(AerisTreeSelectComponent);
+    fixture.componentRef.setInput('nodes', [{ label: 'New York', value: 'ny' }]);
+    fixture.componentRef.setInput('filter', true);
+    await fixture.whenStable();
+    fixture.componentInstance.openPanel();
+    await fixture.whenStable();
+    const filter = fixture.nativeElement.querySelector('input[type="search"]') as HTMLInputElement;
+    const space = new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true });
+    filter.dispatchEvent(space);
+    expect(space.defaultPrevented).toBe(false);
+    expect(fixture.componentInstance.value()).toBeNull();
+    const tree = fixture.nativeElement.querySelector('[role="tree"]') as HTMLElement;
+    const select = new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true });
+    tree.dispatchEvent(select);
+    expect(select.defaultPrevented).toBe(true);
+    expect(fixture.componentInstance.value()).toBe('ny');
+  });
   it('exposes combobox and native form semantics', async () => {
     const fixture = TestBed.createComponent(TreeSelectHost);
     await fixture.whenStable();

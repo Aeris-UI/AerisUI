@@ -1,8 +1,11 @@
 import { Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AerisCardModule } from '@aeris-ui/core/card';
+import { AerisMessage } from '@aeris-ui/core/message';
+import { AerisBreadcrumbModule, type AerisBreadcrumbItem } from '@aeris-ui/core/breadcrumb';
 
 import { CodeBlockComponent } from '../../shared/code-block.component';
+import { ReferenceTableImports } from '../../shared/documentation/reference-table.component';
 import {
   PageTocComponent,
   type PageTocLink,
@@ -12,7 +15,15 @@ import type { GuideId } from './guide-navigation';
 
 @Component({
   selector: 'app-guide-page',
-  imports: [RouterLink, AerisCardModule, CodeBlockComponent, PageTocComponent],
+  imports: [
+    ReferenceTableImports,
+    RouterLink,
+    AerisCardModule,
+    AerisMessage,
+    AerisBreadcrumbModule,
+    CodeBlockComponent,
+    PageTocComponent,
+  ],
   templateUrl: './guide.page.html',
   styleUrl: './guide.page.scss',
 })
@@ -22,6 +33,10 @@ export class GuidePage {
   protected readonly article = computed(
     () => GUIDE_ARTICLE_BY_ID.get(this.guideId()) ?? GUIDE_ARTICLES[0],
   );
+  protected readonly breadcrumbItems = computed<readonly AerisBreadcrumbItem[]>(() => [
+    { label: 'Guides' },
+    { label: this.article().title },
+  ]);
   protected readonly sections = computed(() => {
     const sections = this.article().sections;
     return [

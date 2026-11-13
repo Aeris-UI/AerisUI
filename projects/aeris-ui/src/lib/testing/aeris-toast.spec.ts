@@ -1,4 +1,10 @@
-import { Component, inject, viewChild } from '@angular/core';
+import {
+  Component,
+  EnvironmentInjector,
+  createEnvironmentInjector,
+  inject,
+  viewChild,
+} from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import {
@@ -83,6 +89,85 @@ describe('AerisToast', () => {
     service.clearAll();
     vi.runOnlyPendingTimers();
     vi.useRealTimers();
+  });
+
+  it('keeps the last occurrence of each batch ID, in last-occurrence order, with one timer', () => {
+    const closed = vi.fn();
+    service.closed.subscribe(closed);
+    service.show({ id: 'kept', detail: 'Keep', sticky: true });
+    service.show({ id: 'same', detail: 'Old', life: 5 });
+    const resolved = service.showAll([
+      { id: 'same', detail: 'First', life: 10 },
+      { id: 'other', detail: 'Other', sticky: true },
+      { id: 'same', detail: 'Last', life: 50 },
+    ]);
+    expect(resolved.map((message) => message.id)).toEqual(['other', 'same']);
+    expect(service.messages().map((message) => message.detail)).toEqual(['Keep', 'Other', 'Last']);
+    vi.advanceTimersByTime(10);
+    expect(closed).not.toHaveBeenCalled();
+    expect(service.messages().at(-1)?.detail).toBe('Last');
+    vi.advanceTimersByTime(40);
+    expect(closed).toHaveBeenCalledOnce();
+    expect(closed.mock.calls[0]?.[0]).toMatchObject({
+      message: { id: 'same', detail: 'Last' },
+      reason: 'timeout',
+    });
+    expect(service.messages().map((message) => message.id)).toEqual(['kept', 'other']);
+  });
+
+  it('renders one toast when a batch replaces an ID across groups and makes it sticky', () => {
+    const fixture = TestBed.createComponent(ToastHost);
+    fixture.detectChanges();
+    service.show({ id: 'same', group: 'old', detail: 'Old', life: 5 });
+    service.showAll([
+      { id: 'same', group: 'other', detail: 'Earlier duplicate', life: 10 },
+      { id: 'same', group: 'workspace', detail: 'Final toast', sticky: true },
+    ]);
+    fixture.detectChanges();
+    expect(service.messages()).toHaveLength(1);
+    expect(fixture.nativeElement.querySelectorAll('.aeris-toast__item')).toHaveLength(1);
+    expect(fixture.nativeElement.textContent).toContain('Final toast');
+    expect(fixture.nativeElement.textContent).not.toContain('Earlier duplicate');
+    vi.advanceTimersByTime(100);
+    fixture.detectChanges();
+    expect(service.messages()).toHaveLength(1);
+  });
+
+  it('clears active and paused timers and subscriptions when its injector is destroyed', () => {
+    const scope = createEnvironmentInjector(
+      [AerisToastService],
+      TestBed.inject(EnvironmentInjector),
+    );
+    const scoped = scope.get(AerisToastService);
+    const closed = vi.fn();
+    scoped.closed.subscribe(closed);
+    scoped.show({ id: 'active', detail: 'Active', life: 1000 });
+    scoped.show({ id: 'paused', detail: 'Paused', life: 1000 });
+    scoped.pause('paused');
+    scope.destroy();
+    expect(scoped.messages()).toEqual([]);
+    scoped.resume('paused');
+    scoped.show({ detail: 'Late request', life: 1000 });
+    scoped.showAll([{ detail: 'Late batch', life: 1000 }]);
+    scoped.closed.subscribe(closed).unsubscribe();
+    vi.advanceTimersByTime(2000);
+    expect(scoped.messages()).toEqual([]);
+    expect(closed).not.toHaveBeenCalled();
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it('stops notifying subscribers if an earlier callback destroys the injector', () => {
+    const scope = createEnvironmentInjector(
+      [AerisToastService],
+      TestBed.inject(EnvironmentInjector),
+    );
+    const scoped = scope.get(AerisToastService);
+    const afterDestroy = vi.fn();
+    scoped.closed.subscribe(() => scope.destroy());
+    scoped.closed.subscribe(afterDestroy);
+    scoped.show({ id: 'one', detail: 'One', sticky: true });
+    scoped.remove('one');
+    expect(afterDestroy).not.toHaveBeenCalled();
   });
 
   it('renders grouped toast messages with accessible live-region semantics', () => {

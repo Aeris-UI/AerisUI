@@ -52,14 +52,6 @@
   font-weight: 650;
 }
 
-.release-card {
-  padding: 0.875rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-md);
-  background: var(--aeris-surface);
-  text-align: start;
-}
-
 .release-card h3 {
   margin: 0.3rem 0 0;
   font-size: 0.875rem;
@@ -77,13 +69,6 @@
   margin-top: 0.65rem;
   color: var(--aeris-text-muted);
   font-size: 0.6875rem;
-}
-
-.release-card__state {
-  color: var(--aeris-primary-text);
-  font-size: 0.6875rem;
-  font-weight: 700;
-  text-transform: uppercase;
 }
 
 @media (max-width: 68rem) {

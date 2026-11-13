@@ -1,8 +1,11 @@
+import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { Component } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisScrollPanelModule, type AerisScrollPanelEvent } from '@aeris-ui/core/scroll-panel';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
+import { ReferenceTableImports } from '../../../../shared/documentation/reference-table.component';
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
 import {
@@ -24,7 +27,7 @@ interface BrandItem {
   readonly count: number;
 }
 
-interface CityRow {
+interface CityRow extends AerisTableData {
   readonly city: string;
   readonly state: string;
   readonly population: string;
@@ -34,6 +37,9 @@ interface CityRow {
 @Component({
   selector: 'app-scroll-panel-page',
   imports: [
+    AerisTableModule,
+    AerisCardModule,
+    ReferenceTableImports,
     AerisButton,
     AerisScrollPanelModule,
     AerisTabsModule,
@@ -47,6 +53,12 @@ interface CityRow {
   styleUrl: './scroll-panel.page.scss',
 })
 export class ScrollPanelPage {
+  protected readonly cityColumns: readonly AerisTableColumn[] = [
+    { field: 'city', header: 'City' },
+    { field: 'state', header: 'State' },
+    { field: 'population', header: 'Population' },
+    { field: 'area', header: 'Area km²' },
+  ];
   protected bottomReached = false;
   protected lastScrollPosition = '0px';
 
@@ -132,10 +144,6 @@ export class ScrollPanelPage {
 
 .horizontal-card {
   flex: 0 0 13rem;
-  padding: 1rem;
-  border: 1px solid var(--border);
-  border-radius: var(--aeris-radius-lg);
-  background: var(--surface);
 }
 
 .horizontal-card strong {
@@ -145,24 +153,10 @@ export class ScrollPanelPage {
 }`;
 
   protected readonly tableCssCode = `.city-table {
-  min-width: 42rem;
-  width: 100%;
-  border-collapse: collapse;
+  inline-size: 46rem;
 }
 
-.city-table th,
-.city-table td {
-  padding: 0.625rem 0.75rem;
-  border-bottom: 1px solid var(--border);
-  text-align: left;
-  white-space: nowrap;
-}
-
-.city-table th {
-  color: var(--text);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-}`;
+`;
 
   protected readonly variantCssCode = `.scroll-panel-grid {
   display: grid;

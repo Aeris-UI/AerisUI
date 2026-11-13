@@ -54,7 +54,12 @@ let sliderId = 0;
       [style.--aeris-slider-upper]="upperPercentage() + '%'"
     >
       @if (name()) {
-        <input type="hidden" [name]="name()" [value]="serializedValue()" />
+        <input
+          type="hidden"
+          [name]="name()"
+          [value]="serializedValue()"
+          [disabled]="effectiveDisabled()"
+        />
       }
 
       @if (showValue()) {

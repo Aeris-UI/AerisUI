@@ -19,6 +19,7 @@ import { AerisInputGroup } from '@aeris-ui/core/input-group';
 import { AerisInputNumber } from '@aeris-ui/core/input-number';
 import { AerisInputOtp } from '@aeris-ui/core/input-otp';
 import { AerisInputText } from '@aeris-ui/core/input-text';
+import { AerisListbox, type AerisListboxValue } from '@aeris-ui/core/listbox';
 import { AerisMessageModule } from '@aeris-ui/core/message';
 import { AerisMeterGroupModule, type AerisMeterGroupItem } from '@aeris-ui/core/meter-group';
 import { AerisProgressBarModule } from '@aeris-ui/core/progress-bar';
@@ -152,6 +153,7 @@ const SHOWCASE_ICONS = {
     AerisInputNumber,
     AerisInputOtp,
     AerisInputText,
+    AerisListbox,
     AerisMessageModule,
     AerisMeterGroupModule,
     AerisProgressBarModule,
@@ -290,6 +292,15 @@ export class AerisShowcaseContentComponent {
   });
   protected readonly mailFolderLabel = computed(
     () => this.mailFolder()[0].toUpperCase() + this.mailFolder().slice(1),
+  );
+  protected readonly mailOptions = computed(() =>
+    this.visibleMails().map((mail) => ({
+      value: mail.id,
+      label: `${mail.sender}: ${mail.subject}`,
+    })),
+  );
+  protected readonly mailById = computed<Readonly<Record<string, MailItem>>>(() =>
+    Object.fromEntries(this.visibleMails().map((mail) => [mail.id, mail])),
   );
   protected readonly crmFeedback = signal('');
   protected readonly scheduledFollowUps = signal<readonly string[]>([]);
@@ -898,34 +909,8 @@ export class AerisShowcaseContentComponent {
     this.mailMobileView.set('reader');
   }
 
-  protected handleMailKeydown(event: KeyboardEvent, mailId: string): void {
-    const mails = this.visibleMails();
-    const index = mails.findIndex((mail) => mail.id === mailId);
-    let next: number;
-    switch (event.key) {
-      case 'ArrowDown':
-        next = Math.min(index + 1, mails.length - 1);
-        break;
-      case 'ArrowUp':
-        next = Math.max(index - 1, 0);
-        break;
-      case 'Home':
-        next = 0;
-        break;
-      case 'End':
-        next = mails.length - 1;
-        break;
-      default:
-        return;
-    }
-    event.preventDefault();
-    const mail = mails[next];
-    if (!mail) return;
-    this.selectedMailId.set(mail.id);
-    (event.currentTarget as HTMLElement).parentElement
-      ?.querySelectorAll<HTMLButtonElement>('[role="option"]')
-      .item(next)
-      .focus();
+  protected selectMailOption(value: AerisListboxValue): void {
+    if (typeof value === 'string') this.selectMail(value);
   }
 
   protected openComposer(): void {

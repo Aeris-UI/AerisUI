@@ -3,6 +3,34 @@ import AxeBuilder from '@axe-core/playwright';
 
 test.use({ baseURL: 'http://127.0.0.1:4301' });
 
+test('composed card, avatar and table examples use Aeris components and contain mobile layouts', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  for (const [route, id, selector] of [
+    ['skeleton', 'skeleton-card', 'aeris-card'],
+    ['skeleton', 'skeleton-grid', 'aeris-card'],
+    ['skeleton', 'skeleton-table', 'aeris-table'],
+    ['scroll-panel', 'scroll-panel-horizontal', 'aeris-card'],
+    ['scroll-panel', 'scroll-panel-both', 'aeris-table'],
+    ['carousel', 'carousel-basic', 'aeris-card'],
+    ['organization-chart', 'organization-chart-template', 'aeris-avatar'],
+  ]) {
+    await page.goto(`/components/${route}`);
+    const example = page.locator(`#${id} .preview`);
+    await example.scrollIntoViewIfNeeded();
+    await expect(example.locator(selector).first()).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+      391,
+    );
+    const accessibility = await new AxeBuilder({ page })
+      .include(`#${id} .preview`)
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
+      .analyze();
+    expect(accessibility.violations, JSON.stringify(accessibility.violations, null, 2)).toEqual([]);
+  }
+});
+
 test('custom icon examples retain their own sizing above the shared defaults', async ({ page }) => {
   await page.goto('/components/rating');
   const icon = page.locator('.preview .rating-template-icon').first();

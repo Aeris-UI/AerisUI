@@ -690,92 +690,117 @@
           <div class="doc-content-main">
             <section id="chip-api-models" class="api-section">
               <h3>Models</h3>
-              <div class="api-table" role="table" aria-label="Chip models" tabindex="0">
-                <div class="api-head" role="row">
-                  <b role="columnheader">Name</b><b role="columnheader">Type</b
-                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-                </div>
+              <app-reference-table class="api-table" caption="Chip models">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of models; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
 
             <section id="chip-api-inputs" class="api-section">
               <h3>Inputs</h3>
-              <div class="api-table" role="table" aria-label="Chip inputs" tabindex="0">
-                <div class="api-head" role="row">
-                  <b role="columnheader">Name</b><b role="columnheader">Type</b
-                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-                </div>
+              <app-reference-table class="api-table" caption="Chip inputs">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of inputs; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
 
             <section id="chip-api-outputs" class="api-section">
               <h3>Outputs</h3>
-              <div class="api-table" role="table" aria-label="Chip outputs" tabindex="0">
-                <div class="api-head" role="row">
-                  <b role="columnheader">Name</b><b role="columnheader">Type</b
-                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-                </div>
+              <app-reference-table class="api-table" caption="Chip outputs">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of outputs; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
 
             <section id="chip-api-content" class="api-section">
               <h3>Content and templates</h3>
-              <div class="api-table" role="table" aria-label="Chip content" tabindex="0">
-                <div class="api-head" role="row">
-                  <b role="columnheader">Name</b><b role="columnheader">Type</b
-                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-                </div>
+              <app-reference-table class="api-table" caption="Chip content">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of content; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
 
             <section id="chip-api-methods" class="api-section">
               <h3>Methods</h3>
-              <div class="api-table" role="table" aria-label="Chip methods" tabindex="0">
-                <div class="api-head" role="row">
-                  <b role="columnheader">Name</b><b role="columnheader">Type</b
-                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-                </div>
+              <app-reference-table class="api-table" caption="Chip methods">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of methods; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
             <section id="chip-group-api" class="api-section">
               <h3>Optional ChipGroup</h3>
@@ -783,20 +808,25 @@
                 AerisChipModule includes ChipGroup alongside Chip and its helpers. No additional
                 Aeris import, item templates or free-form text-entry API are needed.
               </p>
-              <div class="api-table" role="table" aria-label="ChipGroup API" tabindex="0">
-                <div class="api-head" role="row">
-                  <b role="columnheader">Name</b><b role="columnheader">Type</b
-                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-                </div>
+              <app-reference-table class="api-table" caption="ChipGroup API">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of groupApi; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
           </div>
 
@@ -820,24 +850,22 @@
     <aeris-tab-panel value="tokens" label="Tokens">
       <section class="doc-section">
         <h2>Design tokens</h2>
-        <div
-          class="api-table token-table"
-          role="table"
-          aria-label="Chip design tokens"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
-            ><b role="columnheader">Fallback</b>
-          </div>
+        <app-reference-table class="api-table token-table" caption="Chip design tokens">
+          <ng-template appReferenceHeader="Token" />
+          <ng-template appReferenceHeader="Purpose" />
+          <ng-template appReferenceHeader="Fallback" />
           @for (token of tokens; track token.name) {
-            <div role="row">
-              <code role="cell">{{ token.name }}</code
-              ><span role="cell">{{ token.purpose }}</span
-              ><code role="cell">{{ token.fallback }}</code>
-            </div>
+            <ng-container appReferenceRow>
+              <ng-template appReferenceCell
+                ><code>{{ token.name }}</code></ng-template
+              ><ng-template appReferenceCell
+                ><span>{{ token.purpose }}</span></ng-template
+              ><ng-template appReferenceCell
+                ><code>{{ token.fallback }}</code></ng-template
+              >
+            </ng-container>
           }
-        </div>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
 
@@ -906,78 +934,84 @@
           classic forms bind the selection value, not the collection; native form serialization is
           application-owned.
         </p>
-        <div
-          class="api-table keyboard-table"
-          role="table"
-          aria-label="ChipGroup keyboard support"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
-          </div>
-          <div role="row">
-            <span role="cell">Tab / Shift + Tab</span
-            ><span role="cell"
-              >One entry stop for the enabled collection; then leave it. Empty/static-only groups
-              focus their entry target.</span
+        <app-reference-table class="api-table keyboard-table" caption="ChipGroup keyboard support">
+          <ng-template appReferenceHeader="Key" />
+          <ng-template appReferenceHeader="Behavior" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><span>Tab / Shift + Tab</span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >One entry stop for the enabled collection; then leave it. Empty/static-only groups
+                focus their entry target.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell">Left / Right</span
-            ><span role="cell"
-              >Previous/next enabled member in horizontal mode; reversed in RTL. Wraps across rows
-              in item order.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><span>Left / Right</span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Previous/next enabled member in horizontal mode; reversed in RTL. Wraps across rows
+                in item order.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell">Up / Down</span
-            ><span role="cell">Previous/next enabled member in vertical mode.</span>
-          </div>
-          <div role="row">
-            <span role="cell">Home / End</span><span role="cell">First/last enabled member.</span>
-          </div>
-          <div role="row">
-            <span role="cell">Enter / Space</span
-            ><span role="cell"
-              >Toggle the focused choice, or remove the focused member in no-selection mode.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><span>Up / Down</span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Previous/next enabled member in vertical mode.</span></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell">Delete / Backspace</span
-            ><span role="cell"
-              >Request removal of the focused removable member. Cancellation preserves focus and
-              state.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><span>Home / End</span></ng-template
+            ><ng-template appReferenceCell><span>First/last enabled member.</span></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><span>Enter / Space</span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Toggle the focused choice, or remove the focused member in no-selection mode.</span
+              ></ng-template
             >
-          </div>
-        </div>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><span>Delete / Backspace</span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Request removal of the focused removable member. Cancellation preserves focus and
+                state.</span
+              ></ng-template
+            >
+          </ng-container>
+        </app-reference-table>
         <h3>Standalone Chip keyboard support</h3>
-        <div
-          class="api-table keyboard-table"
-          role="table"
-          aria-label="Chip keyboard support"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
-          </div>
-          <div role="row">
-            <span role="cell">Tab / Shift + Tab</span
-            ><span role="cell"
-              >Moves focus to or away from the native remove button. Static chips are skipped.</span
+        <app-reference-table class="api-table keyboard-table" caption="Chip keyboard support">
+          <ng-template appReferenceHeader="Key" />
+          <ng-template appReferenceHeader="Behavior" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><span>Tab / Shift + Tab</span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves focus to or away from the native remove button. Static chips are
+                skipped.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell">Enter / Space</span
-            ><span role="cell">Activates the focused native remove button.</span>
-          </div>
-          <div role="row">
-            <span role="cell">Delete / Backspace</span
-            ><span role="cell"
-              >Requests removal while its remove button is focused. Cancellation and autoHide apply
-              to keyboard removal too.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><span>Enter / Space</span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Activates the focused native remove button.</span></ng-template
             >
-          </div>
-        </div>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><span>Delete / Backspace</span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Requests removal while its remove button is focused. Cancellation and autoHide
+                apply to keyboard removal too.</span
+              ></ng-template
+            >
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
   </aeris-tabs>

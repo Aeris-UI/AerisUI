@@ -14,10 +14,6 @@
   margin-top: 1.25rem;
 }
 
-.rendering-table > [role='row'] {
-  grid-template-columns: minmax(12rem, 1.45fr) repeat(2, minmax(7rem, 0.72fr)) minmax(14rem, 1.5fr);
-}
-
 .rendering-table code {
   overflow-wrap: anywhere;
 }
@@ -106,22 +102,11 @@
   gap: 1rem;
 }
 
-.statistics-card {
-  min-width: 0;
-  padding: 1rem;
-  border-radius: var(--aeris-radius-container);
-  background: var(--aeris-surface-2);
-}
-
 .statistics-card h4 {
   margin: 0 0 0.75rem;
 }
 
 @media (max-width: 44rem) {
-  .rendering-table {
-    min-width: 46rem;
-  }
-
   .statistics-grid {
     grid-template-columns: 1fr;
   }

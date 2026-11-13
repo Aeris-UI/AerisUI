@@ -3,6 +3,7 @@ import {
   ApplicationRef,
   Component,
   ComponentRef,
+  DestroyRef,
   Directive,
   ElementRef,
   EmbeddedViewRef,
@@ -292,12 +293,30 @@ export class AerisConfirmPopupService {
   private readonly environmentInjector = inject(EnvironmentInjector);
   private readonly requestState = signal<AerisConfirmPopupRequest | null>(null);
   private readonly closeState = signal(0);
-  private readonly activeRefs = new Set<AerisConfirmPopupRef>();
+  private readonly activeRefs = new Map<AerisConfirmPopupRef, () => void>();
   private readonly dynamicHosts = new Map<AerisConfirmPopupRef, ComponentRef<AerisConfirmPopup>>();
   private nextId = 0;
 
   readonly request = this.requestState.asReadonly();
   readonly closeSignal = this.closeState.asReadonly();
+
+  constructor() {
+    inject(DestroyRef).onDestroy(() => {
+      try {
+        for (const dispose of [...this.activeRefs.values()].reverse()) dispose();
+      } finally {
+        for (const host of this.dynamicHosts.values()) {
+          if (!host.hostView.destroyed) {
+            this.appRef.detachView(host.hostView);
+            host.destroy();
+          }
+        }
+        this.dynamicHosts.clear();
+        this.activeRefs.clear();
+        this.requestState.set(null);
+      }
+    });
+  }
 
   confirm<TData = unknown>(config: AerisConfirmPopupConfig<TData>): AerisConfirmPopupRef<TData> {
     const ref = new AerisConfirmPopupRef<TData>();
@@ -313,14 +332,14 @@ export class AerisConfirmPopupService {
       config: resolvedConfig,
       ref,
     };
-    this.activeRefs.add(ref as AerisConfirmPopupRef);
+    this.trackRef(ref, resolvedConfig);
     ref.closed.subscribe(() => this.activeRefs.delete(ref as AerisConfirmPopupRef));
     this.requestState.set(request as AerisConfirmPopupRequest);
     return ref;
   }
 
   closeAll(): void {
-    for (const ref of [...this.activeRefs]) ref.close();
+    for (const ref of this.activeRefs.keys()) ref.close();
     this.closeState.update((value) => value + 1);
   }
 
@@ -334,11 +353,13 @@ export class AerisConfirmPopupService {
     const cleanup = (): void => {
       if (!this.activeRefs.delete(ref as AerisConfirmPopupRef)) return;
       this.dynamicHosts.delete(ref as AerisConfirmPopupRef);
-      this.appRef.detachView(hostRef.hostView);
-      hostRef.destroy();
+      if (!hostRef.hostView.destroyed) {
+        this.appRef.detachView(hostRef.hostView);
+        hostRef.destroy();
+      }
     };
 
-    this.activeRefs.add(ref as AerisConfirmPopupRef);
+    this.trackRef(ref, config);
     this.dynamicHosts.set(ref as AerisConfirmPopupRef, hostRef);
     ref.closed.subscribe(() => queueMicrotask(cleanup));
     this.appRef.attachView(hostRef.hostView);
@@ -367,6 +388,21 @@ export class AerisConfirmPopupService {
   private rootNode(hostRef: ComponentRef<AerisConfirmPopup>): Node {
     const [node] = (hostRef.hostView as EmbeddedViewRef<unknown>).rootNodes;
     return node instanceof Node ? node : this.document.createTextNode('');
+  }
+
+  private trackRef<TData>(
+    ref: AerisConfirmPopupRef<TData>,
+    config: AerisConfirmPopupResolvedConfig<TData>,
+  ): void {
+    this.activeRefs.set(ref as AerisConfirmPopupRef, () =>
+      ref.notifyClosed({
+        originalEvent: null,
+        config,
+        data: config.data,
+        result: 'dismiss',
+        reason: 'api',
+      }),
+    );
   }
 
   private resolveConfig<TData>(

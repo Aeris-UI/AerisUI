@@ -278,21 +278,25 @@
                 and <code>span[aerisKbdContent]</code> for main-key styling. The content directive
                 has no inputs.
               </p>
-              <div class="api-table" role="table" aria-label="Kbd inputs">
-                <div role="row">
-                  <span role="columnheader">Name</span><span role="columnheader">Type</span
-                  ><span role="columnheader">Default</span
-                  ><span role="columnheader">Description</span>
-                </div>
+              <app-reference-table class="api-table" caption="Kbd inputs">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of inputs; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><code role="cell">{{ row.type }}</code
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.type }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
             <section id="kbd-key-reference">
               <h3>Standard key reference</h3>
@@ -301,26 +305,28 @@
                 below. These are text glyphs, not SVG icons; their appearance follows the system
                 font. Custom icons can come from any icon library.
               </p>
-              <div
+              <app-reference-table
                 class="api-table kbd-key-reference"
-                role="table"
-                aria-label="Standard key symbols"
+                caption="Standard key symbols"
               >
-                <div role="row">
-                  <span role="columnheader">Value</span>
-                  <span role="columnheader">Symbol</span>
-                  <span role="columnheader">Readable name</span>
-                </div>
+                <ng-template appReferenceHeader="Value" />
+                <ng-template appReferenceHeader="Symbol" />
+                <ng-template appReferenceHeader="Readable name" />
                 @for (key of standardKeys; track key.value) {
-                  <div role="row">
-                    <code role="cell">{{ key.value }}</code>
-                    <span role="cell"
-                      ><kbd aerisKbd><span [aerisKbdKey]="key.value"></span></kbd
-                    ></span>
-                    <span role="cell">{{ key.label }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ key.value }}</code></ng-template
+                    >
+                    <ng-template appReferenceCell
+                      ><span
+                        ><kbd aerisKbd><span [aerisKbdKey]="key.value"></span></kbd></span
+                    ></ng-template>
+                    <ng-template appReferenceCell
+                      ><span>{{ key.label }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
           </div>
           <app-page-toc title="On this page" ariaLabel="Kbd API quick links" [links]="apiLinks" />
@@ -341,19 +347,22 @@
         <p>
           Background, text, border, typography and corner defaults follow the active Aeris theme.
         </p>
-        <div class="api-table" role="table" aria-label="Kbd tokens">
-          <div role="row">
-            <span role="columnheader">Token</span><span role="columnheader">Default</span
-            ><span role="columnheader">Description</span>
-          </div>
+        <app-reference-table class="api-table" caption="Kbd tokens">
+          <ng-template appReferenceHeader="Token" />
+          <ng-template appReferenceHeader="Default" />
+          <ng-template appReferenceHeader="Description" />
           @for (token of tokens; track token[0]) {
-            <div role="row">
-              <code role="cell">{{ token[0] }}</code
-              ><code role="cell">{{ token[1] }}</code
-              ><span role="cell">{{ token[2] }}</span>
-            </div>
+            <ng-container appReferenceRow>
+              <ng-template appReferenceCell
+                ><code>{{ token[0] }}</code></ng-template
+              ><ng-template appReferenceCell
+                ><code>{{ token[1] }}</code></ng-template
+              ><ng-template appReferenceCell
+                ><span>{{ token[2] }}</span></ng-template
+              >
+            </ng-container>
           }
-        </div>
+        </app-reference-table>
       </section></aeris-tab-panel
     >
     <aeris-tab-panel value="accessibility" label="Accessibility"
@@ -371,22 +380,25 @@
           actually supports. Long labels wrap, text scales with the root font size, and no motion is
           introduced.
         </p>
-        <div class="api-table" role="table" aria-label="Kbd keyboard support">
-          <div role="row">
-            <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
-          </div>
-          <div role="row">
-            <code role="cell">Tab / Shift+Tab</code
-            ><span role="cell">Skips the key hint. No tab stop is added.</span>
-          </div>
-          <div role="row">
-            <code role="cell">Any key or shortcut</code
-            ><span role="cell"
-              >No action is registered, captured or cancelled by Kbd. Application handlers remain
-              responsible.</span
+        <app-reference-table class="api-table" caption="Kbd keyboard support">
+          <ng-template appReferenceHeader="Key" />
+          <ng-template appReferenceHeader="Behavior" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>Tab / Shift+Tab</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Skips the key hint. No tab stop is added.</span></ng-template
             >
-          </div>
-        </div>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>Any key or shortcut</code></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >No action is registered, captured or cancelled by Kbd. Application handlers remain
+                responsible.</span
+              ></ng-template
+            >
+          </ng-container>
+        </app-reference-table>
       </section></aeris-tab-panel
     >
   </aeris-tabs>

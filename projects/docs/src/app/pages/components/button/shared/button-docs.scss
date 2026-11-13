@@ -92,61 +92,12 @@ aeris-tabs::ng-deep .aeris-tabs__list {
 }
 
 .api-table {
-  border: 1px solid var(--border);
-  border-radius: 0.75rem;
-  background: var(--surface);
-  overflow-x: auto;
-}
-
-.api-table:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--focus) 44%, transparent);
-  outline-offset: 2px;
-}
-
-.api-table > div {
-  min-width: 50rem;
-  display: grid;
-  grid-template-columns: 10rem 13rem 8rem minmax(16rem, 1fr);
-  gap: 1rem;
-  padding: 0.875rem 1rem;
-  border-bottom: 1px solid var(--border);
-  color: var(--text-2);
-  font-size: 0.8125rem;
-  line-height: 1.55;
-  align-items: start;
-}
-
-.api-table > div:last-child {
-  border-bottom: 0;
-}
-
-.api-table .api-head {
-  background: var(--surface-2);
-  color: var(--text);
-  font-size: 0.75rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  min-width: 0;
 }
 
 .api-table code {
   color: var(--primary-text);
   font-size: 0.8125rem;
-}
-
-.api-table.compact > div {
-  min-width: 44rem;
-  grid-template-columns: 12rem 15rem minmax(16rem, 1fr);
-}
-
-.api-table.keyboard-table > div {
-  min-width: 32rem;
-  grid-template-columns: 13rem minmax(16rem, 1fr);
-}
-
-.api-table.keyboard-table [role='cell'] > kbd,
-.api-table.keyboard-table > div > kbd[role='cell'] {
-  width: fit-content;
-  justify-self: start;
 }
 
 .doc-section ul {

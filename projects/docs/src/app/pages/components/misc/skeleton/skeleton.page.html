@@ -150,38 +150,52 @@
               [cssCode]="cardCssCode"
             >
               <div preview>
-                <article class="skeleton-card" aria-busy="true" aria-label="Loading article card">
-                  <aeris-skeleton shape="rectangle" height="10rem" />
-                  <div class="skeleton-card__header">
-                    <aeris-skeleton shape="circle" width="2.5rem" />
-                    <div class="skeleton-card__lines">
-                      <aeris-skeleton width="55%" />
-                      <aeris-skeleton width="35%" height="0.625rem" />
+                <aeris-card
+                  class="skeleton-card"
+                  role="article"
+                  aria-busy="true"
+                  ariaLabel="Loading article card"
+                >
+                  <div class="skeleton-card__body">
+                    <aeris-skeleton shape="rectangle" height="10rem" />
+                    <div class="skeleton-card__header">
+                      <aeris-skeleton shape="circle" width="2.5rem" />
+                      <div class="skeleton-card__lines">
+                        <aeris-skeleton width="55%" />
+                        <aeris-skeleton width="35%" height="0.625rem" />
+                      </div>
+                    </div>
+                    <div class="skeleton-card__body">
+                      <aeris-skeleton />
+                      <aeris-skeleton width="92%" />
+                      <aeris-skeleton width="68%" />
                     </div>
                   </div>
-                  <div class="skeleton-card__body">
-                    <aeris-skeleton />
-                    <aeris-skeleton width="92%" />
-                    <aeris-skeleton width="68%" />
-                  </div>
-                </article>
+                </aeris-card>
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
-  &lt;article class="skeleton-card" aria-busy="true" aria-label="Loading article card"&gt;
-    &lt;aeris-skeleton shape="rectangle" height="10rem" /&gt;
-    &lt;div class="skeleton-card__header"&gt;
-      &lt;aeris-skeleton shape="circle" width="2.5rem" /&gt;
-      &lt;div class="skeleton-card__lines"&gt;
-        &lt;aeris-skeleton width="55%" /&gt;
-        &lt;aeris-skeleton width="35%" height="0.625rem" /&gt;
+  &lt;aeris-card
+    class="skeleton-card"
+    role="article"
+    aria-busy="true"
+    ariaLabel="Loading article card"
+  &gt;
+    &lt;div class="skeleton-card__body"&gt;
+      &lt;aeris-skeleton shape="rectangle" height="10rem" /&gt;
+      &lt;div class="skeleton-card__header"&gt;
+        &lt;aeris-skeleton shape="circle" width="2.5rem" /&gt;
+        &lt;div class="skeleton-card__lines"&gt;
+          &lt;aeris-skeleton width="55%" /&gt;
+          &lt;aeris-skeleton width="35%" height="0.625rem" /&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="skeleton-card__body"&gt;
+        &lt;aeris-skeleton /&gt;
+        &lt;aeris-skeleton width="92%" /&gt;
+        &lt;aeris-skeleton width="68%" /&gt;
       &lt;/div&gt;
     &lt;/div&gt;
-    &lt;div class="skeleton-card__body"&gt;
-      &lt;aeris-skeleton /&gt;
-      &lt;aeris-skeleton width="92%" /&gt;
-      &lt;aeris-skeleton width="68%" /&gt;
-    &lt;/div&gt;
-  &lt;/article&gt;
+  &lt;/aeris-card&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -192,24 +206,38 @@
               [cssCode]="gridCssCode"
             >
               <div preview>
-                <div class="skeleton-grid" aria-busy="true" aria-label="Loading project grid">
+                <div
+                  class="skeleton-grid"
+                  role="group"
+                  aria-busy="true"
+                  aria-label="Loading project grid"
+                >
                   @for (item of [1, 2, 3]; track item) {
-                    <div class="skeleton-grid__card">
-                      <aeris-skeleton shape="rectangle" height="7rem" />
-                      <aeris-skeleton width="72%" />
-                      <aeris-skeleton width="48%" height="0.625rem" />
-                    </div>
+                    <aeris-card>
+                      <div class="skeleton-grid__content">
+                        <aeris-skeleton shape="rectangle" height="7rem" />
+                        <aeris-skeleton width="72%" />
+                        <aeris-skeleton width="48%" height="0.625rem" />
+                      </div>
+                    </aeris-card>
                   }
                 </div>
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
-  &lt;div class="skeleton-grid" aria-busy="true" aria-label="Loading project grid"&gt;
+  &lt;div
+    class="skeleton-grid"
+    role="group"
+    aria-busy="true"
+    aria-label="Loading project grid"
+  &gt;
     &#64;for (item of [1, 2, 3]; track item) &#123;
-      &lt;div class="skeleton-grid__card"&gt;
-        &lt;aeris-skeleton shape="rectangle" height="7rem" /&gt;
-        &lt;aeris-skeleton width="72%" /&gt;
-        &lt;aeris-skeleton width="48%" height="0.625rem" /&gt;
-      &lt;/div&gt;
+      &lt;aeris-card&gt;
+        &lt;div class="skeleton-grid__content"&gt;
+          &lt;aeris-skeleton shape="rectangle" height="7rem" /&gt;
+          &lt;aeris-skeleton width="72%" /&gt;
+          &lt;aeris-skeleton width="48%" height="0.625rem" /&gt;
+        &lt;/div&gt;
+      &lt;/aeris-card&gt;
     &#125;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
@@ -255,59 +283,34 @@
               id="skeleton-table"
               title="Table"
               description="Preserve real table semantics and contain dense layouts on mobile."
-              [cssCode]="tableCssCode"
             >
               <div preview>
-                <div class="skeleton-table-wrap">
-                  <table class="skeleton-table" aria-busy="true">
-                    <caption class="skeleton-status">
-                      Loading product inventory
-                    </caption>
-                    <thead>
-                      <tr>
-                        <th>Code</th>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Quantity</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @for (item of [1, 2, 3]; track item) {
-                        <tr>
-                          <td><aeris-skeleton width="5rem" /></td>
-                          <td><aeris-skeleton width="9rem" /></td>
-                          <td><aeris-skeleton width="7rem" /></td>
-                          <td><aeris-skeleton width="3rem" /></td>
-                        </tr>
-                      }
-                    </tbody>
-                  </table>
-                </div>
+                <aeris-table
+                  caption="Loading product inventory"
+                  aria-busy="true"
+                  [data]="tableRows"
+                  [columns]="tableColumns"
+                  [hoverable]="false"
+                  [rowNavigation]="false"
+                >
+                  <ng-template aerisTableCell let-column="column"
+                    ><aeris-skeleton [width]="tableWidths[column.field]"
+                  /></ng-template>
+                </aeris-table>
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
-  &lt;div class="skeleton-table-wrap"&gt;
-    &lt;table class="skeleton-table" aria-busy="true"&gt;
-      &lt;caption class="skeleton-status"&gt;Loading product inventory&lt;/caption&gt;
-      &lt;thead&gt;
-        &lt;tr&gt;
-          &lt;th&gt;Code&lt;/th&gt;
-          &lt;th&gt;Name&lt;/th&gt;
-          &lt;th&gt;Category&lt;/th&gt;
-          &lt;th&gt;Quantity&lt;/th&gt;
-        &lt;/tr&gt;
-      &lt;/thead&gt;
-      &lt;tbody&gt;
-        &#64;for (item of [1, 2, 3]; track item) &#123;
-          &lt;tr&gt;
-            &lt;td&gt;&lt;aeris-skeleton width="5rem" /&gt;&lt;/td&gt;
-            &lt;td&gt;&lt;aeris-skeleton width="9rem" /&gt;&lt;/td&gt;
-            &lt;td&gt;&lt;aeris-skeleton width="7rem" /&gt;&lt;/td&gt;
-            &lt;td&gt;&lt;aeris-skeleton width="3rem" /&gt;&lt;/td&gt;
-          &lt;/tr&gt;
-        &#125;
-      &lt;/tbody&gt;
-    &lt;/table&gt;
-  &lt;/div&gt;
+  &lt;aeris-table
+    caption="Loading product inventory"
+    aria-busy="true"
+    [data]="tableRows"
+    [columns]="tableColumns"
+    [hoverable]="false"
+    [rowNavigation]="false"
+  &gt;
+    &lt;ng-template aerisTableCell let-column="column"&gt;
+      &lt;aeris-skeleton [width]="tableWidths[column.field]" /&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-table&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -337,20 +340,25 @@
           <div class="doc-content-main">
             <section id="skeleton-api-inputs" class="api-section">
               <h3>Inputs</h3>
-              <div class="api-table" role="table" aria-label="Skeleton inputs" tabindex="0">
-                <div class="api-head" role="row">
-                  <b role="columnheader">Name</b><b role="columnheader">Type</b
-                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-                </div>
+              <app-reference-table class="api-table" caption="Skeleton inputs">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of inputs; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
           </div>
           <app-page-toc title="API sections" ariaLabel="Skeleton API" [links]="apiLinks" />
@@ -369,19 +377,22 @@
     <aeris-tab-panel value="tokens" label="Tokens">
       <section class="doc-section">
         <h2>Design tokens</h2>
-        <div class="api-table token-table" role="table" aria-label="Skeleton tokens" tabindex="0">
-          <div class="api-head" role="row">
-            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
-            ><b role="columnheader">Fallback</b>
-          </div>
+        <app-reference-table class="api-table token-table" caption="Skeleton tokens">
+          <ng-template appReferenceHeader="Token" />
+          <ng-template appReferenceHeader="Purpose" />
+          <ng-template appReferenceHeader="Fallback" />
           @for (token of tokens; track token.name) {
-            <div role="row">
-              <code role="cell">{{ token.name }}</code
-              ><span role="cell">{{ token.purpose }}</span
-              ><code role="cell">{{ token.fallback }}</code>
-            </div>
+            <ng-container appReferenceRow>
+              <ng-template appReferenceCell
+                ><code>{{ token.name }}</code></ng-template
+              ><ng-template appReferenceCell
+                ><span>{{ token.purpose }}</span></ng-template
+              ><ng-template appReferenceCell
+                ><code>{{ token.fallback }}</code></ng-template
+              >
+            </ng-container>
           }
-        </div>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
 
@@ -410,22 +421,18 @@
         </ul>
 
         <h3>Keyboard support</h3>
-        <div
-          class="api-table keyboard-table"
-          role="table"
-          aria-label="Skeleton keyboard support"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
-          </div>
-          <div role="row">
-            <span role="cell">Any key</span
-            ><span role="cell"
-              >Skeleton handles no keyboard input and never enters the tab order.</span
+        <app-reference-table class="api-table keyboard-table" caption="Skeleton keyboard support">
+          <ng-template appReferenceHeader="Key" />
+          <ng-template appReferenceHeader="Behavior" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><span>Any key</span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Skeleton handles no keyboard input and never enters the tab order.</span
+              ></ng-template
             >
-          </div>
-        </div>
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
   </aeris-tabs>

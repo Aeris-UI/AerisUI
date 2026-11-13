@@ -19,20 +19,22 @@ describe('Design Lab contrast trace', () => {
     fixture.componentInstance.edit.subscribe(edit);
     await fixture.whenStable();
     const root: HTMLElement = fixture.nativeElement;
-    const details = root.querySelector('details');
-    expect(details?.open).toBe(false);
-    expect(root.querySelector('summary')?.textContent).toContain('for Primary text on page');
-    expect(root.querySelector('button')).toBeNull();
-    if (details) {
-      details.open = true;
-      details.dispatchEvent(new Event('toggle'));
-    }
+    const trigger = root.querySelector<HTMLButtonElement>('.aeris-accordion__trigger');
+    expect(trigger?.getAttribute('aria-expanded')).toBe('false');
+    expect(trigger?.textContent).toContain('for Primary text on page');
+    expect(root.querySelector('button[aria-label="Edit dark.text"]')).toBeNull();
+    trigger?.click();
     await fixture.whenStable();
     expect(root.textContent).toContain('dark.text');
     expect(root.textContent).toContain('--aeris-text');
     expect(root.textContent).toContain('var(--app-text)');
     expect(root.textContent).toContain('Override');
-    root.querySelector('button')?.click();
+    expect(trigger?.getAttribute('aria-expanded')).toBe('true');
+    root.querySelector<HTMLButtonElement>('button[aria-label="Edit dark.text"]')?.click();
     expect(edit).toHaveBeenCalledExactlyOnceWith('text');
+    trigger?.click();
+    await fixture.whenStable();
+    expect(trigger?.getAttribute('aria-expanded')).toBe('false');
+    expect(root.querySelector('button[aria-label="Edit dark.text"]')).toBeNull();
   });
 });

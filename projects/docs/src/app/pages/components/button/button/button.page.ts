@@ -10,6 +10,7 @@ import {
   PageTocComponent,
   type PageTocLink,
 } from '../../../../shared/documentation/page-toc/page-toc.component';
+import { ReferenceTableImports } from '../../../../shared/documentation/reference-table.component';
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
 import { ProjectedCode } from '../../../../shared/projected-code.directive';
 import { ButtonDemoComponent } from '../shared/button-demo.component';
@@ -25,6 +26,7 @@ interface ApiRow {
 @Component({
   selector: 'app-button-page',
   imports: [
+    ReferenceTableImports,
     AerisButtonForms,
     ReactiveFormsModule,
     FormField,

@@ -114,7 +114,12 @@ let treeSelectId = 0;
       (focusout)="handleFocusOut($event)"
     >
       @if (name() && serializedValue()) {
-        <input type="hidden" [name]="name()" [value]="serializedValue()" />
+        <input
+          type="hidden"
+          [name]="name()"
+          [value]="serializedValue()"
+          [disabled]="effectiveDisabled()"
+        />
       }
 
       <div #control class="aeris-tree-select__control">
@@ -203,6 +208,7 @@ let treeSelectId = 0;
           [aerisInternalAppendToMatchWidth]="true"
           [aerisInternalAppendToCollisionPadding]="viewportMargin()"
           (aerisInternalAppendToOutside)="closePanel(false)"
+          (aerisInternalAppendToFocusOut)="handleFocusOut($event)"
           [id]="panelId"
           [style.--aeris-tree-select-panel-max-height]="panelMaxHeight()"
         >
@@ -455,6 +461,12 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
   protected readonly formDisabled = signal(false);
   protected readonly effectiveDisabled = computed(() => this.disabled() || this.formDisabled());
   protected readonly allNodes = computed(() => flattenAll(this.nodes()));
+  private readonly nodeIds = computed<ReadonlyMap<string, string>>(
+    () =>
+      new Map(
+        this.allNodes().map(({ node }, index) => [node.value, `${this.treeId}-node-${index}`]),
+      ),
+  );
   protected readonly selectedValues = computed(() => {
     const value = this.value();
     return new Set(Array.isArray(value) ? value : value ? [value] : []);
@@ -489,7 +501,7 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
   });
   protected readonly activeNodeId = computed(() => {
     const value = this.activeValue();
-    return value ? `${this.treeId}-node-${cssSafe(value)}` : null;
+    return value === null ? null : (this.nodeIds().get(value) ?? null);
   });
   protected readonly showClearButton = computed(
     () => this.clearable() && this.selectedNodes().length > 0 && !this.effectiveDisabled(),
@@ -717,6 +729,7 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
   }
 
   protected handleTreeKeydown(event: KeyboardEvent): void {
+    if (event.key === ' ' && event.target instanceof HTMLInputElement) return;
     if (event.key === 'Escape') {
       event.preventDefault();
       this.closePanel(true);
@@ -779,7 +792,7 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
   }
 
   protected nodeId(node: AerisTreeNode): string {
-    return `${this.treeId}-node-${cssSafe(node.value)}`;
+    return this.nodeIds().get(node.value) ?? '';
   }
 
   private nodeSelectable(node: AerisTreeNode): boolean {
@@ -942,8 +955,4 @@ function flattenFiltered(
     }
   }
   return result;
-}
-
-function cssSafe(value: string): string {
-  return value.replace(/[^a-zA-Z0-9_-]/g, '-');
 }

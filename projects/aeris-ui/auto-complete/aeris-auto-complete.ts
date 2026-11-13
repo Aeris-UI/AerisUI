@@ -114,7 +114,7 @@ let nextAutoCompleteId = 0;
       (focusout)="handleFocusOut($event)"
     >
       @if (name()) {
-        <input type="hidden" [name]="name()" [value]="value()" />
+        <input type="hidden" [name]="name()" [value]="value()" [disabled]="effectiveDisabled()" />
       }
 
       <div #control class="aeris-auto-complete__control">
@@ -194,6 +194,7 @@ let nextAutoCompleteId = 0;
           [aerisInternalAppendToMatchWidth]="true"
           [aerisInternalAppendToCollisionPadding]="viewportMargin()"
           (aerisInternalAppendToOutside)="closePanel()"
+          (aerisInternalAppendToFocusOut)="handleFocusOut($event)"
           [aerisInternalAppendToDismiss]="dismissOverlay"
           [id]="panelId"
           role="listbox"
@@ -500,10 +501,9 @@ export class AerisAutoComplete implements ControlValueAccessor {
 
   protected handleFocusOut(event: FocusEvent): void {
     const nextTarget = event.relatedTarget as Node | null;
-    const currentTarget = event.currentTarget as HTMLElement;
     if (
       !nextTarget ||
-      (!currentTarget.contains(nextTarget) &&
+      (!this.controlElement()?.nativeElement.contains(nextTarget) &&
         !this.suggestionsPanel()?.nativeElement.contains(nextTarget))
     ) {
       this.closePanel();

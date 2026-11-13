@@ -11,13 +11,17 @@ import {
   signal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { ReferenceTableImports } from '../../shared/documentation/reference-table.component';
+import { AerisAccordionModule, type AerisAccordionValue } from '@aeris-ui/core/accordion';
 import { AerisBadgeModule } from '@aeris-ui/core/badge';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisColorPicker } from '@aeris-ui/core/color-picker';
+import { AerisFormField } from '@aeris-ui/core/form-field';
 import { AerisTextarea } from '@aeris-ui/core/textarea';
 import { AerisMessage, type AerisMessageSeverity } from '@aeris-ui/core/message';
 import { AerisProgressBar } from '@aeris-ui/core/progress-bar';
+import { AerisSkeleton } from '@aeris-ui/core/skeleton';
 import {
   AERIS_DEFAULT_THEME,
   AerisThemeService,
@@ -204,14 +208,18 @@ function createContrastReport(theme: AerisTheme, mode: LabScheme): LabContrastRe
 @Component({
   selector: 'app-design-lab',
   imports: [
+    ReferenceTableImports,
     RouterLink,
+    AerisAccordionModule,
     AerisBadgeModule,
     AerisButton,
     AerisCardModule,
     AerisColorPicker,
+    AerisFormField,
     AerisTextarea,
     AerisMessage,
     AerisProgressBar,
+    AerisSkeleton,
     CodeBlockComponent,
     AerisShowcaseGalleryComponent,
     DesignLabColorFields,
@@ -222,6 +230,12 @@ function createContrastReport(theme: AerisTheme, mode: LabScheme): LabContrastRe
   styleUrl: './design-lab.scss',
 })
 export class DesignLab {
+  protected readonly foundationsExpanded = signal<AerisAccordionValue>('');
+  protected readonly tonesExpanded = signal<AerisAccordionValue>('');
+  protected readonly expandedContrastGroups = signal<AerisAccordionValue>([]);
+  protected readonly expandedToneProperties = signal<Readonly<Record<string, AerisAccordionValue>>>(
+    {},
+  );
   private readonly document = inject(DOCUMENT);
   private readonly injector = inject(Injector);
   private readonly destroyRef = inject(DestroyRef);
@@ -524,17 +538,19 @@ export const appConfig: ApplicationConfig = {
   protected editContrastColor(property: AerisContrastProperty): void {
     const mode = this.contrastMode();
     this.setMode(mode);
+    if (property.startsWith('tones.')) {
+      const tone = property.split('.')[1];
+      this.tonesExpanded.set('tones');
+      this.expandedToneProperties.update((expanded) => ({ ...expanded, [tone]: 'properties' }));
+    } else {
+      this.foundationsExpanded.set('foundations');
+    }
     afterNextRender(
       () => {
         const target = this.document.getElementById(
           `lab-${mode}-${property.replace(/^tones\./, '').replaceAll('.', '-')}`,
         );
         if (!target) return;
-        let ancestor = target.parentElement;
-        while (ancestor) {
-          if (ancestor instanceof HTMLDetailsElement) ancestor.open = true;
-          ancestor = ancestor.parentElement;
-        }
         target.focus({ preventScroll: true });
         target.scrollIntoView({ block: 'center' });
       },
@@ -544,6 +560,10 @@ export const appConfig: ApplicationConfig = {
 
   protected toggleContrastIssues(): void {
     this.showOnlyContrastIssues.update((value) => !value);
+  }
+
+  protected setTonePropertiesExpanded(tone: string, value: AerisAccordionValue): void {
+    this.expandedToneProperties.update((expanded) => ({ ...expanded, [tone]: value }));
   }
 
   protected setDensity(density: LabDensity): void {

@@ -30,6 +30,35 @@ processes to the checked-out repository, rejects duplicate sessions and occupied
 Angular cache metadata when the checkout moves to a different absolute path. Stop the complete
 development stack with `Ctrl+C`. It does not publish anything.
 
+## MCP development
+
+The MCP build and verification commands are repository scripts, not commands for an application
+that consumes Aeris. After installing the repository dependencies with `npm ci`, run these from
+the repository root:
+
+```bash
+npm run build:mcp
+npm run test:mcp
+npm run check:mcp-package
+```
+
+To test the local build in an MCP client, point it at the built executable:
+
+```json
+{
+  "mcpServers": {
+    "aeris-local": {
+      "command": "node",
+      "args": ["/absolute/path/to/AerisUI/dist/aeris-mcp/cli.js"]
+    }
+  }
+}
+```
+
+Replace the placeholder with the absolute path in the checkout. On Windows, use forward slashes
+or escaped backslashes in JSON. Restart or reload the client after changing its configuration,
+and rebuild the package after changes to its implementation or bundled documentation.
+
 ## Repository structure
 
 - `projects/aeris-ui` contains the publishable `@aeris-ui/core` package and its secondary entry
@@ -42,6 +71,17 @@ development stack with `Ctrl+C`. It does not publish anything.
 All contributions must preserve strict typing, standalone Angular APIs, signal-based state,
 WCAG 2.2 AA behavior, responsive layouts, framework-safe prefixed styles, and the existing
 secondary-entry-point architecture. Prefer focused changes and framework-native solutions.
+
+## Documentation interface
+
+Use Aeris components for documentation controls, navigation, disclosures, loading states, and
+surfaces whenever a suitable component exists. Do not recreate their appearance or interaction
+with custom markup and styles. Compose them through their public inputs and templates, and keep
+documentation-specific styles limited to layout and content.
+
+If no suitable Aeris component exists, discuss the requirement with a maintainer before building
+a custom alternative. Ordinary semantic content and layout wrappers are still appropriate;
+examples that explicitly demonstrate native-element integration should retain that integration.
 
 ## Making a change
 

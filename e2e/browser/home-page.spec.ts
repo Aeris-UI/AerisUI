@@ -115,7 +115,7 @@ for (const width of [320, 390, 1280]) {
     const gallery = page.locator('app-aeris-showcase-gallery').first();
     await gallery.scrollIntoViewIfNeeded();
     await expect(gallery.locator('app-aeris-showcase-content')).toBeVisible();
-    const viewport = gallery.locator('.showcase-gallery__viewport');
+    const viewport = gallery.locator('.showcase-gallery__viewport:visible');
     for (const name of ['Components', 'Dashboard', 'Chat', 'CRM', 'Mail', 'Finances']) {
       await gallery.getByRole('tab', { name, exact: true }).click();
       await expect(gallery.getByRole('tab', { name, exact: true })).toBeVisible();
@@ -146,7 +146,7 @@ for (const width of [320, 390, 1280]) {
       await viewport.evaluate((element) => element.scrollWidth - element.clientWidth),
     ).toBeLessThanOrEqual(1);
     if (width === 1280) {
-      const toolbar = gallery.locator('.product-toolbar');
+      const toolbar = viewport.locator('.product-toolbar');
       const bar = await toolbar.boundingBox();
       const end = await toolbar.locator('[aerisToolbarEnd]').boundingBox();
       expect(bar).not.toBeNull();

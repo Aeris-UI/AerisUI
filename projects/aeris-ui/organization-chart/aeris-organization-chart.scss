@@ -32,12 +32,6 @@
   overflow: auto;
 }
 
-.aeris-organization-chart__viewport:focus-visible {
-  outline: 0;
-  box-shadow: inset 0 0 0 3px
-    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 22%, transparent);
-}
-
 .aeris-organization-chart__tree,
 .aeris-organization-chart__children {
   display: flex;
@@ -53,6 +47,7 @@
 }
 
 .aeris-organization-chart__branch {
+  outline: none;
   position: relative;
   display: grid;
   justify-items: center;
@@ -103,7 +98,9 @@
   color: var(--aeris-primary-text, #{aeris-fallbacks.$focus});
 }
 
-.aeris-organization-chart__node:focus-visible,
+.aeris-organization-chart__branch:focus-visible
+  > .aeris-organization-chart__node-shell
+  > .aeris-organization-chart__node,
 .aeris-organization-chart__toggle:focus-visible {
   outline: 0;
   box-shadow:

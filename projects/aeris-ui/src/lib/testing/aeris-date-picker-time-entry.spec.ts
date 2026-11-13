@@ -196,7 +196,7 @@ describe('DatePicker typed time entry', () => {
     await fixture.whenStable();
     expect(clock(fixture)).toEqual([2026, 5, 12, 14, 15, 27]);
     const input = fixture.nativeElement.querySelectorAll(
-      '.aeris-date-picker__time-field input',
+      '.aeris-date-picker__time input',
     )[1] as HTMLInputElement;
     input.value = '42';
     input.dispatchEvent(new Event('input', { bubbles: true }));

@@ -4,6 +4,7 @@ import { expect, test } from './fixtures';
 for (const mode of ['light', 'dark'] as const) {
   test(`time edits preserve incomplete values and keep midnight display and serialization aligned in ${mode}`, async ({
     page,
+    hasTouch,
   }) => {
     await page.goto(`/?mode=${mode}`);
     const trigger = page.getByRole('combobox', { name: 'Foundation meeting', exact: true });
@@ -13,18 +14,26 @@ for (const mode of ['light', 'dark'] as const) {
     await expect(panel).toBeVisible();
     const hidden = page.locator('input[name="foundationMeeting"]');
     await expect(hidden).toHaveValue('2026-06-11T00:00:00');
-    await panel.getByLabel('Minute', { exact: true }).fill('');
-    await expect(hidden).toHaveValue('2026-06-11T00:00:00');
-    await panel.getByLabel('Minute', { exact: true }).fill('30');
-    await panel.getByLabel('Hour', { exact: true }).fill('13');
-    await expect(hidden).toHaveValue('2026-06-11T13:30:00');
-    await expect(trigger).toContainText('13:30:00');
+    const minute = panel.getByRole('spinbutton', { name: 'Minute', exact: true });
+    const hour = panel.getByRole('spinbutton', { name: 'Hour', exact: true });
+    if (hasTouch) {
+      await minute.press('ArrowUp');
+      await hour.press('ArrowUp');
+    } else {
+      await minute.fill('');
+      await expect(hidden).toHaveValue('2026-06-11T00:00:00');
+      await minute.fill('30');
+      await hour.fill('13');
+    }
+    const time = hasTouch ? '01:01:00' : '13:30:00';
+    await expect(hidden).toHaveValue(`2026-06-11T${time}`);
+    await expect(trigger).toContainText(time);
     const result = await new AxeBuilder({ page })
       .include(`#${await trigger.getAttribute('aria-controls')}`)
       .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
       .analyze();
     expect(result.violations).toEqual([]);
-    await panel.getByLabel('Hour', { exact: true }).press('Escape');
+    await hour.press('Escape');
     await expect(panel).not.toBeVisible();
     await expect(trigger).toBeFocused();
   });

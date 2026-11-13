@@ -3,15 +3,11 @@ import { Router, RouterOutlet } from '@angular/router';
 import { AerisAutoFocusDirective } from '@aeris-ui/core/auto-focus';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisCardModule } from '@aeris-ui/core/card';
+import { AerisSkeleton } from '@aeris-ui/core/skeleton';
 
 @Component({
   selector: 'docs-route-outlet',
-  imports: [
-    RouterOutlet,
-    AerisAutoFocusDirective,
-    AerisButton,
-    AerisCardModule,
-  ],
+  imports: [RouterOutlet, AerisAutoFocusDirective, AerisButton, AerisCardModule, AerisSkeleton],
   template: `
     <div class="docs-route-view">
       @boundary {
@@ -29,8 +25,8 @@ import { AerisCardModule } from '@aeris-ui/core/card';
             <p class="docs-route-error__eyebrow">Page unavailable</p>
             <h1 id="docs-route-error-title">This page could not be displayed</h1>
             <p id="docs-route-error-description">
-              Aeris encountered an unexpected rendering error. Try loading the page again, or
-              return to the documentation home page.
+              Aeris encountered an unexpected rendering error. Try loading the page again, or return
+              to the documentation home page.
             </p>
             <div class="docs-route-error__actions">
               <button aerisButton type="button" (click)="retry()">Try again</button>
@@ -44,13 +40,13 @@ import { AerisCardModule } from '@aeris-ui/core/card';
     @if (navigating()) {
       <div class="docs-route-loading" role="status" aria-label="Loading documentation page">
         <div class="docs-route-loading__content">
-          <span class="docs-route-loading__line docs-route-loading__line--kicker"></span>
-          <span class="docs-route-loading__line docs-route-loading__line--title"></span>
-          <span class="docs-route-loading__line docs-route-loading__line--copy"></span>
-          <span class="docs-route-loading__line docs-route-loading__line--copy-short"></span>
+          <aeris-skeleton width="7rem" height="0.75rem" />
+          <aeris-skeleton width="min(24rem, 72%)" height="2.5rem" />
+          <aeris-skeleton width="min(36rem, 92%)" height="0.875rem" />
+          <aeris-skeleton width="min(31rem, 78%)" height="0.875rem" />
           <div class="docs-route-loading__panel">
-            <span class="docs-route-loading__line docs-route-loading__line--section"></span>
-            <span class="docs-route-loading__preview"></span>
+            <aeris-skeleton width="8rem" height="1rem" />
+            <aeris-skeleton shape="rectangle" height="11rem" />
           </div>
         </div>
         <span class="visually-hidden">Loading documentation page</span>
@@ -96,53 +92,9 @@ import { AerisCardModule } from '@aeris-ui/core/card';
       border-top: 1px solid var(--border);
     }
 
-    .docs-route-loading__line,
-    .docs-route-loading__preview {
-      display: block;
-      border-radius: var(--aeris-radius-sm);
-      background: var(--surface-2);
-      animation: docs-route-loading-pulse 1.4s ease-in-out infinite alternate;
-    }
-
-    .docs-route-loading__line--kicker {
-      width: 7rem;
-      height: 0.75rem;
-    }
-
-    .docs-route-loading__line--title {
-      width: min(24rem, 72%);
-      height: 2.5rem;
-    }
-
-    .docs-route-loading__line--copy {
-      width: min(36rem, 92%);
-      height: 0.875rem;
-    }
-
-    .docs-route-loading__line--copy-short {
-      width: min(31rem, 78%);
-      height: 0.875rem;
-    }
-
-    .docs-route-loading__line--section {
-      width: 8rem;
-      height: 1rem;
-    }
-
-    .docs-route-loading__preview {
-      height: 11rem;
-      border-radius: var(--aeris-radius-lg);
-    }
-
     @keyframes docs-route-loading-reveal {
       to {
         opacity: 1;
-      }
-    }
-
-    @keyframes docs-route-loading-pulse {
-      to {
-        opacity: 0.48;
       }
     }
 
@@ -205,11 +157,6 @@ import { AerisCardModule } from '@aeris-ui/core/card';
     @media (prefers-reduced-motion: reduce) {
       .docs-route-loading {
         animation-delay: 0ms;
-      }
-
-      .docs-route-loading__line,
-      .docs-route-loading__preview {
-        animation: none;
       }
     }
   `,

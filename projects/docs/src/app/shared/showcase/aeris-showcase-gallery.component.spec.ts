@@ -30,7 +30,7 @@ describe('AerisShowcaseGalleryComponent', () => {
     const panel = element.querySelector<HTMLElement>('[role="tabpanel"]');
 
     expect(tabs).toHaveLength(6);
-    expect(tabs.every((tab) => !!tab.getAttribute('aria-label'))).toBe(true);
+    expect(tabs.every((tab) => !!tab.textContent?.trim())).toBe(true);
     expect(tabs[0]?.getAttribute('aria-selected')).toBe('true');
     expect(tabs[0]?.tabIndex).toBe(0);
     expect(tabs.slice(1).every((tab) => tab.tabIndex === -1)).toBe(true);
@@ -83,7 +83,7 @@ describe('AerisShowcaseGalleryComponent', () => {
     const fixture = TestBed.createComponent(AerisShowcaseGalleryComponent);
     fixture.detectChanges();
     const element = fixture.nativeElement as HTMLElement;
-    const viewport = element.querySelector<HTMLElement>('[role="tabpanel"]')!;
+    const viewport = element.querySelector<HTMLElement>('.showcase-gallery__viewport')!;
     const tabs = element.querySelectorAll<HTMLButtonElement>('[role="tab"]');
     viewport.scrollTop = 200;
     tabs[0].click();
@@ -291,17 +291,23 @@ describe('AerisShowcaseGalleryComponent', () => {
     expect(element.querySelectorAll('.finance-preview__transactions article')).toHaveLength(6);
   });
 
-  it('navigates the mail list using arrow keys', () => {
+  it('navigates and selects mail using the Aeris Listbox keyboard behavior', () => {
     const fixture = TestBed.createComponent(AerisShowcaseContentComponent);
     fixture.componentRef.setInput('activeView', 'mail');
     fixture.detectChanges();
     const options = fixture.nativeElement.querySelectorAll(
       '[role="option"]',
-    ) as NodeListOf<HTMLButtonElement>;
-    options[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
+    ) as NodeListOf<HTMLElement>;
+    const list = fixture.nativeElement.querySelector('[role="listbox"]') as HTMLElement;
+    list.focus();
+    list.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
     fixture.detectChanges();
     expect(options[0].tabIndex).toBe(-1);
+    expect(list.getAttribute('aria-activedescendant')).toBe(options[1].id);
+    expect(options[0].getAttribute('aria-selected')).toBe('true');
+    list.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    fixture.detectChanges();
     expect(options[1].getAttribute('aria-selected')).toBe('true');
-    expect(document.activeElement).toBe(options[1]);
+    expect(document.activeElement).toBe(list);
   });
 });

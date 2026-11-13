@@ -1,4 +1,6 @@
+import { AerisCardModule } from '@aeris-ui/core/card';
 import { Component, signal } from '@angular/core';
+import { AerisBadgeModule } from '@aeris-ui/core/badge';
 import {
   LucideBlocks,
   LucideClipboardCheck,
@@ -7,12 +9,10 @@ import {
   LucideShieldCheck,
   type LucideIconInput,
 } from '@lucide/angular';
-import {
-  AerisTimelineModule,
-  type AerisTimelineItem,
-} from '@aeris-ui/core/timeline';
+import { AerisTimelineModule, type AerisTimelineItem } from '@aeris-ui/core/timeline';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
+import { ReferenceTableImports } from '../../../../shared/documentation/reference-table.component';
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
 import {
@@ -41,6 +41,9 @@ interface CustomReleaseData extends ReleaseData {
 @Component({
   selector: 'app-timeline-page',
   imports: [
+    AerisCardModule,
+    AerisBadgeModule,
+    ReferenceTableImports,
     AerisTimelineModule,
     AerisTabsModule,
     CodeBlockComponent,
@@ -139,8 +142,7 @@ export class TimelinePage {
     { id: 'timeline-api-templates', label: 'Templates' },
   ];
 
-  protected readonly importCode =
-    `import { AerisTimelineModule } from '@aeris-ui/core/timeline';`;
+  protected readonly importCode = `import { AerisTimelineModule } from '@aeris-ui/core/timeline';`;
 
   protected readonly eventsTsCode = `interface ReleaseData {
   readonly owner: string;
@@ -253,12 +255,12 @@ protected readonly customEvents: readonly AerisTimelineItem<CustomReleaseData>[]
   </ng-template>
 
   <ng-template aerisTimelineContent let-item let-state="state">
-    <article class="release-card">
-      <span class="release-card__state">{{ state }}</span>
+    <aeris-card class="release-card">
+      <aeris-badge [value]="state" severity="neutral" variant="soft" size="sm" />
       <h3>{{ $any(item).title }}</h3>
       <p>{{ $any(item).description }}</p>
       <small>{{ $any(item).data.owner }} - {{ $any(item).data.version }}</small>
-    </article>
+    </aeris-card>
   </ng-template>
 </aeris-timeline>`;
 
@@ -285,20 +287,6 @@ protected readonly customEvents: readonly AerisTimelineItem<CustomReleaseData>[]
 
 .release-date {
   font-weight: 650;
-}
-
-.release-card {
-  padding: 0.875rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-md);
-  background: var(--aeris-surface);
-}
-
-.release-card__state {
-  color: var(--aeris-primary-text);
-  font-size: 0.6875rem;
-  font-weight: 700;
-  text-transform: uppercase;
 }
 
 .release-card h3 {
@@ -346,20 +334,82 @@ interface AerisTimelineItemContext<TData = unknown> {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'value', type: 'readonly AerisTimelineItem<TData>[]', defaultValue: '[]', description: 'Events rendered in source order unless reverse is enabled.' },
-    { name: 'orientation', type: "'vertical' | 'horizontal'", defaultValue: "'vertical'", description: 'Sets the timeline axis.' },
-    { name: 'align', type: "'start' | 'end' | 'alternate'", defaultValue: "'start'", description: 'Places event content on the start side, end side, or alternating sides.' },
-    { name: 'activeIndex', type: 'number', defaultValue: '-1', description: 'Displayed item index announced as the current step. Earlier items are complete.' },
-    { name: 'reverse', type: 'boolean', defaultValue: 'false', description: 'Displays the collection in reverse without mutating it.' },
-    { name: 'responsive', type: 'boolean', defaultValue: 'true', description: 'Collapses vertical alternate layouts to a single readable column on narrow screens.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "'Timeline'", description: 'Accessible name applied to the ordered list.' },
-    { name: 'emptyMessage', type: 'string', defaultValue: "'No timeline events available'", description: 'Text announced when value is empty.' },
+    {
+      name: 'value',
+      type: 'readonly AerisTimelineItem<TData>[]',
+      defaultValue: '[]',
+      description: 'Events rendered in source order unless reverse is enabled.',
+    },
+    {
+      name: 'orientation',
+      type: "'vertical' | 'horizontal'",
+      defaultValue: "'vertical'",
+      description: 'Sets the timeline axis.',
+    },
+    {
+      name: 'align',
+      type: "'start' | 'end' | 'alternate'",
+      defaultValue: "'start'",
+      description: 'Places event content on the start side, end side, or alternating sides.',
+    },
+    {
+      name: 'activeIndex',
+      type: 'number',
+      defaultValue: '-1',
+      description:
+        'Displayed item index announced as the current step. Earlier items are complete.',
+    },
+    {
+      name: 'reverse',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Displays the collection in reverse without mutating it.',
+    },
+    {
+      name: 'responsive',
+      type: 'boolean',
+      defaultValue: 'true',
+      description:
+        'Collapses vertical alternate layouts to a single readable column on narrow screens.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "'Timeline'",
+      description: 'Accessible name applied to the ordered list.',
+    },
+    {
+      name: 'emptyMessage',
+      type: 'string',
+      defaultValue: "'No timeline events available'",
+      description: 'Text announced when value is empty.',
+    },
   ];
 
   protected readonly templates: readonly ApiRow[] = [
-    { name: 'aerisTimelineMarker', type: 'AerisTimelineItemContext<TData>', defaultValue: 'Status dot', description: 'Custom marker rendered at each event.' },
-    { name: 'aerisTimelineContent', type: 'AerisTimelineItemContext<TData>', defaultValue: 'Title and description', description: 'Custom primary event content.' },
-    { name: 'aerisTimelineOpposite', type: 'AerisTimelineItemContext<TData>', defaultValue: 'Date', description: 'Custom content opposite the primary event content.' },
-    { name: 'aerisTimelineEmpty', type: 'none', defaultValue: 'emptyMessage', description: 'Custom empty-state content.' },
+    {
+      name: 'aerisTimelineMarker',
+      type: 'AerisTimelineItemContext<TData>',
+      defaultValue: 'Status dot',
+      description: 'Custom marker rendered at each event.',
+    },
+    {
+      name: 'aerisTimelineContent',
+      type: 'AerisTimelineItemContext<TData>',
+      defaultValue: 'Title and description',
+      description: 'Custom primary event content.',
+    },
+    {
+      name: 'aerisTimelineOpposite',
+      type: 'AerisTimelineItemContext<TData>',
+      defaultValue: 'Date',
+      description: 'Custom content opposite the primary event content.',
+    },
+    {
+      name: 'aerisTimelineEmpty',
+      type: 'none',
+      defaultValue: 'emptyMessage',
+      description: 'Custom empty-state content.',
+    },
   ];
 }

@@ -24,6 +24,25 @@ export const AERIS_COMPATIBILITY: readonly AerisCompatibilityEntry[] = [
 
 export const AERIS_RELEASES: readonly AerisReleaseEntry[] = [
   {
+    version: '22.0.0-alpha.13',
+    date: '13 November 2026',
+    status: 'Alpha',
+    changes: [
+      'Style DatePicker popup time steppers with Aeris chevrons, use an AM/PM toggle, and provide animated draggable time wheels on touch devices.',
+      'Keep DatePicker time controls open when activated in Safari and keep Accordion content aligned with its header on mobile.',
+      'Complete OrganizationChart keyboard navigation and accessible tree ownership, including RTL, typeahead, and focus restoration after collapse.',
+      'Keep modal focus inside native radio groups while preserving expected tab stops.',
+      'Omit disabled Aeris controls from native form submissions and prevent paste into disabled or read-only InputOtp fields.',
+      'Preserve fractional Slider bounds, allow spaces in MultiSelect and TreeSelect filters, and generate collision-free TreeSelect node identities.',
+      'Forward blur from portaled picker panels so form interaction state remains synchronized.',
+      'Clean up service-owned dialogs, content injectors, toast timers, and event streams on injector teardown, and deduplicate Toast batches by their last occurrence.',
+      'Use Aeris components throughout documentation controls and reference tables, retain matching copyable examples, and stabilize showcase and navigation verification.',
+      'Enforce strict library TypeScript and template checking, and refresh repository guidance, package README examples, and editor test configuration.',
+      'Patch existing Hono and Node server development-tool dependencies to address current security advisories.',
+      'Angular support remains >=22.0.6 <23.0.0. No public API removals are required when updating from alpha.12. Aeris remains alpha software and is not yet recommended for production.',
+    ],
+  },
+  {
     version: '22.0.0-alpha.12',
     date: '5 November 2026',
     status: 'Alpha',

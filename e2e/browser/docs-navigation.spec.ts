@@ -1,6 +1,32 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from './fixtures';
 
+test('component API references render through Aeris Table without page overflow', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  for (const path of ['input-text', 'button', 'navbar']) {
+    await page.goto(`/components/${path}`);
+    await page.getByRole('tab', { name: 'API', exact: true }).click();
+    const panel = page.getByRole('tabpanel', { name: 'API', exact: true });
+    const reference = panel.locator('app-reference-table').first();
+    await expect(reference.locator('aeris-table table')).toHaveCount(1);
+    await expect(reference.locator('thead th').first()).toContainText('Name');
+    await expect(reference.locator('tbody tr').first()).toBeVisible();
+    const viewport = reference.locator('.aeris-table__viewport');
+    expect(await viewport.evaluate((element) => element.scrollWidth > element.clientWidth)).toBe(
+      true,
+    );
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+      391,
+    );
+    await page.getByRole('tab', { name: 'Accessibility', exact: true }).click();
+    const accessibility = page.getByRole('tabpanel', { name: 'Accessibility', exact: true });
+    await expect(accessibility.locator('aeris-table table')).toHaveCount(1);
+    await expect(accessibility.locator('aeris-table tbody tr').first()).toBeVisible();
+  }
+});
+
 test.use({ baseURL: 'http://127.0.0.1:4301' });
 
 test('quick links and Sidebar keep wrapped labels inset under every corner preset', async ({
@@ -72,8 +98,8 @@ test('quick links and Sidebar keep wrapped labels inset under every corner prese
 
 // Bound repeated touch scrolling per case without skipping any section or raising timeouts.
 for (const { route, parts } of [
-  { route: '/components/table', parts: 4 },
-  { route: '/components/tree-table', parts: 4 },
+  { route: '/components/table', parts: 8 },
+  { route: '/components/tree-table', parts: 8 },
   { route: '/components/button', parts: 1 },
   { route: '/guides/installation', parts: 1 },
 ]) {
@@ -95,19 +121,57 @@ for (const { route, parts } of [
       ) {
         const link = links.nth(index);
         await link.click();
-        await page.evaluate(
-          () =>
-            new Promise<void>((resolve) =>
-              requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
-            ),
-        );
-        await expect(link).toHaveAttribute('aria-current', 'location');
-        await expect(toc.locator('a[aria-current="location"]')).toHaveCount(1);
+        await expect
+          .poll(() =>
+            link.evaluate((element) => {
+              const href = element.getAttribute('href');
+              const target = href?.startsWith('#') ? document.getElementById(href.slice(1)) : null;
+              const top = target?.getBoundingClientRect().top;
+              return {
+                targetInView:
+                  href === '#'
+                    ? window.scrollY === 0
+                    : top !== undefined && top >= 0 && top < window.innerHeight,
+                current: element.getAttribute('aria-current'),
+                activeCount: element
+                  .closest('app-page-toc')
+                  ?.querySelectorAll('a[aria-current="location"]').length,
+              };
+            }),
+          )
+          .toEqual({ targetInView: true, current: 'location', activeCount: 1 });
       }
       await links.first().click();
       await expect(links.first()).toHaveAttribute('aria-current', 'location');
     });
   }
+}
+
+for (const route of ['/components/table', '/guides/installation']) {
+  test(`quick links track manual scrolling in both directions on ${route}`, async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto(route);
+    const toc = page.locator('app-page-toc:visible').first();
+    await expect(toc).toBeVisible();
+    const destinations = await toc
+      .locator('a[href]:not([href="#"])')
+      .evaluateAll((links) => links.map((link) => link.getAttribute('href')));
+    expect(destinations.length).toBeGreaterThan(2);
+    for (const index of [Math.floor(destinations.length / 2), destinations.length - 1, 0]) {
+      const destination = destinations[index];
+      if (!destination) throw new Error('Expected a section quick link');
+      await page.locator(destination).evaluate((element) => {
+        element.scrollIntoView({ block: 'start', behavior: 'instant' });
+        // Move past the section's scroll margin without activating its quick link.
+        window.scrollBy({ top: 16, behavior: 'instant' });
+      });
+      await expect(toc.locator(`a[href="${destination}"]`)).toHaveAttribute(
+        'aria-current',
+        'location',
+      );
+      await expect(toc.locator('a[aria-current="location"]')).toHaveCount(1);
+    }
+  });
 }
 
 test('header appearance controls still restore native button focus after Escape', async ({
@@ -120,6 +184,37 @@ test('header appearance controls still restore native button focus after Escape'
   await page.keyboard.press('Escape');
   await expect(page.locator('.docs-appearance-menu')).not.toBeVisible();
   await expect(trigger).toBeFocused();
+});
+
+test('appearance choices use Aeris Buttons and retain their projected mobile layout', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/components/button');
+  await page.getByRole('button', { name: /^Customize appearance/ }).click();
+  const appearance = page.locator('.docs-appearance-menu');
+  const choices = appearance.locator('.docs-palette-options button, .docs-choice-grid button');
+  for (const button of await choices.all()) {
+    await expect(button).toHaveClass(/aeris-button/);
+  }
+  const palette = appearance.locator('.docs-palette-option').first();
+  const swatches = await palette.locator('.docs-palette-swatches').boundingBox();
+  const copy = await palette.locator('.docs-palette-copy').boundingBox();
+  if (!swatches || !copy) throw new Error('Expected palette preview and description.');
+  expect(swatches.width).toBeGreaterThan(250);
+  expect(copy.y).toBeGreaterThanOrEqual(swatches.y + swatches.height);
+  const density = appearance.getByRole('group', { name: 'Documentation density', exact: true });
+  const option = density.locator('.docs-choice-option').first();
+  const preview = await option.locator('.docs-density-preview').boundingBox();
+  const label = await option.locator('strong').boundingBox();
+  if (!preview || !label) throw new Error('Expected density preview and label.');
+  expect(label.y).toBeGreaterThanOrEqual(preview.y + preview.height);
+  await density.getByRole('button', { name: /Compact/ }).click();
+  await expect(density.getByRole('button', { name: /Compact/ })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(391);
 });
 
 test('documentation uses one Sidebar and preserves native routes, categories and scroll position', async ({

@@ -17,12 +17,8 @@
 }
 
 .guide-breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  display: block;
   margin-bottom: 2.75rem;
-  color: var(--text-3);
-  font-size: 0.75rem;
 }
 
 .guide-breadcrumb a,
@@ -139,7 +135,7 @@
 }
 
 .guide-section app-code-block,
-.guide-table,
+app-reference-table,
 .guide-theme-presets,
 .guide-note,
 .guide-links {
@@ -191,56 +187,9 @@
   font-size: 0.6875rem;
 }
 
-.guide-table {
-  max-width: 100%;
-  border: 1px solid var(--border);
-  border-radius: var(--aeris-radius-md);
-  overflow-x: auto;
-}
-
-.guide-table:focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 2px;
-}
-
-.guide-table table {
-  width: 100%;
-  min-width: 42rem;
-  border-collapse: collapse;
-}
-
-.guide-table th,
-.guide-table td {
-  padding: 0.8rem 0.9rem;
-  border-bottom: 1px solid var(--border);
-  color: var(--text-2);
-  font-size: 0.75rem;
-  line-height: 1.55;
-  text-align: start;
-  vertical-align: top;
-}
-
-.guide-table th {
-  background: var(--surface-2);
-  color: var(--text);
-  white-space: nowrap;
-}
-
-.guide-table tr:last-child td {
-  border-bottom: 0;
-}
-
-.guide-note {
+.guide-note__copy {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 0.75rem;
-  padding: 1rem;
-  border: 1px solid color-mix(in srgb, var(--primary) 35%, var(--border));
-  border-radius: var(--aeris-radius-md);
-  background: color-mix(in srgb, var(--primary-soft) 70%, var(--surface));
-  color: var(--text-2);
-  font-size: 0.75rem;
-  line-height: 1.6;
+  gap: 0.35rem;
 }
 
 .guide-note strong {

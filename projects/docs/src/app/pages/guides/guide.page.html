@@ -1,9 +1,19 @@
 <article class="guide-article">
-  <nav class="guide-breadcrumb" aria-label="Breadcrumb">
-    <a routerLink="/guides">Guides</a>
-    <span aria-hidden="true">/</span>
-    <span aria-current="page">{{ article().title }}</span>
-  </nav>
+  <aeris-breadcrumb
+    class="guide-breadcrumb"
+    variant="plain"
+    size="sm"
+    [items]="breadcrumbItems()"
+    ariaLabel="Guide breadcrumb"
+  >
+    <ng-template aerisBreadcrumbItem let-item let-current="current">
+      @if (current) {
+        <span>{{ item.label }}</span>
+      } @else {
+        <a routerLink="/guides">{{ item.label }}</a>
+      }
+    </ng-template>
+  </aeris-breadcrumb>
 
   <header class="guide-article__header">
     <span class="guide-kicker">{{ article().kicker }}</span>
@@ -40,31 +50,18 @@
           }
 
           @if (section.table; as table) {
-            <div class="guide-table" tabindex="0" role="region" [attr.aria-label]="table.caption">
-              <table>
-                <caption class="visually-hidden">
-                  {{
-                    table.caption
-                  }}
-                </caption>
-                <thead>
-                  <tr>
-                    @for (column of table.columns; track $index) {
-                      <th scope="col">{{ column }}</th>
-                    }
-                  </tr>
-                </thead>
-                <tbody>
-                  @for (row of table.rows; track $index) {
-                    <tr>
-                      @for (cell of row; track $index) {
-                        <td>{{ cell }}</td>
-                      }
-                    </tr>
+            <app-reference-table [caption]="table.caption">
+              @for (column of table.columns; track $index) {
+                <ng-template [appReferenceHeader]="column" />
+              }
+              @for (row of table.rows; track $index) {
+                <ng-container appReferenceRow>
+                  @for (cell of row; track $index) {
+                    <ng-template appReferenceCell>{{ cell }}</ng-template>
                   }
-                </tbody>
-              </table>
-            </div>
+                </ng-container>
+              }
+            </app-reference-table>
           }
 
           @if (section.themePresets; as presets) {
@@ -91,10 +88,12 @@
           }
 
           @if (section.note) {
-            <aside class="guide-note">
-              <strong>Good to know</strong>
-              <span>{{ section.note }}</span>
-            </aside>
+            <aeris-message class="guide-note" severity="info" variant="outlined">
+              <span class="guide-note__copy">
+                <strong>Good to know</strong>
+                <span>{{ section.note }}</span>
+              </span>
+            </aeris-message>
           }
 
           @if (section.links?.length) {

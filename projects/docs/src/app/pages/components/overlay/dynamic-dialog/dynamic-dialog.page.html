@@ -139,78 +139,94 @@
           <div class="doc-content-main">
             <section id="dynamic-dialog-api-service" class="api-section">
               <h3>Service</h3>
-              <div class="api-table" role="table" aria-label="DynamicDialog service">
-                <div role="row">
-                  <span role="columnheader">Name</span><span role="columnheader">Type</span
-                  ><span role="columnheader">Default</span
-                  ><span role="columnheader">Description</span>
-                </div>
+              <app-reference-table class="api-table" caption="DynamicDialog service">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of serviceRows; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
 
             <section id="dynamic-dialog-api-config" class="api-section">
               <h3>Config</h3>
-              <div class="api-table" role="table" aria-label="DynamicDialog config">
-                <div role="row">
-                  <span role="columnheader">Name</span><span role="columnheader">Type</span
-                  ><span role="columnheader">Default</span
-                  ><span role="columnheader">Description</span>
-                </div>
+              <app-reference-table class="api-table" caption="DynamicDialog config">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of configRows; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
 
             <section id="dynamic-dialog-api-ref" class="api-section">
               <h3>Reference</h3>
-              <div class="api-table" role="table" aria-label="DynamicDialog reference">
-                <div role="row">
-                  <span role="columnheader">Name</span><span role="columnheader">Type</span
-                  ><span role="columnheader">Default</span
-                  ><span role="columnheader">Description</span>
-                </div>
+              <app-reference-table class="api-table" caption="DynamicDialog reference">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of refRows; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
 
             <section id="dynamic-dialog-api-tokens" class="api-section">
               <h3>Injection tokens</h3>
-              <div class="api-table" role="table" aria-label="DynamicDialog injection tokens">
-                <div role="row">
-                  <span role="columnheader">Name</span><span role="columnheader">Type</span
-                  ><span role="columnheader">Default</span
-                  ><span role="columnheader">Description</span>
-                </div>
+              <app-reference-table class="api-table" caption="DynamicDialog injection tokens">
+                <ng-template appReferenceHeader="Name" />
+                <ng-template appReferenceHeader="Type" />
+                <ng-template appReferenceHeader="Default" />
+                <ng-template appReferenceHeader="Description" />
                 @for (row of tokenRows; track row.name) {
-                  <div role="row">
-                    <code role="cell">{{ row.name }}</code
-                    ><span role="cell">{{ row.type }}</span
-                    ><code role="cell">{{ row.defaultValue }}</code
-                    ><span role="cell">{{ row.description }}</span>
-                  </div>
+                  <ng-container appReferenceRow>
+                    <ng-template appReferenceCell
+                      ><code>{{ row.name }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.type }}</span></ng-template
+                    ><ng-template appReferenceCell
+                      ><code>{{ row.defaultValue }}</code></ng-template
+                    ><ng-template appReferenceCell
+                      ><span>{{ row.description }}</span></ng-template
+                    >
+                  </ng-container>
                 }
-              </div>
+              </app-reference-table>
             </section>
           </div>
 
@@ -233,64 +249,74 @@
           DynamicDialog uses the Dialog shell, so the same dialog tokens control the dynamic
           surface.
         </p>
-        <div class="api-table token-table" role="table" aria-label="DynamicDialog design tokens">
-          <div role="row">
-            <span role="columnheader">Token</span><span role="columnheader">Purpose</span
-            ><span role="columnheader">Fallback</span>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-dialog-z-index</code
-            ><span role="cell">Overlay stacking context.</span><code role="cell">1000</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-dialog-mask-background</code
-            ><span role="cell">Modal mask color.</span><code role="cell">color-mix(...)</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-dialog-backdrop-blur</code
-            ><span role="cell">Backdrop blur radius.</span
-            ><code role="cell">--aeris-backdrop-blur</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-backdrop-blur</code
-            ><span role="cell">Shared backdrop blur radius.</span><code role="cell">0.25rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-dialog-width</code><span role="cell">Custom panel width.</span
-            ><code role="cell">32rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-dialog-background</code><span role="cell">Panel surface.</span
-            ><code role="cell">--aeris-surface</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-dialog-color</code><span role="cell">Base text color.</span
-            ><code role="cell">--aeris-text</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-dialog-border</code
-            ><span role="cell">Panel and section borders.</span
-            ><code role="cell">--aeris-border</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-dialog-radius</code><span role="cell">Panel radius.</span
-            ><code role="cell">--aeris-radius-lg</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-dialog-focus</code><span role="cell">Focus ring color.</span
-            ><code role="cell">--aeris-focus</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-dialog-header-padding</code
-            ><span role="cell">Header padding.</span
-            ><code role="cell">--aeris-surface-padding-sm --aeris-surface-padding</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-dialog-body-padding</code
-            ><span role="cell">Body padding around dynamic content.</span
-            ><code role="cell">--aeris-surface-padding</code>
-          </div>
-        </div>
+        <app-reference-table class="api-table token-table" caption="DynamicDialog design tokens">
+          <ng-template appReferenceHeader="Token" />
+          <ng-template appReferenceHeader="Purpose" />
+          <ng-template appReferenceHeader="Fallback" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-dialog-z-index</code></ng-template
+            ><ng-template appReferenceCell><span>Overlay stacking context.</span></ng-template
+            ><ng-template appReferenceCell><code>1000</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-dialog-mask-background</code></ng-template
+            ><ng-template appReferenceCell><span>Modal mask color.</span></ng-template
+            ><ng-template appReferenceCell><code>color-mix(...)</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-dialog-backdrop-blur</code></ng-template
+            ><ng-template appReferenceCell><span>Backdrop blur radius.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-backdrop-blur</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-backdrop-blur</code></ng-template
+            ><ng-template appReferenceCell><span>Shared backdrop blur radius.</span></ng-template
+            ><ng-template appReferenceCell><code>0.25rem</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-dialog-width</code></ng-template
+            ><ng-template appReferenceCell><span>Custom panel width.</span></ng-template
+            ><ng-template appReferenceCell><code>32rem</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-dialog-background</code></ng-template
+            ><ng-template appReferenceCell><span>Panel surface.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-surface</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-dialog-color</code></ng-template
+            ><ng-template appReferenceCell><span>Base text color.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-text</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-dialog-border</code></ng-template
+            ><ng-template appReferenceCell><span>Panel and section borders.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-border</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-dialog-radius</code></ng-template
+            ><ng-template appReferenceCell><span>Panel radius.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-radius-lg</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-dialog-focus</code></ng-template
+            ><ng-template appReferenceCell><span>Focus ring color.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-focus</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-dialog-header-padding</code></ng-template
+            ><ng-template appReferenceCell><span>Header padding.</span></ng-template
+            ><ng-template appReferenceCell
+              ><code>--aeris-surface-padding-sm --aeris-surface-padding</code></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-dialog-body-padding</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Body padding around dynamic content.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-surface-padding</code></ng-template>
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
 
@@ -325,39 +351,49 @@
         </ul>
 
         <h3>Keyboard support</h3>
-        <div
+        <app-reference-table
           class="api-table keyboard-table"
-          role="table"
-          aria-label="DynamicDialog keyboard support"
+          caption="DynamicDialog keyboard support"
         >
-          <div role="row">
-            <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Tab</kbd></span
-            ><span role="cell"
-              >Moves to the next focusable item inside the dynamic dialog; wraps to the first item
-              from the last item while focusTrap is enabled.</span
+          <ng-template appReferenceHeader="Key" />
+          <ng-template appReferenceHeader="Behavior" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Tab</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves to the next focusable item inside the dynamic dialog; wraps to the first item
+                from the last item while focusTrap is enabled.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Shift</kbd> + <kbd>Tab</kbd></span
-            ><span role="cell"
-              >Moves to the previous focusable item inside the dynamic dialog; wraps to the last
-              item from the first item while focusTrap is enabled.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Shift</kbd> + <kbd>Tab</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves to the previous focusable item inside the dynamic dialog; wraps to the last
+                item from the first item while focusTrap is enabled.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Escape</kbd></span
-            ><span role="cell">Closes the dialog when closeOnEscape is enabled.</span>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
-            ><span role="cell"
-              >Activates focused native controls inside the shell or dynamic content.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Escape</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span>Closes the dialog when closeOnEscape is enabled.</span></ng-template
             >
-          </div>
-        </div>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Enter</kbd> / <kbd>Space</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Activates focused native controls inside the shell or dynamic content.</span
+              ></ng-template
+            >
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
   </aeris-tabs>

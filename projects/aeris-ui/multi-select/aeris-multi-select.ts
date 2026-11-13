@@ -109,7 +109,12 @@ let multiSelectId = 0;
       (focusout)="handleFocusOut($event)"
     >
       @if (name() && value().length) {
-        <input type="hidden" [name]="name()" [value]="value().join(valueSeparator())" />
+        <input
+          type="hidden"
+          [name]="name()"
+          [value]="value().join(valueSeparator())"
+          [disabled]="effectiveDisabled()"
+        />
       }
 
       <div #control class="aeris-multi-select__control">
@@ -221,6 +226,7 @@ let multiSelectId = 0;
           [aerisInternalAppendToMatchWidth]="true"
           [aerisInternalAppendToCollisionPadding]="viewportMargin()"
           (aerisInternalAppendToOutside)="closePanel(false)"
+          (aerisInternalAppendToFocusOut)="handleFocusOut($event)"
           [id]="panelId"
           [style.--aeris-multi-select-panel-max-height]="panelMaxHeight()"
         >
@@ -815,7 +821,7 @@ export class AerisMultiSelectComponent implements ControlValueAccessor {
       this.activeValue.set(
         boundarySelectValue(this.availableActiveOptions(), event.key === 'Home' ? 'start' : 'end'),
       );
-    } else if (event.key === 'Enter' || event.key === ' ') {
+    } else if (event.key === 'Enter') {
       event.preventDefault();
       this.toggleActive(event);
     }

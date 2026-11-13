@@ -7,6 +7,7 @@ import { AerisMenuModule, type AerisMenuItem } from '@aeris-ui/core/menu';
 import { AerisPanelModule } from '@aeris-ui/core/panel';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
+import { ReferenceTableImports } from '../../../../shared/documentation/reference-table.component';
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
 import {
@@ -32,6 +33,7 @@ interface TokenRow {
 @Component({
   selector: 'app-glass-page',
   imports: [
+    ReferenceTableImports,
     AerisAccordionModule,
     AerisButton,
     AerisCardModule,
@@ -214,7 +216,8 @@ export class GlassPage {
       name: 'Native containers',
       type: 'div, section, article, aside, nav, form, header, footer, main',
       defaultValue: 'supported',
-      description: 'Provides the same background and blur treatment to semantic application containers.',
+      description:
+        'Provides the same background and blur treatment to semantic application containers.',
     },
   ];
 

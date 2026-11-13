@@ -7,6 +7,7 @@ import {
 } from '@aeris-ui/core/progress-bar';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
+import { ReferenceTableImports } from '../../../../shared/documentation/reference-table.component';
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
 import {
@@ -26,6 +27,7 @@ interface ApiRow {
 @Component({
   selector: 'app-progress-bar-page',
   imports: [
+    ReferenceTableImports,
     AerisButton,
     AerisProgressBarModule,
     AerisTabsModule,

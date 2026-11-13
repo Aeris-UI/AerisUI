@@ -2,7 +2,7 @@
 
 > Service-managed transient notifications with timing, grouping, positions, templates, and live-region semantics.
 
-Aeris 22.0.0-alpha.12 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.13 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/toast`
 - Human-readable documentation: [https://aeris-ui.dev/components/toast](https://aeris-ui.dev/components/toast)
@@ -65,7 +65,7 @@ import {
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `show(message)` | `AerisToastMessage` | `-` | Adds or replaces one message and starts its timer when it is not sticky. |
-| `showAll(messages)` | `readonly AerisToastMessage[]` | `-` | Adds multiple messages in order. |
+| `showAll(messages)` | `readonly AerisToastMessage[]` | `-` | Adds messages in order. IDs are unique across groups: the last occurrence of an ID replaces earlier occurrences, including its queue position and timer. Returns the deduplicated messages. |
 | `remove(id, reason)` | `void` | `reason: 'api'` | Removes one message and emits a close event. |
 | `clear(group)` | `void` | `group: ''` | Removes all messages in one group. |
 | `clearAll()` | `void` | `-` | Removes every active message from every group. |

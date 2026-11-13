@@ -199,12 +199,12 @@
                     <span class="release-date">{{ $any(item).date }}</span>
                   </ng-template>
                   <ng-template aerisTimelineContent let-item let-state="state">
-                    <article class="release-card">
-                      <span class="release-card__state">{{ state }}</span>
+                    <aeris-card class="release-card">
+                      <aeris-badge [value]="state" severity="neutral" variant="soft" size="sm" />
                       <h3>{{ $any(item).title }}</h3>
                       <p>{{ $any(item).description }}</p>
                       <small>{{ $any(item).data.owner }} - {{ $any(item).data.version }}</small>
-                    </article>
+                    </aeris-card>
                   </ng-template>
                 </aeris-timeline>
               </div>
@@ -238,36 +238,46 @@
         <div class="doc-content-layout">
           <div class="doc-content-main">
             <h3 id="timeline-api-inputs" tabindex="-1">Inputs</h3>
-            <div class="api-table" role="table" aria-label="Timeline inputs" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="Timeline inputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of inputs; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
 
             <h3 id="timeline-api-templates" tabindex="-1">Templates</h3>
-            <div class="api-table" role="table" aria-label="Timeline templates" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Context</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="Timeline templates">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Context" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of templates; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
           </div>
           <app-page-toc title="API" ariaLabel="Timeline API on this page" [links]="apiLinks" />
         </div>
@@ -284,54 +294,57 @@
     <aeris-tab-panel value="tokens" label="Tokens">
       <section class="doc-section">
         <h2>Design tokens</h2>
-        <div
-          class="api-table compact"
-          role="table"
-          aria-label="Timeline design tokens"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
-            ><b role="columnheader">Fallback</b>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-timeline-marker-size</code
-            ><span role="cell">Marker width and height.</span><code role="cell">1rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-timeline-marker-color</code
-            ><span role="cell">Default marker color; overridden per event by markerColor.</span
-            ><code role="cell">--aeris-border</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-timeline-connector-color</code
-            ><span role="cell">Line connecting adjacent events.</span
-            ><code role="cell">--aeris-border</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-timeline-connector-width</code
-            ><span role="cell">Vertical or horizontal connector thickness.</span
-            ><code role="cell">2px</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-timeline-separator-size</code
-            ><span role="cell">Space reserved for marker and connector.</span
-            ><code role="cell">2rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-timeline-item-min-height</code
-            ><span role="cell">Minimum vertical event height.</span><code role="cell">5.5rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-timeline-horizontal-item-width</code
-            ><span role="cell">Width of each horizontal event.</span><code role="cell">14rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-timeline-content-padding</code
-            ><span role="cell">Content and opposite-region spacing.</span
-            ><code role="cell">0.125rem 0.875rem 1.5rem</code>
-          </div>
-        </div>
+        <app-reference-table class="api-table compact" caption="Timeline design tokens">
+          <ng-template appReferenceHeader="Token" />
+          <ng-template appReferenceHeader="Purpose" />
+          <ng-template appReferenceHeader="Fallback" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-timeline-marker-size</code></ng-template
+            ><ng-template appReferenceCell><span>Marker width and height.</span></ng-template
+            ><ng-template appReferenceCell><code>1rem</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-timeline-marker-color</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Default marker color; overridden per event by markerColor.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-border</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-timeline-connector-color</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Line connecting adjacent events.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-border</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-timeline-connector-width</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Vertical or horizontal connector thickness.</span></ng-template
+            ><ng-template appReferenceCell><code>2px</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-timeline-separator-size</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Space reserved for marker and connector.</span></ng-template
+            ><ng-template appReferenceCell><code>2rem</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-timeline-item-min-height</code></ng-template
+            ><ng-template appReferenceCell><span>Minimum vertical event height.</span></ng-template
+            ><ng-template appReferenceCell><code>5.5rem</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-timeline-horizontal-item-width</code></ng-template
+            ><ng-template appReferenceCell><span>Width of each horizontal event.</span></ng-template
+            ><ng-template appReferenceCell><code>14rem</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-timeline-content-padding</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Content and opposite-region spacing.</span></ng-template
+            ><ng-template appReferenceCell><code>0.125rem 0.875rem 1.5rem</code></ng-template>
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
 
@@ -357,33 +370,34 @@
           </li>
         </ul>
         <h3>Keyboard support</h3>
-        <div
-          class="api-table keyboard-table"
-          role="table"
-          aria-label="Timeline keyboard support"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Key</b><b role="columnheader">Function</b>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></span
-            ><span role="cell"
-              >Moves through links, buttons, and other interactive content projected into event
-              templates.</span
+        <app-reference-table class="api-table keyboard-table" caption="Timeline keyboard support">
+          <ng-template appReferenceHeader="Key" />
+          <ng-template appReferenceHeader="Function" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves through links, buttons, and other interactive content projected into event
+                templates.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <kbd role="cell">Enter</kbd
-            ><span role="cell"
-              >Activates a focused native link or button inside event content.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Enter</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Activates a focused native link or button inside event content.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <kbd role="cell">Space</kbd
-            ><span role="cell">Activates a focused native button inside event content.</span>
-          </div>
-        </div>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Space</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span>Activates a focused native button inside event content.</span></ng-template
+            >
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
   </aeris-tabs>

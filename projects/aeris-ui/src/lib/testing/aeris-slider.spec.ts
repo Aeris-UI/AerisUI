@@ -1,5 +1,6 @@
 import { Component, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { alignSliderValue, normalizeSliderRange } from '../../../slider/aeris-slider.utils';
 
 import {
   AerisSlider,
@@ -57,6 +58,39 @@ class RangeSliderTestHost {
 }
 
 describe('AerisSlider', () => {
+  it.each([
+    [0.5, 0.5, 10.5, 1, 0.5],
+    [10.5, 0.5, 10.5, 1, 10.5],
+    [0.05, 0.05, 1.05, 0.1, 0.05],
+    [-1.5, -1.5, 10.5, 1, -1.5],
+    [1.1e-7, 0, 1, 1.1e-7, 1.1e-7],
+    [11, 0.5, 10.25, 1, 10.25],
+  ])('aligns %s with fractional bounds and step precision', (value, min, max, step, expected) => {
+    expect(alignSliderValue(value, min, max, step)).toBe(expected);
+  });
+
+  it('preserves fractional offsets in range values and keyboard commits', async () => {
+    expect(normalizeSliderRange([0.5, 3.5], 0.5, 10.5, 1, 0)).toEqual([0.5, 3.5]);
+    const fixture = TestBed.createComponent(AerisSlider);
+    fixture.componentRef.setInput('min', 0.5);
+    fixture.componentRef.setInput('max', 10.5);
+    fixture.componentRef.setInput('step', 1);
+    fixture.componentRef.setInput('value', 0.5);
+    await fixture.whenStable();
+    const thumb = fixture.nativeElement.querySelector('[role="slider"]') as HTMLButtonElement;
+    expect(thumb.getAttribute('aria-valuenow')).toBe('0.5');
+    for (const [key, expected] of [
+      ['ArrowRight', 1.5],
+      ['End', 10.5],
+      ['Home', 0.5],
+    ] as const) {
+      thumb.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true }));
+      fixture.detectChanges();
+      expect(fixture.componentInstance.value()).toBe(expected);
+      expect(thumb.getAttribute('aria-valuenow')).toBe(String(expected));
+    }
+  });
+
   it('exposes slider and native form semantics', async () => {
     const fixture = TestBed.createComponent(SliderTestHost);
     await fixture.whenStable();

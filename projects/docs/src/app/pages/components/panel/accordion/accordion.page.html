@@ -445,107 +445,121 @@
         <div class="doc-content-layout">
           <div class="doc-content-main">
             <h3 id="accordion-api-inputs" tabindex="-1">Accordion inputs</h3>
-            <div class="api-table" role="table" aria-label="Accordion inputs" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table" caption="Accordion inputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of accordionInputs; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
 
             <h3 id="accordion-api-models" tabindex="-1">Models</h3>
-            <div class="api-table compact" role="table" aria-label="Accordion models" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table compact" caption="Accordion models">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of models; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
 
             <h3 id="accordion-api-panel" tabindex="-1">AccordionPanel inputs</h3>
-            <div
-              class="api-table compact"
-              role="table"
-              aria-label="Accordion panel inputs"
-              tabindex="0"
-            >
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table compact" caption="Accordion panel inputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Default" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of panelInputs; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><code role="cell">{{ property.defaultValue }}</code
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><code>{{ property.defaultValue }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
 
             <h3 id="accordion-api-outputs" tabindex="-1">Outputs</h3>
-            <div class="api-table compact" role="table" aria-label="Accordion outputs" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table compact" caption="Accordion outputs">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Type" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of outputs; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
 
             <h3 id="accordion-api-templates" tabindex="-1">Templates</h3>
-            <div
-              class="api-table compact"
-              role="table"
-              aria-label="Accordion templates"
-              tabindex="0"
-            >
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Context</b
-                ><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table compact" caption="Accordion templates">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Context" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of templates; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
 
             <h3 id="accordion-api-methods" tabindex="-1">Methods</h3>
-            <div class="api-table compact" role="table" aria-label="Accordion methods" tabindex="0">
-              <div class="api-head" role="row">
-                <b role="columnheader">Name</b><b role="columnheader">Signature</b
-                ><b role="columnheader">Description</b>
-              </div>
+            <app-reference-table class="api-table compact" caption="Accordion methods">
+              <ng-template appReferenceHeader="Name" />
+              <ng-template appReferenceHeader="Signature" />
+              <ng-template appReferenceHeader="Description" />
               @for (property of methods; track property.name) {
-                <div role="row">
-                  <code role="cell">{{ property.name }}</code
-                  ><span role="cell">{{ property.type }}</span
-                  ><span role="cell">{{ property.description }}</span>
-                </div>
+                <ng-container appReferenceRow>
+                  <ng-template appReferenceCell
+                    ><code>{{ property.name }}</code></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.type }}</span></ng-template
+                  ><ng-template appReferenceCell
+                    ><span>{{ property.description }}</span></ng-template
+                  >
+                </ng-container>
               }
-            </div>
+            </app-reference-table>
           </div>
           <app-page-toc title="API" ariaLabel="Accordion API on this page" [links]="apiLinks" />
         </div>
@@ -562,73 +576,75 @@
     <aeris-tab-panel value="tokens" label="Tokens">
       <section class="doc-section">
         <h2>Design tokens</h2>
-        <div
-          class="api-table compact"
-          role="table"
-          aria-label="Accordion design tokens"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
-            ><b role="columnheader">Fallback</b>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-accordion-background</code
-            ><span role="cell">Panel item background.</span><code role="cell">--aeris-surface</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-accordion-filled-background</code
-            ><span role="cell">Filled variant surface.</span
-            ><code role="cell">--aeris-surface-2</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-accordion-border</code
-            ><span role="cell">Container and panel borders.</span
-            ><code role="cell">--aeris-border</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-accordion-radius</code
-            ><span role="cell">Container and separated item radius.</span
-            ><code role="cell">--aeris-radius-lg</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-accordion-trigger-color</code
-            ><span role="cell">Header button text.</span><code role="cell">--aeris-text</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-accordion-hover-background</code
-            ><span role="cell">Header hover background.</span><code role="cell">8% primary</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-accordion-hover-color</code
-            ><span role="cell">Header hover text.</span
-            ><code role="cell">--aeris-primary-text</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-accordion-icon-color</code
-            ><span role="cell">Collapsed disclosure icon.</span
-            ><code role="cell">--aeris-text-2</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-accordion-active-icon-color</code
-            ><span role="cell">Expanded disclosure icon.</span
-            ><code role="cell">--aeris-primary-text</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-accordion-panel-color</code
-            ><span role="cell">Expanded panel body text.</span
-            ><code role="cell">--aeris-text-2</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-accordion-focus</code
-            ><span role="cell">Header and panel focus ring.</span
-            ><code role="cell">--aeris-focus</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-accordion-separated-gap</code
-            ><span role="cell">Separated variant item gap.</span><code role="cell">0.625rem</code>
-          </div>
-        </div>
+        <app-reference-table class="api-table compact" caption="Accordion design tokens">
+          <ng-template appReferenceHeader="Token" />
+          <ng-template appReferenceHeader="Purpose" />
+          <ng-template appReferenceHeader="Fallback" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-accordion-background</code></ng-template
+            ><ng-template appReferenceCell><span>Panel item background.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-surface</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-accordion-filled-background</code></ng-template
+            ><ng-template appReferenceCell><span>Filled variant surface.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-surface-2</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-accordion-border</code></ng-template
+            ><ng-template appReferenceCell><span>Container and panel borders.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-border</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-accordion-radius</code></ng-template
+            ><ng-template appReferenceCell
+              ><span>Container and separated item radius.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-radius-lg</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-accordion-trigger-color</code></ng-template
+            ><ng-template appReferenceCell><span>Header button text.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-text</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-accordion-hover-background</code></ng-template
+            ><ng-template appReferenceCell><span>Header hover background.</span></ng-template
+            ><ng-template appReferenceCell><code>8% primary</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-accordion-hover-color</code></ng-template
+            ><ng-template appReferenceCell><span>Header hover text.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-primary-text</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-accordion-icon-color</code></ng-template
+            ><ng-template appReferenceCell><span>Collapsed disclosure icon.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-text-2</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><code>--aeris-accordion-active-icon-color</code></ng-template
+            ><ng-template appReferenceCell><span>Expanded disclosure icon.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-primary-text</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-accordion-panel-color</code></ng-template
+            ><ng-template appReferenceCell><span>Expanded panel body text.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-text-2</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-accordion-focus</code></ng-template
+            ><ng-template appReferenceCell><span>Header and panel focus ring.</span></ng-template
+            ><ng-template appReferenceCell><code>--aeris-focus</code></ng-template>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><code>--aeris-accordion-separated-gap</code></ng-template
+            ><ng-template appReferenceCell><span>Separated variant item gap.</span></ng-template
+            ><ng-template appReferenceCell><code>0.625rem</code></ng-template>
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
 
@@ -659,49 +675,56 @@
           </li>
         </ul>
         <h3>Keyboard support</h3>
-        <div
-          class="api-table keyboard-table"
-          role="table"
-          aria-label="Accordion keyboard support"
-          tabindex="0"
-        >
-          <div class="api-head" role="row">
-            <b role="columnheader">Key</b><b role="columnheader">Function</b>
-          </div>
-          <div role="row">
-            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
-            ><span role="cell"
-              >Toggles the focused panel header through native button behavior.</span
+        <app-reference-table class="api-table keyboard-table" caption="Accordion keyboard support">
+          <ng-template appReferenceHeader="Key" />
+          <ng-template appReferenceHeader="Function" />
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell
+              ><span><kbd>Enter</kbd> / <kbd>Space</kbd></span></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Toggles the focused panel header through native button behavior.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <kbd role="cell">Arrow Down</kbd
-            ><span role="cell"
-              >Moves focus to the next enabled panel header and wraps at the end.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Arrow Down</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves focus to the next enabled panel header and wraps at the end.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <kbd role="cell">Arrow Up</kbd
-            ><span role="cell"
-              >Moves focus to the previous enabled panel header and wraps at the beginning.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Arrow Up</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves focus to the previous enabled panel header and wraps at the beginning.</span
+              ></ng-template
             >
-          </div>
-          <div role="row">
-            <kbd role="cell">Home</kbd
-            ><span role="cell">Moves focus to the first enabled panel header.</span>
-          </div>
-          <div role="row">
-            <kbd role="cell">End</kbd
-            ><span role="cell">Moves focus to the last enabled panel header.</span>
-          </div>
-          <div role="row">
-            <kbd role="cell">Tab</kbd
-            ><span role="cell"
-              >Moves through every enabled header and any focusable content in expanded panels using
-              normal page order.</span
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Home</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span>Moves focus to the first enabled panel header.</span></ng-template
             >
-          </div>
-        </div>
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>End</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span>Moves focus to the last enabled panel header.</span></ng-template
+            >
+          </ng-container>
+          <ng-container appReferenceRow>
+            <ng-template appReferenceCell><kbd>Tab</kbd></ng-template
+            ><ng-template appReferenceCell
+              ><span
+                >Moves through every enabled header and any focusable content in expanded panels
+                using normal page order.</span
+              ></ng-template
+            >
+          </ng-container>
+        </app-reference-table>
       </section>
     </aeris-tab-panel>
   </aeris-tabs>

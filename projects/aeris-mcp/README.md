@@ -22,7 +22,7 @@ pinned package with `npx`:
   "mcpServers": {
     "aeris": {
       "command": "npx",
-      "args": ["-y", "@aeris-ui/mcp@22.0.0-alpha.12"]
+      "args": ["-y", "@aeris-ui/mcp@22.0.0-alpha.13"]
     }
   }
 }
@@ -36,7 +36,7 @@ launched by the MCP client and is not part of the application runtime or bundle.
 If the client cannot use `npx`, install the executable globally:
 
 ```bash
-npm install --global @aeris-ui/mcp@22.0.0-alpha.12
+npm install --global @aeris-ui/mcp@22.0.0-alpha.13
 ```
 
 Then configure the client to launch the installed executable:
@@ -53,20 +53,6 @@ Then configure the client to launch the installed executable:
 
 Restart the client after installing or updating the package. The npm global binary directory must
 be available on `PATH`.
-
-During repository development, build the package and point the client at the absolute path to its
-CLI:
-
-```json
-{
-  "mcpServers": {
-    "aeris-local": {
-      "command": "node",
-      "args": ["D:/path/to/Aeris/dist/aeris-mcp/cli.js"]
-    }
-  }
-}
-```
 
 The exact location of MCP configuration differs by client. Restart or reload the client after
 changing it.
@@ -92,24 +78,6 @@ Tools:
 
 Use `search_aeris_docs` for discovery, then retrieve the focused component or guide for exact API
 and example details.
-
-## Repository development
-
-These commands are contributor scripts defined by the root `package.json` in the AerisUI
-repository. They do not work from an Angular application or another project. From the cloned
-repository root, first install its development dependencies:
-
-```bash
-npm ci
-```
-
-Then build and verify the MCP package:
-
-```bash
-npm run build:mcp
-npm run test:mcp
-npm run check:mcp-package
-```
 
 See the [Aeris MCP guide](https://aeris-ui.dev/guides/mcp) for setup, troubleshooting, versioning,
 and client behavior.

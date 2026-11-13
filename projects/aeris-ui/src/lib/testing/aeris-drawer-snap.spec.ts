@@ -43,6 +43,8 @@ class SnapHost {
 describe('Drawer snap points', () => {
   afterEach(() => {
     TestBed.resetTestingModule();
+    // Cancelling a synthetic drag leaves a guard until the next pointer press.
+    document.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
     vi.restoreAllMocks();
   });
 
