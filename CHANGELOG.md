@@ -7,19 +7,41 @@ release line.
 
 ## [Unreleased]
 
+## [22.0.0-alpha.13] - 2026-11-13
+
 ### Changed
 
 - Style DatePicker popup time steppers with Aeris chevrons and replace the native AM/PM menu with
   a period toggle. Touch devices use animated, draggable time wheels with keyboard support.
 - Use Aeris components for documentation disclosures, navigation, reference tables, and composed
   examples, with synchronized copyable sources.
+- Enforce strict TypeScript and Angular template checking in library builds.
+- Refresh repository guidance, package README examples, and editor test configuration.
+- Patch existing Hono and Node server development-tool dependencies to address current security
+  advisories.
 
 ### Fixed
 
 - Keep Accordion content aligned with its header on mobile by separating block and inline padding.
 - Keep DatePicker time controls open when their buttons are activated in Safari.
 - Give OrganizationChart tree items ownership of their child groups while retaining node focus,
-  selection, and collapse controls.
+  selection, and collapse controls. Complete roving focus, directional keys, Home/End, and typeahead
+  navigation, including RTL and focus restoration after collapse.
+- Keep modal focus inside native radio groups while preserving their expected tab stops.
+- Omit disabled Aeris controls from native form submissions.
+- Preserve fractional Slider bounds when aligning values to their step.
+- Allow spaces in MultiSelect and TreeSelect filter queries.
+- Forward blur from portaled picker panels so form interaction state remains synchronized.
+- Prevent pasting into disabled or read-only InputOtp fields.
+- Generate collision-free TreeSelect node identities for accessible option references.
+- Release service-owned dialog hosts, content injectors, toast timers, and event streams when their
+  owning injector is destroyed.
+- Deduplicate Toast batches by notification ID, retaining each ID's last occurrence and order.
+- Verify active showcase tabs rather than retained hidden panels, and stabilize quick-link
+  navigation checks without raising timeouts or adding retries.
+
+Angular support remains `>=22.0.6 <23.0.0`. No public API removals are required when updating from
+alpha.12. Aeris remains alpha software and is not yet recommended for production.
 
 ## [22.0.0-alpha.12] - 2026-11-05
 

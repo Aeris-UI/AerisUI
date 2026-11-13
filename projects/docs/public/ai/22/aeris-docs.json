@@ -3,7 +3,7 @@
   "schemaVersion": 1,
   "library": {
     "name": "@aeris-ui/core",
-    "version": "22.0.0-alpha.12",
+    "version": "22.0.0-alpha.13",
     "status": "alpha",
     "angularPeerRange": ">=22.0.6 <23.0.0",
     "documentationUrl": "https://aeris-ui.dev",
@@ -351,7 +351,7 @@
           "id": "alpha-status",
           "title": "Alpha status",
           "paragraphs": [
-            "Aeris 22.0.0-alpha.12 is an active-development alpha release. It is not production ready and should not be used for critical or production applications yet.",
+            "Aeris 22.0.0-alpha.13 is an active-development alpha release. It is not production ready and should not be used for critical or production applications yet.",
             "Public APIs, styling contracts, component behavior, and migration requirements may change before the first stable release as consumer testing uncovers improvements."
           ],
           "bullets": [
@@ -387,7 +387,7 @@
             {
               "label": "Pinned alpha (recommended)",
               "language": "Shell",
-              "code": "ng add @aeris-ui/core@22.0.0-alpha.12"
+              "code": "ng add @aeris-ui/core@22.0.0-alpha.13"
             },
             {
               "label": "Newest alpha",
@@ -506,7 +506,7 @@
             {
               "label": "Terminal",
               "language": "Shell",
-              "code": "ng add @aeris-ui/core@22.0.0-alpha.12 --config=aeris.setup.json"
+              "code": "ng add @aeris-ui/core@22.0.0-alpha.13 --config=aeris.setup.json"
             }
           ]
         },
@@ -521,7 +521,7 @@
             {
               "label": "Terminal",
               "language": "Shell",
-              "code": "ng add @aeris-ui/core@22.0.0-alpha.12 --project=web --surface=\"#f1f4f8\" --primary=\"#2d63a8\" --secondary=\"#546b89\" --accent=\"#368678\" --contrast=\"#39404a\" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts"
+              "code": "ng add @aeris-ui/core@22.0.0-alpha.13 --project=web --surface=\"#f1f4f8\" --primary=\"#2d63a8\" --secondary=\"#546b89\" --accent=\"#368678\" --contrast=\"#39404a\" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts"
             },
             {
               "label": "aeris.setup.json",
@@ -542,7 +542,7 @@
             {
               "label": "Terminal",
               "language": "Shell",
-              "code": "npm install @aeris-ui/core@22.0.0-alpha.12"
+              "code": "npm install @aeris-ui/core@22.0.0-alpha.13"
             }
           ]
         },
@@ -2854,7 +2854,7 @@
           "bullets": [
             "Node.js 20 or newer for the local MCP process.",
             "An AI editor, CLI, or desktop application that supports local stdio MCP servers.",
-            "Use @aeris-ui/mcp 22.0.0-alpha.12 with @aeris-ui/core 22.0.0-alpha.12.",
+            "Use @aeris-ui/mcp 22.0.0-alpha.13 with @aeris-ui/core 22.0.0-alpha.13.",
             "Restart or reload the AI client after changing its MCP configuration."
           ],
           "note": "Pin the MCP and core packages to the same exact alpha version."
@@ -2871,7 +2871,7 @@
             {
               "label": "Generic MCP client configuration",
               "language": "JSON",
-              "code": "{\n  \"mcpServers\": {\n    \"aeris\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"@aeris-ui/mcp@22.0.0-alpha.12\"]\n    }\n  }\n}"
+              "code": "{\n  \"mcpServers\": {\n    \"aeris\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"@aeris-ui/mcp@22.0.0-alpha.13\"]\n    }\n  }\n}"
             }
           ],
           "note": "Do not add @aeris-ui/mcp to the Angular application dependencies. It belongs in the AI client configuration, not application source or runtime code.",
@@ -2893,7 +2893,7 @@
             {
               "label": "Install the MCP executable",
               "language": "Shell",
-              "code": "npm install --global @aeris-ui/mcp@22.0.0-alpha.12"
+              "code": "npm install --global @aeris-ui/mcp@22.0.0-alpha.13"
             },
             {
               "label": "Global installation configuration",
@@ -3364,7 +3364,7 @@
       "group": "Releases and updates",
       "title": "Version compatibility",
       "description": "Choose an Aeris release line that is verified for the Angular version used by your application.",
-      "summary": "The current package is Aeris 22.0.0-alpha.12, an alpha that is not production ready. Its Angular peer dependencies use >=22.0.6 <23.0.0, keeping the evaluated range within Angular 22.",
+      "summary": "The current package is Aeris 22.0.0-alpha.13, an alpha that is not production ready. Its Angular peer dependencies use >=22.0.6 <23.0.0, keeping the evaluated range within Angular 22.",
       "sections": [
         {
           "id": "matrix",
@@ -3402,7 +3402,7 @@
             {
               "label": "Shell",
               "language": "Shell",
-              "code": "npm view @aeris-ui/core@22.0.0-alpha.12 peerDependencies"
+              "code": "npm view @aeris-ui/core@22.0.0-alpha.13 peerDependencies"
             }
           ]
         },
@@ -3487,7 +3487,7 @@
             {
               "label": "Shell",
               "language": "Shell",
-              "code": "npm install @aeris-ui/core@22.0.0-alpha.12"
+              "code": "npm install @aeris-ui/core@22.0.0-alpha.13"
             }
           ]
         },
@@ -3501,7 +3501,7 @@
             {
               "label": "Shell",
               "language": "Shell",
-              "code": "ng update @angular/core@22 @angular/cli@22\nnpm install @aeris-ui/core@22.0.0-alpha.12"
+              "code": "ng update @angular/core@22 @angular/cli@22\nnpm install @aeris-ui/core@22.0.0-alpha.13"
             }
           ],
           "note": "The commands show the currently supported Angular major. Replace the major only after it appears in the compatibility matrix."
@@ -3537,7 +3537,7 @@
           "id": "release-specific",
           "title": "Release-specific migration notes",
           "paragraphs": [
-            "Aeris 22.0.0-alpha.12 renders ordinary Tabs panel content eagerly. Applications that relied on alpha.4 creating only the active panel must choose an explicit deferred template strategy.",
+            "Aeris 22.0.0-alpha.13 renders ordinary Tabs panel content eagerly. Applications that relied on alpha.4 creating only the active panel must choose an explicit deferred template strategy.",
             "Use a bare aerisTabContent template to initialize expensive content on first activation and preserve its state. Set the directive to active to destroy and recreate the content whenever selection changes."
           ],
           "code": [
@@ -3611,6 +3611,27 @@
               "href": "https://github.com/Aeris-UI/AerisUI/releases",
               "external": true
             }
+          ]
+        },
+        {
+          "id": "version-22.0.0-alpha.13",
+          "title": "Aeris 22.0.0-alpha.13",
+          "paragraphs": [
+            "Alpha · 13 November 2026"
+          ],
+          "bullets": [
+            "Style DatePicker popup time steppers with Aeris chevrons, use an AM/PM toggle, and provide animated draggable time wheels on touch devices.",
+            "Keep DatePicker time controls open when activated in Safari and keep Accordion content aligned with its header on mobile.",
+            "Complete OrganizationChart keyboard navigation and accessible tree ownership, including RTL, typeahead, and focus restoration after collapse.",
+            "Keep modal focus inside native radio groups while preserving expected tab stops.",
+            "Omit disabled Aeris controls from native form submissions and prevent paste into disabled or read-only InputOtp fields.",
+            "Preserve fractional Slider bounds, allow spaces in MultiSelect and TreeSelect filters, and generate collision-free TreeSelect node identities.",
+            "Forward blur from portaled picker panels so form interaction state remains synchronized.",
+            "Clean up service-owned dialogs, content injectors, toast timers, and event streams on injector teardown, and deduplicate Toast batches by their last occurrence.",
+            "Use Aeris components throughout documentation controls and reference tables, retain matching copyable examples, and stabilize showcase and navigation verification.",
+            "Enforce strict library TypeScript and template checking, and refresh repository guidance, package README examples, and editor test configuration.",
+            "Patch existing Hono and Node server development-tool dependencies to address current security advisories.",
+            "Angular support remains >=22.0.6 <23.0.0. No public API removals are required when updating from alpha.12. Aeris remains alpha software and is not yet recommended for production."
           ]
         },
         {
