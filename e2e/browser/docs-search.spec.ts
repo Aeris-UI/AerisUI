@@ -29,6 +29,12 @@ test('docs search preserves index matching, limits, query state and keyboard rou
   await input.press('Enter');
   await expect(dialog).toBeVisible();
   await input.fill('InputText');
+  const result = dialog.getByRole('option', { name: 'InputText', exact: true });
+  await expect(result).toHaveAttribute('aria-selected', 'true');
+  await expect(input).toHaveAttribute(
+    'aria-activedescendant',
+    await result.evaluate((el) => el.id),
+  );
   await input.press('Enter');
   await expect(page).toHaveURL(/\/components\/input-text$/);
   await expect(dialog).toHaveCount(0);
