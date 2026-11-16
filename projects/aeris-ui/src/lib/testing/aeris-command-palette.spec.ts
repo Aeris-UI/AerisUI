@@ -198,6 +198,28 @@ describe('AerisCommandPalette', () => {
     await query('does not match');
     expect(root.querySelectorAll('[role="option"]')).toHaveLength(3);
   });
+  it('does not queue Enter for empty external results and executes their active replacement', async () => {
+    const { host, fixture, query, root, input, key } = await setup();
+    host.filter.set(false);
+    host.commands.set([]);
+    await fixture.whenStable();
+    await query('New command');
+    await key('Enter');
+    expect(host.events).toHaveLength(0);
+    expect(input.hasAttribute('aria-activedescendant')).toBe(false);
+
+    host.commands.set([{ id: 'new', label: 'New command' }]);
+    await fixture.whenStable();
+    const active = root.querySelector<HTMLElement>('[role="option"][aria-selected="true"]');
+    expect(active?.getAttribute('aria-label')).toBe('New command');
+    expect(input.getAttribute('aria-activedescendant')).toBe(active?.id);
+    expect(host.events).toHaveLength(0);
+
+    await key('Enter');
+    expect(host.events).toHaveLength(1);
+    expect(host.events[0]?.command.id).toBe('new');
+    expect(host.events[0]?.query).toBe('New command');
+  });
   it('repairs active references across rapid query and asynchronous command replacement', async () => {
     const { host, fixture, root, key, query, input } = await setup();
     await key('End');
