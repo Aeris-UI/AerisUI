@@ -26,6 +26,12 @@ updates:
           - version-update:semver-minor
 
     ignore:
+      # This browser runtime crashes Firefox during accessibility scans (PR #97).
+      # Later versions remain eligible for their own browser-toolchain PR.
+      - dependency-name: '@playwright/test'
+        versions:
+          - '1.65.0'
+
       # Angular 22 currently requires TypeScript 6.0.x.
       - dependency-name: typescript
         update-types:
@@ -54,6 +60,15 @@ updates:
         patterns:
           - '@modelcontextprotocol/*'
           - zod
+        update-types:
+          - patch
+          - minor
+
+      browser-toolchain:
+        patterns:
+          - '@playwright/*'
+          - playwright
+          - playwright-core
         update-types:
           - patch
           - minor
