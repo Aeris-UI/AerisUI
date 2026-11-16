@@ -6,6 +6,8 @@ test.use({ baseURL: 'http://127.0.0.1:4301' });
 for (const component of ['table', 'tree-table']) {
   test(`${component} resolves table, column and cell editing permissions`, async ({ page }) => {
     await page.goto(`/components/${component}`);
+    // The document can finish loading before the lazy component page is interactive.
+    await page.getByRole('tab', { name: 'Features', exact: true }).click();
     const example = page.locator(`#${component}-editing-permissions`);
     const rows = example.locator('tbody tr');
     const name = rows.first().locator('td[data-label="Name"]');
@@ -43,6 +45,7 @@ for (const component of ['table', 'tree-table']) {
 
   test(`${component} switches custom editors and rejects invalid drafts`, async ({ page }) => {
     await page.goto(`/components/${component}`);
+    await page.getByRole('tab', { name: 'Features', exact: true }).click();
     const example = page.locator(`#${component}-custom-editors`);
     const row = example.locator('tbody tr').first();
     const status = row.locator('td[data-label="Status"]');
@@ -91,6 +94,7 @@ for (const component of ['table', 'tree-table']) {
     page,
   }) => {
     await page.goto(`/components/${component}`);
+    await page.getByRole('tab', { name: 'Features', exact: true }).click();
     const example = page.locator(`#${component}-custom-editors`);
     const row = example.locator('tbody tr').first();
     const name = row.locator('td[data-label="Name"]');
